@@ -15,9 +15,9 @@ import data.management.DBManager;
 public class serverConnection {
 	@Test
 	public void test() {
-		DBManager.initialize();
-		Assert.assertEquals("parkingmanagment", Parse.getApplicationId());
-		Assert.assertEquals("2139d-231cb2-738aa", Parse.getRestAPIKey());
+		Parse.initialize("ParkingNav", "2139f-231ff2-738ff", "https://parkingnevserver.herokuapp.com/parse");
+		Assert.assertEquals("ParkingNav", Parse.getApplicationId());
+		Assert.assertEquals("2139f-231ff2-738ff", Parse.getRestAPIKey());
 		final ParseObject testConnectionObject = new ParseObject("testConnectionObject");
 		testConnectionObject.put("integerCheck", 9999);
 		testConnectionObject.put("stringCheck", "John Dow");
