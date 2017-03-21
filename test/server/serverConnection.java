@@ -7,8 +7,6 @@ import org.parse4j.ParseException;
 import org.parse4j.ParseObject;
 import org.parse4j.ParseQuery;
 
-import data.management.DBManager;
-
 /* @author Shay Segal
  * @since 14-12-2016
  */
