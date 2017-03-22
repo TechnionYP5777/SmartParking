@@ -26,19 +26,19 @@ public class populateDB {
 			insertParkingSlots();
 		} catch (final Exception ¢) {
 			System.out.println("Something went wrong. Could not add the parking slots");
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 		}
 		try {
 			insertParkingArea();
 		} catch (final Exception ¢) {
 			System.out.println("Something went wrong. Could not add the parking area");
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 		}
 		try {
 			insertParkingAreas();
 		} catch (final Exception ¢) {
 			System.out.println("Something went wrong. Could not add the parking areas");
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 		}
 		System.out.println("Done Populating DB");
 
@@ -102,7 +102,7 @@ public class populateDB {
 			final ParkingSlot slot1 = new ParkingSlot(name, status, currentColor, defaultColor, new MapLocation(lat, lon),
 					new Date());
 		} catch (final ParseException ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 			return false;
 		}
 		return true;
@@ -120,13 +120,13 @@ public class populateDB {
 				slots.add(new ParkingSlot(args[nameIndex]));
 			} catch (final ParseException ¢) {
 				System.out.println("Something went wrong. Could not find the last slot in DB");
-				¢.printStackTrace();
+				LogPrinter.createLogFile(¢);
 			}
 
 		try {
 			final ParkingArea area = new ParkingArea(id, name, new MapLocation(lat, lon), slots, defaultColor);
 		} catch (final ParseException ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 			return false;
 		}
 		return true;
@@ -140,13 +140,13 @@ public class populateDB {
 				area.add(new ParkingArea(arg));
 			} catch (final ParseException ¢) {
 				System.out.println("Something went wrong. Could not find the last area in DB");
-				¢.printStackTrace();
+				LogPrinter.createLogFile(¢);
 			}
 
 		try {
 			final ParkingAreas areas = new ParkingAreas(area);
 		} catch (final ParseException ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 			return false;
 		}
 		return true;

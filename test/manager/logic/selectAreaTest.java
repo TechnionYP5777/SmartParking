@@ -18,6 +18,7 @@ import data.members.ParkingArea;
 import data.members.ParkingSlot;
 import data.members.ParkingSlotStatus;
 import data.members.StickersColor;
+import util.LogPrinter;
 
 /**
  * @Author Inbal Matityahu
@@ -61,7 +62,7 @@ public class selectAreaTest {
 			new ParkingSlot(slotList2.get(0)).deleteParseObject();
 
 		} catch (final Exception ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 			fail();
 		}
 	}
@@ -103,7 +104,7 @@ public class selectAreaTest {
 			new ParkingSlot(slotList2.get(0)).deleteParseObject();
 
 		} catch (final Exception ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 			fail();
 		}
 	}
@@ -145,7 +146,7 @@ public class selectAreaTest {
 			new ParkingSlot(slotList2.get(0)).deleteParseObject();
 
 		} catch (final Exception ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 			fail();
 		}
 	}
@@ -187,7 +188,7 @@ public class selectAreaTest {
 			new ParkingSlot(slotList2.get(0)).deleteParseObject();
 
 		} catch (final Exception ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 			fail();
 		}
 	}

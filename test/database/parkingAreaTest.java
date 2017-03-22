@@ -21,6 +21,7 @@ import data.members.ParkingArea;
 import data.members.ParkingSlot;
 import data.members.ParkingSlotStatus;
 import data.members.StickersColor;
+import util.LogPrinter;
 
 /*
  *  @Author Tom Nof
@@ -54,7 +55,7 @@ public class parkingAreaTest {
 			query.whereEqualTo("name", "t1");
 
 		} catch (final ParseException ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 		}
 	}
 
@@ -66,7 +67,7 @@ public class parkingAreaTest {
 			slot1.deleteParseObject();
 			slot2.deleteParseObject();
 		} catch (final ParseException ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 		}
 	}
 
@@ -75,7 +76,7 @@ public class parkingAreaTest {
 		try {
 			assert area != null;
 		} catch (final Exception ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 			fail();
 		}
 	}
@@ -85,7 +86,7 @@ public class parkingAreaTest {
 		try {
 			Assert.assertEquals(2, area.getNumOfParkingSlots());
 		} catch (final Exception ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 			fail();
 		}
 	}
@@ -108,7 +109,7 @@ public class parkingAreaTest {
 			slot3.deleteParseObject();
 
 		} catch (final ParseException ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 			fail();
 		}
 
@@ -127,7 +128,7 @@ public class parkingAreaTest {
 			Assert.assertEquals(2, allSlots.size());
 
 		} catch (final ParseException ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 			fail();
 		}
 	}
@@ -145,7 +146,7 @@ public class parkingAreaTest {
 			Assert.assertEquals(2, new ParkingArea(areaList.get(0)).convertToSlots(allSlots).size());
 
 		} catch (final ParseException ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 			fail();
 		}
 	}
@@ -164,7 +165,7 @@ public class parkingAreaTest {
 			Assert.assertEquals(2, slotsByStatus.size());
 
 		} catch (final ParseException ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 			fail();
 		}
 	}
@@ -182,7 +183,7 @@ public class parkingAreaTest {
 			Assert.assertEquals(0, slotsByTakenStatus.size());
 
 		} catch (final ParseException ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 			fail();
 		}
 	}
@@ -196,7 +197,7 @@ public class parkingAreaTest {
 			Assert.assertEquals(2, area.getNumOfFreeSlots());
 			Assert.assertEquals(0, area.getNumOfTakenSlots());
 		} catch (final ParseException ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 			fail();
 		}
 	}
@@ -213,7 +214,7 @@ public class parkingAreaTest {
 			Assert.assertEquals(area.getColor(), returnedArea.getColor());
 
 		} catch (final Exception ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 			Assert.fail();
 		}
 	}

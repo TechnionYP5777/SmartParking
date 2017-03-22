@@ -7,6 +7,8 @@ import org.parse4j.ParseException;
 import org.parse4j.ParseObject;
 import org.parse4j.ParseQuery;
 
+import util.LogPrinter;
+
 /* @author Shay Segal
  * @since 14-12-2016
  */
@@ -28,7 +30,7 @@ public class serverConnection {
 		try {
 			Thread.sleep(100);
 		} catch (final InterruptedException e1) {
-			e1.printStackTrace();
+			LogPrinter.createLogFile(e1);
 		}
 		final String id = testConnectionObject.getObjectId();
 		final ParseQuery<ParseObject> query = ParseQuery.getQuery("testConnectionObject");

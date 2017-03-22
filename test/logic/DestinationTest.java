@@ -1,6 +1,8 @@
-package logic;
+﻿package logic;
 
 import data.members.*;
+import util.LogPrinter;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.parse4j.ParseException;
@@ -15,7 +17,7 @@ public class DestinationTest {
 			d.deleteParseObject();
 
 		} catch (final Exception ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 			Assert.fail();
 		}
 	}
@@ -29,7 +31,7 @@ public class DestinationTest {
 			d.deleteParseObject();
 
 		} catch (final Exception ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 			Assert.fail();
 		}
 	}
@@ -54,7 +56,7 @@ public class DestinationTest {
 			d.deleteParseObject();
 
 		} catch (final Exception ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 			Assert.fail();
 		}
 	}
@@ -77,7 +79,7 @@ public class DestinationTest {
 				d1.deleteParseObject();
 				d2.deleteParseObject();
 			} catch (final ParseException e2) {
-				e2.printStackTrace();
+				LogPrinter.createLogFile(e2);
 				Assert.fail();
 			}
 		}
@@ -96,7 +98,7 @@ public class DestinationTest {
 			d.deleteParseObject();
 
 		} catch (final Exception ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 			Assert.fail();
 		}
 	}
@@ -114,7 +116,7 @@ public class DestinationTest {
 			Assert.assertEquals(d1.getEntrance().getLon(), d2.getEntrance().getLon(), 0);
 			d1.deleteParseObject();
 		} catch (final Exception ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 			Assert.fail();
 		}
 	}
@@ -140,7 +142,7 @@ public class DestinationTest {
 			try {
 				d.deleteParseObject();
 			} catch (final ParseException e2) {
-				e2.printStackTrace();
+				LogPrinter.createLogFile(e2);
 				Assert.fail();
 			}
 		}
@@ -164,7 +166,7 @@ public class DestinationTest {
 			Assert.assertEquals(d.getEntrance().getLon(), d2.getEntrance().getLon(), 0);
 			d.deleteParseObject();
 		} catch (final Exception ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 			Assert.fail();
 		}
 	}

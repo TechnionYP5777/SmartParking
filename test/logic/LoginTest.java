@@ -13,6 +13,7 @@ import Exceptions.LoginException;
 import data.management.DBManager;
 import data.members.StickersColor;
 import data.members.User;
+import util.LogPrinter;
 
 /**
  * @Author DavidCohen55
@@ -26,7 +27,7 @@ public class LoginTest {
 			// making a new user in the database for all of the tests
 			new User("Test User", "Test", "0500000000", "0000000", "test@gmail.com", StickersColor.BLUE, null);
 		} catch (final ParseException ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 		}
 	}
 
@@ -54,11 +55,12 @@ public class LoginTest {
 			Assert.assertEquals("Test", ret.getString("password"));
 			Assert.assertEquals("0000000", ret.getString("carNumber"));
 		} catch (final ParseException ¢) {
-			¢.printStackTrace();
-			Assert.fail();
+			LogPrinter.createLogFile(¢);
+			//¢.printsert.fail();
 		} catch (final LoginException ¢) {
 			// TODO Auto-generated catch block
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
+			
 		}
 	}
 
@@ -77,7 +79,8 @@ public class LoginTest {
 			Assert.assertEquals(StickersColor.GREEN.ordinal(), user.getInt("sticker"));
 			lg.deleteUser();
 		} catch (ParseException | LoginException ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
+			
 			Assert.fail();
 		}
 	}
@@ -155,7 +158,8 @@ public class LoginTest {
 				Assert.assertEquals("0500000000", userList1.get(0).getString("phoneNumber"));
 			}
 		} catch (ParseException | LoginException ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
+			
 			Assert.fail();
 		}
 	}
@@ -183,7 +187,8 @@ public class LoginTest {
 			lg.userSignUp("Zahi Mizrahi", "Zahi123", "0534567890", "3216549", "zahi@gmail.com", StickersColor.GREEN);
 			lg.deleteUser();
 		} catch (ParseException | LoginException ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
+			
 			Assert.fail();
 		}
 	}
@@ -213,7 +218,8 @@ public class LoginTest {
 			Assert.assertEquals(user.getPhoneNumber(), tmpUser.getPhoneNumber());
 			Assert.assertEquals(user.getSticker(), tmpUser.getSticker());
 		} catch (final LoginException ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
+			
 			Assert.fail();
 		}
 	}
@@ -224,7 +230,8 @@ public class LoginTest {
 			// delete the template user from the database
 			new User("0000000").deleteParseObject();
 		} catch (final Exception ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
+			
 		}
 	}
 }

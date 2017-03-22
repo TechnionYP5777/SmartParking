@@ -19,6 +19,7 @@ import data.members.ParkingAreas;
 import data.members.ParkingSlot;
 import data.members.ParkingSlotStatus;
 import data.members.User;
+import util.LogPrinter;
 
 public class Navigation {
 
@@ -33,7 +34,7 @@ public class Navigation {
 					.parse(IOUtils.toString(new URL(url), StandardCharsets.UTF_8))).get("rows")).get(0))
 							.get("elements")).get(0);
 		} catch (ParseException | IOException ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 		}
 		return null;
 	}
@@ -79,7 +80,7 @@ public class Navigation {
 			}
 			return $;
 		} catch (ParseException | IOException ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 		}
 		return -1;
 	}

@@ -9,6 +9,7 @@ import org.junit.Test;
 import data.management.DBManager;
 import data.members.ParkingSlot;
 import data.members.StickersColor;
+import util.LogPrinter;
 import data.members.ParkingSlotStatus;
 import data.members.MapLocation;
 import data.members.ParkingArea;
@@ -28,7 +29,7 @@ public class parkingSlotTest {
 			assert p != null;
 			p.removeParkingSlotFromDB();
 		} catch (final Exception ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 			Assert.fail();
 		}
 	}
@@ -48,7 +49,7 @@ public class parkingSlotTest {
 			slot1.deleteParseObject();
 
 		} catch (final Exception ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 			Assert.fail();
 		}
 	}
@@ -69,7 +70,7 @@ public class parkingSlotTest {
 
 			area.deleteParseObject();
 		} catch (final Exception ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 			Assert.fail();
 		}
 	}
@@ -89,7 +90,7 @@ public class parkingSlotTest {
 			slot1.deleteParseObject();
 
 		} catch (final Exception ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 			Assert.fail();
 		}
 	}

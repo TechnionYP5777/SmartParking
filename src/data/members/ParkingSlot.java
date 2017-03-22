@@ -9,6 +9,7 @@ import org.parse4j.ParseObject;
 import org.parse4j.ParseQuery;
 
 import data.management.DBManager;
+import util.LogPrinter;
 
 /**
  * @author Toma
@@ -184,7 +185,7 @@ public class ParkingSlot extends dbMember {
 			return $.find().get(0);
 		} catch (final ParseException ¢) {
 			System.out.println("Could not find the containing area");
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 			return null;
 		}
 	}
@@ -198,7 +199,7 @@ public class ParkingSlot extends dbMember {
 			setStatus(newStatus);
 		} catch (final ParseException ¢) {
 			System.out.println("could not set the slot's status");
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 		}
 	};
 

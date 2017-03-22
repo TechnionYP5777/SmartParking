@@ -16,6 +16,7 @@ import data.members.Destination;
 import data.members.MapLocation;
 import data.members.ParkingSlot;
 import javafx.scene.control.Label;
+import util.LogPrinter;
 
 public class DriverMap extends PmMap {
 	// private final static String StubFrom = "32.774207, 35.029546";
@@ -64,7 +65,7 @@ public class DriverMap extends PmMap {
 				tb.getItems().addAll(new Label("Origin:" + dStart.getDestinationName() + " " + fromLogic),
 						new Label("Destination: " + ParkingSlot.ParkingNameByLocation(to) + " " + toLogic));
 			} catch (NotExists | ParseException ¢) {
-				¢.printStackTrace();
+				LogPrinter.createLogFile(¢);
 			}
 		scene.getWindow().sizeToScene();
 	}

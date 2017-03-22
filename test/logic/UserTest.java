@@ -1,4 +1,4 @@
-package logic;
+﻿package logic;
 
 import java.util.Date;
 
@@ -20,7 +20,7 @@ public class UserTest {
 			// making a new user in the database for all of the tests
 			new User("Test User", "Test", "0500000000", "0000000", "test@gmail.com", StickersColor.BLUE, null);
 		} catch (final ParseException ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 		}
 	}
 
@@ -46,7 +46,7 @@ public class UserTest {
 			user.setCurrentParking(null);
 			park.delete();
 		} catch (ParseException | LoginException ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 			Assert.fail();
 		}
 	}
@@ -67,7 +67,7 @@ public class UserTest {
 			ps.deleteParseObject();
 			Assert.assertEquals(user.getCurrentParking(), null);
 		} catch (ParseException | LoginException ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 			Assert.fail();
 		}
 	}
@@ -96,7 +96,7 @@ public class UserTest {
 			user.setCurrentParking(null);
 			park.delete();
 		} catch (LoginException | ParseException ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 			Assert.fail();
 		}
 	}
@@ -127,7 +127,7 @@ public class UserTest {
 			park1.delete();
 			park2.delete();
 		} catch (ParseException | LoginException ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 			Assert.fail();
 		}
 	}
@@ -153,7 +153,7 @@ public class UserTest {
 			Assert.assertEquals(user.getPassword(), "Test");
 			Assert.assertEquals(user.getPhoneNumber(), "0500000000");
 		} catch (ParseException | LoginException ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 			Assert.fail();
 		}
 	}
@@ -169,7 +169,7 @@ public class UserTest {
 			Assert.assertEquals(user.getPhoneNumber(), tmpUser.getPhoneNumber());
 			Assert.assertEquals(user.getSticker(), tmpUser.getSticker());
 		} catch (ParseException | LoginException ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 			Assert.fail();
 		}
 	}
@@ -180,7 +180,7 @@ public class UserTest {
 			// delete the template user from the database
 			new User("0000000").deleteParseObject();
 		} catch (final Exception ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 		}
 	}
 

@@ -22,6 +22,8 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 import logic.Navigation;
+import util.LogPrinter;
+
 import org.parse4j.ParseException;
 
 public class ChooseDestination extends AbstractWindow {
@@ -101,7 +103,7 @@ public class ChooseDestination extends AbstractWindow {
 								navigate.getDestination(toValue.getValue())).getLocation(),
 						navigate.getDestination(toValue.getValue()).getEntrance()).display(window);
 			} catch (final ParseException e1) {
-				e1.printStackTrace();
+				LogPrinter.createLogFile(e1);
 			}
 			// TILL HERE
 		});

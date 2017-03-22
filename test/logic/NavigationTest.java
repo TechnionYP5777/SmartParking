@@ -17,6 +17,7 @@ import data.members.ParkingSlot;
 import data.members.ParkingSlotStatus;
 import data.members.StickersColor;
 import data.members.User;
+import util.LogPrinter;
 
 public class NavigationTest {
 
@@ -55,7 +56,7 @@ public class NavigationTest {
 			try {
 				destination = new Destination("Taub-NavigationTest", location);
 			} catch (final AlreadyExists ¢) {
-				¢.printStackTrace();
+				LogPrinter.createLogFile(¢);
 				Assert.fail();
 			}
 
@@ -82,12 +83,12 @@ public class NavigationTest {
 				user.deleteParseObject();
 
 			} catch (final ParseException ¢) {
-				¢.printStackTrace();
+				LogPrinter.createLogFile(¢);
 				Assert.fail();
 			}
 
 		} catch (final ParseException ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 			Assert.fail();
 		}
 	}
@@ -155,7 +156,7 @@ public class NavigationTest {
 			try {
 				destination = new Destination("Taub-NavigationTest", location);
 			} catch (final AlreadyExists ¢) {
-				¢.printStackTrace();
+				LogPrinter.createLogFile(¢);
 				Assert.fail();
 			}
 
@@ -186,12 +187,12 @@ public class NavigationTest {
 				user.deleteParseObject();
 
 			} catch (final ParseException ¢) {
-				¢.printStackTrace();
+				LogPrinter.createLogFile(¢);
 				Assert.fail();
 			}
 
 		} catch (final ParseException ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 			Assert.fail();
 		}
 	}
@@ -214,7 +215,7 @@ public class NavigationTest {
 			try {
 				destination = new Destination("Taub-NavigationTest", location);
 			} catch (final AlreadyExists ¢) {
-				¢.printStackTrace();
+				LogPrinter.createLogFile(¢);
 				Assert.fail();
 			}
 			User user = null;
@@ -229,7 +230,7 @@ public class NavigationTest {
 				Assert.assertEquals(user.getCurrentParking().getStatus().ordinal(), taubSlot1.getStatus().ordinal());
 				Assert.assertEquals(user.getCurrentParking().getStatus(), ParkingSlotStatus.TAKEN);
 			} catch (final Exception ¢) {
-				¢.printStackTrace();
+				LogPrinter.createLogFile(¢);
 				Assert.fail();
 			}
 
@@ -247,7 +248,7 @@ public class NavigationTest {
 			}
 
 		} catch (final ParseException ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 			Assert.fail();
 		}
 	}

@@ -7,6 +7,7 @@ import org.parse4j.ParseObject;
 import org.parse4j.ParseQuery;
 
 import data.management.DBManager;
+import util.LogPrinter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,7 +47,7 @@ public class ParkingAreas extends dbMember {
 			for (final ParseObject ¢ : areaList)
 				parkingAreas.add(new ParkingArea(¢));
 		} catch (final ParseException ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 		}
 	}
 

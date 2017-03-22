@@ -9,6 +9,7 @@ import data.members.ParkingAreas;
 import data.members.ParkingSlot;
 import data.members.StickersColor;
 import data.members.User;
+import util.LogPrinter;
 
 import org.parse4j.ParseException;
 import org.parse4j.ParseObject;
@@ -41,7 +42,7 @@ public class Management {
 			for (final ParseObject ¢ : usersList)
 				users.add(new User(¢));
 		} catch (final ParseException ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 		}
 		// init set of parking slots
 		final ParseQuery<ParseObject> query2 = ParseQuery.getQuery("ParkingSlot");
@@ -52,7 +53,7 @@ public class Management {
 			for (final ParseObject ¢ : slotList)
 				parkingSlots.add(new ParkingSlot(¢));
 		} catch (final ParseException ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 		}
 		parkingAreas = new ParkingAreas();
 	}
@@ -121,7 +122,7 @@ public class Management {
 			}
 
 		} catch (final ParseException ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 			return null;
 		}
 		StickersColor $ = null;
@@ -143,7 +144,7 @@ public class Management {
 			}
 
 		} catch (final ParseException ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 			return null;
 		}
 		ParkingSlot $ = null;
@@ -164,7 +165,7 @@ public class Management {
 			}
 
 		} catch (final ParseException ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 			return null;
 		}
 		final User $ = null;

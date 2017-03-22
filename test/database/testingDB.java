@@ -12,6 +12,8 @@ import org.parse4j.ParseException;
 import org.parse4j.ParseObject;
 import org.parse4j.ParseQuery;
 
+import util.LogPrinter;
+
 public class testingDB {
 
 	private static final String appId = "parkingmanagment";
@@ -41,7 +43,7 @@ public class testingDB {
 			test.save();
 			test.delete();
 		} catch (final ParseException ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 			Assert.fail();
 		}
 	}
@@ -62,7 +64,7 @@ public class testingDB {
 			test.save();
 			test.delete();
 		} catch (final ParseException ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 			Assert.fail();
 		}
 	}
@@ -86,7 +88,7 @@ public class testingDB {
 			test.delete();
 			subTest.delete();
 		} catch (final ParseException ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 			Assert.fail();
 		}
 
@@ -116,7 +118,7 @@ public class testingDB {
 			subTest.delete();
 		} catch (final ParseException ¢) {
 			// TODO Auto-generated catch block
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 			Assert.fail();
 		}
 	}
@@ -153,7 +155,7 @@ public class testingDB {
 			subTest3.delete();
 		} catch (final ParseException ¢) {
 			// TODO Auto-generated catch block
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 			Assert.fail();
 		}
 	}

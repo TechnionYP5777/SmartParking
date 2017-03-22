@@ -14,6 +14,7 @@ import org.parse4j.ParseObject;
 import org.parse4j.ParseQuery;
 
 import data.management.DBManager;
+import util.LogPrinter;
 
 /**
  * @author Inbal Matityahu
@@ -179,7 +180,7 @@ public class ParkingArea extends dbMember {
 				$.add(new ParkingSlot(p));
 			} catch (final ParseException ¢) {
 				System.out.println("could not add the slot");
-				¢.printStackTrace();
+				LogPrinter.createLogFile(¢);
 			}
 		return new HashSet<ParkingSlot>($);
 	}

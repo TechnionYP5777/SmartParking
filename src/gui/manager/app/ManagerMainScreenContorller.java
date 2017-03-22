@@ -14,6 +14,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
+import util.LogPrinter;
 
 import java.io.IOException;
 import java.net.URL;
@@ -99,7 +100,7 @@ public class ManagerMainScreenContorller implements Initializable {
 		try {
 			parkingAreasListView.setItems(FXCollections.observableList((ArrayList<String>) pa.getParkingAreasNames()));
 		} catch (final ParseException ¢) {
-			¢.printStackTrace();
+			LogPrinter.createLogFile(¢);
 		}
 
 		// Initialize map
@@ -111,7 +112,7 @@ public class ManagerMainScreenContorller implements Initializable {
 			pareas.getParkingAreasColor().forEach((k, v) -> colors.put(k, v.name()));
 		} catch (final ParseException e1) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			LogPrinter.createLogFile(e1);
 		}
 		final ManegerMap map = new ManegerMap(locations, colors);
 		final GoogleMapView view = new GoogleMapView(Locale.getDefault().getLanguage(), null);
