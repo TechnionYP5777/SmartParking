@@ -8,6 +8,7 @@ import org.parse4j.ParseObject;
 import org.parse4j.ParseQuery;
 import Exceptions.LoginException;
 import data.members.*;
+import util.LogPrinter;
 
 /**
  * @Author DavidCohen55

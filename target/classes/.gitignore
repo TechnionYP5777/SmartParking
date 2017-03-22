@@ -1,7 +1,6 @@
-/util/
-/server/
 /database/
 /gui/
 /logic/
 /manager/
-/data/
+/server/
+/util/
