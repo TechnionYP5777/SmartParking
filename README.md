@@ -1,6 +1,6 @@
 # SmartParking 
 
-![SmartCity logo](https://s24.postimg.org/j36nmvh8l/smart_parking.png) 
+![](http://i67.tinypic.com/nmzwpw.png)
 
 Smart Parking system is used for finding free parking slots within The Technion. 
 
