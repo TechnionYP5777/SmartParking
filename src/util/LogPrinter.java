@@ -14,8 +14,10 @@ public class LogPrinter {
 		DateFormat dateFormat = new SimpleDateFormat("MM-dd_HH-mm");
 		Date date = new Date();
 		String filename = new String(dateFormat.format(date) + ".txt");
-		try {
-			PrintWriter pw = new PrintWriter(new File(filename));
+		try { 
+			File file = new File("logs\\" + filename);
+			file.getParentFile().mkdirs();
+			PrintWriter pw = new PrintWriter(file);
 			e.printStackTrace(pw);
 			pw.close();
 			System.out.println("Log file: \"" + filename + "\" created according to date. "
