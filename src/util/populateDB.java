@@ -17,6 +17,7 @@ import data.members.ParkingAreas;
 import data.members.ParkingSlot;
 import data.members.ParkingSlotStatus;
 import data.members.StickersColor;
+import data.members.User;
 
 public class populateDB {
 
@@ -38,6 +39,12 @@ public class populateDB {
 			insertParkingAreas();
 		} catch (final Exception ¢) {
 			System.out.println("Something went wrong. Could not add the parking areas");
+			LogPrinter.createLogFile(¢);
+		}
+		try {
+			insertUsers();
+		} catch (final Exception ¢) {
+			System.out.println("Something went wrong. Could not add the users");
 			LogPrinter.createLogFile(¢);
 		}
 		System.out.println("Done Populating DB");
@@ -71,6 +78,20 @@ public class populateDB {
 
 	}
 
+	private static void insertUsers() throws Exception {
+		for (final String line : getLinesFromFile(new File("src/util/Users.txt").toPath())) {
+			System.out.println("Inserting the following users:");
+			System.out.println(line);
+			final String[] input = line.split(" ");
+			if (input.length < 1)
+				throw new IllegalArgumentException(
+						"Input line should look like this: [name] [password] [phoneNumber] [carNumber] [email] [type]");
+			if (!insertUserToDB(input))
+				throw new Exception("Something went wrong. Could not add the users");
+		}
+
+	}
+
 	private static void insertParkingAreas() throws Exception {
 		for (final String line : getLinesFromFile(new File("src/util/parkingAreas.txt").toPath())) {
 			System.out.println("Inserting the following areas:");
@@ -96,11 +117,12 @@ public class populateDB {
 	private static Boolean insertSlotToDB(final String[] args) {
 		final String name = args[0];
 		final ParkingSlotStatus status = ParkingSlotStatus.valueOf(args[1]);
-		final StickersColor currentColor = StickersColor.valueOf(args[2]), defaultColor = StickersColor.valueOf(args[3]);
+		final StickersColor currentColor = StickersColor.valueOf(args[2]),
+				defaultColor = StickersColor.valueOf(args[3]);
 		final double lat = Double.parseDouble(args[4]), lon = Double.parseDouble(args[5]);
 		try {
-			final ParkingSlot slot1 = new ParkingSlot(name, status, currentColor, defaultColor, new MapLocation(lat, lon),
-					new Date());
+			final ParkingSlot slot1 = new ParkingSlot(name, status, currentColor, defaultColor,
+					new MapLocation(lat, lon), new Date());
 		} catch (final ParseException ¢) {
 			LogPrinter.createLogFile(¢);
 			return false;
@@ -151,4 +173,23 @@ public class populateDB {
 		}
 		return true;
 	}
+
+	@SuppressWarnings("unused")
+	private static Boolean insertUserToDB(final String[] args) {
+		final String name = args[0];
+		final String password = args[1];
+		final String phoneNumber = args[2];
+		final String carNumber = args[3];
+		final String email = args[4];
+		final StickersColor type = StickersColor.valueOf(args[5]);
+
+		try {
+			final User usr = new User(name, password, phoneNumber, carNumber, email, type, null);
+		} catch (final ParseException ¢) {
+			LogPrinter.createLogFile(¢);
+			return false;
+		}
+		return true;
+	}
+
 }

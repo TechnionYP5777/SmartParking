@@ -53,8 +53,8 @@ public class User extends dbMember {
 	private static final String LAST_LOGIN_TIME = "lastLoginTime";
 	private static final String TABLE_NAME = "PMUser";
 
-	public User(final String name, final String password, final String phoneNumber, final String carNumber, final String email, final StickersColor type,
-			final ParkingSlot currentLocation) throws ParseException {
+	public User(final String name, final String password, final String phoneNumber, final String carNumber,
+			final String email, final StickersColor type, final ParkingSlot currentLocation) throws ParseException {
 		DBManager.initialize();
 		setParseObject(TABLE_NAME);
 		setName(name);
