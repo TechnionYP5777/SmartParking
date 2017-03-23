@@ -7,6 +7,7 @@ import org.parse4j.ParseException;
 import org.parse4j.ParseObject;
 import org.parse4j.ParseQuery;
 
+import data.management.DBManager;
 import util.LogPrinter;
 
 /* @author Shay Segal
@@ -15,7 +16,7 @@ import util.LogPrinter;
 public class serverConnection {
 	@Test
 	public void test() {
-		Parse.initialize("ParkingNav", "2139f-231ff2-738ff", "https://parkingnevserver.herokuapp.com/parse");
+		DBManager.initialize();
 		Assert.assertEquals("ParkingNav", Parse.getApplicationId());
 		Assert.assertEquals("2139f-231ff2-738ff", Parse.getRestAPIKey());
 		final ParseObject testConnectionObject = new ParseObject("testConnectionObject");

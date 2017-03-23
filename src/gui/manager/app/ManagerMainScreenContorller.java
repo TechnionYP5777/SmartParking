@@ -32,7 +32,7 @@ import com.lynden.gmapsfx.GoogleMapView;
 import data.members.MapLocation;
 import data.members.ParkingArea;
 import data.members.ParkingAreas;
-import gui.map.ManegerMap;
+
 
 public class ManagerMainScreenContorller implements Initializable {
 
@@ -114,9 +114,9 @@ public class ManagerMainScreenContorller implements Initializable {
 			// TODO Auto-generated catch block
 			LogPrinter.createLogFile(e1);
 		}
-		final ManegerMap map = new ManegerMap(locations, colors);
+		//final ManegerMap map = new ManegerMap(locations, colors);
 		final GoogleMapView view = new GoogleMapView(Locale.getDefault().getLanguage(), null);
-		map.SetMapComponent(view);
+		//map.SetMapComponent(view);
 		System.out.println("View is now loading...");
 		view.setMaxHeight(Region.USE_COMPUTED_SIZE);
 		view.setMaxWidth(Region.USE_COMPUTED_SIZE);
@@ -143,10 +143,10 @@ public class ManagerMainScreenContorller implements Initializable {
 		// Initialize ListView listener for parking areas
 		parkingAreasListView.getSelectionModel().selectedItemProperty().addListener((v, prev, next) -> {
 			if (next == null) {
-				map.resetMap();
+				//map.resetMap();
 				return;
 			}
-			map.focusOnParkingArea(next);
+			//map.focusOnParkingArea(next);
 			editBtn.setDisable(false);
 			ParkingArea area;
 			int freeSlots = 0, takenSlots = 0;
