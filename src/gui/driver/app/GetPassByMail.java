@@ -1,6 +1,5 @@
 package gui.driver.app;
 
-//import java.util.ArrayList;
 
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -15,6 +14,14 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+
+/*
+ * implementation of screen that will show the functionality to restore pass by mail - 
+ * THE LOGIC is not yet implemented 
+ * 
+ * @author Shahar-Y
+ * 
+ */
 
 public class GetPassByMail extends AbstractWindow {
 

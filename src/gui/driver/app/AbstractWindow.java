@@ -8,7 +8,13 @@ import javafx.stage.Stage;
 import logic.LoginManager;
 import logic.NavigationController;
 
-//Currently NOT in use, might use it in the future. 
+/*
+ * abstract class of simple window, all other windows will inherited from this class. 
+ * 
+ * @author Shahar-Y
+ * 
+ */ 
+
 public abstract class AbstractWindow {
 	WindowEnum windowEnum;
 	public Stage window;

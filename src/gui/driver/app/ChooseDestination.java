@@ -1,5 +1,11 @@
 package gui.driver.app;
 
+/*
+ * main window of the navigation. 
+ * 
+ * @author zahimizrahi 
+ * 
+ */
 import java.util.Set;
 
 import gui.map.DriverMap;
@@ -90,12 +96,15 @@ public class ChooseDestination extends AbstractWindow {
 		// buttonBack.setDisable(true);
 
 		buttonGO.setOnAction(e -> {
-			// ************Add navigation functionality************//
+			/***
+			*****
+			********Add navigation functionality*****
+			****
+			*****/
 			window.close();
 			AbstractWindow.prevWindows.add(this);
 			// (new DriverMap("", "")).display(window);
 
-			// TILL GET FIXED!!!
 			try {
 				new DriverMap(navigate.getDestination(fromValue.getValue()).getEntrance(),
 						Navigation.closestParkingSlot(login.getUser(),
@@ -105,7 +114,6 @@ public class ChooseDestination extends AbstractWindow {
 			} catch (final ParseException e1) {
 				LogPrinter.createLogFile(e1);
 			}
-			// TILL HERE
 		});
 		GridPane.setConstraints(buttonGO, 1, currIdx++);
 		grid.getChildren().addAll(title, from, fromValue, to, toValue, buttonBack, buttonGO);

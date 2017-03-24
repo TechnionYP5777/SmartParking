@@ -1,4 +1,5 @@
 /*
+ * implementation of login screen. 
  * 
  * @author zahimizrahi
  * 
@@ -69,10 +70,10 @@ public class Login extends AbstractWindow {
 		final Hyperlink forgotPass = new Hyperlink();
 
 		forgotPass.setText("Forgot Password?");
-		forgotPass.setOnAction(λ -> new GetPassByMail().display(primaryStage, WindowEnum.LOG_IN));
+		forgotPass.setOnAction(e -> new GetPassByMail().display(primaryStage, WindowEnum.LOG_IN));
 
 		final Button buttonMute = new Button("MUTE");
-		buttonMute.setOnAction(λ -> {
+		buttonMute.setOnAction(e -> {
 			if (mediaPlayer.isMute()) {
 				mediaPlayer.setMute(false);
 				buttonMute.setText("MUTE");
@@ -90,7 +91,7 @@ public class Login extends AbstractWindow {
 		final Button loginButton = new Button("Login"), backButton = new Button();
 		backButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("back_button.png"))));
 		backButton.getStyleClass().add("button-go");
-		backButton.setOnAction(λ -> {
+		backButton.setOnAction(e -> {
 			// move to editing my details
 			window.close();
 			AbstractWindow.prevWindows.get(AbstractWindow.prevWindows.size() - 1).window.show();

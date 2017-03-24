@@ -9,6 +9,13 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/*
+ * implementation of confirm box box that will be used in different classes in the GUI.  
+ * 
+ * @author Shahar-Y
+ * 
+ */
+
 public class ConfirmBox {
 
 	static boolean answer;
@@ -26,14 +33,14 @@ public class ConfirmBox {
 		label.setText(message);
 
 		yesButton = new Button("Yes");
-		yesButton.setOnAction(λ -> {
+		yesButton.setOnAction(e -> {
 
 			answer = true;
 			window.close();
 		});
 
 		noButton = new Button("No");
-		noButton.setOnAction(λ -> {
+		noButton.setOnAction(e -> {
 			answer = false;
 			window.close();
 		});

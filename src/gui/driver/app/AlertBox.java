@@ -1,5 +1,12 @@
 package gui.driver.app;
 
+/*
+ * implementation of alert box that will be used in different classes in the GUI.  
+ * 
+ * @author Shahar-Y
+ * 
+ */
+
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;

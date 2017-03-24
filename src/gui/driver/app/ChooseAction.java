@@ -1,5 +1,12 @@
 package gui.driver.app;
 
+/*
+ * main window of the GUI. 
+ * 
+ * @author zahimizrahi & Shahar-Y
+ * 
+ */
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -47,23 +54,20 @@ public class ChooseAction extends AbstractWindow {
 		final VBox vbox = new VBox(8);
 		vbox.setPadding(new Insets(10, 10, 10, 10));
 		isLinuxOS = "Linux".equals(System.getProperty("os.name"));
-		if (!isLinuxOS) {
-			// System.out.println("Sound the music!");
 
-			final URL resource = getClass().getResource("sound.mp3");
-			mediaPlayer = new MediaPlayer(new Media(resource + ""));
-			mediaPlayer.setOnEndOfMedia(() -> mediaPlayer.seek(Duration.ZERO));
-			mediaPlayer.play();
-			buttonMute = new Button();
-			buttonMute.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("unmute_button.png"))));
-			buttonMute.getStyleClass().add("button-go");
-			// buttonMute.setDisable(false);
-			// buttonMute.getStyleClass().clear();
+		final URL resource = getClass().getResource("sound.mp3");
+		mediaPlayer = new MediaPlayer(new Media(resource + ""));
+		mediaPlayer.setOnEndOfMedia(() -> mediaPlayer.seek(Duration.ZERO));
+		mediaPlayer.play();
+		buttonMute = new Button();
+		buttonMute.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("unmute_button.png"))));
+		buttonMute.getStyleClass().add("button-go");
+		// buttonMute.setDisable(false);
+		// buttonMute.getStyleClass().clear();
 
-			buttonMute.setOnAction(λ -> StaticMethods.dealWithMute(mediaPlayer, AbstractWindow.muteButtonsAL));
-			muteButtonsAL.add(buttonMute);
-			// buttonMute.getStyleClass().add("button-muteOFF");
-		}
+		buttonMute.setOnAction(λ -> StaticMethods.dealWithMute(mediaPlayer, AbstractWindow.muteButtonsAL));
+		muteButtonsAL.add(buttonMute);
+		// buttonMute.getStyleClass().add("button-muteOFF");
 
 		// TODO: get a better way to check logged in
 		final HBox mute = new HBox(1);
@@ -83,7 +87,6 @@ public class ChooseAction extends AbstractWindow {
 			prevWindows.add(this);
 			new About().display(primaryStage, WindowEnum.CHOOSE_ACTION, buttonMute);
 		});
-		// buttonAbout.getStyleClass().add("button-menu");
 
 		buttonLogin = new Button("Login");
 		buttonLogin.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("login_button.png"))));
@@ -105,7 +108,6 @@ public class ChooseAction extends AbstractWindow {
 			new Register().display(primaryStage, WindowEnum.CHOOSE_ACTION);
 		});
 
-		// buttonRegister.getStyleClass().add("button-menu");
 
 		buttonMap = new Button("View Map");
 		buttonMap.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("map_button.png"))));
@@ -116,7 +118,6 @@ public class ChooseAction extends AbstractWindow {
 			new DriverMap("32.777789, 35.022054", "32.761565, 35.019438").display(primaryStage);
 		});
 
-		// buttonMap.getStyleClass().add("button-menu");
 
 		buttonMyDetails = new Button("My Details");
 		buttonMyDetails.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("details_button.png"))));
@@ -180,7 +181,9 @@ public class ChooseAction extends AbstractWindow {
 		vbox.getChildren().addAll(mute, welcomeLabel, hbox1, hbox2);
 		vbox.setAlignment(Pos.CENTER);
 		final Scene scene = new Scene(vbox);
-		scene.getStylesheets().add(getClass().getResource("mainStyle.css").toExternalForm());
+		scene.getStylesheets().add(
+
+				getClass().getResource("mainStyle.css").toExternalForm());
 		window.setScene(scene);
 		window.showAndWait();
 	}
