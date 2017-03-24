@@ -41,13 +41,6 @@ public class Register extends AbstractWindow {
 
 	public void display(final Stage primaryStage, final WindowEnum __) {
 
-		/*
-		 * System.out.println("Sound the music!"); URL resource =
-		 * getClass().getResource("sound.mp3"); MediaPlayer a =new
-		 * MediaPlayer(new Media(resource.toString())); a.setOnEndOfMedia(new
-		 * Runnable() { public void run() { a.seek(Duration.ZERO); } });
-		 * a.play();
-		 */
 
 		window = primaryStage;
 		window.getIcons().add(new Image(getClass().getResourceAsStream("Smart_parking_icon.png")));
@@ -110,7 +103,7 @@ public class Register extends AbstractWindow {
 		stickerColor.getStyleClass().add("cb");
 		final Hyperlink wantLogin = new Hyperlink();
 		wantLogin.setText("Already Registered?");
-		wantLogin.setOnAction(λ -> {
+		wantLogin.setOnAction(e -> {
 			// AbstractWindow.prevWindows.add(this); --> will return to login
 			// instead of mainMenu
 			window.close();
@@ -120,7 +113,7 @@ public class Register extends AbstractWindow {
 		final Button registerButton = new Button("Register"), backButton = new Button();
 		backButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("back_button.png"))));
 		backButton.getStyleClass().add("button-go");
-		backButton.setOnAction(λ -> {
+		backButton.setOnAction(e -> {
 			// move to editing my details
 			window.close();
 			AbstractWindow.prevWindows.get(AbstractWindow.prevWindows.size() - 1).window.show();

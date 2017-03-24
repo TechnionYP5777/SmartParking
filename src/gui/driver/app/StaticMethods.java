@@ -39,14 +39,14 @@ public class StaticMethods {
 	}
 
 	public static Button cloneButton(final Button firstButton) {
-		final Button $ = new Button();
-		$.setText(firstButton.getText());
+		final Button button = new Button();
+		button.setText(firstButton.getText());
 		// System.out.println("firstButton.getOnAction(): " +
 		// firstButton.getOnAction());
 		// System.out.println(firstButton.getStyleClass().toString());
-		$.getStyleClass().addAll(firstButton.getStyleClass());
-		$.setOnAction(λ -> StaticMethods.dealWithMute(AbstractWindow.mediaPlayer, AbstractWindow.muteButtonsAL));
-		return $;
+		button.getStyleClass().addAll(firstButton.getStyleClass());
+		button.setOnAction(e -> StaticMethods.dealWithMute(AbstractWindow.mediaPlayer, AbstractWindow.muteButtonsAL));
+		return button;
 	}
 
 }

@@ -1,6 +1,7 @@
 
 package gui.driver.app;
 /*
+ * opening splash screen - the first screen in the project 
  * @author zahimizrahi
  */
 
@@ -22,14 +23,14 @@ import javafx.stage.*;
 import javafx.util.Duration;
 
 public class Opening extends Application {
-	public static final String SPLASH_IMAGE = "https://s23.postimg.org/ecvvaduyz/smart_parking.png";
+	public static final String SPLASH_IMAGE = "https://camo.githubusercontent.com/6110675e5337a30faa1f5"; 
 
 	private Pane openingLayout;
 	private ProgressBar loadProgress;
 	private Label progressText;
 	private Stage primaryStage;
-	private static final int SPLASH_WIDTH = 274;
-	private static final int SPLASH_HEIGHT = 266;
+	private static final int SPLASH_WIDTH = 625;
+	private static final int SPLASH_HEIGHT = 201;
 
 	public static void main(final String[] args) throws Exception {
 		launch(args);
@@ -37,7 +38,7 @@ public class Opening extends Application {
 
 	@Override
 	public void init() {
-		final ImageView logo = new ImageView(new Image(getClass().getResourceAsStream("smart_parking_icon.png")));
+		final ImageView logo = new ImageView(new Image(getClass().getResourceAsStream("smart_parking.png")));
 		loadProgress = new ProgressBar();
 		loadProgress.setPrefWidth(SPLASH_WIDTH);
 
@@ -55,7 +56,7 @@ public class Opening extends Application {
 			protected ObservableList<String> call() throws InterruptedException {
 				final ObservableList<String> $ = FXCollections.<String>observableArrayList(),
 						team = FXCollections.observableArrayList("Zahi Mizrahi", "Shahar Yair", "Shay Segal",
-								"Sefi Albo", "Dani Shames", "David Cohen", "Or Troyaner", "Tom Nof", "Inbal Matityahu");
+								"Sefi Albo",  "David Cohen");
 				updateMessage("SmartParking - Made By ");
 				for (int i = 0; i < team.size(); i++) {
 					Thread.sleep(400);
