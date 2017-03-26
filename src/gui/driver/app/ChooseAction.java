@@ -65,7 +65,7 @@ public class ChooseAction extends AbstractWindow {
 		// buttonMute.setDisable(false);
 		// buttonMute.getStyleClass().clear();
 
-		buttonMute.setOnAction(λ -> StaticMethods.dealWithMute(mediaPlayer, AbstractWindow.muteButtonsAL));
+		buttonMute.setOnAction(e -> UtilMethods.mute(mediaPlayer, AbstractWindow.muteButtonsAL));
 		muteButtonsAL.add(buttonMute);
 		// buttonMute.getStyleClass().add("button-muteOFF");
 

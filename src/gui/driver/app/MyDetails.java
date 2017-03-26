@@ -1,5 +1,12 @@
 package gui.driver.app;
 
+/*
+ * implementation of myDetails screen - we can come to this window from main menu. 
+ * 
+ * @author Shahar-Y
+ * 
+ */
+
 import java.util.ArrayList;
 
 import javafx.geometry.Insets;
@@ -44,11 +51,11 @@ public class MyDetails extends AbstractWindow {
 		if (newLabels != null) {
 			labels = newLabels;
 			values = newValues;
-			for (int ¢ = 0; ¢ < values.size(); ++¢) {
+			for (int i = 0; i < values.size(); ++i) {
 				// System.out.println(i + " labels: " + labels.get(i) + "values:
 				// " + values.get(i));
-				GridPane.setConstraints(labels.get(¢), 0, ¢);
-				GridPane.setConstraints(values.get(¢), 1, ¢);
+				GridPane.setConstraints(labels.get(i), 0, i);
+				GridPane.setConstraints(values.get(i), 1, i);
 				// grid.getChildren().addAll(labels.get(i), values.get(i));
 			}
 			if (values.size() < lablesNum)
@@ -73,7 +80,7 @@ public class MyDetails extends AbstractWindow {
 			labels.add(new Label("Phone Number:"));
 			values.add(phoneNumber);
 
-			final Label sticker = new Label(StaticMethods.getStickerClolorFromEnum(login.getSticker()));
+			final Label sticker = new Label(UtilMethods.getStickerColor(login.getSticker()));
 			labels.add(new Label("Sticker Color:"));
 			values.add(sticker);
 

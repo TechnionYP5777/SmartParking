@@ -8,10 +8,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.media.MediaPlayer;
 
-public class StaticMethods {
+public class UtilMethods {
 
-	public static String getStickerClolorFromEnum(final StickersColor ¢) {
-		switch (¢) {
+	public static String getStickerColor(final StickersColor color) {
+		switch (color) {
 		case BLUE:
 			return "Blue";
 		case BORDEAUX:
@@ -31,21 +31,18 @@ public class StaticMethods {
 
 	// onEntry checks if you just entered the window or you clicked on the mute
 	// button
-	public static void dealWithMute(final MediaPlayer p, final ArrayList<Button> muteButtonsAL) {
+	public static void mute(final MediaPlayer p, final ArrayList<Button> muteButtonsAL) {
 		for (final Button currButton : muteButtonsAL)
 			currButton.setGraphic(new ImageView(new Image(
-					StaticMethods.class.getResourceAsStream(!p.isMute() ? "mute_button.png" : "unmute_button.png"))));
+					UtilMethods.class.getResourceAsStream(!p.isMute() ? "mute_button.png" : "unmute_button.png"))));
 		p.setMute(!p.isMute());
 	}
 
-	public static Button cloneButton(final Button firstButton) {
+	public static Button clone(final Button firstButton) {
 		final Button button = new Button();
 		button.setText(firstButton.getText());
-		// System.out.println("firstButton.getOnAction(): " +
-		// firstButton.getOnAction());
-		// System.out.println(firstButton.getStyleClass().toString());
 		button.getStyleClass().addAll(firstButton.getStyleClass());
-		button.setOnAction(e -> StaticMethods.dealWithMute(AbstractWindow.mediaPlayer, AbstractWindow.muteButtonsAL));
+		button.setOnAction(e -> UtilMethods.mute(AbstractWindow.mediaPlayer, AbstractWindow.muteButtonsAL));
 		return button;
 	}
 

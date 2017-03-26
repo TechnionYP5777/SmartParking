@@ -50,7 +50,7 @@ public class About extends AbstractWindow {
 		// System.out.println("HERE IS BUTTONMUTE: "+ buttonMute.toString());
 
 		if (!isLinuxOS) {
-			final Button AboutMute = StaticMethods.cloneButton(buttonMute);
+			final Button AboutMute = UtilMethods.clone(buttonMute);
 			muteButtonsAL.add(AboutMute);
 			vbox.getChildren().add(AboutMute);
 		}

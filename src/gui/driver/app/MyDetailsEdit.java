@@ -1,5 +1,12 @@
 package gui.driver.app;
 
+/*
+ * implementation of screen that will show the functionality of editing details.  
+ * 
+ * @author Shahar-Y
+ * 
+ */
+
 import java.util.ArrayList;
 
 import Exceptions.LoginException;
@@ -74,7 +81,7 @@ public class MyDetailsEdit extends AbstractWindow {
 		final Label sticker = new Label("Sticker Color:");
 		final ChoiceBox<String> stickerColor = new ChoiceBox<>();
 		stickerColor.getItems().addAll("Blue", "Green", "White", "Red", "Bordeaux", "Yellow");
-		stickerColor.setValue(StaticMethods.getStickerClolorFromEnum(login.getSticker()));
+		stickerColor.setValue(UtilMethods.getStickerColor(login.getSticker()));
 		stickerColor.getValue();
 		stickerColor.getStyleClass().add("cb");
 		GridPane.setConstraints(stickerColor, 1, stickerIdx);
@@ -143,17 +150,8 @@ public class MyDetailsEdit extends AbstractWindow {
 
 	}
 
-	/*
-	 * private void printCorrectedValues(ArrayList<Label> correctedValues){
-	 * System.out.println("The correctedValues are: "); System.out.println("0: "
-	 * + correctedValues.get(0).getText()); System.out.println("1: " +
-	 * correctedValues.get(1).getText()); System.out.println("2: " +
-	 * correctedValues.get(2).getText()); System.out.println("3: " +
-	 * correctedValues.get(3).getText()); System.out.println("4: " +
-	 * correctedValues.get(4).getText()); }
-	 */
 	public static boolean checkChangesLegality(final ArrayList<TextField> newValues) {
 
 		return true;
-	}
+	} 
 }
