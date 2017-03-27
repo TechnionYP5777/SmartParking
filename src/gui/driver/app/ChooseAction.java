@@ -47,6 +47,12 @@ public class ChooseAction extends AbstractWindow {
 		window.getIcons().add(new Image(getClass().getResourceAsStream("Smart_parking_icon.png")));
 		window.initModality(Modality.APPLICATION_MODAL);
 	}
+	
+	public void setButtonGraphic(Button b, String image) {
+		b.setGraphic(new ImageView(new Image(getClass().getResourceAsStream(image))));
+		b.getStyleClass().add("button-go");
+		
+	}
 
 	public void display(final Stage primaryStage, final WindowEnum prevWindow) {
 		window.setTitle("What Would you like to do?");
@@ -78,10 +84,10 @@ public class ChooseAction extends AbstractWindow {
 			welcomeLabel.setText("Welcome! You are not logged in");
 		}
 		welcomeLabel.getStyleClass().add("label-welcome");
-
+		
+		
 		buttonAbout = new Button("About");
-		buttonAbout.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("about_button.png"))));
-		buttonAbout.getStyleClass().add("button-go");
+		setButtonGraphic (buttonAbout, "about_button.png"); 
 		buttonAbout.setOnAction(λ -> {
 			window.close();
 			prevWindows.add(this);
@@ -89,19 +95,16 @@ public class ChooseAction extends AbstractWindow {
 		});
 
 		buttonLogin = new Button("Login");
-		buttonLogin.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("login_button.png"))));
-		buttonLogin.getStyleClass().add("button-go");
+		setButtonGraphic (buttonLogin, "login_button.png");;
 		buttonLogin.setOnAction(e -> {
 			window.close();
 			final Login login = new Login();
 			AbstractWindow.prevWindows.add(this);
 			login.display(primaryStage, WindowEnum.CHOOSE_ACTION);
 		});
-		// buttonLogin.getStyleClass().add("button-menu");
 
 		buttonRegister = new Button("Register");
-		buttonRegister.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("register_button.png"))));
-		buttonRegister.getStyleClass().add("button-go");
+		setButtonGraphic (buttonRegister, "register_button.png"); 
 		buttonRegister.setOnAction(λ -> {
 			window.close();
 			AbstractWindow.prevWindows.add(this);
@@ -110,8 +113,7 @@ public class ChooseAction extends AbstractWindow {
 
 
 		buttonMap = new Button("View Map");
-		buttonMap.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("map_button.png"))));
-		buttonMap.getStyleClass().add("button-go");
+		setButtonGraphic (buttonMap, "map_button.png"); 
 		buttonMap.setOnAction(λ -> {
 			window.close();
 			AbstractWindow.prevWindows.add(this);
@@ -120,8 +122,7 @@ public class ChooseAction extends AbstractWindow {
 
 
 		buttonMyDetails = new Button("My Details");
-		buttonMyDetails.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("details_button.png"))));
-		buttonMyDetails.getStyleClass().add("button-go");
+		setButtonGraphic (buttonMyDetails, "details_button.png"); 
 		buttonMyDetails.setOnAction(e -> {
 			window.close();
 			final MyDetails MD = new MyDetails();
@@ -130,12 +131,9 @@ public class ChooseAction extends AbstractWindow {
 
 		});
 		buttonMyDetails.setDisable(true);
-		// buttonMyDetails.getStyleClass().add("button-menu");
 
 		buttonChooseDestination = new Button("Choose Destination");
-		buttonChooseDestination
-				.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("choose_destination_button.png"))));
-		buttonChooseDestination.getStyleClass().add("button-go");
+		setButtonGraphic (buttonChooseDestination, "choose_destination_button.png"); 
 		buttonChooseDestination.setOnAction(e -> {
 			window.close();
 			final ChooseDestination CD = new ChooseDestination();
@@ -144,21 +142,17 @@ public class ChooseAction extends AbstractWindow {
 
 		});
 		buttonChooseDestination.setDisable(true);
-		// buttonChooseDestination.getStyleClass().add("button-menu");
 
 		final Button buttonClose = new Button("Exit");
-		buttonClose.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("exit_button.png"))));
-		buttonClose.getStyleClass().add("button-go");
+		setButtonGraphic (buttonClose, "exit_button.png"); 
 		buttonClose.setOnAction(λ -> {
 			if (prevWindow == WindowEnum.NONE
 					&& new ConfirmBox().display("Confirmation", "Are you sure you want to exit?"))
 				window.close();
 		});
-		// buttonClose.getStyleClass().add("button-menu");
 
 		buttonLogOut = new Button("Log Out");
-		buttonLogOut.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("logout_button.png"))));
-		buttonLogOut.getStyleClass().add("button-go");
+		setButtonGraphic (buttonLogOut, "logout_button.png"); 
 		buttonLogOut.setOnAction(λ -> {
 			if (prevWindow == WindowEnum.NONE
 					&& new ConfirmBox().display("Confirmation", "Are you sure you want to log out?")) {
