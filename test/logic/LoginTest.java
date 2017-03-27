@@ -143,7 +143,7 @@ public class LoginTest {
 		final LoginManager lg = new LoginManager();
 		try {
 			assert lg.userLogin("0000000", "Test");
-			assert lg.userUpdate("0000000", "Test David", "0501234567", "david@gmail.com", "2222222", null);
+			assert lg.userUpdate("0000000", "Test David", "0501234567", "david@gmail.com", "2222221", null);
 			final ParseQuery<ParseObject> query = ParseQuery.getQuery("PMUser");
 			query.whereEqualTo("carNumber", "2222222");
 			final List<ParseObject> userList = query.find();

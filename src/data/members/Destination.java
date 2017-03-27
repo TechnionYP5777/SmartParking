@@ -72,7 +72,8 @@ public class Destination extends dbMember {
 		setObjectId();
 	}
 
-	public Destination(final String name, final double latitude, final double longitude) throws ParseException, AlreadyExists {
+	public Destination(final String name, final double latitude, final double longitude)
+			throws ParseException, AlreadyExists {
 		DBManager.initialize();
 		setParseObject(TABLE_NAME);
 

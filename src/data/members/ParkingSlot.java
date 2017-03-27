@@ -38,8 +38,8 @@ public class ParkingSlot extends dbMember {
 	/* Constructors */
 
 	// Create a new parking slot. Will result in a new slot in the DB.
-	public ParkingSlot(final String name, final ParkingSlotStatus status, final StickersColor color, final StickersColor defaultColor,
-			final MapLocation location, final Date endTime) throws ParseException {
+	public ParkingSlot(final String name, final ParkingSlotStatus status, final StickersColor color,
+			final StickersColor defaultColor, final MapLocation location, final Date endTime) throws ParseException {
 		validateArgument(status, color, defaultColor, location);
 
 		DBManager.initialize();
@@ -166,8 +166,8 @@ public class ParkingSlot extends dbMember {
 
 	/* Methods */
 
-	private void validateArgument(final ParkingSlotStatus s, final StickersColor c, final StickersColor defaultColor, final MapLocation l)
-			throws IllegalArgumentException {
+	private void validateArgument(final ParkingSlotStatus s, final StickersColor c, final StickersColor defaultColor,
+			final MapLocation l) throws IllegalArgumentException {
 		if (s == null)
 			throw new IllegalArgumentException("status can not be empty!");
 		if (c == null)
