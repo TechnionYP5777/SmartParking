@@ -21,7 +21,7 @@ public abstract class AbstractWindow {
 	WindowEnum windowEnum;
 	public Stage window;
 	public static MediaPlayer mediaPlayer;
-	public static Button buttonMute;
+	public static Button muteButton;
 	public static boolean isLinuxOS;
 	protected static ArrayList<Button> muteButtonsAL;
 	protected static LoginManager login = new logic.LoginManager();

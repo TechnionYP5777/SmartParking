@@ -19,7 +19,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -49,7 +48,7 @@ public class Register extends AbstractWindow {
 		grid.setVgap(8);
 		grid.setHgap(10);
 		window.setWidth(450);
-		window.setHeight(480);
+		window.setHeight(580);
 
 		// title
 		final DropShadow shadow = new DropShadow();
@@ -104,44 +103,49 @@ public class Register extends AbstractWindow {
 		final Hyperlink wantLogin = new Hyperlink();
 		wantLogin.setText("Already Registered?");
 		wantLogin.setOnAction(e -> {
-			// AbstractWindow.prevWindows.add(this); --> will return to login
-			// instead of mainMenu
 			window.close();
 			new Login().display(primaryStage, WindowEnum.SIGN_UP);
 		});
 
-		final Button registerButton = new Button("Register"), backButton = new Button();
-		backButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("back_button.png"))));
-		backButton.getStyleClass().add("button-go");
+		final Button registerButton = new Button(), backButton = new Button();
+		final Button muteButton = new Button();
+		String image =  (AbstractWindow.mediaPlayer.isMute() ? "mute_button.png" : "unmute_button.png");
+		setButtonGraphic (muteButton, image);
+		setButtonGraphic (backButton, "back_button.png");
+		setButtonGraphic (registerButton, "yes_button.png");
 		backButton.setOnAction(e -> {
 			// move to editing my details
 			window.close();
 			AbstractWindow.prevWindows.get(AbstractWindow.prevWindows.size() - 1).window.show();
 			AbstractWindow.prevWindows.remove(AbstractWindow.prevWindows.size() - 1);
 		});
+
+		muteButton.setOnAction(e -> UtilMethods.mute(mediaPlayer, AbstractWindow.muteButtonsAL));
+		muteButtonsAL.add(muteButton);
 		final HBox hbox = new HBox(20);
-		GridPane.setConstraints(title, 0, 0);
+		GridPane.setConstraints(muteButton, 3,0);
+		GridPane.setConstraints(title, 0, 1);
 		GridPane.setColumnSpan(title, 3);
-		GridPane.setConstraints(user, 0, 1);
-		GridPane.setConstraints(nameInput, 1, 1);
-		GridPane.setConstraints(pass, 0, 2);
-		GridPane.setConstraints(passInput, 1, 2);
-		GridPane.setConstraints(hboxPhone, 0, 3);
-		GridPane.setConstraints(phoneNumber, 0, 3);
-		GridPane.setConstraints(hboxPhone, 1, 3);
+		GridPane.setConstraints(user, 0, 2);
+		GridPane.setConstraints(nameInput, 1, 2);
+		GridPane.setConstraints(pass, 0, 3);
+		GridPane.setConstraints(passInput, 1, 3);
+		GridPane.setConstraints(hboxPhone, 0, 4);
+		GridPane.setConstraints(phoneNumber, 0, 4);
+		GridPane.setConstraints(hboxPhone, 1, 4);
 		GridPane.setColumnSpan(hboxPhone, 2);
-		GridPane.setConstraints(carNumber, 0, 4);
-		GridPane.setConstraints(carNumberInput, 1, 4);
-		GridPane.setConstraints(mail, 0, 5);
-		GridPane.setConstraints(mailInput, 1, 5);
-		GridPane.setConstraints(sticker, 0, 6);
-		GridPane.setConstraints(stickerColor, 1, 6);
-		GridPane.setConstraints(hbox, 1, 7);
-		GridPane.setConstraints(wantLogin, 1, 8);
+		GridPane.setConstraints(carNumber, 0, 5);
+		GridPane.setConstraints(carNumberInput, 1, 5);
+		GridPane.setConstraints(mail, 0, 6);
+		GridPane.setConstraints(mailInput, 1, 6);
+		GridPane.setConstraints(sticker, 0, 7);
+		GridPane.setConstraints(stickerColor, 1, 7);
+		GridPane.setConstraints(hbox, 1, 8);
+		GridPane.setConstraints(wantLogin, 1, 9);
 		GridPane.setColumnSpan(wantLogin, 2);
 
 		hbox.getChildren().addAll(registerButton, backButton);
-		grid.getChildren().addAll(title, user, nameInput, pass, passInput, phoneNumber, hboxPhone, carNumber,
+		grid.getChildren().addAll(muteButton , title, user, nameInput, pass, passInput, phoneNumber, hboxPhone, carNumber,
 				carNumberInput, mail, mailInput, sticker, stickerColor, hbox, wantLogin);
 		registerButton.setOnAction(e -> {
 			try {

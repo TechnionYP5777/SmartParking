@@ -90,7 +90,7 @@ public class MyDetailsEdit extends AbstractWindow {
 		grid.getChildren().add(stickerColor);
 
 		final Button doneButton = new Button();
-		doneButton.setText("Done");
+		setButtonGraphic (doneButton, "yes_button.png");
 		doneButton.setOnAction(e -> {
 			// Save edits
 			if (checkChangesLegality(newValues)) {

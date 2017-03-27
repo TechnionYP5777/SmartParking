@@ -13,11 +13,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+//import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -68,11 +72,11 @@ public class ChooseAction extends AbstractWindow {
 		mediaPlayer.setOnEndOfMedia(() -> mediaPlayer.seek(Duration.ZERO));
 		mediaPlayer.play();
 		buttonMute = new Button();
-		buttonMute.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("unmute_button.png"))));
-		buttonMute.getStyleClass().add("button-go");
+		String image =  (AbstractWindow.mediaPlayer.isMute() ? "mute_button.png" : "unmute_button.png");
+		setButtonGraphic (buttonMute, image);
 		// buttonMute.setDisable(false);
 		// buttonMute.getStyleClass().clear();
-
+		
 		buttonMute.setOnAction(e -> UtilMethods.mute(mediaPlayer, AbstractWindow.muteButtonsAL));
 		muteButtonsAL.add(buttonMute);
 		// buttonMute.getStyleClass().add("button-muteOFF");
@@ -177,10 +181,9 @@ public class ChooseAction extends AbstractWindow {
 		vbox.getChildren().addAll(mute, welcomeLabel, hbox1, hbox2);
 		vbox.setAlignment(Pos.CENTER);
 		final Scene scene = new Scene(vbox);
-		scene.getStylesheets().add(
-
-				getClass().getResource("mainStyle.css").toExternalForm());
+		scene.getStylesheets().add(getClass().getResource("mainStyle.css").toExternalForm());
 		window.setScene(scene);
+		scene.getStylesheets().add(getClass().getResource("mainStyle.css").toExternalForm());
 		window.showAndWait();
 	}
 

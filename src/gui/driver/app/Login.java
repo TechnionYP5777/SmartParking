@@ -67,27 +67,17 @@ public class Login extends AbstractWindow {
 		final PasswordField passInput = new PasswordField();
 		passInput.setPromptText("Password");
 		final Hyperlink forgotPass = new Hyperlink();
-
 		forgotPass.setText("Forgot Password?");
+		
+		final Button muteButton = new Button();
+		String image =  (AbstractWindow.mediaPlayer.isMute() ? "mute_button.png" : "unmute_button.png");
+		setButtonGraphic (muteButton, image);
+		
 		forgotPass.setOnAction(e -> new GetPassByMail().display(primaryStage, WindowEnum.LOG_IN));
-
-		final Button buttonMute = new Button();
-		buttonMute.setOnAction(e -> {
-			if (mediaPlayer.isMute()) {
-				mediaPlayer.setMute(false);
-				buttonMute.getStyleClass().remove("button-muteON");
-				buttonMute.getStyleClass().add("button-muteOFF");
-				setButtonGraphic (buttonMute, "unmute_button.png"); 
-			} else {
-				mediaPlayer.setMute(true);
-				buttonMute.getStyleClass().remove("button-muteOFF");
-				buttonMute.getStyleClass().add("button-muteON");
-				setButtonGraphic (buttonMute, "mute_button.png");
-			}
-		});
-		buttonMute.getStyleClass().add("button-muteOFF");
-		setButtonGraphic (buttonMute, "unmute_button.png");
-
+	
+		muteButton.setOnAction(e -> UtilMethods.mute(mediaPlayer, AbstractWindow.muteButtonsAL));
+		muteButtonsAL.add(muteButton);
+		
 		final Button loginButton = new Button(), backButton = new Button();
 		setButtonGraphic (loginButton, "yes_button.png");
 		setButtonGraphic (backButton, "back_button.png");
@@ -99,7 +89,7 @@ public class Login extends AbstractWindow {
 		});
 		final HBox hbox = new HBox(20);
 		hbox.setPadding(new Insets(10, 10, 10, 10));
-		GridPane.setConstraints(buttonMute, 3,0);
+		GridPane.setConstraints(muteButton, 3,0);
 		GridPane.setConstraints(title, 0, 1);
 		GridPane.setColumnSpan(title, 2);
 		GridPane.setConstraints(user, 0, 2);
@@ -111,7 +101,7 @@ public class Login extends AbstractWindow {
 		GridPane.setConstraints(forgotPass, 2, 5);
 
 
-		grid.getChildren().addAll(buttonMute, title, user, nameInput, pass, passInput, hbox, forgotPass);
+		grid.getChildren().addAll(muteButton, title, user, nameInput, pass, passInput, hbox, forgotPass);
 		loginButton.setOnAction(e -> {
 			if (!login.userLogin(nameInput.getText(), passInput.getText()))
 				new AlertBox().display("Login failed", "Car Number/Password is incorrect.");
