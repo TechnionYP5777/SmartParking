@@ -48,12 +48,14 @@ public class ChooseAction extends AbstractWindow {
 		window.initModality(Modality.APPLICATION_MODAL);
 	}
 	
+/*
+	//set button graphics for all button in class
 	public void setButtonGraphic(Button b, String image) {
 		b.setGraphic(new ImageView(new Image(getClass().getResourceAsStream(image))));
-		b.getStyleClass().add("button-go");
-		
+		b.getStyleClass().add("button-go");	
 	}
-
+	*/
+	
 	public void display(final Stage primaryStage, final WindowEnum prevWindow) {
 		window.setTitle("What Would you like to do?");
 		window.setMinWidth(750);

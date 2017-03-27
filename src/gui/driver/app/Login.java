@@ -15,7 +15,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -37,15 +36,15 @@ public class Login extends AbstractWindow {
 		window = new Stage();
 		window.getIcons().add(new Image(getClass().getResourceAsStream("Smart_parking_icon.png")));
 	}
-
+	
 	public void display(final Stage primaryStage, final WindowEnum __) {
 		window = primaryStage;
 		grid = new GridPane();
 		grid.setPadding(new Insets(20, 20, 20, 20));
 		grid.setVgap(8);
 		grid.setHgap(10);
-		window.setWidth(480);
-		window.setHeight(310);
+		window.setWidth(600);
+		window.setHeight(440);
 
 		// title
 		final DropShadow shadow = new DropShadow();
@@ -61,36 +60,37 @@ public class Login extends AbstractWindow {
 		// user
 		final Label user = new Label("Car Number");
 		final TextField nameInput = new TextField();
-		nameInput.setPromptText("car number");
+		nameInput.setPromptText("Car Number");
 
 		// password
 		final Label pass = new Label("Password");
 		final PasswordField passInput = new PasswordField();
-		passInput.setPromptText("password");
+		passInput.setPromptText("Password");
 		final Hyperlink forgotPass = new Hyperlink();
 
 		forgotPass.setText("Forgot Password?");
 		forgotPass.setOnAction(e -> new GetPassByMail().display(primaryStage, WindowEnum.LOG_IN));
 
-		final Button buttonMute = new Button("MUTE");
+		final Button buttonMute = new Button();
 		buttonMute.setOnAction(e -> {
 			if (mediaPlayer.isMute()) {
 				mediaPlayer.setMute(false);
-				buttonMute.setText("MUTE");
 				buttonMute.getStyleClass().remove("button-muteON");
 				buttonMute.getStyleClass().add("button-muteOFF");
+				setButtonGraphic (buttonMute, "unmute_button.png"); 
 			} else {
 				mediaPlayer.setMute(true);
-				buttonMute.setText("UNMUTE");
 				buttonMute.getStyleClass().remove("button-muteOFF");
 				buttonMute.getStyleClass().add("button-muteON");
+				setButtonGraphic (buttonMute, "mute_button.png");
 			}
 		});
 		buttonMute.getStyleClass().add("button-muteOFF");
+		setButtonGraphic (buttonMute, "unmute_button.png");
 
-		final Button loginButton = new Button("Login"), backButton = new Button();
-		backButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("back_button.png"))));
-		backButton.getStyleClass().add("button-go");
+		final Button loginButton = new Button(), backButton = new Button();
+		setButtonGraphic (loginButton, "yes_button.png");
+		setButtonGraphic (backButton, "back_button.png");
 		backButton.setOnAction(e -> {
 			// move to editing my details
 			window.close();
@@ -99,28 +99,27 @@ public class Login extends AbstractWindow {
 		});
 		final HBox hbox = new HBox(20);
 		hbox.setPadding(new Insets(10, 10, 10, 10));
-		GridPane.setConstraints(title, 0, 0);
+		GridPane.setConstraints(buttonMute, 3,0);
+		GridPane.setConstraints(title, 0, 1);
 		GridPane.setColumnSpan(title, 2);
-		GridPane.setConstraints(user, 0, 1);
-		GridPane.setConstraints(nameInput, 1, 1);
-		GridPane.setConstraints(pass, 0, 2);
-		GridPane.setConstraints(passInput, 1, 2);
-		// GridPane.setConstraints(loginButton, 1, 3);
-		// GridPane.setConstraints(backButton,2,3);
-		GridPane.setConstraints(hbox, 1, 3);
-		GridPane.setConstraints(forgotPass, 2, 4);
-
+		GridPane.setConstraints(user, 0, 2);
+		GridPane.setConstraints(nameInput, 1, 2);
+		GridPane.setConstraints(pass, 0, 3);
+		GridPane.setConstraints(passInput, 1, 3);
 		hbox.getChildren().addAll(loginButton, backButton);
-		grid.getChildren().addAll(title, user, nameInput, pass, passInput, hbox, forgotPass);
+		GridPane.setConstraints(hbox, 1, 4);
+		GridPane.setConstraints(forgotPass, 2, 5);
+
+
+		grid.getChildren().addAll(buttonMute, title, user, nameInput, pass, passInput, hbox, forgotPass);
 		loginButton.setOnAction(e -> {
 			if (!login.userLogin(nameInput.getText(), passInput.getText()))
 				new AlertBox().display("Login failed", "Car Number/Password is incorrect.");
 			else {
-
+				navigate = new NavigationController(login.getUser());
 				final AlertBox MB = new AlertBox();
 				MB.display("Please Wait",
 						"Connecting to server. \nThis might take a Few seconds. \nPlease confirm and wait patiently");
-				navigate = new NavigationController(login.getUser());
 				MB.window.close();
 
 				window.close();

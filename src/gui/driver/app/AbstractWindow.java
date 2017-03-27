@@ -3,6 +3,8 @@ package gui.driver.app;
 import java.util.ArrayList;
 
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import logic.LoginManager;
@@ -28,6 +30,12 @@ public abstract class AbstractWindow {
 
 	public Stage getStage() {
 		return window;
+	}
+	
+	//set button graphics for all button in class
+	public void setButtonGraphic(Button b, String image) {
+		b.setGraphic(new ImageView(new Image(getClass().getResourceAsStream(image))));
+		b.getStyleClass().add("button-go");	
 	}
 
 }
