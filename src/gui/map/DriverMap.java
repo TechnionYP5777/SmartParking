@@ -5,10 +5,12 @@ package gui.map;
 
 import org.parse4j.ParseException;
 
+import com.lynden.gmapsfx.javascript.object.LatLong;
 import com.lynden.gmapsfx.service.directions.DirectionStatus;
 import com.lynden.gmapsfx.service.directions.DirectionsRenderer;
 import com.lynden.gmapsfx.service.directions.DirectionsRequest;
 import com.lynden.gmapsfx.service.directions.DirectionsResult;
+import com.lynden.gmapsfx.service.directions.DirectionsWaypoint;
 import com.lynden.gmapsfx.service.directions.TravelModes;
 
 import Exceptions.NotExists;
@@ -27,11 +29,8 @@ public class DriverMap extends PmMap {
 	private boolean SeconedCall;
 
 	public DriverMap(final MapLocation fromLogic, final MapLocation toLogic, final MapLocation realtoLogic) {
-		this(fromLogic.getLat() + ", " + fromLogic.getLon(), toLogic.getLat() + ", " + toLogic.getLon()); // till
-																											// DB
-																											// works
-																											// fine...
-
+		this(fromLogic.getLat() + ", " + fromLogic.getLon(), toLogic.getLat() + ", " + toLogic.getLon());
+		// till DB works fine
 		from = fromLogic;
 		to = toLogic;
 		realto = realtoLogic;
@@ -40,12 +39,6 @@ public class DriverMap extends PmMap {
 
 	public DriverMap(final String fromLogic, final String toLogic) {
 		super(fromLogic, toLogic);
-	}
-
-	// Don't want someone to create this kind of map without origin and
-	// destination
-	@SuppressWarnings({ "unused" })
-	private DriverMap() {
 	}
 
 	@Override
@@ -69,13 +62,17 @@ public class DriverMap extends PmMap {
 			}
 		scene.getWindow().sizeToScene();
 	}
+	
+	public DirectionsRequest getDirectionsWithWayPoint() {
+		return new DirectionsRequest(new LatLong(from.getLat(), from.getLon()),
+				new LatLong(realto.getLat(), realto.getLon()), TravelModes.DRIVING,
+				new DirectionsWaypoint[] { new DirectionsWaypoint(new LatLong(to.getLat(), to.getLon())) });
+	}
 
 	@Override
 	public void directionsReceived(final DirectionsResult __, final DirectionStatus s) {
-		// TODO Auto-generated method stub
 		super.directionsReceived(__, s);
-		if (SeconedCall)
-			return;
+		if (SeconedCall) return;
 		directionsService.getRoute(
 				new DirectionsRequest(toLogic, realto.getLat() + "," + realto.getLon(), TravelModes.WALKING), this,
 				new DirectionsRenderer(true, mapComponent.getMap(), directionsPane));
