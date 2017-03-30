@@ -74,7 +74,7 @@ public class PmMap extends AbstractWindow implements MapComponentInitializedList
 	protected BorderPane bp;
 	protected ToolBar tb;
 
-	public PmMap(final String fromLogic, final String toLogic) {
+	public PmMap(String fromLogic, String toLogic) {
 		this.fromLogic = fromLogic;
 		this.toLogic = toLogic;
 	}
@@ -84,7 +84,7 @@ public class PmMap extends AbstractWindow implements MapComponentInitializedList
 		toLogic = null;
 	}
 
-	public PmMap(final MapLocation from, final MapLocation to) {
+	public PmMap(MapLocation from, MapLocation to) {
 		fromLogic = null;
 		toLogic = null;
 	}

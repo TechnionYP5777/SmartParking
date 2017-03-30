@@ -28,7 +28,7 @@ public class DriverMap extends PmMap {
 	private MapLocation realto;
 	private boolean SeconedCall;
 
-	public DriverMap(final MapLocation fromLogic, final MapLocation toLogic, final MapLocation realtoLogic) {
+	public DriverMap(MapLocation fromLogic, MapLocation toLogic, MapLocation realtoLogic) {
 		this(fromLogic.getLat() + ", " + fromLogic.getLon(), toLogic.getLat() + ", " + toLogic.getLon());
 		// till DB works fine
 		from = fromLogic;
@@ -37,20 +37,19 @@ public class DriverMap extends PmMap {
 		// this(StubFrom,StubTo);
 	}
 
-	public DriverMap(final String fromLogic, final String toLogic) {
+	public DriverMap(String fromLogic, String toLogic) {
 		super(fromLogic, toLogic);
 	}
 
 	@Override
 	public void mapInitialized() {
 		super.mapInitialized();
-		if (fromLogic == null && toLogic == null)
-			return;
+		if (fromLogic == null && toLogic == null) return;
 		if (from == null || to == null) {
 			directionsService.getRoute(new DirectionsRequest("technion", "haifa university", TravelModes.DRIVING), this,
 					new DirectionsRenderer(true, mapComponent.getMap(), directionsPane));
 			tb.getItems().addAll(new Label("Origin:" + fromLogic), new Label("Destination:" + toLogic));
-		} else
+		} else {
 			try {
 				final Destination dStart = new Destination(from);
 				directionsService.getRoute(new DirectionsRequest(fromLogic, toLogic, TravelModes.DRIVING), this,
@@ -60,6 +59,8 @@ public class DriverMap extends PmMap {
 			} catch (NotExists | ParseException ¢) {
 				LogPrinter.createLogFile(¢);
 			}
+		
+		}
 		scene.getWindow().sizeToScene();
 	}
 	
@@ -73,6 +74,7 @@ public class DriverMap extends PmMap {
 	public void directionsReceived(final DirectionsResult __, final DirectionStatus s) {
 		super.directionsReceived(__, s);
 		if (SeconedCall) return;
+		//Should draw second route in different color
 		directionsService.getRoute(
 				new DirectionsRequest(toLogic, realto.getLat() + "," + realto.getLon(), TravelModes.WALKING), this,
 				new DirectionsRenderer(true, mapComponent.getMap(), directionsPane));
