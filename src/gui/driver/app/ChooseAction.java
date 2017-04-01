@@ -63,7 +63,7 @@ public class ChooseAction extends AbstractWindow {
 		vbox.setPadding(new Insets(10, 10, 10, 10));
 		isLinuxOS = "Linux".equals(System.getProperty("os.name"));
 
-		final URL resource = getClass().getResource("sound.mp3");
+		final URL resource = getClass().getResource("sound1.wav");
 		mediaPlayer = new MediaPlayer(new Media(resource + ""));
 		mediaPlayer.setOnEndOfMedia(() -> mediaPlayer.seek(Duration.ZERO));
 		mediaPlayer.play();
