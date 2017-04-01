@@ -15,7 +15,6 @@ coverage:
     changes: no
 
   ignore: 
-   - "SmartParking/test/*"
    - "SmartParking/src/gui/driver/app/*" 
    
 # Don't post a comment on pull requests.
