@@ -1,5 +1,4 @@
 # SmartParking 
-![](https://travis-ci.org/TechnionYP5777/SmartParking.svg?branch=master)
 
 ![](http://i67.tinypic.com/nmzwpw.png)
 
