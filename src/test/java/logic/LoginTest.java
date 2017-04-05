@@ -58,11 +58,11 @@ public class LoginTest {
 			Assert.assertEquals("0000000", ret.getString("carNumber"));
 		} catch (final ParseException ¢) {
 			LogPrinter.createLogFile(¢);
-			//¢.printsert.fail();
+			// ¢.printsert.fail();
 		} catch (final LoginException ¢) {
 			// TODO Auto-generated catch block
 			LogPrinter.createLogFile(¢);
-			
+
 		}
 	}
 
@@ -82,7 +82,7 @@ public class LoginTest {
 			lg.deleteUser();
 		} catch (ParseException | LoginException ¢) {
 			LogPrinter.createLogFile(¢);
-			
+
 			Assert.fail();
 		}
 	}
@@ -91,7 +91,7 @@ public class LoginTest {
 	public void test06() {
 		final LoginManager lg = new LoginManager();
 		Assert.assertEquals("User already exist",
-				lg.userValueCheck("David", "1234567890", "david@gmail.com", "0000000"));
+				lg.userValueCheck("David", "0534567890", "david@gmail.com", "0000000"));
 
 		// name contains integer
 		try {
@@ -161,7 +161,7 @@ public class LoginTest {
 			}
 		} catch (ParseException | LoginException ¢) {
 			LogPrinter.createLogFile(¢);
-			
+
 			Assert.fail();
 		}
 	}
@@ -190,7 +190,7 @@ public class LoginTest {
 			lg.deleteUser();
 		} catch (ParseException | LoginException ¢) {
 			LogPrinter.createLogFile(¢);
-			
+
 			Assert.fail();
 		}
 	}
@@ -221,7 +221,7 @@ public class LoginTest {
 			Assert.assertEquals(user.getSticker(), tmpUser.getSticker());
 		} catch (final LoginException ¢) {
 			LogPrinter.createLogFile(¢);
-			
+
 			Assert.fail();
 		}
 	}
@@ -233,7 +233,7 @@ public class LoginTest {
 			new User("0000000").deleteParseObject();
 		} catch (final Exception ¢) {
 			LogPrinter.createLogFile(¢);
-			
+
 		}
 	}
 }
