@@ -20,7 +20,7 @@ public class UserTest {
 	public void BeforeUserTest() {
 		try {
 			// making a new user in the database for all of the tests
-			new User("Test User", "Test", "0500000000", "0000000", "test@gmail.com", StickersColor.BLUE, null);
+			new User("Test User", "Test", "0500000000", "0000001", "test1@gmail.com", StickersColor.BLUE, null);
 		} catch (final ParseException ¢) {
 			LogPrinter.createLogFile(¢);
 		}
@@ -34,7 +34,7 @@ public class UserTest {
 	public void test01() {
 		User user = null;
 		try {
-			user = new User("0000000");
+			user = new User("0000001");
 			if (user != null)
 				user.setCurrentParking(new ParkingSlot("DavidSlot", ParkingSlotStatus.FREE, StickersColor.RED,
 						StickersColor.RED, new MapLocation(32.778153, 35.021855), new Date()));
@@ -60,9 +60,9 @@ public class UserTest {
 	@Test
 	public void test02() {
 		try {
-			final User user = new User("0000000");
-			final ParkingSlot ps = new ParkingSlot("DavidSlot2", ParkingSlotStatus.FREE, StickersColor.RED, StickersColor.RED,
-					new MapLocation(32.778153, 35.021855), new Date());
+			final User user = new User("0000001");
+			final ParkingSlot ps = new ParkingSlot("DavidSlot2", ParkingSlotStatus.FREE, StickersColor.RED,
+					StickersColor.RED, new MapLocation(32.778153, 35.021855), new Date());
 			if (user != null)
 				user.setCurrentParking(ps);
 			Assert.assertEquals(user.getCurrentParking().getName(), "DavidSlot2");
@@ -81,7 +81,7 @@ public class UserTest {
 	@Test
 	public void test03() {
 		try {
-			final User user = new User("0000000");
+			final User user = new User("0000001");
 			if (user != null)
 				user.setCurrentParking(new ParkingSlot("DavidSlot3", ParkingSlotStatus.FREE, StickersColor.RED,
 						StickersColor.RED, new MapLocation(32.778153, 35.021855), new Date()));
@@ -110,7 +110,7 @@ public class UserTest {
 	@Test
 	public void test04() {
 		try {
-			final User user = new User("0000000");
+			final User user = new User("0000001");
 			if (user != null)
 				user.setCurrentParking(new ParkingSlot("DavidSlot3", ParkingSlotStatus.FREE, StickersColor.RED,
 						StickersColor.RED, new MapLocation(32.778153, 35.021855), new Date()));
@@ -137,9 +137,9 @@ public class UserTest {
 	@Test
 	public void test05() {
 		try {
-			final User user = new User("0000000");
-			Assert.assertEquals(user.getCarNumber(), "0000000");
-			Assert.assertEquals(user.getEmail(), "test@gmail.com");
+			final User user = new User("0000001");
+			Assert.assertEquals(user.getCarNumber(), "0000001");
+			Assert.assertEquals(user.getEmail(), "test1@gmail.com");
 			Assert.assertEquals(user.getName(), "Test User");
 			Assert.assertEquals(user.getPassword(), "Test");
 			Assert.assertEquals(user.getPhoneNumber(), "0500000000");
@@ -163,7 +163,7 @@ public class UserTest {
 	@Test
 	public void test06() {
 		try {
-			final User tmpUser = new User("0000000"), user = new User(tmpUser.getParseObject());
+			final User tmpUser = new User("0000001"), user = new User(tmpUser.getParseObject());
 			Assert.assertEquals(user.getCarNumber(), tmpUser.getCarNumber());
 			Assert.assertEquals(user.getEmail(), tmpUser.getEmail());
 			Assert.assertEquals(user.getName(), tmpUser.getName());
@@ -180,7 +180,7 @@ public class UserTest {
 	public void AfterUserTest() {
 		try {
 			// delete the template user from the database
-			new User("0000000").deleteParseObject();
+			new User("0000001").deleteParseObject();
 		} catch (final Exception ¢) {
 			LogPrinter.createLogFile(¢);
 		}
