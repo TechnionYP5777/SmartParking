@@ -13,9 +13,11 @@ export class HomePage {
   map: any;
   geolocation: Geolocation
   source: any;
-  destination: any;
+  drivingDestination: any;
+  walkingDestination: any;
   directionsService: any;
   directionsDisplay: any;
+  directionsDisplayWalk: any;
   i: number;
   constructor(public navCtrl: NavController) {}
   
@@ -37,12 +39,31 @@ export class HomePage {
      this.i = 0;
      map.addListener('click',(e) => this.placeMarkerAndPanTo(e.latLng, map));
      this.directionsDisplay.setMap(map);
+     this.directionsDisplayWalk = new google.maps.DirectionsRenderer({
+        polylineOptions: {
+          strokeColor: "red"
+        }
+     });
+     this.directionsDisplayWalk.setMap(map);
   }
   calculateAndDisplayRoute(directionsService, directionsDisplay) {
         directionsService.route({
           origin: this.source.position,
-          destination: this.destination.position,
+          destination: this.drivingDestination.position,
           travelMode: 'DRIVING'
+        }, function(response, status) {
+          if (status === 'OK') {
+            directionsDisplay.setDirections(response);
+          } else {
+            window.alert('Directions request failed due to ' + status);
+          }
+        });
+  }
+  calculateAndDisplayRouteWalking(directionsService, directionsDisplay) {
+        directionsService.route({
+          origin: this.drivingDestination.position,
+          destination: this.walkingDestination.position,
+          travelMode: 'WALKING'
         }, function(response, status) {
           if (status === 'OK') {
             directionsDisplay.setDirections(response);
@@ -71,13 +92,16 @@ export class HomePage {
      position: latLng,
      map: map
     });
-    if ( this.i%2 == 0) {
+    if ( this.i%3 == 0) {
         this.source = marker;
+    } else if (this.i%3 == 1) {
+        this.drivingDestination = marker;
     } else {
-        this.destination = marker;
+        this.walkingDestination = marker;
     }
-    if ( this.i > 0 ) {
+    if ( this.i > 1 ) {
        this.calculateAndDisplayRoute(this.directionsService, this.directionsDisplay);
+       this.calculateAndDisplayRouteWalking(this.directionsService, this.directionsDisplayWalk);
     }
     this.i++;
     map.panTo(latLng);
