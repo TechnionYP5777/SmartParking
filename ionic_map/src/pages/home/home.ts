@@ -17,7 +17,7 @@ export class HomePage {
   ionViewDidLoad(){
     this.loadMap();
   }
- loadMap(){
+  loadMap(){
 	this.geolocation = new Geolocation();
 	this.geolocation.getCurrentPosition().then((position) => {
         let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
@@ -27,8 +27,16 @@ export class HomePage {
             mapTypeId: google.maps.MapTypeId.ROADMAP
          }
         this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
+        this.map.addListener('click',(e) => this.placeMarkerAndPanTo(e.latLng, this.map));
        }, (err) => {
            console.log(err);
        });
+  }
+  placeMarkerAndPanTo(latLng, map){
+    var marker = new google.maps.Marker({
+     position: latLng,
+     map: map
+    });
+    map.panTo(latLng);
   } 
 }
