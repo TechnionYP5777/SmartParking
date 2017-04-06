@@ -51,7 +51,7 @@ public class populateDB {
 	}
 
 	private static void insertParkingSlots() throws Exception {
-		for (final String line : getLinesFromFile(new File("src/util/parkingSlots.txt").toPath())) {
+		for (final String line : getLinesFromFile(new File("src/main/java/util/parkingSlots.txt").toPath())) {
 			System.out.println("Inserting the following slot:");
 			System.out.println(line);
 			final String[] input = line.split(" ");
@@ -64,7 +64,7 @@ public class populateDB {
 	}
 
 	private static void insertParkingArea() throws Exception {
-		for (final String line : getLinesFromFile(new File("src/util/parkingArea.txt").toPath())) {
+		for (final String line : getLinesFromFile(new File("src/main/java/util/parkingArea.txt").toPath())) {
 			System.out.println("Inserting the following area:");
 			System.out.println(line);
 			final String[] input = line.split(" ");
@@ -78,7 +78,7 @@ public class populateDB {
 	}
 
 	private static void insertUsers() throws Exception {
-		for (final String line : getLinesFromFile(new File("src/util/Users.txt").toPath())) {
+		for (final String line : getLinesFromFile(new File("src/main/java/util/Users.txt").toPath())) {
 			System.out.println("Inserting the following users:");
 			System.out.println(line);
 			final String[] input = line.split(" ");
@@ -92,7 +92,7 @@ public class populateDB {
 	}
 
 	private static void insertParkingAreas() throws Exception {
-		for (final String line : getLinesFromFile(new File("src/util/parkingAreas.txt").toPath())) {
+		for (final String line : getLinesFromFile(new File("src/main/java/util/parkingAreas.txt").toPath())) {
 			System.out.println("Inserting the following areas:");
 			System.out.println(line);
 			final String[] input = line.split(" ");
