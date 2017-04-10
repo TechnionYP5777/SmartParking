@@ -4,7 +4,6 @@
 
 [![Build Status](https://travis-ci.org/TechnionYP5777/SmartParking.png)](https://travis-ci.org/TechnionYP5777/SmartParking) 
 
-[![codecov](https://codecov.io/gh/TechnionYP5777/SmartParking/branch/master/graph/badge.svg)](https://codecov.io/gh/TechnionYP5777/SmartParking)
 
 
 
