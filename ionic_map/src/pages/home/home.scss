@@ -2,5 +2,34 @@
      #map {
        width: 100%;
        height: 100%;
-     } 
+     }
+     #rightPanel {
+        font-family: 'Roboto','sans-serif';
+        line-height: 30px;
+        padding-left: 10px;
+      }
+
+      #rightPanel select, #rightPanel input {
+        font-size: 15px;
+      }
+
+      #rightPanel select {
+        width: 100%;
+      }
+
+      #rightPanel i {
+        font-size: 12px;
+      }
+      #rightPanel {
+        height: 100%;
+        float: right;
+        width: 390px;
+        overflow: auto;
+      }
+      #rightPanel {
+          float: none;
+          width: auto;
+      }
+
+ 
    }
