@@ -94,6 +94,14 @@ export class HomePage {
     });
     if ( this.i%3 == 0) {
         this.source = marker;
+        setTimeout(function(){
+          var circle = new google.maps.Circle({
+             map: map,
+             radius: 500,
+             fillColor: '#AA0000'
+          });
+          circle.bindTo('center', marker, 'position');
+        },1000);
     } else if (this.i%3 == 1) {
         this.drivingDestination = marker;
     } else {
