@@ -10,6 +10,7 @@ declare var google;
 export class HomePage {
  
   @ViewChild('map') mapElement: ElementRef;
+  @ViewChild('rightPanel') panelElement: ElementRef; 
   map: any;
   geolocation: Geolocation
   source: any;
@@ -39,6 +40,7 @@ export class HomePage {
      this.i = 0;
      map.addListener('click',(e) => this.placeMarkerAndPanTo(e.latLng, map));
      this.directionsDisplay.setMap(map);
+     this.directionsDisplay.setPanel(this.panelElement.nativeElement);
      this.directionsDisplayWalk = new google.maps.DirectionsRenderer({
         polylineOptions: {
           strokeColor: "red"
@@ -94,6 +96,14 @@ export class HomePage {
     });
     if ( this.i%3 == 0) {
         this.source = marker;
+        setTimeout(function(){
+          var circle = new google.maps.Circle({
+             map: map,
+             radius: 500,
+             fillColor: '#AA0000'
+          });
+          circle.bindTo('center', marker, 'position');
+        },1000);
     } else if (this.i%3 == 1) {
         this.drivingDestination = marker;
     } else {
@@ -101,7 +111,7 @@ export class HomePage {
     }
     if ( this.i > 1 ) {
        this.calculateAndDisplayRoute(this.directionsService, this.directionsDisplay);
-       this.calculateAndDisplayRouteWalking(this.directionsService, this.directionsDisplayWalk);
+       //this.calculateAndDisplayRouteWalking(this.directionsService, this.directionsDisplayWalk);
     }
     this.i++;
     map.panTo(latLng);
