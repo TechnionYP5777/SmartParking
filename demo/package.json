@@ -42,5 +42,5 @@
     "ionic-plugin-keyboard"
   ],
   "cordovaPlatforms": [],
-  "description": "a: An Ionic project"
+  "description": "demo: An Ionic project"
 }

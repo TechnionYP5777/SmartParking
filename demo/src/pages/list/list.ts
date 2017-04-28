@@ -15,6 +15,8 @@ export class ListPage {
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.icons = ['flask', 'wifi', 'beer', 'football', 'basketball', 'paper-plane',
     'american-football', 'boat', 'bluetooth', 'build'];
+
+    this.items = [];
     for(let i = 1; i < 11; i++) {
       this.items.push({
         title: 'Item ' + i,

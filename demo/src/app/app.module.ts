@@ -6,7 +6,8 @@ import { MyApp } from './app.component';
 import { HelloIonicPage } from '../pages/hello-ionic/hello-ionic';
 import { ItemDetailsPage } from '../pages/item-details/item-details';
 import { ListPage } from '../pages/list/list';
-import { LoginPage} from '../pages/login/login';
+import { LoginPage } from '../pages/login-page/login-page'; 
+import { RegisterPage } from '../pages/register-page/register-page'; 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -16,6 +17,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     HelloIonicPage,
     ItemDetailsPage,
     ListPage,
+    LoginPage, 
+    RegisterPage
   ],
   imports: [
     BrowserModule,
@@ -23,9 +26,12 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    MyApp, 
+    MyApp,
     HelloIonicPage,
-    ItemDetailsPage
+    ItemDetailsPage,
+    ListPage,
+    LoginPage,
+    RegisterPage
   ],
   providers: [
     StatusBar,

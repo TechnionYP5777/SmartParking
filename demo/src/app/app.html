@@ -1,7 +1,4 @@
-<ion-nav id="nav" [root]="rootPage" #nav swipeBackEnabled="false">
-</ion-nav>
-S
-<ion-menu [content]="nav">
+<ion-menu [content]="content">
 
   <ion-header>
     <ion-toolbar>
@@ -18,3 +15,5 @@ S
   </ion-content>
 
 </ion-menu>
+
+<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>
