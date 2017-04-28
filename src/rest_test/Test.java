@@ -1,18 +1,20 @@
 package rest_test;
 
+
+
 public class Test {
 	public String str;
-	public Integer num;
+	public String name;
 	public String getStr() {
 		return str;
 	}
 	public void setStr(String str) {
 		this.str = str;
 	}
-	public Integer getNum() {
-		return num;
+	public String getName() {
+		return name;
 	}
-	public void setNum(Integer num) {
-		this.num = num;
+	public void setName(String name) {
+		this.name = name;
 	}
 }
