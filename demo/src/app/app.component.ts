@@ -8,7 +8,7 @@ import { LoginPage } from '../pages/login-page/login-page';
 import { RegisterPage } from '../pages/register-page/register-page';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-
+import { MapPage } from '../pages/map/map';
 
 @Component({
   templateUrl: 'app.html'
@@ -31,9 +31,15 @@ export class MyApp {
     // set our app's pages
     this.pages = [
       { title: 'Hello Ionic', component: HelloIonicPage },
+<<<<<<< HEAD
       { title: 'My First List', component: ListPage }, 
       { title: 'Login', component: LoginPage },
       { title: 'Register', component: RegisterPage }
+=======
+      { title: 'My First List', component: ListPage },
+      { title: 'Login', component: LoginPage },
+      { title: 'Map', component: MapPage }
+>>>>>>> map_c
     ];
   }
 

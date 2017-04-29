@@ -2,15 +2,15 @@ import { Component, ViewChild, ElementRef } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 declare var google;
- 
+
 @Component({
-  selector: 'page-home',
-  templateUrl: 'home.html'
+  selector: 'page-map',
+  templateUrl: 'map.html'
 })
-export class HomePage {
- 
+export class MapPage {
+
   @ViewChild('map') mapElement: ElementRef;
-  @ViewChild('rightPanel') panelElement: ElementRef; 
+  @ViewChild('rightPanel') panelElement: ElementRef;
   map: any;
   geolocation: Geolocation
   source: any;
@@ -21,7 +21,7 @@ export class HomePage {
   directionsDisplayWalk: any;
   i: number;
   constructor(public navCtrl: NavController) {}
-  
+
   ionViewDidLoad(){
     this.loadMap2();
   }
@@ -73,7 +73,7 @@ export class HomePage {
             window.alert('Directions request failed due to ' + status);
           }
         });
-  }  
+  }
   loadMap(){
 	this.geolocation = new Geolocation();
 	this.geolocation.getCurrentPosition().then((position) => {
@@ -115,5 +115,5 @@ export class HomePage {
     }
     this.i++;
     map.panTo(latLng);
-  } 
+  }
 }
