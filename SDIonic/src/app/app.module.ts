@@ -8,7 +8,8 @@ import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 import { TabsPage } from '../pages/tabs/tabs';
-import {LoginService} from '../providers/LoginService';
+import {LoginService} from '../pages/login/login-service';
+import { HttpModule } from '@angular/http';
 
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -25,6 +26,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   ],
   imports: [
     BrowserModule,
+    HttpModule,
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
@@ -39,6 +41,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   providers: [
     StatusBar,
     SplashScreen,
+    LoginService,
     LoginPage,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]

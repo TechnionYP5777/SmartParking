@@ -8,14 +8,13 @@ import main.java.data.members.User;
 
 @RestController
 public class TestController {
-	@RequestMapping("/test")
+	@RequestMapping("/shahar")
 	public Test test() {
-
 		User u;
 		try {
 			u = new User("3209654");
 			Test t = new Test();
-			t.setName(u.getName());
+			t.setNum(u.getName());
 			t.setStr(u.getPhoneNumber());
 			return t;
 		} catch (LoginException e) {
