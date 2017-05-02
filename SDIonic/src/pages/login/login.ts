@@ -18,14 +18,10 @@ export class LoginPage {
   //this.num = serve.http.get('https://www.reddit.com/r/gifs/new/.json?limit=10').map(res=>res.json());
   }
   ionViewDidLoad() {
-  //this.str="hi";
-  this.presentAlert("BOOMMMMM");
-  //this.num="hello";
   this.serve.callHttp().subscribe(data => {
-  this.presentAlert("BLIBLIBLI");
+  this.presentAlert("Connecting to server...");
     this.str = data.str;
   this.num = data.num;
-  this.presentAlert("blablabla");
     });
   }
 
