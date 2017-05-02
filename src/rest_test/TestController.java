@@ -1,6 +1,6 @@
 package rest_test;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
+//import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -10,7 +10,7 @@ import main.java.data.members.User;
 @RestController
 public class TestController {
 	@RequestMapping("/shahar")
-	@CrossOrigin(origins = "http://localhost:8100")
+//	@CrossOrigin(origins = "http://localhost:8100")
 	public Test test() {
 		User u;
 		try {

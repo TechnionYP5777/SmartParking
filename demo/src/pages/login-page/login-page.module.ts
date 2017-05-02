@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
-import { LoginPage } from './login-page';
-import { MyApp } from './app.component';
+import { LoginPage } from '../pages/login-page/login-page'; 
 
 @NgModule({
   declarations: [

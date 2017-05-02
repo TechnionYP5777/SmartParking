@@ -50,10 +50,15 @@
     </ion-input>
   </ion-item>
 
-  <ion-item>
-    <ion-label floating>StickerColor</ion-label>
-    <ion-input [(ngModel)]="stickerColor"  type="stickerColor" value="">
-    </ion-input>
+<ion-item>
+    <ion-label>Sticker Color</ion-label>
+    <ion-select [(ngModel)]="sticker-color">
+      <ion-option value="blue">Blue</ion-option>
+      <ion-option value="white">White</ion-option>
+      <ion-option value="red">Red</ion-option>
+      <ion-option value="yellow">Yellow</ion-option>
+      <ion-option value="green">Green</ion-option>
+    </ion-select>
   </ion-item>
 
 
