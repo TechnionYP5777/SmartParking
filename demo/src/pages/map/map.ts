@@ -33,9 +33,13 @@ export class MapPage {
         center: {lat: 41.85, lng: -87.65}
      });
      this.geolocation = new Geolocation();
+     var infoWindow = new google.maps.InfoWindow;
      this.geolocation.getCurrentPosition().then((position) => {
         let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
         map.setCenter(latLng);
+	infoWindow.setPosition(latLng);
+       	infoWindow.setContent('Location found.');
+        infoWindow.open(map);
      });
      this.i = 0;
      map.addListener('click',(e) => this.placeMarkerAndPanTo(e.latLng, map));
