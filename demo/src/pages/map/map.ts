@@ -12,7 +12,7 @@ export class MapPage {
   @ViewChild('map') mapElement: ElementRef;
   @ViewChild('rightPanel') panelElement: ElementRef;
   map: any;
-  geolocation: Geolocation
+ // geolocation: Geolocation
   source: any;
   drivingDestination: any;
   walkingDestination: any;
@@ -28,18 +28,24 @@ export class MapPage {
   loadMap2() {
      this.directionsService = new google.maps.DirectionsService;
      this.directionsDisplay = new google.maps.DirectionsRenderer;
+     var currentLocationMarker;
      var map = new google.maps.Map(this.mapElement.nativeElement, {
         zoom: 15,
         center: {lat: 41.85, lng: -87.65}
      });
-     this.geolocation = new Geolocation();
-     var infoWindow = new google.maps.InfoWindow;
-     this.geolocation.getCurrentPosition().then((position) => {
+     var geolocation = new Geolocation();
+     geolocation.getCurrentPosition().then((position) => {
         let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
         map.setCenter(latLng);
-	infoWindow.setPosition(latLng);
-       	infoWindow.setContent('Location found.');
-        infoWindow.open(map);
+     	currentLocationMarker = new google.maps.Marker({
+        	position: latLng,
+        	icon: {
+                	path: google.maps.SymbolPath.CIRCLE,
+        	scale: 10
+        	},
+        	draggable: false,
+        	map: map
+     	});
      });
      this.i = 0;
      map.addListener('click',(e) => this.placeMarkerAndPanTo(e.latLng, map));
@@ -51,6 +57,13 @@ export class MapPage {
         }
      });
      this.directionsDisplayWalk.setMap(map);
+     setInterval(function(){
+  	geolocation.getCurrentPosition().then((position) => {
+        let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+	currentLocationMarker.setPosition(latLng);
+		console.log("new postion",latLng);
+	});
+     }, 5000);
   }
   calculateAndDisplayRoute(directionsService, directionsDisplay) {
         directionsService.route({
@@ -77,21 +90,6 @@ export class MapPage {
             window.alert('Directions request failed due to ' + status);
           }
         });
-  }
-  loadMap(){
-	this.geolocation = new Geolocation();
-	this.geolocation.getCurrentPosition().then((position) => {
-        let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-        let mapOptions = {
-            center: latLng,
-            zoom: 15,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-         }
-        this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
-        this.map.addListener('click',(e) => this.placeMarkerAndPanTo(e.latLng, this.map));
-       }, (err) => {
-           console.log(err);
-       });
   }
   placeMarkerAndPanTo(latLng, map){
     var marker = new google.maps.Marker({
