@@ -11,6 +11,7 @@ import { RegisterPage } from '../pages/register-page/register-page';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { MapPage } from '../pages/map/map';
+import { ChoosingPage } from '../pages/choosing-page/choosing-page';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { MapPage } from '../pages/map/map';
     ListPage,
     LoginPage,
     RegisterPage,
-    MapPage
+    MapPage,
+    ChoosingPage
   ],
   imports: [
     BrowserModule,
@@ -34,7 +36,8 @@ import { MapPage } from '../pages/map/map';
     ListPage,
     LoginPage,
     RegisterPage,
-    MapPage
+    MapPage,
+    ChoosingPage
   ],
   providers: [
     StatusBar,

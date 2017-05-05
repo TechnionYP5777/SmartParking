@@ -1,6 +1,8 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
+import { AlertController} from 'ionic-angular';
+import { ChoosingPage } from '../choosing-page/choosing-page';
 declare var google;
 
 @Component({
@@ -20,10 +22,13 @@ export class MapPage {
   directionsDisplay: any;
   directionsDisplayWalk: any;
   i: number;
-  constructor(public navCtrl: NavController) {}
+  constructor(public navCtrl: NavController, public alertCtrl: AlertController) {}
 
   ionViewDidLoad(){
     this.loadMap2();
+  }
+  changeLocation() {
+     this.navCtrl.push(ChoosingPage);
   }
   loadMap2() {
      this.directionsService = new google.maps.DirectionsService;

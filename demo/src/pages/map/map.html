@@ -12,6 +12,8 @@
  
 <ion-content>
   <div #map id="map"></div>
-  <div #rightPanel id="rightPanel">
- </div>
+  <div #rightPanel id="rightPanel"> </div>
+  <ion-fab top right edge>
+    <button ion-fab mini (click)="changeLocation()"><ion-icon name="changeLocation"></ion-icon></button>
+  </ion-fab>
 </ion-content>
