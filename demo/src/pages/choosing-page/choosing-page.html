@@ -21,9 +21,9 @@
   </ion-card-header>
 
   <ion-list radio-group>
-	<ion-item *ngFor="let q of sources">
-                <ion-label>{{q.title}}</ion-label>
-                <ion-radio [value]="q.title"></ion-radio>
+	<ion-item *ngFor="let p of sources">
+                <ion-label>{{p.title}}</ion-label>
+                <ion-radio [value]="p.title" (ionSelect)="rememberSrc(p)"></ion-radio>
         </ion-item>
   </ion-list>
 </ion-card>
@@ -35,7 +35,7 @@
   <ion-list radio-group>
 	<ion-item *ngFor="let p of dests">
     		<ion-label>{{p.title}}</ion-label>
-    		<ion-radio [value]="p.title"></ion-radio>
+    		<ion-radio [value]="p.title" (ionSelect)="rememberDest(p)"></ion-radio>
   	</ion-item>
   </ion-list>
 </ion-card>

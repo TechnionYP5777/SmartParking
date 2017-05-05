@@ -31,5 +31,11 @@ export class ChoosingPage {
      console.log("here");
      this.navCtrl.pop();
   }
+  rememberDest(dict:any){
+  	console.log(dict);
+  }
+  rememberSrc(dict:any){
+  	console.log(dict);
+  }
 
 }
