@@ -13,8 +13,15 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'choosing-page.html',
 })
 export class ChoosingPage {
-
+  sources:Array<{title: string, position:any}>;
+  dests:Array<{title: string, position:any}>;
   constructor(public navCtrl: NavController, public navParams: NavParams) {
+  	this.sources = [
+	{title:"taub",position:null},
+	{title:"ulman",position:null}];
+	this.dests = [
+        {title:"taub",position:null},
+        {title:"ulman",position:null}];
   }
 
   ionViewDidLoad() {

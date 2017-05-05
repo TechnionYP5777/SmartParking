@@ -20,18 +20,11 @@
     Source
   </ion-card-header>
 
-  <ion-list>
-    <button ion-item>
-      <ion-icon name="taub"></ion-icon>
-      Taub
-    </button>
-
-    <button ion-item>
-      <ion-icon name="ulman"></ion-icon>
-      Ulman
-    </button>
-
-
+  <ion-list radio-group>
+	<ion-item *ngFor="let q of sources">
+                <ion-label>{{q.title}}</ion-label>
+                <ion-radio [value]="q.title"></ion-radio>
+        </ion-item>
   </ion-list>
 </ion-card>
 <ion-card>
@@ -39,18 +32,11 @@
     Destination
   </ion-card-header>
 
-  <ion-list>
-    <button ion-item>
-      <ion-icon name="taub"></ion-icon>
-      Taub
-    </button>
-
-    <button ion-item>
-      <ion-icon name="ulman"></ion-icon>
-      Ulman
-    </button>
-
-
+  <ion-list radio-group>
+	<ion-item *ngFor="let p of dests">
+    		<ion-label>{{p.title}}</ion-label>
+    		<ion-radio [value]="p.title"></ion-radio>
+  	</ion-item>
   </ion-list>
 </ion-card>
 <button ion-button color="blue" (click)="goback()">Go</button>
