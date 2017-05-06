@@ -28,7 +28,16 @@ export class MapPage {
     this.loadMap2();
   }
   changeLocation() {
-     this.navCtrl.push(ChoosingPage);
+     this.navCtrl.push(ChoosingPage, 
+              { srcCallBack: this.setSrcLocation,
+                destCallBack: this.setDestLocation
+              });
+  }
+  setSrcLocation(position) {
+     console.log(position);
+  }
+  setDestLocation(position) {
+     console.log(position);
   }
   loadMap2() {
      this.directionsService = new google.maps.DirectionsService;

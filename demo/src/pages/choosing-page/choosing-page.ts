@@ -15,13 +15,19 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 export class ChoosingPage {
   sources:Array<{title: string, position:any}>;
   dests:Array<{title: string, position:any}>;
+  sourceLoc: any;
+  destLoc: any;
+  srcCallBack: any;
+  destCallBack: any;
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   	this.sources = [
-	{title:"taub",position:null},
-	{title:"ulman",position:null}];
+	{title:"taub",position:20},
+	{title:"ulman",position:30}];
 	this.dests = [
-        {title:"taub",position:null},
-        {title:"ulman",position:null}];
+        {title:"taub",position:20},
+        {title:"ulman",position:30}];
+        this.srcCallBack = navParams.get('srcCallBack');
+        this.destCallBack = navParams.get('destCallBack');
   }
 
   ionViewDidLoad() {
@@ -32,9 +38,11 @@ export class ChoosingPage {
      this.navCtrl.pop();
   }
   rememberDest(dict:any){
+        this.destCallBack(dict["position"]);
   	console.log(dict);
   }
   rememberSrc(dict:any){
+        this.srcCallBack(dict["position"]);
   	console.log(dict);
   }
 
