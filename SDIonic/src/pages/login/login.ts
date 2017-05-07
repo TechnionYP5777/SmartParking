@@ -12,6 +12,8 @@ import { AlertController } from 'ionic-angular';
 export class LoginPage {
   str: any;
   num: any;
+  checker: any;
+  
   serve: any;
   constructor(public navCtrl: NavController, public navParams: NavParams, serve: LoginService, public alertCtrl: AlertController) {
     this.serve = serve;
@@ -19,13 +21,15 @@ export class LoginPage {
   }
 
   ionViewDidLoad() {
+    this.checker="s";
     this.serve.tempLogin("3209654").then(data => {
+      this.checker="inside";
       if (data) {
         this.str = data.json().str;
         this.num = data.json().num;
       }
     });
-
+    this.checker="s";
   }
 
   usingGet() {
