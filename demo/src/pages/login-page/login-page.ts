@@ -19,11 +19,16 @@ export class LoginPage {
   }
 
   ionViewDidLoad() {       
-    this.serve.tempLogin("3209654").then(data => {});
+    //this.serve.tempLogin("3209654").then(data => {});
       //if (data) {
       //  this.str = data.json().str;
       //  this.num = data.json().num;
       //}
+  }
+  
+  
+  Login(carNumber,password){
+        this.serve.tempLogin(carNumber).then(data => {});
   }
 
   usingGet() {

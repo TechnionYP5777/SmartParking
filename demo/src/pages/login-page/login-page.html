@@ -20,8 +20,8 @@
 <ion-list>
 
   <ion-item>
-    <ion-label floating>Username</ion-label>
-    <ion-input [(ngModel)]="username" type="text" value=""></ion-input>
+    <ion-label floating>Car Number</ion-label>
+    <ion-input [(ngModel)]="carNumber" type="text" value=""></ion-input>
   </ion-item>
 
   <ion-item>
@@ -32,7 +32,7 @@
 </ion-list>
 
 <div padding>
-  <button  ion-button color="dark" style="margin-right: 16px" *ngIf="!isLoggedin" [navPush] = "signin" >Sign In</button>
+  <button  ion-button (click)="Login(carNumber,password)" color="dark" style="margin-right: 16px" *ngIf="!isLoggedin" [navPush] = "signin" >Sign In</button>
   <button  ion-button color="dark" style="margin-right: 16px" *ngIf="isLoggedin" [navPush] = "logout" >Logout</button>
     <a href="#/register-page" style="font-size: 14px" class="btn btn-link" size="8">New Here? Register!</a>
     </div>
