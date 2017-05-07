@@ -70,6 +70,15 @@ $colors: (
 
 @import "ionic.ionicons";
 
+$my_variable: #99ffff; 
+ 
+$checkbox-ios-background-color-on: #32db64;
+$checkbox-ios-icon-border-color-on: #fff;
+ 
+$checkbox-md-icon-background-color-on: #32db64;
+$checkbox-md-icon-background-color-off: #fff;
+$checkbox-md-icon-border-color-off: #cecece;
+$checkbox-md-icon-border-color-on: #32db64;
 
 // Fonts
 // --------------------------------------------------
