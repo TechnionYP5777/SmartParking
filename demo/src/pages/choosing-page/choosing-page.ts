@@ -21,11 +21,11 @@ export class ChoosingPage {
   destCallBack: any;
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   	this.sources = [
-	{title:"taub",position:20},
-	{title:"ulman",position:30}];
+	{title:"Taub Building",position:20},
+	{title:"Ulman Building",position:30}];
 	this.dests = [
-        {title:"taub",position:20},
-        {title:"ulman",position:30}];
+        {title:"Taub Building",position:20},
+        {title:"Ulman Building",position:30}];
         this.srcCallBack = navParams.get('srcCallBack');
         this.destCallBack = navParams.get('destCallBack');
   }
