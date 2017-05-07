@@ -26,8 +26,8 @@ export class LoginService {
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
 
     return new Promise(resolve => {
-      this.http.put('http://localhost:8080/david', value, { headers: headers }).subscribe(data => {
-        if (data) { // TODO
+      this.http.post('http://localhost:8080/User', value, { headers: headers }).subscribe(data => {
+        if (data.status == 200) {
           resolve(true);
         }
         else

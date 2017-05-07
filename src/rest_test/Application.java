@@ -8,9 +8,7 @@ import main.java.data.members.User;
 
 @SpringBootApplication
 public class Application {
-	
-	User u;
-	
+		
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }

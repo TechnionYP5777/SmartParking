@@ -13,6 +13,7 @@ export class LoginPage {
   str: any;
   num: any;
   checker: any;
+  count: any;
   
   serve: any;
   constructor(public navCtrl: NavController, public navParams: NavParams, serve: LoginService, public alertCtrl: AlertController) {
@@ -20,16 +21,12 @@ export class LoginPage {
     //this.num = serve.http.get('https://www.reddit.com/r/gifs/new/.json?limit=10').map(res=>res.json());
   }
 
-  ionViewDidLoad() {
-    this.checker="s";
-    this.serve.tempLogin("3209654").then(data => {
-      this.checker="inside";
-      if (data) {
-        this.str = data.json().str;
-        this.num = data.json().num;
-      }
-    });
-    this.checker="s";
+  ionViewDidLoad() {       
+    this.serve.tempLogin("3209654").then(data => {});
+      //if (data) {
+      //  this.str = data.json().str;
+      //  this.num = data.json().num;
+      //}
   }
 
   usingGet() {
