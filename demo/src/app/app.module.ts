@@ -13,6 +13,10 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { MapPage } from '../pages/map/map';
 import { ChoosingPage } from '../pages/choosing-page/choosing-page';
 
+
+import {LoginService} from '../pages/login-page/login-service';
+import { HttpModule } from '@angular/http';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -26,6 +30,7 @@ import { ChoosingPage } from '../pages/choosing-page/choosing-page';
   ],
   imports: [
     BrowserModule,
+    HttpModule,
     IonicModule.forRoot(MyApp),
   ],
   bootstrap: [IonicApp],
@@ -41,6 +46,7 @@ import { ChoosingPage } from '../pages/choosing-page/choosing-page';
   ],
   providers: [
     StatusBar,
+    LoginService,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]

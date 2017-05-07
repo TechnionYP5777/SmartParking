@@ -12,10 +12,8 @@ import { AlertController } from 'ionic-angular';
 export class LoginPage {
   str: any;
   num: any;
-  checker: any;
-  count: any;
-  
   serve: any;
+  
   constructor(public navCtrl: NavController, public navParams: NavParams, serve: LoginService, public alertCtrl: AlertController) {
     this.serve = serve;
     //this.num = serve.http.get('https://www.reddit.com/r/gifs/new/.json?limit=10').map(res=>res.json());
