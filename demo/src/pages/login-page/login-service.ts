@@ -19,6 +19,24 @@ export class LoginService {
     return Observable.throw('Server error');
   }
 
+  
+    userLogin(user,password) {
+    var value = "name=" + user+"&pass="+password;
+
+    var headers = new Headers();
+    headers.append('Content-Type', 'application/x-www-form-urlencoded');
+
+    return new Promise(resolve => {
+      this.http.post('http://localhost:8080/User', value, { headers: headers }).subscribe(data => {
+        if (data.status == 200) {
+          resolve(true);
+        }
+        else
+          resolve(false);
+      });
+    });
+  }
+  
   tempLogin(user) {
     var value = "name=" + user;
 

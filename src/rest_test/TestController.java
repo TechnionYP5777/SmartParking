@@ -31,7 +31,7 @@ public class TestController {
 		return null;
 	}
 
-	@RequestMapping(value = "/User", produces = "application/json")
+	@RequestMapping(value = "/tmpUser", produces = "application/json")
 	@ResponseBody
 	public Test login() {
 		
@@ -49,7 +49,7 @@ public class TestController {
 		return t;
 	}
 	
-	@RequestMapping(value = "/User", method = RequestMethod.POST, produces = "application/json")
+	@RequestMapping(value = "/tmpUser", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public void login(@RequestParam("name") String name) {
 		if(name!= null)
