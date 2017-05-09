@@ -13,19 +13,18 @@ export class LoginPage {
   str: any;
   num: any;
   serve: any;
+  
   constructor(public navCtrl: NavController, public navParams: NavParams, serve: LoginService, public alertCtrl: AlertController) {
     this.serve = serve;
     //this.num = serve.http.get('https://www.reddit.com/r/gifs/new/.json?limit=10').map(res=>res.json());
   }
 
-  ionViewDidLoad() {
-    this.serve.tempLogin("3209654").then(data => {
-      if (data) {
-        this.str = data.json().str;
-        this.num = data.json().num;
-      }
-    });
-
+  ionViewDidLoad() {       
+    this.serve.tempLogin("3209654").then(data => {});
+      //if (data) {
+      //  this.str = data.json().str;
+      //  this.num = data.json().num;
+      //}
   }
 
   usingGet() {
