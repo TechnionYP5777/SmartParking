@@ -12,7 +12,7 @@ declare var google;
 export class MapPage {
 
   @ViewChild('map') mapElement: ElementRef;
-  @ViewChild('rightPanel') panelElement: ElementRef;
+
   map: any;
  // geolocation: Geolocation
   source: any;
@@ -64,7 +64,10 @@ export class MapPage {
      this.i = 0;
      map.addListener('click',(e) => this.placeMarkerAndPanTo(e.latLng, map));
      this.directionsDisplay.setMap(map);
-     this.directionsDisplay.setPanel(this.panelElement.nativeElement);
+     this.mapElement.nativeElement.style.left = "300px";
+     let panel=document.getElementsByName("test_over_map")[0];
+     panel.style.backgroundColor="white";
+     this.directionsDisplay.setPanel(panel);
      this.directionsDisplayWalk = new google.maps.DirectionsRenderer({
         polylineOptions: {
           strokeColor: "red"

@@ -11,8 +11,11 @@
 
  
 <ion-content>
+<style>
+	#over_map {position: absolute; top:10px;left:10px; z-index:0;height:600px;width:300px;}
+</style>
   <div #map id="map"></div>
-  <div #rightPanel id="rightPanel"> </div>
+  <div id="over_map" name="test_over_map"> </div>
   <ion-fab top right edge>
     <button ion-fab mini (click)="changeLocation()"><ion-icon name="add"></ion-icon></button>
   </ion-fab>
