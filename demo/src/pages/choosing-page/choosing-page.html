@@ -20,7 +20,7 @@
     Source
   </ion-card-header>
 
-  <ion-list radio-group>
+  <ion-list radio-group class="page-choosing-page">
 	<ion-item *ngFor="let p of sources">
                 <ion-label>{{p.title}}</ion-label>
                 <ion-radio [value]="p.title" (ionSelect)="rememberSrc(p)"></ion-radio>
