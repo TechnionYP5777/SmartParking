@@ -28,7 +28,12 @@ export class LoginPage {
   
   
   Login(carNumber,password){
-        this.serve.tempLogin(carNumber).then(data => {});
+        this.str = "BLABLA"
+        this.serve.userLogin(carNumber,password).then(data => {});
+        this.serve.getDetails().subscribe(data => {
+          this.str = data.email;
+        });
+        this.presentAlert("Hello " + this.str);   
   }
 
   usingGet() {

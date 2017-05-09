@@ -20,8 +20,13 @@ export class LoginService {
   }
 
   
-    userLogin(user,password) {
-    var value = "name=" + user+"&pass="+password;
+    getDetails() {
+    return this.http.get('http://localhost:8080/User').map(res => res.json())
+      .catch(this.handleError);
+  }
+  
+    userLogin(carNumber,password) {
+    var value = "name=" + carNumber+"&pass="+password;
 
     var headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
