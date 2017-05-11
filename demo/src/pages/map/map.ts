@@ -22,21 +22,29 @@ export class MapPage {
   directionsDisplay: any;
   directionsDisplayWalk: any;
   i: number;
+  srcPosition: any;
+  dstPosition: any;
   constructor(public navCtrl: NavController, public alertCtrl: AlertController) {}
 
   ionViewDidLoad(){
     this.loadMap2();
   }
   changeLocation() {
+     //this.self = this;
      this.navCtrl.push(ChoosingPage, 
-              { srcCallBack: this.setSrcLocation,
-                destCallBack: this.setDestLocation
+              { googleObj: google,
+                mapPage: this
               });
   }
-  setSrcLocation(position) {
+  go() {
+     this.calculateAndDisplayRoute(this.directionsService, this.directionsDisplay);
+  }
+  setSrcPosition(position) {
+     this.srcPosition = position;
      console.log(position);
   }
-  setDestLocation(position) {
+  setDstPosition(position) {
+     this.dstPosition = position;
      console.log(position);
   }
   loadMap2() {
@@ -83,8 +91,8 @@ export class MapPage {
   }
   calculateAndDisplayRoute(directionsService, directionsDisplay) {
         directionsService.route({
-          origin: this.source.position,
-          destination: this.drivingDestination.position,
+          origin: this.srcPosition,
+          destination: this.dstPosition,
           travelMode: 'DRIVING'
         }, function(response, status) {
           if (status === 'OK') {

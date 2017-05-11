@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Geolocation } from '@ionic-native/geolocation';
 
 /**
  * Generated class for the ChoosingPage page.
@@ -19,15 +20,18 @@ export class ChoosingPage {
   destLoc: any;
   srcCallBack: any;
   destCallBack: any;
+  goCallBack: any;
+  mapPage: any;
+  googleObj: any;
   constructor(public navCtrl: NavController, public navParams: NavParams) {
-  	this.sources = [
-	{title:"Taub Building",position:20},
-	{title:"Ulman Building",position:30}];
+        this.googleObj = navParams.get('googleObj');
+  	this.sources =  
+	[{title:"Taub Building", position: new this.googleObj.maps.LatLng(32.7787,35.0)},
+	{title:"Ulman Building",position: new this.googleObj.maps.LatLng(18.210885,-67.140884)}];
 	this.dests = [
-        {title:"Taub Building",position:20},
-        {title:"Ulman Building",position:30}];
-        this.srcCallBack = navParams.get('srcCallBack');
-        this.destCallBack = navParams.get('destCallBack');
+        {title:"Taub Building", position: new this.googleObj.maps.LatLng(18.210885,-67.140884)},
+        {title:"Ulman Building", position:  new this.googleObj.maps.LatLng(32.7,35.0)}];
+        this.mapPage = navParams.get('mapPage');
   }
 
   ionViewDidLoad() {
@@ -35,14 +39,15 @@ export class ChoosingPage {
   }
   goback() {
      console.log("here");
+     this.mapPage.go();
      this.navCtrl.pop();
   }
   rememberDest(dict:any){
-        this.destCallBack(dict["position"]);
+        this.mapPage.setDstPosition(dict["position"]);
   	console.log(dict);
   }
   rememberSrc(dict:any){
-        this.srcCallBack(dict["position"]);
+        this.mapPage.setSrcPosition(dict["position"]);
   	console.log(dict);
   }
 
