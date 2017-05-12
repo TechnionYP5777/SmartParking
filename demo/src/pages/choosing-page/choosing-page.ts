@@ -50,5 +50,8 @@ export class ChoosingPage {
         this.mapPage.setSrcPosition(dict["position"]);
   	console.log(dict);
   }
-
+  changeToRecord(value:any){
+	this.mapPage.recordRoute=value.checked;
+  	console.log(value);
+  }
 }

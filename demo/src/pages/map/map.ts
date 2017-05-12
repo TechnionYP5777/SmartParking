@@ -24,6 +24,7 @@ export class MapPage {
   i: number;
   srcPosition: any;
   dstPosition: any;
+  recordRoute: boolean;
   constructor(public navCtrl: NavController, public alertCtrl: AlertController) {}
 
   ionViewDidLoad(){
@@ -37,7 +38,17 @@ export class MapPage {
               });
   }
   go() {
-     this.calculateAndDisplayRoute(this.directionsService, this.directionsDisplay);
+     if(this.recordRoute){
+	console.log("want to record")	
+     }
+     else{
+     	if(this.srcPosition && this.dstPosition ){
+		this.calculateAndDisplayRoute(this.directionsService, this.directionsDisplay);
+     	}else{
+		console.log("src or dst not defined");
+	}
+     }
+
   }
   setSrcPosition(position) {
      this.srcPosition = position;
@@ -135,10 +146,10 @@ export class MapPage {
     } else {
         this.walkingDestination = marker;
     }
-    if ( this.i > 1 ) {
-       this.calculateAndDisplayRoute(this.directionsService, this.directionsDisplay);
+    //if ( this.i > 1 ) {
+    //   this.calculateAndDisplayRoute(this.directionsService, this.directionsDisplay);
        //this.calculateAndDisplayRouteWalking(this.directionsService, this.directionsDisplayWalk);
-    }
+    //}
     this.i++;
     map.panTo(latLng);
   }
