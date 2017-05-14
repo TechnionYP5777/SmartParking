@@ -16,23 +16,22 @@ public class UserController {
 	@RequestMapping(value = "/User", produces = "application/json")
 	@ResponseBody
 	public ServerUser login() {
-		if (user == null)
-			user = new ServerUser();
-		return user;
+		return user != null ? user : (user = new ServerUser());
 	}
 
 	@RequestMapping(value = "/User", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
-	public void login(@RequestParam("name") String name,@RequestParam("pass") String pass) throws LoginException {
-		
-		if (name != null) {
-			LoginManager login = new LoginManager();
-			login.userLogin(name, pass);
-			user.setName(login.getUserName());
-			user.setCarNumber(login.getCarNumber());
-			user.setEmail(login.getEmail());
-			user.setPhoneNumber(login.getPhoneNumber());
-			user.setSticker(login.getSticker());
-		}
+	public void login(@RequestParam("name") String name, @RequestParam("pass") String pass) throws LoginException {
+
+		if (name == null)
+			return;
+		LoginManager login = new LoginManager();
+		if (!login.userLogin(name, pass))
+			return;
+		user.setName(login.getUserName());
+		user.setCarNumber(login.getCarNumber());
+		user.setEmail(login.getEmail());
+		user.setPhoneNumber(login.getPhoneNumber());
+		user.setSticker(login.getSticker());
 	}
 }
