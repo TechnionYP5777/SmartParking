@@ -19,7 +19,7 @@ export class LoginPage {
     //this.num = serve.http.get('https://www.reddit.com/r/gifs/new/.json?limit=10').map(res=>res.json());
   }
 
-  ionViewDidLoad() {}
+  ionViewDidLoad() { }
 
   getInfo() {
     this.serve.getDetails().subscribe(data => {
@@ -32,18 +32,18 @@ export class LoginPage {
   }
 
   Login(carNumber, password) {
+    let ref = this;
+  
     this.serve.userLogin(carNumber, password).subscribe(() => {
       console.log("use data here");
     }, err => {
       console.log(err);
     });
 
-    // delay here
-    // this.delay(10000);
-    
-    console.log("before info");
-    this.getInfo();
-    console.log("after info");
+    setTimeout(function() {
+      ref.getInfo();
+      
+    }, 5000);
   }
 
   usingGet() {
