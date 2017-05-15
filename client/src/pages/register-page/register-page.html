@@ -1,0 +1,70 @@
+<!--
+  Generated template for the RegisterPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+<ion-header>
+  <ion-navbar>
+    <button menuToggle *ngIf="!selectedItem">
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Register Page</ion-title>
+  </ion-navbar>
+</ion-header>
+
+</ion-header>
+
+
+<ion-content padding class="page-register-page">
+
+<ion-list>
+
+  <ion-item>
+    <ion-label floating>Username</ion-label>
+    <ion-input [(ngModel)]="username" type="text" value=""></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label floating>Password</ion-label>
+    <ion-input [(ngModel)]="password"  type="password" value=""></ion-input>
+  </ion-item>
+
+ <ion-item>
+    <ion-label floating>Phone Number</ion-label>
+    <ion-input [(ngModel)]="phoneNumber"  type="phoneNumber" value="">
+    </ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label floating>Car Number</ion-label>
+    <ion-input [(ngModel)]="carNumber"  type="carNumber" value="">
+    </ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label floating>E-Mail</ion-label>
+    <ion-input [(ngModel)]="email"  type="email" value="">
+    </ion-input>
+  </ion-item>
+
+<ion-item>
+    <ion-label>Sticker Color</ion-label>
+    <ion-select [(ngModel)]="sticker-color">
+      <ion-option value="blue">Blue</ion-option>
+      <ion-option value="white">White</ion-option>
+      <ion-option value="red">Red</ion-option>
+      <ion-option value="yellow">Yellow</ion-option>
+      <ion-option value="green">Green</ion-option>
+    </ion-select>
+  </ion-item>
+
+
+</ion-list>
+
+<div padding>
+  <button  ion-button color="dark"  (click)="login()" >Sign Up</button>
+</div>
+</ion-content>
