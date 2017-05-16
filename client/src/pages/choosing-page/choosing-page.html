@@ -35,7 +35,10 @@
   		</ion-item>
   	</ion-list>
    </ion-card>
-   <button ion-button color="blue" (click)="goback()">Go</button>
+   <button  ion-button (click)="goback()">
+    <ion-icon padding text-align: center round name="car">  </ion-icon>
+    GO!
+   </button>
    <ion-item>
   	<ion-label>record route</ion-label>
   	<ion-checkbox color="dark" checked="false" (ionChange)="changeToRecord($event)"></ion-checkbox>
