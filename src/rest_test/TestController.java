@@ -6,14 +6,42 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.*;
 
 import main.java.Exceptions.LoginException;
+import main.java.data.management.DBManager;
+import main.java.data.members.Destination;
+import main.java.data.members.MapLocation;
 import main.java.data.members.User;
+import main.java.gui.app.AbstractWindow;
+import main.java.logic.NavigationController;
+
 import org.springframework.stereotype.Controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.parse4j.ParseObject;
+import org.parse4j.ParseQuery;
 
 @Controller
 public class TestController {
 	User user;
-	
+
+	public TestController() {
+		DBManager.initialize();
+	}
+	/*
+	 * DBManager.initialize(); final ParseQuery<ParseObject> query =
+	 * ParseQuery.getQuery("Destination"); hmap = new HashMap<String,
+	 * Destination>(); try { final List<ParseObject> result = query.find();
+	 * 
+	 * if (result == null) System.out.println("empty"); for (final ParseObject
+	 * dest : result) { final String destName = dest.getString("name");
+	 * hmap.put(destName, new Destination(destName)); } } catch (final Exception
+	 * e) { System.out.println("exception..."); } }
+	 */
+
 	@RequestMapping(value = "/shahar")
 	// @CrossOrigin(origins = "http://localhost:8100")
 	public Test test() {
@@ -31,28 +59,50 @@ public class TestController {
 		return null;
 	}
 
+	@RequestMapping(value = "/Locations", produces = "application/json")
+	@ResponseBody
+	public String getLocations() {
+
+		final ParseQuery<ParseObject> query = ParseQuery.getQuery("Destination");
+		Map<String, MapLocation> hmap = new HashMap<String, MapLocation>();
+		try {
+			final List<ParseObject> result = query.find();
+			if (result == null)
+				System.out.println("empty");
+			for (final ParseObject dest : result) {
+				final String destName = dest.getString("name");
+				hmap.put(destName, new Destination(destName).getEntrance());
+			}
+		} catch (final Exception e) {
+			System.out.println("exception...");
+		}
+
+		JSONObject obj = new JSONObject(hmap);
+		System.out.println(hmap);
+		return obj.toString();
+	}
+
 	@RequestMapping(value = "/tmpUser", produces = "application/json")
 	@ResponseBody
 	public Test login() {
-		
+
 		Test t = new Test();
-		
-		if(user == null) {
+
+		if (user == null) {
 			t.setNum("");
 			t.setStr("");
-		}
-		else {
+		} else {
 			t.setNum(user.getName());
 			t.setStr(user.getPhoneNumber());
 		}
-		
+
 		return t;
 	}
-	
+
 	@RequestMapping(value = "/tmpUser", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public void login(@RequestParam("name") String name) {
-		if(name!= null)
+		if (name != null)
 			try {
 				user = new User(name);
 				Test t = new Test();
