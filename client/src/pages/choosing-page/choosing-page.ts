@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
-
+import { LocationService } from '../../providers/location-service';
 /**
  * Generated class for the ChoosingPage page.
  *
@@ -12,6 +12,7 @@ import { Geolocation } from '@ionic-native/geolocation';
 @Component({
   selector: 'page-choosing-page',
   templateUrl: 'choosing-page.html',
+  providers: [LocationService]
 })
 export class ChoosingPage {
   sources:Array<{title: string, position:any}>;
@@ -23,8 +24,9 @@ export class ChoosingPage {
   goCallBack: any;
   mapPage: any;
   googleObj: any;
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private locService: LocationService ) {
         this.googleObj = navParams.get('googleObj');
+        console.log(locService.getLocations());
   	this.sources =  
 	[{title:"Taub Building", position: new this.googleObj.maps.LatLng(32.7787,35.0)},
 	{title:"Ulman Building",position: new this.googleObj.maps.LatLng(18.210885,-67.140884)}];

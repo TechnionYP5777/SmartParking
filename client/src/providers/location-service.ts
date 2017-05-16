@@ -7,13 +7,13 @@ import 'rxjs/Rx';
 
 
 @Injectable()
-export class LocationsService {
+export class LocationService {
   constructor(public http: Http) {
-    console.log('Hello LocationsService Provider');
+    console.log('Hello LocationService Provider');
   }
-  
+
   getLocations() {
-   
+
     var headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
     var value = 'test';
@@ -21,5 +21,5 @@ export class LocationsService {
       .map(res => res.json());
   }
 
-  
+
 }
