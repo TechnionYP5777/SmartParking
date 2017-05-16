@@ -32,5 +32,10 @@
           width: auto;
       }
 
+      -webkit-animation: animateInSecondary ease-in 1;
+    animation: animateInSecondary ease-in 1;
+    -webkit-animation-duration: 750ms;
+    animation-duraton: 750ms;
+
 
    }

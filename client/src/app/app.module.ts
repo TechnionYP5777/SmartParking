@@ -21,8 +21,6 @@ import { HttpModule } from '@angular/http';
   declarations: [
     MyApp,
     HelloIonicPage,
-    ItemDetailsPage,
-    ListPage,
     LoginPage,
     RegisterPage,
     MapPage,
@@ -37,8 +35,6 @@ import { HttpModule } from '@angular/http';
   entryComponents: [
     MyApp,
     HelloIonicPage,
-    ItemDetailsPage,
-    ListPage,
     LoginPage,
     RegisterPage,
     MapPage,
