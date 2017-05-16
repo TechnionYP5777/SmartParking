@@ -28,20 +28,6 @@ import org.parse4j.ParseQuery;
 public class TestController {
 	User user;
 
-	public TestController() {
-		DBManager.initialize();
-	}
-	/*
-	 * DBManager.initialize(); final ParseQuery<ParseObject> query =
-	 * ParseQuery.getQuery("Destination"); hmap = new HashMap<String,
-	 * Destination>(); try { final List<ParseObject> result = query.find();
-	 * 
-	 * if (result == null) System.out.println("empty"); for (final ParseObject
-	 * dest : result) { final String destName = dest.getString("name");
-	 * hmap.put(destName, new Destination(destName)); } } catch (final Exception
-	 * e) { System.out.println("exception..."); } }
-	 */
-
 	@RequestMapping(value = "/shahar")
 	// @CrossOrigin(origins = "http://localhost:8100")
 	public Test test() {
@@ -57,29 +43,6 @@ public class TestController {
 		}
 
 		return null;
-	}
-
-	@RequestMapping(value = "/Locations", produces = "application/json")
-	@ResponseBody
-	public String getLocations() {
-
-		final ParseQuery<ParseObject> query = ParseQuery.getQuery("Destination");
-		Map<String, MapLocation> hmap = new HashMap<String, MapLocation>();
-		try {
-			final List<ParseObject> result = query.find();
-			if (result == null)
-				System.out.println("empty");
-			for (final ParseObject dest : result) {
-				final String destName = dest.getString("name");
-				hmap.put(destName, new Destination(destName).getEntrance());
-			}
-		} catch (final Exception e) {
-			System.out.println("exception...");
-		}
-
-		JSONObject obj = new JSONObject(hmap);
-		System.out.println(hmap);
-		return obj.toString();
 	}
 
 	@RequestMapping(value = "/tmpUser", produces = "application/json")
