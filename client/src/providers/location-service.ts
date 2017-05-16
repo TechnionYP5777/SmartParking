@@ -4,12 +4,11 @@ import 'rxjs/add/operator/map';
 import 'rxjs/Rx';
 
 @Injectable()
-export class LocationsService {
+export class LocationService {
     constructor(public http: Http) {
-        console.log('Hello LocationsService Provider');
+        console.log('Hello LocationService Provider');
     }
-
-    
+   
     getLocations() {
         return this.http.get('http://localhost:8080/Locations').map(res => res.json()).subscribe(data => {
             console.log("get data: " + data['Civil Engineering Faculty'].lon);
