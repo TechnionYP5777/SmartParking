@@ -16,7 +16,7 @@ export class LocationsService {
    
     var headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
-
+    var value = 'test';
     return this.http.post('http://localhost:8080/Locations', value, { headers: headers })
       .map(res => res.json());
   }
