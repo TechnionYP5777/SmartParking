@@ -94,7 +94,7 @@ public class LoginManager {
 			user = new User(name, pass, phone, car, email, type, null);
 			$ = user.getObjectId();
 		} catch (final Exception e) {
-			$ = "";
+			$ = "SignUpError";
 		}
 		return $;
 	}

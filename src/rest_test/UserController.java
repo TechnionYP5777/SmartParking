@@ -13,9 +13,8 @@ import main.java.logic.LoginManager;
 @Controller
 public class UserController {
 	ServerUser user;
-	
-	
-	
+	String signUpStatus;
+
 	@RequestMapping(value = "/User", produces = "application/json")
 	@ResponseBody
 	public ServerUser login() {
@@ -37,32 +36,38 @@ public class UserController {
 		user.setPhoneNumber(login.getPhoneNumber());
 		user.setSticker(login.getSticker());
 	}
-	
-	@RequestMapping(value = "/User/Register", produces = "application/json")
+
+	@RequestMapping(value = "/Register", produces = "application/json")
 	@ResponseBody
-	public ServerUser register() {
-		return user != null ? user : (user = new ServerUser());
+	public String register() {
+		return  signUpStatus  != null ? signUpStatus : "Please try to signUp";
 	}
-	
-	@RequestMapping(value = "/User/Register", method = RequestMethod.POST, produces = "application/json")
+
+	@RequestMapping(value = "/Register", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
-	public void register(@RequestParam("name") String name, @RequestParam("pass") String pass, 
+	public void register(@RequestParam("name") String name, @RequestParam("pass") String pass,
 			@RequestParam("phone") String phone, @RequestParam("car") String car, @RequestParam("email") String email,
-			@RequestParam("type") StickersColor type) throws LoginException {
+			@RequestParam("type") int type) {
 
 		if (name == null)
 			return;
 		LoginManager login = new LoginManager();
-		login.userSignUp(name, pass, phone, car, email, type);
-		//if (login.userSignUp(name, pass, phone, car, email, type))
-			//return;
-		user.setName(login.getUserName());
-		user.setCarNumber(login.getCarNumber());
-		user.setEmail(login.getEmail());
-		user.setPhoneNumber(login.getPhoneNumber());
-		user.setSticker(login.getSticker());
+		signUpStatus = "";
+		try {
+			signUpStatus = login.userSignUp(name, pass, phone, car, email, StickersColor.values()[type]);
+			if (!signUpStatus.equals("SignUpError"))
+				signUpStatus = "Succsesful signUp";
+
+		} catch (LoginException e) {
+			// TODO Auto-generated catch block
+			signUpStatus = e.toString();
+		}
+
+		//user.setName(login.getUserName());
+		//user.setCarNumber(login.getCarNumber());
+		//user.setEmail(login.getEmail());
+		//user.setPhoneNumber(login.getPhoneNumber());
+		//user.setSticker(login.getSticker());
 	}
-	
-	
-	
+
 }

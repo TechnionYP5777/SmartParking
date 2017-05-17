@@ -10,8 +10,6 @@ export class RegisterService {
     }
    
     userRegister() {
-        return this.http.get('http://localhost:8080/User/Register').map(res => res.json()).subscribe(data => {
-            console.log("get data: RegisterService");
-        });
+        return this.http.get('http://localhost:8080/Register').map(res => res.json());
     }
 }
