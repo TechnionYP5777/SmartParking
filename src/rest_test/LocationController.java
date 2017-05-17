@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.json.JSONObject;
+import org.parse4j.ParseException;
 import org.parse4j.ParseObject;
 import org.parse4j.ParseQuery;
 import org.springframework.stereotype.Controller;
@@ -62,5 +63,19 @@ public class LocationController {
 			System.out.println("exception...");
 		}
 		return parkingList;
+	}
+
+	@RequestMapping(value = "/ParkingSlots/{name}", produces = "application/json")
+	@ResponseBody
+	public ServerParkingSlot getPark(@PathVariable String name) {
+		parkingList = new ArrayList<ServerParkingSlot>();
+		try {
+			if (name == "")
+				System.out.println("bad name");
+			return new ServerParkingSlot(new ParkingSlot(name));
+		} catch (final Exception e) {
+			System.out.println("exception...");
+		}
+		return null;
 	}
 }
