@@ -27,11 +27,11 @@ public class LocationController {
 
 	public LocationController() {
 		DBManager.initialize();
+		setUpLocations();
+		setUpParkingSpots();
 	}
 
-	@RequestMapping(value = "/Locations", produces = "application/json")
-	@ResponseBody
-	public String getLocations() {
+	void setUpLocations() {
 		final ParseQuery<ParseObject> query = ParseQuery.getQuery("Destination");
 		hmap = new HashMap<String, MapLocation>();
 		try {
@@ -45,12 +45,9 @@ public class LocationController {
 		} catch (final Exception e) {
 			System.out.println("exception...");
 		}
-		return new JSONObject(hmap) + "";
 	}
 
-	@RequestMapping(value = "/ParkingSlots", produces = "application/json")
-	@ResponseBody
-	public ArrayList<ServerParkingSlot> getParkingSlots() {
+	void setUpParkingSpots() {
 		final ParseQuery<ParseObject> query = ParseQuery.getQuery("ParkingSlot");
 		parkingList = new ArrayList<ServerParkingSlot>();
 		try {
@@ -62,20 +59,36 @@ public class LocationController {
 		} catch (final Exception e) {
 			System.out.println("exception...");
 		}
+	}
+
+	@RequestMapping(value = "/Locations", produces = "application/json")
+	@ResponseBody
+	public String getLocations() {
+		setUpLocations();
+		return new JSONObject(hmap) + "";
+	}
+
+	@RequestMapping(value = "/Locations/{name}", produces = "application/json")
+	@ResponseBody
+	public MapLocation getLocation(@PathVariable String name) {
+		setUpLocations();
+		return hmap.get(name);
+	}
+	
+	
+	@RequestMapping(value = "/ParkingSlots", produces = "application/json")
+	@ResponseBody
+	public ArrayList<ServerParkingSlot> getParkingSlots() {
+		setUpParkingSpots();
 		return parkingList;
 	}
 
 	@RequestMapping(value = "/ParkingSlots/{name}", produces = "application/json")
 	@ResponseBody
 	public ServerParkingSlot getPark(@PathVariable String name) {
-		parkingList = new ArrayList<ServerParkingSlot>();
-		try {
-			if (name == "")
-				System.out.println("bad name");
-			return new ServerParkingSlot(new ParkingSlot(name));
-		} catch (final Exception e) {
-			System.out.println("exception...");
-		}
+		for (ServerParkingSlot ps : parkingList)
+			if (ps.getName().equals(name))
+				return ps;
 		return null;
 	}
 }
