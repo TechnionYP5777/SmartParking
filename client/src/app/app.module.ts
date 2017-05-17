@@ -13,7 +13,6 @@ import { ChoosingPage } from '../pages/choosing-page/choosing-page';
 
 
 import {LoginService} from '../pages/login-page/login-service';
-import { RegisterService } from '../providers/register-service';
 import { HttpModule } from '@angular/http';
 
 @NgModule({
@@ -42,7 +41,6 @@ import { HttpModule } from '@angular/http';
   providers: [
     StatusBar,
     LoginService,
-    RegisterService,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]

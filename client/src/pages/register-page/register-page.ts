@@ -1,4 +1,3 @@
-import { RegisterService } from '../../providers/register-service';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
@@ -14,25 +13,12 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'register-page.html',
 })
 export class RegisterPage {
-    serve: any;
-  constructor(public navCtrl: NavController, public navParams: NavParams, serve: RegisterService) {
-    this.serve = serve;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad RegisterPage');
-  }
-
-  Register(userName, password, phoneNum, carNum, eMail, stickerColor) {
-   // let ref = this;
-    
-    this.serve.userRegister(userName, password, phoneNum, carNum, eMail, stickerColor).subscribe(() => {
-            console.log("Register working");
-        }, err => {
-            console.log(err);
-        });
-
-    //setTimeout(function() { ref.getInfo(); }, 5000);
   }
 
 }
