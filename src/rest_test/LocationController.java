@@ -1,14 +1,18 @@
 package rest_test;
 
 import org.springframework.web.bind.annotation.*;
-
+import main.java.Exceptions.LoginException;
+import main.java.Exceptions.NotExists;
 import main.java.data.management.DBManager;
 import main.java.data.members.Destination;
 import main.java.data.members.MapLocation;
+import main.java.data.members.ParkingAreas;
 import main.java.data.members.ParkingSlot;
 import main.java.data.members.ParkingSlotStatus;
 import main.java.data.members.StickersColor;
-
+import main.java.data.members.User;
+import main.java.logic.LoginManager;
+import main.java.logic.Navigation;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,9 +28,12 @@ import org.springframework.stereotype.Controller;
 public class LocationController {
 	Map<String, MapLocation> hmap;
 	ArrayList<ServerParkingSlot> parkingList;
+	ServerParkingSlot sps;
+	ParkingAreas areas;
 
 	public LocationController() {
 		DBManager.initialize();
+		areas = new ParkingAreas();
 		setUpLocations();
 		setUpParkingSpots();
 	}
@@ -74,8 +81,7 @@ public class LocationController {
 		setUpLocations();
 		return hmap.get(name);
 	}
-	
-	
+
 	@RequestMapping(value = "/ParkingSlots", produces = "application/json")
 	@ResponseBody
 	public ArrayList<ServerParkingSlot> getParkingSlots() {
@@ -91,4 +97,22 @@ public class LocationController {
 				return ps;
 		return null;
 	}
+
+	@RequestMapping(value = "/FindPark", method = RequestMethod.POST, produces = "application/json")
+	@ResponseBody
+	public void findBestPark(@RequestParam("car") String carNumber,@RequestParam("src") String src, @RequestParam("dest") String dest) {
+		try {
+			sps = new ServerParkingSlot(Navigation.closestParkingSlot(new User(carNumber),
+					new Destination(src).getEntrance(), areas, new Destination(dest)));
+		} catch (ParseException | LoginException | NotExists e) {
+			System.out.println("exception...");
+		}
+	}
+
+	@RequestMapping(value = "/FindPark", produces = "application/json")
+	@ResponseBody
+	public ServerParkingSlot getBestPark() {
+		return sps != null ? sps : null;
+	}
+
 }
