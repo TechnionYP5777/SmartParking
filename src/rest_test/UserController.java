@@ -63,11 +63,11 @@ public class UserController {
 			signUpStatus = e.toString();
 		}
 
-		//user.setName(login.getUserName());
-		//user.setCarNumber(login.getCarNumber());
-		//user.setEmail(login.getEmail());
-		//user.setPhoneNumber(login.getPhoneNumber());
-		//user.setSticker(login.getSticker());
+		user.setName(login.getUserName());
+		user.setCarNumber(login.getCarNumber());
+		user.setEmail(login.getEmail());
+		user.setPhoneNumber(login.getPhoneNumber());
+		user.setSticker(login.getSticker());
 	}
 
 }
