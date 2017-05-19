@@ -9,9 +9,10 @@ export class LocationService {
         console.log('Hello LocationService Provider');
     }
    
-    getLocations() {
+    getLocations(callbackArray) {
         return this.http.get('http://localhost:8080/Locations').map(res => res.json()).subscribe(data => {
-            console.log("get data: " + data['Civil Engineering Faculty'].lon);
+            console.log("get data: " + data);
+            callbackArray=data;
         });
     }
 }

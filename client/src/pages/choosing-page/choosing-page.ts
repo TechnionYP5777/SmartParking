@@ -24,9 +24,11 @@ export class ChoosingPage {
   goCallBack: any;
   mapPage: any;
   googleObj: any;
+  loaded:boolean;
   constructor(public navCtrl: NavController, public navParams: NavParams, private locService: LocationService ) {
         this.googleObj = navParams.get('googleObj');
-        console.log(locService.getLocations());
+        var array ={};
+        locService.getLocations(array);
   	this.sources =  
 	[{title:"Taub Building", position: new this.googleObj.maps.LatLng(32.7787,35.0)},
 	{title:"Ulman Building",position: new this.googleObj.maps.LatLng(18.210885,-67.140884)}];
@@ -34,10 +36,15 @@ export class ChoosingPage {
         {title:"Taub Building", position: new this.googleObj.maps.LatLng(18.210885,-67.140884)},
         {title:"Ulman Building", position:  new this.googleObj.maps.LatLng(32.7,35.0)}];
         this.mapPage = navParams.get('mapPage');
+   
   }
 
   ionViewDidLoad() {
+    var ld = this.loaded;
     console.log('ionViewDidLoad ChoosingPage');
+    var src= this.sources;
+    let newLoc={title:"New loc", position:  new this.googleObj.maps.LatLng(32.7,35.0)};
+    setTimeout(function(){src.push(newLoc);ld=true;},4000);
   }
   goback() {
      console.log("here");

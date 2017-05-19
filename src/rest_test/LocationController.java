@@ -71,7 +71,7 @@ public class LocationController {
 			System.out.println("exception...");
 		}
 	}
-
+	@CrossOrigin(origins = "http://localhost:8100")
 	@RequestMapping(value = "/Locations", produces = "application/json")
 	@ResponseBody
 	public String getLocations() {

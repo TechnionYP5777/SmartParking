@@ -3,11 +3,13 @@ import { NavController } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 import { AlertController} from 'ionic-angular';
 import { ChoosingPage } from '../choosing-page/choosing-page';
+import { LocationService } from '../../providers/location-service';
 declare var google;
 
 @Component({
   selector: 'page-map',
-  templateUrl: 'map.html'
+  templateUrl: 'map.html',
+  providers: [LocationService]
 })
 export class MapPage {
 

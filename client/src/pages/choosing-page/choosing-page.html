@@ -12,9 +12,25 @@
   
 
 </ion-header>
-
-
+<style>
+div.spinner {
+  margin: auto;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+  height: 85px;
+  text-align: center;
+  z-index:0;
+}
+.spinner svg {
+  width: 19% !important;
+  height: 150px !important;
+}
+</style>
 <ion-content padding>
+	  <div class="spinner">
+        <ion-spinner icon="spiral" ></ion-spinner>
+      </div>
+	
    <ion-card>
   	<ion-card-header>Source
   	</ion-card-header>
