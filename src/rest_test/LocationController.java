@@ -6,6 +6,7 @@ import main.java.Exceptions.NotExists;
 import main.java.data.management.DBManager;
 import main.java.data.members.Destination;
 import main.java.data.members.MapLocation;
+import main.java.data.members.ParkingArea;
 import main.java.data.members.ParkingAreas;
 import main.java.data.members.ParkingSlot;
 import main.java.data.members.ParkingSlotStatus;
@@ -15,8 +16,10 @@ import main.java.logic.LoginManager;
 import main.java.logic.Navigation;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.json.JSONObject;
 import org.parse4j.ParseException;
@@ -30,6 +33,7 @@ public class LocationController {
 	ArrayList<ServerParkingSlot> parkingList;
 	ServerParkingSlot sps;
 	ParkingAreas areas;
+	Set<ServerParkingArea> parkingAreas;
 
 	public LocationController() {
 		DBManager.initialize();
@@ -98,9 +102,28 @@ public class LocationController {
 		return null;
 	}
 
+	@RequestMapping(value = "/ParkingAreas", produces = "application/json")
+	@ResponseBody
+	public Set<ServerParkingArea> getParkingAreas() {
+		parkingAreas = new HashSet<ServerParkingArea>();
+		 for (ParkingArea a : areas.getParkingAreas())
+			parkingAreas.add(new ServerParkingArea(a));
+		return parkingAreas;
+	}
+
+	@RequestMapping(value = "/ParkingAreas/{name}", produces = "application/json")
+	@ResponseBody
+	public ServerParkingArea getArea(@PathVariable String name) {
+		for (ServerParkingArea pa : parkingAreas)
+			if (pa.getName().equals(name))
+				return pa;
+		return null;
+	}
+
 	@RequestMapping(value = "/FindPark", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
-	public void findBestPark(@RequestParam("car") String carNumber,@RequestParam("src") String src, @RequestParam("dest") String dest) {
+	public void findBestPark(@RequestParam("car") String carNumber, @RequestParam("src") String src,
+			@RequestParam("dest") String dest) {
 		try {
 			sps = new ServerParkingSlot(Navigation.closestParkingSlot(new User(carNumber),
 					new Destination(src).getEntrance(), areas, new Destination(dest)));
