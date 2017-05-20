@@ -25,6 +25,10 @@ export class LocationService {
             for (var i = 0; i < this.dsts.length;i++) {
                dstsArray.push(this.dsts[i]);
             }
+            var geolocation = new Geolocation();
+            geolocation.getCurrentPosition().then((position) => {
+                srcsArray.push({title:"Current Location",position:new googleObj.maps.LatLng(position.coords.latitude, position.coords.longitude)});
+            });
             return;
         }
         var srces = this.srces;
