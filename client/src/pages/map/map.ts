@@ -41,14 +41,12 @@ export class MapPage {
          position: parkingArea.position,
          map: map
         });
-        //setTimeout(function(){
         var circle = new google.maps.Circle({
             map: map,
             radius: 100,
             fillColor: parkingArea.color
         });
         circle.bindTo('center', marker, 'position');
-        //},1000);
     });
 
   }
@@ -61,7 +59,7 @@ export class MapPage {
   }
   go() {
      if(this.recordRoute){
-	console.log("want to record")	
+	   console.log("want to record")	
      }
      else{
      	if(this.srcPosition && this.dstPosition ){
@@ -86,7 +84,7 @@ export class MapPage {
      var currentLocationMarker;
      var map = new google.maps.Map(this.mapElement.nativeElement, {
         zoom: 15,
-        center: {lat: 41.85, lng: -87.65}
+        center: {lat: 32.776878, lng:35.023106}
      });
      this.mapView=map;
      var geolocation = new Geolocation();
@@ -96,7 +94,7 @@ export class MapPage {
      	currentLocationMarker = new google.maps.Marker({
         	position: latLng,
         	icon: {
-                	path: google.maps.SymbolPath.CIRCLE,
+                	path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
         	scale: 10
         	},
         	draggable: false,
@@ -104,7 +102,6 @@ export class MapPage {
      	});
      });
      this.i = 0;
-     map.addListener('click',(e) => this.placeMarkerAndPanTo(e.latLng, map));
      this.directionsDisplay.setMap(map);
      let panel=document.getElementsByName("test_over_map")[0];
      panel.style.backgroundColor="white";
@@ -149,32 +146,5 @@ export class MapPage {
             window.alert('Directions request failed due to ' + status);
           }
         });
-  }
-  placeMarkerAndPanTo(latLng, map){
-    var marker = new google.maps.Marker({
-     position: latLng,
-     map: map
-    });
-    if ( this.i%3 == 0) {
-        this.source = marker;
-        setTimeout(function(){
-          var circle = new google.maps.Circle({
-             map: map,
-             radius: 500,
-             fillColor: '#AA0000'
-          });
-          circle.bindTo('center', marker, 'position');
-        },1000);
-    } else if (this.i%3 == 1) {
-        this.drivingDestination = marker;
-    } else {
-        this.walkingDestination = marker;
-    }
-    //if ( this.i > 1 ) {
-    //   this.calculateAndDisplayRoute(this.directionsService, this.directionsDisplay);
-       //this.calculateAndDisplayRouteWalking(this.directionsService, this.directionsDisplayWalk);
-    //}
-    this.i++;
-    map.panTo(latLng);
   }
 }

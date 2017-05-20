@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
+import { Geolocation } from '@ionic-native/geolocation';
 import 'rxjs/add/operator/map';
 import 'rxjs/Rx';
 
@@ -15,7 +16,10 @@ export class LocationService {
                     srcsArray.push({title:key,position: new googleObj.maps.LatLng(data[key].lat,data[key].lon)});
                     dstsArray.push({title:key,position: new googleObj.maps.LatLng(data[key].lat,data[key].lon)});
             });
-            srcsArray.push({title:"Current Location",position:null});
+            var geolocation = new Geolocation();
+            geolocation.getCurrentPosition().then((position) => {
+                srcsArray.push({title:"Current Location",position:new googleObj.maps.LatLng(position.coords.latitude, position.coords.longitude)});
+            });
         });
     }
     getParkingAreas(googleObj,mapViewer) {
