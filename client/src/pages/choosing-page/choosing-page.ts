@@ -10,8 +10,7 @@ import { LocationService } from '../../providers/location-service';
 @IonicPage()
 @Component({
   selector: 'page-choosing-page',
-  templateUrl: 'choosing-page.html',
-  providers: [LocationService]
+  templateUrl: 'choosing-page.html'
 })
 export class ChoosingPage {
   sources:Array<{title: string, position:any}>;
@@ -23,7 +22,7 @@ export class ChoosingPage {
   goCallBack: any;
   mapPage: any;
   googleObj: any;
-  constructor(public navCtrl: NavController, public navParams: NavParams, private locService: LocationService ) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public locService: LocationService ) {
         this.googleObj = navParams.get('googleObj');
         this.sources=[];
         this.dests=[];

@@ -11,7 +11,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { MapPage } from '../pages/map/map';
 import { ChoosingPage } from '../pages/choosing-page/choosing-page';
 
-
+import { LocationService } from '../providers/location-service';
 import {LoginService} from '../pages/login-page/login-service';
 import { RegisterService } from '../providers/register-service';
 import { HttpModule } from '@angular/http';
@@ -41,6 +41,7 @@ import { HttpModule } from '@angular/http';
   ],
   providers: [
     StatusBar,
+    LocationService,
     LoginService,
     RegisterService,
     SplashScreen,
