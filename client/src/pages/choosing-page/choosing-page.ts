@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { Geolocation } from '@ionic-native/geolocation';
+//import { Geolocation } from '@ionic-native/geolocation';
 import { LocationService } from '../../providers/location-service';
 /**
  * Generated class for the ChoosingPage page.
@@ -24,27 +24,17 @@ export class ChoosingPage {
   goCallBack: any;
   mapPage: any;
   googleObj: any;
-  loaded:boolean;
   constructor(public navCtrl: NavController, public navParams: NavParams, private locService: LocationService ) {
         this.googleObj = navParams.get('googleObj');
-        var array ={};
-        locService.getLocations(array);
-  	this.sources =  
-	[{title:"Taub Building", position: new this.googleObj.maps.LatLng(32.7787,35.0)},
-	{title:"Ulman Building",position: new this.googleObj.maps.LatLng(18.210885,-67.140884)}];
-	this.dests = [
-        {title:"Taub Building", position: new this.googleObj.maps.LatLng(18.210885,-67.140884)},
-        {title:"Ulman Building", position:  new this.googleObj.maps.LatLng(32.7,35.0)}];
+        this.sources=[];
+        this.dests=[];
+        locService.getLocations(this.sources,this.dests,this.googleObj);
         this.mapPage = navParams.get('mapPage');
    
   }
 
   ionViewDidLoad() {
-    var ld = this.loaded;
     console.log('ionViewDidLoad ChoosingPage');
-    var src= this.sources;
-    let newLoc={title:"New loc", position:  new this.googleObj.maps.LatLng(32.7,35.0)};
-    setTimeout(function(){src.push(newLoc);ld=true;},4000);
   }
   goback() {
      console.log("here");

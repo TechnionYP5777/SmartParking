@@ -17,18 +17,22 @@ div.spinner {
   margin: auto;
   position: absolute;
   top: 0; left: 0; bottom: 0; right: 0;
-  height: 85px;
+  height: 200px;
   text-align: center;
-  z-index:0;
+  z-index:10;
 }
 .spinner svg {
-  width: 19% !important;
-  height: 150px !important;
+  width: 20% !important;
+  height: 100% !important;
+}
+ion-spinner{
+	width:75%;
+	height:75%; 
 }
 </style>
 <ion-content padding>
 	  <div class="spinner">
-        <ion-spinner icon="spiral" ></ion-spinner>
+        <ion-spinner *ngIf="sources.length==0 || dests.length==0"></ion-spinner>
       </div>
 	
    <ion-card>
