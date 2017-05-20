@@ -45,12 +45,12 @@ ion-spinner {
   		</ion-item>
   	</ion-list>
    </ion-card>
-   <button  ion-button (click)="goback()">
+   <button  ion-button (click)="goback()" [disabled]="sources.length==0 || dests.length==0">
     <ion-icon padding text-align: center round name="car">  </ion-icon>
     GO!
    </button>
    <ion-item>
   	<ion-label>record route</ion-label>
-  	<ion-checkbox color="dark" checked="false" (ionChange)="changeToRecord($event)"></ion-checkbox>
+  	<ion-checkbox color="dark" checked="false" (ionChange)="changeToRecord($event)" [disabled]="sources.length==0 || dests.length==0"></ion-checkbox>
    </ion-item>
 </ion-content>
