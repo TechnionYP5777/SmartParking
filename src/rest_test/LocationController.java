@@ -101,7 +101,7 @@ public class LocationController {
 				return ps;
 		return null;
 	}
-
+	@CrossOrigin(origins = "http://localhost:8100")
 	@RequestMapping(value = "/ParkingAreas", produces = "application/json")
 	@ResponseBody
 	public Set<ServerParkingArea> getParkingAreas() {

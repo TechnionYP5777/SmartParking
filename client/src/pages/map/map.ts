@@ -27,10 +27,30 @@ export class MapPage {
   srcPosition: any;
   dstPosition: any;
   recordRoute: boolean;
-  constructor(public navCtrl: NavController, public alertCtrl: AlertController) {}
+  mapView:any;
+  constructor(public navCtrl: NavController, public alertCtrl: AlertController,private locService: LocationService) {
+  }
 
   ionViewDidLoad(){
-    this.loadMap2();
+    this.loadMap();
+  }
+  showParkingAreas(parkingAreasPositions){
+    let map = this.mapView;
+    parkingAreasPositions.forEach(function(parkingArea){    
+        var marker = new google.maps.Marker({
+         position: parkingArea.position,
+         map: map
+        });
+        //setTimeout(function(){
+        var circle = new google.maps.Circle({
+            map: map,
+            radius: 100,
+            fillColor: parkingArea.color
+        });
+        circle.bindTo('center', marker, 'position');
+        //},1000);
+    });
+
   }
   changeLocation() {
      //this.self = this;
@@ -60,7 +80,7 @@ export class MapPage {
      this.dstPosition = position;
      console.log(position);
   }
-  loadMap2() {
+  loadMap() {
      this.directionsService = new google.maps.DirectionsService;
      this.directionsDisplay = new google.maps.DirectionsRenderer;
      var currentLocationMarker;
@@ -68,6 +88,7 @@ export class MapPage {
         zoom: 15,
         center: {lat: 41.85, lng: -87.65}
      });
+     this.mapView=map;
      var geolocation = new Geolocation();
      geolocation.getCurrentPosition().then((position) => {
         let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
@@ -101,6 +122,7 @@ export class MapPage {
 		console.log("new postion",latLng);
 	});
      }, 5000);
+     this.locService.getParkingAreas(google,this);
   }
   calculateAndDisplayRoute(directionsService, directionsDisplay) {
         directionsService.route({
