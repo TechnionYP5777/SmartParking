@@ -63,7 +63,8 @@ export class MapPage {
      }
      else{
      	if(this.srcPosition && this.dstPosition ){
-		this.calculateAndDisplayRoute(this.directionsService, this.directionsDisplay);
+          document.getElementById("DirectionPanelLabel").style.display = "none";    
+		  this.calculateAndDisplayRoute(this.directionsService, this.directionsDisplay);
      	}else{
 		console.log("src or dst not defined");
 	}

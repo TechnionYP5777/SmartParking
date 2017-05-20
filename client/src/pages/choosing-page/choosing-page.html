@@ -13,29 +13,19 @@
 
 </ion-header>
 <style>
-div.spinner {
+ion-spinner {
   margin: auto;
   position: absolute;
   top: 0; left: 0; bottom: 0; right: 0;
-  height: 200px;
   text-align: center;
   z-index:10;
-}
-.spinner svg {
-  width: 20% !important;
-  height: 100% !important;
-}
-ion-spinner{
-	width:75%;
-	height:75%; 
+  width:50%;
+  height:50%; 
 }
 </style>
-<ion-content padding>
-	  <div class="spinner">
-        <ion-spinner *ngIf="sources.length==0 || dests.length==0"></ion-spinner>
-      </div>
-	
-   <ion-card>
+<ion-content padding>  
+    <ion-spinner *ngIf="sources.length==0 || dests.length==0"></ion-spinner>
+   	<ion-card>
   	<ion-card-header>Source
   	</ion-card-header>
 	<ion-list radio-group class="page-choosing-page">
