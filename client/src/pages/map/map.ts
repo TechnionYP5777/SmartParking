@@ -29,7 +29,10 @@ export class MapPage {
   recordRoute: boolean;
   mapView: any;
   ispathshown: any;
+  recordedRoute: any;
+  intervalid: any;
   constructor(public navCtrl: NavController, public alertCtrl: AlertController,private locService: LocationService) {
+     this.recordedRoute = [];
   }
 
   ionViewDidLoad(){
@@ -58,10 +61,33 @@ export class MapPage {
                 mapPage: this
               });
   }
+  stopRecording() {
+     clearInterval(this.intervalid);
+  }
+  startRecording() {
+     let recordedRoute = this.recordedRoute;
+     let dstPosition = this.dstPosition;
+     let mapObj = this;
+     var geolocation = new Geolocation();
+     this.intervalid = setInterval(function(){
+        geolocation.getCurrentPosition().then((position) => {
+         let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+         //this.currentLocationMarker.setPosition(latLng);
+         console.log(recordedRoute);
+         recordedRoute.push(latLng);
+         var distance = google.maps.geometry.spherical.computeDistanceBetween(latLng, dstPosition);
+         if (distance < 0.1) {
+             mapObj.stopRecording();
+         } 
+         console.log(distance);
+        });
+     }, 5000);
+  }
   suggestRoute() {
     this.directionsDisplay.setMap(null);
     this.directionsDisplay.setPanel(null); 
     document.getElementsByName("panelLabel")[0].innerHTML = "No Directions To Show";
+    this.startRecording();
   }
   go() {
      if(this.recordRoute){
@@ -120,13 +146,13 @@ export class MapPage {
         }
      });
      this.directionsDisplayWalk.setMap(map);
-     setInterval(function(){
-  	geolocation.getCurrentPosition().then((position) => {
-        let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-	currentLocationMarker.setPosition(latLng);
-		console.log("new postion",latLng);
-	});
-     }, 5000);
+     //setInterval(function(){
+     //	geolocation.getCurrentPosition().then((position) => {
+     //   let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+     //	currentLocationMarker.setPosition(latLng);
+     //		console.log("new postion",latLng);
+     //	});
+     // }, 5000);
      this.locService.getParkingAreas(google,this);
   }
   calculateAndDisplayRoute(directionsService, directionsDisplay) {
