@@ -27,7 +27,8 @@ export class MapPage {
   srcPosition: any;
   dstPosition: any;
   recordRoute: boolean;
-  mapView:any;
+  mapView: any;
+  ispathshown: any;
   constructor(public navCtrl: NavController, public alertCtrl: AlertController,private locService: LocationService) {
   }
 
@@ -57,6 +58,11 @@ export class MapPage {
                 mapPage: this
               });
   }
+  suggestRoute() {
+    this.directionsDisplay.setMap(null);
+    this.directionsDisplay.setPanel(null); 
+    document.getElementsByName("panelLabel")[0].innerHTML = "No Directions To Show";
+  }
   go() {
      if(this.recordRoute){
 	   console.log("want to record")	
@@ -65,6 +71,7 @@ export class MapPage {
      	if(this.srcPosition && this.dstPosition ){
           document.getElementById("DirectionPanelLabel").style.display = "none";    
 		  this.calculateAndDisplayRoute(this.directionsService, this.directionsDisplay);
+          this.ispathshown = true;
      	}else{
 		console.log("src or dst not defined");
 	}
