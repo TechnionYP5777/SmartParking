@@ -50,11 +50,14 @@ public class RootPath extends dbMember {
 		DBManager.initialize();
 		setParseObject(TABLE_NAME);
 
-		/*if (new Destination(src) == null && new Destination(dest) == null)
-			throw new NotExists("Didn't find src or dest");
+		if (!Destination.destinationExists(src))
+			throw new NotExists("Didn't find src");
+
+		if (!Destination.destinationExists(dest))
+			throw new NotExists("Didn't find dest");
 
 		if (PathExists(src, dest) || PathExists(dest, src))
-			throw new AlreadyExists("Already exists");*/
+			throw new AlreadyExists("Already exists");
 
 		this.setSource(src);
 		this.setDestination(dest);
@@ -65,11 +68,13 @@ public class RootPath extends dbMember {
 	public RootPath(final String src, final String dest) throws ParseException, AlreadyExists, NotExists {
 		DBManager.initialize();
 
-		/*if (new Destination(src) == null && new Destination(dest) == null)
+		if (Destination.destinationExists(src) && Destination.destinationExists(dest))
 			throw new NotExists("Didn't find src or dest");
 
-		if (PathExists(src, dest) || PathExists(dest, src))
-			throw new AlreadyExists("Already exists");*/
+		/*
+		 * if (PathExists(src, dest) || PathExists(dest, src)) throw new
+		 * AlreadyExists("Already exists");
+		 */
 
 		final ParseQuery<ParseObject> query = ParseQuery.getQuery(TABLE_NAME);
 		query.whereEqualTo(SOURCE, src);
@@ -107,7 +112,7 @@ public class RootPath extends dbMember {
 	}
 
 	public void setSource(final String src) throws ParseException, AlreadyExists {
-		this.destination = src;
+		this.source = src;
 		parseObject.put(SOURCE, src);
 		parseObject.save();
 	}
@@ -120,4 +125,17 @@ public class RootPath extends dbMember {
 		parseObject.put(ROOT, pRoot);
 		parseObject.save();
 	}
+
+	public String getSource() {
+		return this.source;
+	}
+
+	public String getDestination() {
+		return this.destination;
+	}
+
+	public ArrayList<MapLocation> getRoot() {
+		return root;
+	}
+
 }

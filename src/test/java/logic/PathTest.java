@@ -11,8 +11,10 @@ import org.parse4j.ParseException;
 
 import main.java.Exceptions.AlreadyExists;
 import main.java.Exceptions.NotExists;
+import main.java.data.members.Destination;
 import main.java.data.members.MapLocation;
 import main.java.data.members.RootPath;
+import main.java.util.LogPrinter;
 
 public class PathTest {
 
@@ -25,11 +27,12 @@ public class PathTest {
 
 		try {
 			RootPath p = new RootPath("Ulman", "Sports Center", mp);
-		} catch (ParseException e) {
-			Assert.fail();
-		} catch (AlreadyExists e) {
-			Assert.fail();
-		} catch (NotExists e) {
+			Assert.assertEquals("Ulman", p.getSource());
+			Assert.assertEquals("Sports Center", p.getDestination());
+			Assert.assertEquals(3, p.getRoot().size());
+			p.deleteParseObject();
+		} catch (ParseException | AlreadyExists | NotExists e) {
+			LogPrinter.createLogFile(e);
 			Assert.fail();
 		}
 
