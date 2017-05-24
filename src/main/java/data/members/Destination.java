@@ -28,10 +28,10 @@ public class Destination extends dbMember {
 	private static final String ENTRANCE = "entrance";
 	private static final String TABLE_NAME = "Destination";
 
-	private static ParseObject getDbDestinationObject(final String name) {
+	public static ParseObject getDbDestinationObject(final String name) {
+		DBManager.initialize();
 		final ParseQuery<ParseObject> query = ParseQuery.getQuery(TABLE_NAME);
 		query.whereEqualTo(NAME, name);
-		query.limit(1);
 		try {
 			final List<ParseObject> $ = query.find();
 			return $ == null || $.isEmpty() ? null : $.get(0);

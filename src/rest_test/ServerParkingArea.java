@@ -66,5 +66,4 @@ public class ServerParkingArea {
 	public void setParkingSlots(Set<ServerParkingSlot> ss) {
 		this.parkingSlots = ss;
 	}
-
 }
