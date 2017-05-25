@@ -31,6 +31,7 @@ export class MapPage {
   ispathshown: any;
   recordedRoute: any;
   intervalid: any;
+  intervalDest: any;
   parkingAreas: any;
   constructor(public navCtrl: NavController, public alertCtrl: AlertController,private locService: LocationService) {
      this.recordedRoute = [];
@@ -181,7 +182,36 @@ export class MapPage {
      ];
      this.drawPath(testCoordinates);
   }
+  reachedFirstDest() {
+     clearInterval(this.intervalDest);
+     this.directionsDisplay.setMap(null);
+     this.directionsDisplay.setPanel(null);
+     var min = -1;
+     var minArea = null;
+     for (var i=0; i < this.parkingAreas.length; i++ ) {
+           var area = this.parkingAreas[i];
+           var distance = google.maps.geometry.spherical.computeDistanceBetween(area, this.dstPosition);
+            if (distance > min) {
+                distance = min;
+                minArea = area;
+            }
+     } 
+     this.directionsDisplay.setMap(this.mapView);
+     this.directionsDisplay.setMap(this.mapView);
+     this.calculateAndDisplayRouteWalking(this.directionsService, this.directionsDisplay, minArea);
+  }
   calculateAndDisplayRoute(directionsService, directionsDisplay) {
+        let mapObj = this;
+        var geolocation = new Geolocation();
+        var dst = this.dstPosition;
+        this.intervalDest = setInterval(function() {
+          geolocation.getCurrentPosition().then((position) => {
+          let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+          var distance = google.maps.geometry.spherical.computeDistanceBetween(latLng, dst);
+          if (distance < 0.1) { 
+               mapObj.reachedFirstDest();         
+          }
+        })}, 5000);
         directionsService.route({
           origin: this.srcPosition,
           destination: this.dstPosition,
@@ -194,10 +224,10 @@ export class MapPage {
           }
         });
   }
-  calculateAndDisplayRouteWalking(directionsService, directionsDisplay) {
+  calculateAndDisplayRouteWalking(directionsService, directionsDisplay, position) {
         directionsService.route({
-          origin: this.drivingDestination.position,
-          destination: this.walkingDestination.position,
+          origin: this.dstPosition,
+          destination: position,
           travelMode: 'WALKING'
         }, function(response, status) {
           if (status === 'OK') {
