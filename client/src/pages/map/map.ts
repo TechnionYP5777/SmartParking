@@ -31,8 +31,10 @@ export class MapPage {
   ispathshown: any;
   recordedRoute: any;
   intervalid: any;
+  parkingAreas: any;
   constructor(public navCtrl: NavController, public alertCtrl: AlertController,private locService: LocationService) {
      this.recordedRoute = [];
+     this.parkingAreas = [];
   }
 
   ionViewDidLoad(){
@@ -40,11 +42,13 @@ export class MapPage {
   }
   showParkingAreas(parkingAreasPositions){
     let map = this.mapView;
+    let array = this.parkingAreas;
     parkingAreasPositions.forEach(function(parkingArea){    
         var marker = new google.maps.Marker({
          position: parkingArea.position,
          map: map
         });
+        array.push(parkingArea.position);
         var circle = new google.maps.Circle({
             map: map,
             radius: 100,
@@ -54,6 +58,19 @@ export class MapPage {
     });
 
   }
+
+  drawPath( listLocsToDraw ) {
+     var drivePath = new google.maps.Polyline({
+          path: listLocsToDraw,
+          geodesic: true,
+          strokeColor: '#FF0000',
+          strokeOpacity: 1.0,
+          strokeWeight: 2
+        });
+
+        drivePath.setMap(this.mapView);
+  }
+
   changeLocation() {
      //this.self = this;
      this.navCtrl.push(ChoosingPage, 
@@ -63,6 +80,7 @@ export class MapPage {
   }
   stopRecording() {
      clearInterval(this.intervalid);
+     // post path to server;
   }
   startRecording() {
      let recordedRoute = this.recordedRoute;
@@ -94,9 +112,11 @@ export class MapPage {
 	   console.log("want to record")	
      }
      else{
-     	if(this.srcPosition && this.dstPosition ){
+     	if(this.srcPosition && this.dstPosition ) {
+          // send to server Src and Destination
+          // Server look for a path and return a result
           document.getElementById("DirectionPanelLabel").style.display = "none";    
-		  this.calculateAndDisplayRoute(this.directionsService, this.directionsDisplay);
+	  this.calculateAndDisplayRoute(this.directionsService, this.directionsDisplay);
           this.ispathshown = true;
      	}else{
 		console.log("src or dst not defined");
@@ -154,6 +174,12 @@ export class MapPage {
      //	});
      // }, 5000);
      this.locService.getParkingAreas(google,this);
+     // test draw path:
+     var testCoordinates = [
+          {lat: 32.773518, lng: 35.030413},
+          {lat: 32.776282, lng: 35.026513}
+     ];
+     this.drawPath(testCoordinates);
   }
   calculateAndDisplayRoute(directionsService, directionsDisplay) {
         directionsService.route({
