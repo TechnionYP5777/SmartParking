@@ -50,11 +50,8 @@ public class RootPath extends dbMember {
 		DBManager.initialize();
 		setParseObject(TABLE_NAME);
 
-		if (!Destination.destinationExists(src))
-			throw new NotExists("Didn't find src");
-
-		if (!Destination.destinationExists(dest))
-			throw new NotExists("Didn't find dest");
+		if (!Destination.destinationExists(src) && !Destination.destinationExists(dest))
+			throw new NotExists("Didn't find src or dest");
 
 		if (PathExists(src, dest) || PathExists(dest, src))
 			throw new AlreadyExists("Already exists");
@@ -68,13 +65,11 @@ public class RootPath extends dbMember {
 	public RootPath(final String src, final String dest) throws ParseException, AlreadyExists, NotExists {
 		DBManager.initialize();
 
-		if (Destination.destinationExists(src) && Destination.destinationExists(dest))
+		if (!Destination.destinationExists(src) && !Destination.destinationExists(dest))
 			throw new NotExists("Didn't find src or dest");
 
-		/*
-		 * if (PathExists(src, dest) || PathExists(dest, src)) throw new
-		 * AlreadyExists("Already exists");
-		 */
+		if (!PathExists(src, dest) && !PathExists(dest, src))
+			throw new NotExists("Didn't find the path");
 
 		final ParseQuery<ParseObject> query = ParseQuery.getQuery(TABLE_NAME);
 		query.whereEqualTo(SOURCE, src);
@@ -88,21 +83,12 @@ public class RootPath extends dbMember {
 		this.setObjectId();
 		this.setSource(this.parseObject.getString(SOURCE));
 		this.setDestination(this.parseObject.getString(DESTINATION));
-		setObjectId();
-	}
+		this.root = new ArrayList<MapLocation>();
+		List<Object> points = this.parseObject.getList(ROOT);
+		for (Object o : points)
+			this.root.add((new MapLocation(((ParseGeoPoint) o).getLatitude(), ((ParseGeoPoint) o).getLongitude())));
 
-	public Set<ParkingSlot> convertToPoints(final List<ParseObject> slots) {
-		final List<ParkingSlot> $ = new ArrayList<ParkingSlot>();
-		if (slots == null)
-			return null;
-		for (final ParseObject p : slots)
-			try {
-				$.add(new ParkingSlot(p));
-			} catch (final ParseException ¢) {
-				System.out.println("could not add the slot");
-				LogPrinter.createLogFile(¢);
-			}
-		return new HashSet<ParkingSlot>($);
+		setObjectId();
 	}
 
 	public void setDestination(final String dest) throws ParseException, AlreadyExists {
