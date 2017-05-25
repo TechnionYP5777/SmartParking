@@ -40,7 +40,7 @@ public class RootPath extends dbMember {
 			return null;
 		}
 	}
-
+	
 	public static boolean PathExists(final String src, final String dest) {
 		return getPathParse(src, dest) != null;
 	}
@@ -50,10 +50,10 @@ public class RootPath extends dbMember {
 		DBManager.initialize();
 		setParseObject(TABLE_NAME);
 
-		if (!Destination.destinationExists(src) && !Destination.destinationExists(dest))
+		if (!ParkingArea.areaExists(src) && !Destination.destinationExists(dest))
 			throw new NotExists("Didn't find src or dest");
 
-		if (PathExists(src, dest) || PathExists(dest, src))
+		if (PathExists(src, dest))
 			throw new AlreadyExists("Already exists");
 
 		this.setSource(src);
@@ -65,10 +65,10 @@ public class RootPath extends dbMember {
 	public RootPath(final String src, final String dest) throws ParseException, AlreadyExists, NotExists {
 		DBManager.initialize();
 
-		if (!Destination.destinationExists(src) && !Destination.destinationExists(dest))
+		if (!ParkingArea.areaExists(src) && !Destination.destinationExists(dest))
 			throw new NotExists("Didn't find src or dest");
 
-		if (!PathExists(src, dest) && !PathExists(dest, src))
+		if (!PathExists(src, dest))
 			throw new NotExists("Didn't find the path");
 
 		final ParseQuery<ParseObject> query = ParseQuery.getQuery(TABLE_NAME);
@@ -91,19 +91,23 @@ public class RootPath extends dbMember {
 		setObjectId();
 	}
 
-	public void setDestination(final String dest) throws ParseException, AlreadyExists {
+	public void setDestination(final String dest) throws ParseException, NotExists {
+		if (!Destination.destinationExists(dest))
+			throw new NotExists("Didn't find destination");
 		this.destination = dest;
 		parseObject.put(DESTINATION, dest);
 		parseObject.save();
 	}
 
-	public void setSource(final String src) throws ParseException, AlreadyExists {
+	public void setSource(final String src) throws ParseException, NotExists{
+		if (!ParkingArea.areaExists(src))
+			throw new NotExists("Didn't find source");
 		this.source = src;
 		parseObject.put(SOURCE, src);
 		parseObject.save();
 	}
 
-	public void setRoot(final ArrayList<MapLocation> root) throws ParseException, AlreadyExists {
+	public void setRoot(final ArrayList<MapLocation> root) throws ParseException {
 		this.root = root;
 		ArrayList<ParseGeoPoint> pRoot = new ArrayList<ParseGeoPoint>();
 		for (MapLocation m : root)

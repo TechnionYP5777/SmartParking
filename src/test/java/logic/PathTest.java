@@ -26,8 +26,8 @@ public class PathTest {
 		mp.add(new MapLocation(25, 25));
 		RootPath p = null;
 		try {
-			p = new RootPath("Ulman", "Sports Center", mp);
-			Assert.assertEquals("Ulman", p.getSource());
+			p = new RootPath("Makak", "Sports Center", mp);
+			Assert.assertEquals("Makak", p.getSource());
 			Assert.assertEquals("Sports Center", p.getDestination());
 			Assert.assertEquals(3, p.getRoot().size());
 		} catch (ParseException | AlreadyExists | NotExists e) {
@@ -35,7 +35,7 @@ public class PathTest {
 			Assert.fail();
 		}
 		try {
-			RootPath p2 = new RootPath("Ulman", "Sports Center", mp);
+			RootPath p2 = new RootPath("Makak", "Sports Center", mp);
 		} catch (ParseException | NotExists e) {
 			LogPrinter.createLogFile(e);
 			Assert.fail();
@@ -62,8 +62,8 @@ public class PathTest {
 		mp.add(new MapLocation(25, 25));
 		RootPath p = null;
 		try {
-			p = new RootPath("Ulman", "Sports Center", mp);
-			RootPath r = new RootPath("Ulman", "Sports Center");
+			p = new RootPath("Makak", "Sports Center", mp);
+			RootPath r = new RootPath("Makak", "Sports Center");
 			Assert.assertEquals(r.getSource(), p.getSource());
 			Assert.assertEquals(r.getDestination(), p.getDestination());
 			Assert.assertEquals(r.getRoot().size(), p.getRoot().size());
@@ -74,39 +74,65 @@ public class PathTest {
 		}
 	}
 
+	// check that the setters work
 	@Test
 	public void test03() {
 		ArrayList<MapLocation> mp = new ArrayList<MapLocation>();
 		RootPath p = null;
 		try {
-			p = new RootPath("Ulman", "Sports Center", mp);
-			p.setSource("Computer Science Faculty");
+			p = new RootPath("Makak", "Sports Center", mp);
+			p.setSource("Pool");
 			p.setDestination("Industrial Engineering Faculty");
 			mp.add(new MapLocation(23, 23));
 			p.setRoot(mp);
-			Assert.assertFalse(RootPath.PathExists("Ulman", "Sports Center"));
-			Assert.assertTrue(RootPath.PathExists("Computer Science Faculty", "Industrial Engineering Faculty"));
-			RootPath r = new RootPath("Computer Science Faculty", "Industrial Engineering Faculty");
+			Assert.assertFalse(RootPath.PathExists("Makak", "Sports Center"));
+			Assert.assertTrue(RootPath.PathExists("Pool", "Industrial Engineering Faculty"));
+			RootPath r = new RootPath("Pool", "Industrial Engineering Faculty");
 			Assert.assertEquals(r.getSource(), p.getSource());
 			Assert.assertEquals(r.getDestination(), p.getDestination());
 			Assert.assertEquals(r.getRoot().size(), p.getRoot().size());
-			p.deleteParseObject();
 		} catch (ParseException | AlreadyExists | NotExists e) {
 			LogPrinter.createLogFile(e);
 			Assert.fail();
 		}
+
+		try {
+			p.setSource("Pool1");
+		} catch (ParseException e) {
+			LogPrinter.createLogFile(e);
+			Assert.fail();
+		} catch (NotExists e) {
+			Assert.assertEquals("Didn't find source", e.getMessage());
+
+		}
+
+		try {
+			p.setDestination("Industrial Engineering Faculty1");
+		} catch (ParseException e) {
+			LogPrinter.createLogFile(e);
+			Assert.fail();
+		} catch (NotExists e) {
+			Assert.assertEquals("Didn't find destination", e.getMessage());
+		}
+
+		try {
+			p.deleteParseObject();
+		} catch (ParseException e) {
+			LogPrinter.createLogFile(e);
+			Assert.fail();
+		}
 	}
-	
+
 	// check that the root isn't found
 	@Test
 	public void test04() {
 		try {
-			RootPath p = new RootPath("Computer Science Faculty", "Industrial Engineering Faculty");
+			RootPath p = new RootPath("Pool", "Industrial Engineering Faculty");
 		} catch (ParseException | AlreadyExists e) {
 			LogPrinter.createLogFile(e);
 			Assert.fail();
 		} catch (NotExists e) {
 			Assert.assertEquals("Didn't find the path", e.getMessage());
 		}
-	}	
+	}
 }

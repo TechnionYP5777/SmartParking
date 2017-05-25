@@ -31,6 +31,22 @@ public class ParkingArea extends dbMember {
 	private MapLocation location;
 	private Set<ParkingSlot> parkingSlots;
 
+	public static boolean areaExists(final String name) {
+		return getDbAreaObject(name) != null;
+	}
+	
+	public static ParseObject getDbAreaObject(final String name) {
+		DBManager.initialize();
+		final ParseQuery<ParseObject> query = ParseQuery.getQuery("ParkingArea");
+		query.whereEqualTo("name", name);
+		try {
+			final List<ParseObject> $ = query.find();
+			return $ == null || $.isEmpty() ? null : $.get(0);
+		} catch (final Exception e) {
+			return null;
+		}
+	}
+	
 	/* Constructors */
 
 	// Retrieve an exiting area from DB by the name
