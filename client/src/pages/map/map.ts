@@ -81,7 +81,35 @@ export class MapPage {
   }
   stopRecording() {
      clearInterval(this.intervalid);
+     this.presentPrompt();
      // post path to server;
+  }
+  presentPrompt() {
+    var userDirections = null;
+    let alert = this.alertCtrl.create({
+      title: 'Directions',
+      message: 'Please provide general directions',
+      inputs: [
+      {
+        name: 'direction',
+        placeholder: 'Direction'
+      },
+    ],
+    buttons: [
+      {
+        text: 'Cancel',
+        role: 'cancel'
+      },
+      {
+        text: 'Submit',
+        handler: data => {
+          userDirections = data;
+          console.log(data);
+        }
+      } 
+    ]
+    });
+    alert.present();
   }
   startRecording() {
      let recordedRoute = this.recordedRoute;
@@ -181,11 +209,21 @@ export class MapPage {
           {lat: 32.776282, lng: 35.026513}
      ];
      this.drawPath(testCoordinates);
+     this.showReachedDestination();
+     this.presentPrompt();
+  }
+  showReachedDestination() {
+      let alert = this.alertCtrl.create({
+         title: 'Reached Destination !',
+       });
+       alert.present();  
+       setTimeout(() => alert.dismiss(),2000);
   }
   reachedFirstDest() {
      clearInterval(this.intervalDest);
      this.directionsDisplay.setMap(null);
      this.directionsDisplay.setPanel(null);
+     this.showReachedDestination();
      var min = -1;
      var minArea = null;
      for (var i=0; i < this.parkingAreas.length; i++ ) {
