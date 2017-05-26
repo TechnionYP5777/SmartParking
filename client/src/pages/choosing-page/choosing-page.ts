@@ -48,7 +48,7 @@ export class ChoosingPage {
   	console.log(dict);
   }
   changeToRecord(value:any){
-	this.mapPage.recordRoute=value.checked;
+	this.mapPage.wantRecordRoute=value.checked;
   	console.log(value);
   }
 }

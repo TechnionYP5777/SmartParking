@@ -26,13 +26,14 @@ export class MapPage {
   i: number;
   srcPosition: any;
   dstPosition: any;
-  recordRoute: boolean;
+  wantRecordRoute: boolean;
   mapView: any;
   ispathshown: any;
   recordedRoute: any;
   intervalid: any;
   intervalDest: any;
   parkingAreas: any;
+  chosenParkingArea:any;
   constructor(public navCtrl: NavController, public alertCtrl: AlertController,private locService: LocationService) {
      this.recordedRoute = [];
      this.parkingAreas = [];
@@ -57,7 +58,6 @@ export class MapPage {
         });
         circle.bindTo('center', marker, 'position');
     });
-
   }
 
   drawPath( listLocsToDraw ) {
@@ -79,15 +79,16 @@ export class MapPage {
                 mapPage: this
               });
   }
-  stopRecording() {
+  stopRecording(recordTimeInterval : number) {
      clearInterval(this.intervalid);
-     this.presentPrompt();
+     var message="";
+     this.presentPrompt(message);
+     let toServer={time:recordTimeInterval,points:this.recordedRoute,dst:this.dstPosition,parkingArea:this.chosenParkingArea.position}; 
      // post path to server;
   }
-  presentPrompt() {
-    var userDirections = null;
+  presentPrompt(message) {
     let alert = this.alertCtrl.create({
-      title: 'Directions',
+      title: 'You Have Reached Your Destination!',
       message: 'Please provide general directions',
       inputs: [
       {
@@ -103,7 +104,7 @@ export class MapPage {
       {
         text: 'Submit',
         handler: data => {
-          userDirections = data;
+          message = data;
           console.log(data);
         }
       } 
@@ -116,6 +117,8 @@ export class MapPage {
      let dstPosition = this.dstPosition;
      let mapObj = this;
      var geolocation = new Geolocation();
+     let startTime= (new Date()).getTime()
+     clearInterval(this.intervalid);
      this.intervalid = setInterval(function(){
         geolocation.getCurrentPosition().then((position) => {
          let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
@@ -124,11 +127,11 @@ export class MapPage {
          recordedRoute.push(latLng);
          var distance = google.maps.geometry.spherical.computeDistanceBetween(latLng, dstPosition);
          if (distance < 0.1) {
-             mapObj.stopRecording();
+             mapObj.stopRecording((startTime-(new Date()).getTime())/1000);//get the time that the record took in seconds(may be minutes are better)
          } 
          console.log(distance);
         });
-     }, 5000);
+     }, 30000);
   }
   suggestRoute() {
     this.directionsDisplay.setMap(null);
@@ -137,21 +140,46 @@ export class MapPage {
     this.startRecording();
   }
   go() {
-     if(this.recordRoute){
-	   console.log("want to record")	
-     }
-     else{
-     	if(this.srcPosition && this.dstPosition ) {
-          // send to server Src and Destination
-          // Server look for a path and return a result
-          document.getElementById("DirectionPanelLabel").style.display = "none";    
-	  this.calculateAndDisplayRoute(this.directionsService, this.directionsDisplay);
-          this.ispathshown = true;
-     	}else{
-		console.log("src or dst not defined");
-	}
-     }
-
+ 	if(this.srcPosition && this.dstPosition ) {
+      // send to server Src and Destination
+      // Server look for a path and return a result
+      document.getElementById("DirectionPanelLabel").style.display = "none";
+      let parkingArea=this.getBestParking();
+      this.chosenParkingArea=parkingArea;    
+	  this.calculateAndDisplayRoute(this.directionsService, this.directionsDisplay,parkingArea.position);
+      let mapObj = this;
+      if(this.wantRecordRoute){
+          var geolocation = new Geolocation();
+          this.intervalid=setInterval(function(){
+                geolocation.getCurrentPosition().then((position) => {
+                     let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                     var distance = google.maps.geometry.spherical.computeDistanceBetween(latLng, parkingArea.position);
+                     if (distance < 0.1) {
+                         mapObj.showReachedDestination('Reached Parking,\n will start recording your path now');
+                         mapObj.startRecording();
+                     } 
+                 });
+        },30000);
+      }else{
+          this.calculateAndDisplayRouteWalking(this.directionsService, this.directionsDisplay, parkingArea.position);
+      }
+      this.ispathshown = true;
+ 	}else{
+	console.log("src or dst not defined");
+    }
+    
+  }
+  getBestParking(){
+      var min=google.maps.geometry.spherical.computeDistanceBetween(this.parkingAreas[0].position.position, this.dstPosition);
+      var min_pa=this.parkingAreas[0];
+      this.parkingAreas.forEach(function(pa){
+        let distance = google.maps.geometry.spherical.computeDistanceBetween(pa.position, this.dstPosition);
+        if(distance<min){
+            min=distance;
+            min_pa=pa;
+        }      
+      });
+    return min_pa;
   }
   setSrcPosition(position) {
      this.srcPosition = position;
@@ -195,13 +223,6 @@ export class MapPage {
         }
      });
      this.directionsDisplayWalk.setMap(map);
-     //setInterval(function(){
-     //	geolocation.getCurrentPosition().then((position) => {
-     //   let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-     //	currentLocationMarker.setPosition(latLng);
-     //		console.log("new postion",latLng);
-     //	});
-     // }, 5000);
      this.locService.getParkingAreas(google,this);
      // test draw path:
      var testCoordinates = [
@@ -209,50 +230,51 @@ export class MapPage {
           {lat: 32.776282, lng: 35.026513}
      ];
      this.drawPath(testCoordinates);
-     this.showReachedDestination();
-     this.presentPrompt();
+     this.showReachedDestination('Reached Destination !');
+     var str;
+     this.presentPrompt(str);
   }
-  showReachedDestination() {
+  showReachedDestination(message) {
       let alert = this.alertCtrl.create({
-         title: 'Reached Destination !',
+         title: message,
        });
        alert.present();  
        setTimeout(() => alert.dismiss(),2000);
   }
-  reachedFirstDest() {
-     clearInterval(this.intervalDest);
-     this.directionsDisplay.setMap(null);
-     this.directionsDisplay.setPanel(null);
-     this.showReachedDestination();
-     var min = -1;
-     var minArea = null;
-     for (var i=0; i < this.parkingAreas.length; i++ ) {
-           var area = this.parkingAreas[i];
-           var distance = google.maps.geometry.spherical.computeDistanceBetween(area, this.dstPosition);
-            if (distance > min) {
-                distance = min;
-                minArea = area;
-            }
-     } 
-     this.directionsDisplay.setMap(this.mapView);
-     this.directionsDisplay.setMap(this.mapView);
-     this.calculateAndDisplayRouteWalking(this.directionsService, this.directionsDisplay, minArea);
-  }
-  calculateAndDisplayRoute(directionsService, directionsDisplay) {
+//  reachedFirstDest() {...##############################333 sefi done it wrong....
+//     clearInterval(this.intervalDest);
+//     this.directionsDisplay.setMap(null);
+//     this.directionsDisplay.setPanel(null);
+//     this.showReachedDestination();
+//     var min = -1;
+//     var minArea = null;
+//     for (var i=0; i < this.parkingAreas.length; i++ ) {
+//           var area = this.parkingAreas[i];
+//           var distance = google.maps.geometry.spherical.computeDistanceBetween(area, this.dstPosition);
+//            if (distance > min) {
+//                distance = min;
+//                minArea = area;
+//            }
+//     } 
+//     this.directionsDisplay.setMap(this.mapView);
+//     this.directionsDisplay.setMap(this.mapView);
+//     this.calculateAndDisplayRouteWalking(this.directionsService, this.directionsDisplay, minArea);
+//  }
+  calculateAndDisplayRoute(directionsService, directionsDisplay,parkingArea) {
         let mapObj = this;
         var geolocation = new Geolocation();
         var dst = this.dstPosition;
-        this.intervalDest = setInterval(function() {
-          geolocation.getCurrentPosition().then((position) => {
-          let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-          var distance = google.maps.geometry.spherical.computeDistanceBetween(latLng, dst);
-          if (distance < 0.1) { 
-               mapObj.reachedFirstDest();         
-          }
-        })}, 5000);
+//        this.intervalDest = setInterval(function() {
+//          geolocation.getCurrentPosition().then((position) => {
+//          let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+//          var distance = google.maps.geometry.spherical.computeDistanceBetween(latLng, dst);
+//          if (distance < 0.1) { 
+//               mapObj.reachedFirstDest();         
+//          }
+//        })}, 5000);
         directionsService.route({
           origin: this.srcPosition,
-          destination: this.dstPosition,
+          destination: parkingArea,
           travelMode: 'DRIVING'
         }, function(response, status) {
           if (status === 'OK') {
@@ -264,8 +286,8 @@ export class MapPage {
   }
   calculateAndDisplayRouteWalking(directionsService, directionsDisplay, position) {
         directionsService.route({
-          origin: this.dstPosition,
-          destination: position,
+          origin: position,
+          destination: this.dstPosition,
           travelMode: 'WALKING'
         }, function(response, status) {
           if (status === 'OK') {
