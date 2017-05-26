@@ -20,7 +20,6 @@
   	<label id ="DirectionPanelLabel" name = "panelLabel" class = "DirectionPanelLabel"><font size="5">No Direction To Show</font></label>
   </div>
   <ion-fab top right edge>
-    <button ion-fab mini (click)="changeLocation()"><ion-icon name="add"></ion-icon></button>
-    <button ion-button color="dark" (click)="suggestRoute()" [disabled]="!ispathshown">Suggest Route</button>
+    <button ion-fab (click)="changeLocation()"><ion-icon name="add"></ion-icon></button>
   </ion-fab>
 </ion-content>

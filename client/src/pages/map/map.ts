@@ -50,7 +50,7 @@ export class MapPage {
          position: parkingArea.position,
          map: map
         });
-        array.push(parkingArea.position);
+        array.push(parkingArea);
         var circle = new google.maps.Circle({
             map: map,
             radius: 100,
@@ -83,8 +83,8 @@ export class MapPage {
      clearInterval(this.intervalid);
      var message="";
      this.presentPrompt(message);
-     let toServer={time:recordTimeInterval,points:this.recordedRoute,dst:this.dstPosition,parkingArea:this.chosenParkingArea.position}; 
-     // post path to server;
+     let toServer={time:recordTimeInterval,points:this.recordedRoute,dst:this.dstPosition,parkingArea:this.chosenParkingArea.position,directions:message}; 
+     //TODO:  post path to server;
   }
   presentPrompt(message) {
     let alert = this.alertCtrl.create({
@@ -118,7 +118,7 @@ export class MapPage {
      let mapObj = this;
      var geolocation = new Geolocation();
      let startTime= (new Date()).getTime()
-     clearInterval(this.intervalid);
+     
      this.intervalid = setInterval(function(){
         geolocation.getCurrentPosition().then((position) => {
          let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
@@ -134,6 +134,7 @@ export class MapPage {
      }, 30000);
   }
   suggestRoute() {
+    clearInterval(this.intervalid);
     this.directionsDisplay.setMap(null);
     this.directionsDisplay.setPanel(null); 
     document.getElementsByName("panelLabel")[0].innerHTML = "No Directions To Show";
@@ -156,12 +157,22 @@ export class MapPage {
                      var distance = google.maps.geometry.spherical.computeDistanceBetween(latLng, parkingArea.position);
                      if (distance < 0.1) {
                          mapObj.showReachedDestination('Reached Parking,\n will start recording your path now');
-                         mapObj.startRecording();
+                         let alert = this.alertCtrl.create({
+                              title: 'You Have Reached Your Parking!',
+                              message: 'press OK to start record the route',
+                              buttons: [
+                              {
+                                text: 'OK',
+                                handler: ()=>{mapObj.suggestRoute();}
+                              }
+                              ]
+                        });
+                        alert.present();
                      } 
                  });
         },30000);
       }else{
-          this.calculateAndDisplayRouteWalking(this.directionsService, this.directionsDisplay, parkingArea.position);
+          this.calculateAndDisplayRouteWalking(this.directionsService, this.directionsDisplayWalk, parkingArea.position);
       }
       this.ispathshown = true;
  	}else{
@@ -170,10 +181,11 @@ export class MapPage {
     
   }
   getBestParking(){
-      var min=google.maps.geometry.spherical.computeDistanceBetween(this.parkingAreas[0].position.position, this.dstPosition);
+      var min=google.maps.geometry.spherical.computeDistanceBetween(this.parkingAreas[0].position, this.dstPosition);
+      let dst = this.dstPosition;
       var min_pa=this.parkingAreas[0];
       this.parkingAreas.forEach(function(pa){
-        let distance = google.maps.geometry.spherical.computeDistanceBetween(pa.position, this.dstPosition);
+        let distance = google.maps.geometry.spherical.computeDistanceBetween(pa.position, dst);
         if(distance<min){
             min=distance;
             min_pa=pa;
@@ -241,37 +253,10 @@ export class MapPage {
        alert.present();  
        setTimeout(() => alert.dismiss(),2000);
   }
-//  reachedFirstDest() {...##############################333 sefi done it wrong....
-//     clearInterval(this.intervalDest);
-//     this.directionsDisplay.setMap(null);
-//     this.directionsDisplay.setPanel(null);
-//     this.showReachedDestination();
-//     var min = -1;
-//     var minArea = null;
-//     for (var i=0; i < this.parkingAreas.length; i++ ) {
-//           var area = this.parkingAreas[i];
-//           var distance = google.maps.geometry.spherical.computeDistanceBetween(area, this.dstPosition);
-//            if (distance > min) {
-//                distance = min;
-//                minArea = area;
-//            }
-//     } 
-//     this.directionsDisplay.setMap(this.mapView);
-//     this.directionsDisplay.setMap(this.mapView);
-//     this.calculateAndDisplayRouteWalking(this.directionsService, this.directionsDisplay, minArea);
-//  }
   calculateAndDisplayRoute(directionsService, directionsDisplay,parkingArea) {
         let mapObj = this;
         var geolocation = new Geolocation();
         var dst = this.dstPosition;
-//        this.intervalDest = setInterval(function() {
-//          geolocation.getCurrentPosition().then((position) => {
-//          let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-//          var distance = google.maps.geometry.spherical.computeDistanceBetween(latLng, dst);
-//          if (distance < 0.1) { 
-//               mapObj.reachedFirstDest();         
-//          }
-//        })}, 5000);
         directionsService.route({
           origin: this.srcPosition,
           destination: parkingArea,
@@ -291,6 +276,8 @@ export class MapPage {
           travelMode: 'WALKING'
         }, function(response, status) {
           if (status === 'OK') {
+            let time =response.routes[0].legs[0].duration;
+            //TODO: add call to server for check weather show this route or the one we saved.
             directionsDisplay.setDirections(response);
           } else {
             window.alert('Directions request failed due to ' + status);
