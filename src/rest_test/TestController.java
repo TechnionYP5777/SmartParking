@@ -6,24 +6,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.*;
 
 import main.java.Exceptions.LoginException;
-import main.java.data.management.DBManager;
-import main.java.data.members.Destination;
-import main.java.data.members.MapLocation;
 import main.java.data.members.User;
-import main.java.gui.app.AbstractWindow;
-import main.java.logic.NavigationController;
 
 import org.springframework.stereotype.Controller;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.parse4j.ParseObject;
-import org.parse4j.ParseQuery;
-
 @Controller
 public class TestController {
 	User user;

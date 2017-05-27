@@ -34,7 +34,7 @@ public class PathTest {
 	public void AfterPathTest() {
 		try {
 			new RootPath("Makak", "Sports Center").deleteParseObject();
-		} catch (ParseException | AlreadyExists | NotExists e) {
+		} catch (ParseException | NotExists e) {
 			LogPrinter.createLogFile(e);
 			Assert.fail();
 		}
@@ -56,7 +56,7 @@ public class PathTest {
 			Assert.assertTrue(p.getDuration() == 5);
 			Assert.assertEquals("Turn Left and then Straight", p.getDescription());
 
-		} catch (ParseException | AlreadyExists | NotExists e) {
+		} catch (ParseException | NotExists e) {
 			LogPrinter.createLogFile(e);
 			Assert.fail();
 		}
@@ -108,7 +108,7 @@ public class PathTest {
 			Assert.assertTrue(r.getDuration() == p.getDuration());
 			Assert.assertEquals(r.getDescription(), p.getDescription());
 
-		} catch (ParseException | AlreadyExists | NotExists e) {
+		} catch (ParseException | NotExists e) {
 			LogPrinter.createLogFile(e);
 			Assert.fail();
 		}

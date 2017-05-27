@@ -69,7 +69,7 @@ public class RootPath extends dbMember {
 		this.setObjectId();
 	}
 
-	public RootPath(final String src, final String dest) throws ParseException, AlreadyExists, NotExists {
+	public RootPath(final String src, final String dest) throws ParseException, NotExists {
 		DBManager.initialize();
 
 		if (!ParkingArea.areaExists(src) && !Destination.destinationExists(dest))
