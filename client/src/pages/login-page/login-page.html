@@ -20,12 +20,12 @@
 <ion-list>
 
   <ion-item>
-    <ion-label floating>Car Number</ion-label>
+    <ion-label style= "color: black" floating>Car Number</ion-label>
     <ion-input [(ngModel)]="carNumber" type="text" value=""></ion-input>
   </ion-item>
 
   <ion-item>
-    <ion-label floating>Password</ion-label>
+    <ion-label style= "color: black" floating>Password</ion-label>
     <ion-input [(ngModel)]="password"  type="password" value=""></ion-input>
   </ion-item>
 
@@ -34,10 +34,10 @@
 <div padding>
   <button  ion-button (click)="Login(carNumber,password)" color="dark" style="margin-right: 16px" *ngIf="!isLoggedin" [navPush] = "signin" >Sign In</button>
   <button  ion-button color="dark" style="margin-right: 16px" *ngIf="isLoggedin" [navPush] = "logout" >Logout</button>
-    <a href="#/register-page" style="font-size: 14px" class="btn btn-link" size="8">New Here? Register!</a>
+    <a href="#/register-page" style="font-size: 16px; color: white" class="btn btn-link" size="8">New Here? Register!</a>
     </div>
   <div padding>
-  <a href="#" style="font-size: 14px" class="btn btn-link" size="8">Forgot Password? Click Here!</a>
+  <a href="#" style="font-size: 16px; color: white" class="btn btn-link" size="8">Forgot Password? Click Here!</a>
   </div>
 
 

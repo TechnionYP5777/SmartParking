@@ -31,7 +31,9 @@
 }
 
 .page-hello-ionic {
- background-color: #ccffff;
+  text-color: white;
+  background: url("../assets/img/background.jpg") no-repeat fixed center;
+  background-size: cover;
  -webkit-animation: animateInSecondary ease-in 1;
     animation: animateInSecondary ease-in 1;
     -webkit-animation-duration: 750ms;

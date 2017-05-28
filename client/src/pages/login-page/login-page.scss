@@ -34,7 +34,8 @@
 
 
 .page-login-page {
- 	background-color:  #ccffff;
+ 	background: url("../assets/img/background.jpg") no-repeat fixed center;
+  background-size: cover;
   -webkit-animation: animateInSecondary ease-in 1;
     animation: animateInSecondary ease-in 1;
     -webkit-animation-duration: 750ms;
@@ -51,5 +52,10 @@
 }
 
 .item {
-	background-color: #ccffff;		
+	background-color: white;
+  opacity: 0.8; 		
+}
+
+.ion-label {
+  text-color: black;
 }
