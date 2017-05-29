@@ -14,16 +14,16 @@ import main.java.data.management.DBManager;
 /**
  * @Author DavidCohen55
  */
-public class RootPath extends dbMember {
+public class RoutePath extends dbMember {
 	private String source;
 	private String destination;
-	private ArrayList<MapLocation> root;
+	private ArrayList<MapLocation> route;
 	private double duration;
 	private String description;
 
 	private static final String SOURCE = "source";
 	private static final String DESTINATION = "destination";
-	private static final String ROOT = "Root";
+	private static final String ROUTE = "Route";
 	private static final String DURATION = "Duration";
 	private static final String DESCRIPTION = "Description";
 	private static final String TABLE_NAME = "Path";
@@ -45,7 +45,7 @@ public class RootPath extends dbMember {
 		return getPathParse(src, dest) != null;
 	}
 
-	public RootPath(final String src, final String dest, final ArrayList<MapLocation> root, int dur, String desc)
+	public RoutePath(final String src, final String dest, final ArrayList<MapLocation> route, double dur, String desc)
 			throws ParseException, AlreadyExists, NotExists {
 		DBManager.initialize();
 
@@ -63,13 +63,13 @@ public class RootPath extends dbMember {
 
 		this.setSource(src);
 		this.setDestination(dest);
-		this.setRoot(root);
+		this.setRoot(route);
 		this.setDuration(dur);
 		this.setDescription(desc);
 		this.setObjectId();
 	}
 
-	public RootPath(final String src, final String dest) throws ParseException, NotExists {
+	public RoutePath(final String src, final String dest) throws ParseException, NotExists {
 		DBManager.initialize();
 
 		if (!ParkingArea.areaExists(src) && !Destination.destinationExists(dest))
@@ -93,10 +93,10 @@ public class RootPath extends dbMember {
 		this.setDuration(this.parseObject.getDouble(DURATION));
 		this.setDescription(this.parseObject.getString(DESCRIPTION));
 		
-		this.root = new ArrayList<MapLocation>();
-		List<Object> points = this.parseObject.getList(ROOT);
+		this.route = new ArrayList<MapLocation>();
+		List<Object> points = this.parseObject.getList(ROUTE);
 		for (Object o : points)
-			this.root.add((new MapLocation(((ParseGeoPoint) o).getLatitude(), ((ParseGeoPoint) o).getLongitude())));
+			this.route.add((new MapLocation(((ParseGeoPoint) o).getLatitude(), ((ParseGeoPoint) o).getLongitude())));
 
 		setObjectId();
 	}
@@ -117,12 +117,12 @@ public class RootPath extends dbMember {
 		parseObject.save();
 	}
 
-	public void setRoot(final ArrayList<MapLocation> root) throws ParseException {
-		this.root = root;
+	public void setRoot(final ArrayList<MapLocation> route) throws ParseException {
+		this.route = route;
 		ArrayList<ParseGeoPoint> pRoot = new ArrayList<ParseGeoPoint>();
-		for (MapLocation m : root)
+		for (MapLocation m : route)
 			pRoot.add(new ParseGeoPoint(m.getLat(), m.getLon()));
-		parseObject.put(ROOT, pRoot);
+		parseObject.put(ROUTE, pRoot);
 		parseObject.save();
 	}
 
@@ -146,8 +146,8 @@ public class RootPath extends dbMember {
 		return this.destination;
 	}
 
-	public ArrayList<MapLocation> getRoot() {
-		return root;
+	public ArrayList<MapLocation> getRoute() {
+		return route;
 	}
 
 	public double getDuration() {

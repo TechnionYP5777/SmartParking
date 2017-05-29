@@ -1,11 +1,15 @@
 package rest_test;
 
 import org.springframework.web.bind.annotation.*;
+
+import main.java.Exceptions.AlreadyExists;
 import main.java.Exceptions.NotExists;
 import main.java.data.members.MapLocation;
 import main.java.data.management.DBManager;
-import main.java.data.members.RootPath;
+import main.java.data.members.RoutePath;
 import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.parse4j.ParseException;
@@ -25,14 +29,14 @@ public class PathController {
 
 		JSONObject obj = new JSONObject();
 		try {
-			RootPath root = new RootPath(area, dest);
+			RoutePath root = new RoutePath(area, dest);
 			obj.put("source", root.getSource());
 			obj.put("destination", root.getDestination());
 			obj.put("Duration", root.getDuration());
 			obj.put("Description", root.getDescription());
 
 			JSONArray list = new JSONArray();
-			ArrayList<MapLocation> path = root.getRoot();
+			ArrayList<MapLocation> path = root.getRoute();
 			for (MapLocation mapLocation : path) {
 				JSONObject loc = new JSONObject();
 				loc.put("lat", mapLocation.getLat());
@@ -40,7 +44,7 @@ public class PathController {
 				list.put(loc);
 			}
 
-			obj.put("Root", list);
+			obj.put("Route", list);
 
 		} catch (ParseException | NotExists e) {
 			obj.put("error", e.getMessage());
@@ -49,16 +53,16 @@ public class PathController {
 	}
 
 	@CrossOrigin(origins = "http://localhost:8100")
-	@RequestMapping(value = "/GetRoot", produces = "application/json")
+	@RequestMapping(value = "/GetRoute", produces = "application/json")
 	@ResponseBody
 	public String getRoot(@RequestParam("area") String area, @RequestParam("dest") String dest) {
 
 		JSONObject obj = new JSONObject();
 		try {
-			RootPath root = new RootPath(area, dest);
+			RoutePath route = new RoutePath(area, dest);
 
 			JSONArray list = new JSONArray();
-			ArrayList<MapLocation> path = root.getRoot();
+			ArrayList<MapLocation> path = route.getRoute();
 			for (MapLocation mapLocation : path) {
 				JSONObject loc = new JSONObject();
 				loc.put("lat", mapLocation.getLat());
@@ -66,7 +70,7 @@ public class PathController {
 				list.put(loc);
 			}
 
-			obj.put("Root", list);
+			obj.put("Route", list);
 
 		} catch (ParseException | NotExists e) {
 			obj.put("error", e.getMessage());
@@ -79,5 +83,16 @@ public class PathController {
 	public WrapObj post(@RequestBody WrapObj o) {
 		return o;
 	}
-	// post service add path: source,dest,desc,dur,
+	
+	@RequestMapping(value = "/SendPath" , method = RequestMethod.POST, produces = "application/json")
+	@ResponseBody
+	public boolean sendPath(@RequestBody WrapObj o) {
+		ArrayList<MapLocation> mp = new ArrayList<MapLocation>(Arrays.asList(o.getPath()));
+		try {
+			new RoutePath(o.getParkingArea(), o.getDestination(),mp,o.getDuration(),o.getDescription());
+			return true;
+		} catch (ParseException | AlreadyExists | NotExists e) {
+			return false;
+		}
+	}
 }
