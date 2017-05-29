@@ -5,6 +5,10 @@ public class MapLocation {
 	private double lat;
 	private double lon;
 
+	public MapLocation(){
+		
+	}
+	
 	public MapLocation(final double latitude, final double longitude) {
 		lat = latitude;
 		lon = longitude;
