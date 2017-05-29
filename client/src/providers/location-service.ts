@@ -52,7 +52,7 @@ export class LocationService {
         return this.http.get('http://localhost:8080/ParkingAreas').map(res => res.json()).subscribe(data => {
             var areasArray=[];
             Object.keys(data).forEach(function(key){
-                    areasArray.push({color:data[key].color,position : new googleObj.maps.LatLng(data[key].location.lat,data[key].location.lon)});                    
+                    areasArray.push({name:data[key].name,color:data[key].color,position : new googleObj.maps.LatLng(data[key].location.lat,data[key].location.lon)});                    
             });
             mapViewer.showParkingAreas(areasArray);
             

@@ -40,12 +40,10 @@ export class ChoosingPage {
      this.navCtrl.pop();
   }
   rememberDest(dict:any){
-        this.mapPage.setDstPosition(dict["position"]);
-  	console.log(dict);
+        this.mapPage.setDstPosition(dict["position"],dict["title"]);
   }
   rememberSrc(dict:any){
         this.mapPage.setSrcPosition(dict["position"]);
-  	console.log(dict);
   }
   changeToRecord(value:any){
 	this.mapPage.wantRecordRoute=value.checked;

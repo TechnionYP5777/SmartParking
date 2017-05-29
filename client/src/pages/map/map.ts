@@ -4,12 +4,13 @@ import { Geolocation } from '@ionic-native/geolocation';
 import { AlertController} from 'ionic-angular';
 import { ChoosingPage } from '../choosing-page/choosing-page';
 import { LocationService } from '../../providers/location-service';
+import { PathService } from '../../providers/path-service';
 declare var google;
 
 @Component({
   selector: 'page-map',
   templateUrl: 'map.html',
-  providers: [LocationService]
+  providers: [LocationService,PathService]
 })
 export class MapPage {
 
@@ -26,6 +27,7 @@ export class MapPage {
   i: number;
   srcPosition: any;
   dstPosition: any;
+  dstName: any;
   wantRecordRoute: boolean;
   mapView: any;
   ispathshown: any;
@@ -34,7 +36,7 @@ export class MapPage {
   intervalDest: any;
   parkingAreas: any;
   chosenParkingArea:any;
-  constructor(public navCtrl: NavController, public alertCtrl: AlertController,private locService: LocationService) {
+  constructor(public navCtrl: NavController, public alertCtrl: AlertController,private locService: LocationService,private pathService: PathService) {
      this.recordedRoute = [];
      this.parkingAreas = [];
   }
@@ -73,7 +75,6 @@ export class MapPage {
   }
 
   changeLocation() {
-     //this.self = this;
      this.navCtrl.push(ChoosingPage, 
               { googleObj: google,
                 mapPage: this
@@ -83,8 +84,8 @@ export class MapPage {
      clearInterval(this.intervalid);
      var message="";
      this.presentPrompt(message);
-     let toServer={time:recordTimeInterval,points:this.recordedRoute,dst:this.dstPosition,parkingArea:this.chosenParkingArea.position,directions:message}; 
-     //TODO:  post path to server;
+     let toServer={duration:recordTimeInterval,points:this.recordedRoute,dst:this.dstName,parkingArea:this.chosenParkingArea.name,description:message}; 
+     this.pathService.sendRecordedPath(toServer);
   }
   presentPrompt(message) {
     let alert = this.alertCtrl.create({
@@ -122,9 +123,8 @@ export class MapPage {
      this.intervalid = setInterval(function(){
         geolocation.getCurrentPosition().then((position) => {
          let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-         //this.currentLocationMarker.setPosition(latLng);
          console.log(recordedRoute);
-         recordedRoute.push(latLng);
+         recordedRoute.push({lat:latLng.latitude,lon:latLng.latitude.longitude});
          var distance = google.maps.geometry.spherical.computeDistanceBetween(latLng, dstPosition);
          if (distance < 0.1) {
              mapObj.stopRecording((startTime-(new Date()).getTime())/1000);//get the time that the record took in seconds(may be minutes are better)
@@ -172,7 +172,7 @@ export class MapPage {
                  });
         },30000);
       }else{
-          this.calculateAndDisplayRouteWalking(this.directionsService, this.directionsDisplayWalk, parkingArea.position);
+          this.calculateAndDisplayRouteWalking(this.directionsService, this.directionsDisplayWalk, parkingArea);
       }
       this.ispathshown = true;
  	}else{
@@ -197,7 +197,8 @@ export class MapPage {
      this.srcPosition = position;
      console.log(position);
   }
-  setDstPosition(position) {
+  setDstPosition(position,name) {
+     this.dstName=name;
      this.dstPosition = position;
      console.log(position);
   }
@@ -236,15 +237,6 @@ export class MapPage {
      });
      this.directionsDisplayWalk.setMap(map);
      this.locService.getParkingAreas(google,this);
-     // test draw path:
-     var testCoordinates = [
-          {lat: 32.773518, lng: 35.030413},
-          {lat: 32.776282, lng: 35.026513}
-     ];
-     this.drawPath(testCoordinates);
-     this.showReachedDestination('Reached Destination !');
-     var str;
-     this.presentPrompt(str);
   }
   showReachedDestination(message) {
       let alert = this.alertCtrl.create({
@@ -254,8 +246,6 @@ export class MapPage {
        setTimeout(() => alert.dismiss(),2000);
   }
   calculateAndDisplayRoute(directionsService, directionsDisplay,parkingArea) {
-        let mapObj = this;
-        var geolocation = new Geolocation();
         directionsService.route({
           origin: this.srcPosition,
           destination: parkingArea,
@@ -268,16 +258,24 @@ export class MapPage {
           }
         });
   }
-  calculateAndDisplayRouteWalking(directionsService, directionsDisplay, position) {
-        directionsService.route({
-          origin: position,
+  calculateAndDisplayRouteWalking(directionsService, directionsDisplay, parkingArea) {
+      let mapObj=this;  
+      directionsService.route({
+          origin: parkingArea.position,
           destination: this.dstPosition,
           travelMode: 'WALKING'
         }, function(response, status) {
           if (status === 'OK') {
-            //TODO: add call to server for check weather show this route or the one we saved.
-            directionsDisplay.setDirections(response);
-          } else {
+                var data={error:null,duration:-1,path:[],description:null};
+                mapObj.pathService.getRecordedPath(parkingArea.name,mapObj.dstName,data,google,function(){
+                if(data.error || data.duration>=response.routes[0].legs[0].duration){
+                    directionsDisplay.setDirections(response);
+                }else{
+                    mapObj.drawPath(data.path);
+                    document.getElementsByName("panelLabel")[0].innerHTML = data.description;
+                }
+              });
+          }else {
             window.alert('Directions request failed due to ' + status);
           }
         });
