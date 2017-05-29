@@ -37,19 +37,20 @@ export class LoginPage {
         });
 
         setTimeout(function() { ref.getInfo(); }, 5000);
+        this.presentAlert("Connected", "Congratulations"); 
     }
 
     usingGet() {
         this.serve.callHttp().subscribe(data => {
-            this.presentAlert("Connecting to server...");
+            this.presentAlert("Connecting to server...", "Please wait");
             this.str = data.str;
             this.num = data.num;
         });
     }
 
-    presentAlert(str) {
+    presentAlert(str, myTitle) {
         let alert = this.alertCtrl.create({
-            title: 'Alert',
+            title: myTitle,
             subTitle: str,
             buttons: ['OK']
         });

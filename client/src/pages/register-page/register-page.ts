@@ -1,7 +1,7 @@
 import { RegisterService } from '../../providers/register-service';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
+import { AlertController } from 'ionic-angular';
 /**
  * Generated class for the RegisterPage page.
  *
@@ -15,7 +15,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class RegisterPage {
     serve: any;
-  constructor(public navCtrl: NavController, public navParams: NavParams, serve: RegisterService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, serve: RegisterService, public alertCtrl: AlertController) {
     this.serve = serve;
   }
 
@@ -34,5 +34,14 @@ export class RegisterPage {
 
     //setTimeout(function() { ref.getInfo(); }, 5000);
   }
+  
+     presentAlert(str, myTitle) {
+        let alert = this.alertCtrl.create({
+            title: myTitle,
+            subTitle: str,
+            buttons: ['OK']
+        });
+        alert.present();
+    }
 
 }

@@ -256,7 +256,6 @@ export class MapPage {
   calculateAndDisplayRoute(directionsService, directionsDisplay,parkingArea) {
         let mapObj = this;
         var geolocation = new Geolocation();
-        var dst = this.dstPosition;
         directionsService.route({
           origin: this.srcPosition,
           destination: parkingArea,
@@ -276,7 +275,6 @@ export class MapPage {
           travelMode: 'WALKING'
         }, function(response, status) {
           if (status === 'OK') {
-            let time =response.routes[0].legs[0].duration;
             //TODO: add call to server for check weather show this route or the one we saved.
             directionsDisplay.setDirections(response);
           } else {
