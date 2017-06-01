@@ -92,6 +92,15 @@ export class MapPage {
         mapPage: this
       });
   }
+  setSrcPosition(position) {
+    this.srcPosition = position;
+    console.log(position);
+  }
+  setDstPosition(position, name) {
+    this.dstName = name;
+    this.dstPosition = position;
+    console.log(position);
+  }
   stopRecording(recordTimeInterval: number) {
     clearInterval(this.intervalid);
     var message = "";
@@ -217,7 +226,8 @@ export class MapPage {
             this.navCtrl.push(LoginPage);
           }
         }
-      ]
+      ], 
+      cssClass: 'alertLogin'
     });
     alert.present();
   }

@@ -55,7 +55,8 @@ export class LoginPage {
     let alert = this.alertCtrl.create({
       title: myTitle,
       subTitle: str,
-      buttons: ['OK']
+      buttons: ['OK'],
+      cssClass: 'alertLogin'
     });
     alert.present();
   }

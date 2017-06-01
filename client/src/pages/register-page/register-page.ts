@@ -30,7 +30,7 @@ export class RegisterPage {
     }, err => {
       console.log(err);
     });
-    this.presentAlert ("Register is successful!", "Register");
+    this.presentAlert("Register is successful!", "Register");
 
     //setTimeout(function() { ref.getInfo(); }, 5000);
   }
