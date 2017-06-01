@@ -37,7 +37,7 @@ export class MapPage {
   intervalDest: any;
   parkingAreas: any;
   chosenParkingArea: any;
-  loginPage: any; 
+  loginPage: any;
   constructor(public navCtrl: NavController, public alertCtrl: AlertController, private locService: LocationService, private pathService: PathService,
     public login: LoginPage) {
     this.recordedRoute = [];
@@ -47,7 +47,9 @@ export class MapPage {
 
   ionViewDidLoad() {
     this.loadMap();
-    this.showAlertLogin(this.loginPage);
+    if (this.loginPage.isLogin == false) {
+      this.showAlertLogin(this.loginPage);
+    }
   }
   showParkingAreas(parkingAreasPositions) {
     let map = this.mapView;
@@ -66,11 +68,11 @@ export class MapPage {
       circle.bindTo('center', marker, 'position');
     });
   }
-  showAlertLogin (loginPage) {
-       if (loginPage.isLogin == false) {
-      this.presentAlert("You must login first", "Wait!");
-     }
+  showAlertLogin(loginPage) {
+    if (loginPage.isLogin == false) {
+      this.presentLoginAlert();
     }
+  }
   drawPath(listLocsToDraw) {
     var drivePath = new google.maps.Polyline({
       path: listLocsToDraw,
@@ -203,22 +205,21 @@ export class MapPage {
     });
     return min_pa;
   }
-  presentAlert(str, myTitle) {
+  presentLoginAlert() {
     let alert = this.alertCtrl.create({
-      title: myTitle,
-      subTitle: str,
-      buttons: ['OK']
+      title: 'WAIT...',
+      message: 'Please Login to our system before you proceed',
+      buttons: [
+        {
+          text: 'Go to Login',
+          role: 'goToLogin',
+          handler: () => {
+            this.navCtrl.push(LoginPage);
+          }
+        }
+      ]
     });
     alert.present();
-  }
-  setSrcPosition(position) {
-    this.srcPosition = position;
-    console.log(position);
-  }
-  setDstPosition(position, name) {
-    this.dstName = name;
-    this.dstPosition = position;
-    console.log(position);
   }
   loadMap() {
     this.directionsService = new google.maps.DirectionsService;
