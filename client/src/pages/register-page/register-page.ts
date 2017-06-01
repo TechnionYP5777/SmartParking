@@ -14,7 +14,7 @@ import { AlertController } from 'ionic-angular';
   templateUrl: 'register-page.html',
 })
 export class RegisterPage {
-    serve: any;
+  serve: any;
   constructor(public navCtrl: NavController, public navParams: NavParams, serve: RegisterService, public alertCtrl: AlertController) {
     this.serve = serve;
   }
@@ -24,24 +24,24 @@ export class RegisterPage {
   }
 
   Register(userName, password, phoneNum, carNum, eMail, stickerColor) {
-   // let ref = this;
-    
+    // let ref = this; 
     this.serve.userRegister(userName, password, phoneNum, carNum, eMail, stickerColor).subscribe(() => {
-            console.log("Register working");
-        }, err => {
-            console.log(err);
-        });
+      console.log("Register working");
+    }, err => {
+      console.log(err);
+    });
+    this.presentAlert ("Register is successful!", "Register");
 
     //setTimeout(function() { ref.getInfo(); }, 5000);
   }
-  
-     presentAlert(str, myTitle) {
-        let alert = this.alertCtrl.create({
-            title: myTitle,
-            subTitle: str,
-            buttons: ['OK']
-        });
-        alert.present();
-    }
+
+  presentAlert(str, myTitle) {
+    let alert = this.alertCtrl.create({
+      title: myTitle,
+      subTitle: str,
+      buttons: ['OK']
+    });
+    alert.present();
+  }
 
 }

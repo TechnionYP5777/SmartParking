@@ -1,25 +1,45 @@
 
-<ion-header>
-  <ion-navbar>
-    <button ion-butoon menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title>Map</ion-title>
-  </ion-navbar>
-</ion-header>
+<ion-header> <ion-navbar>
+<button ion-butoon menuToggle>
+	<ion-icon name="menu"></ion-icon>
+</button>
+<ion-title>Map</ion-title> </ion-navbar> </ion-header>
 
 
- 
+
 <ion-content>
 <style>
-	#over_map {position: absolute; top:0px;left:0px; z-index:0;height:100%;width:25%;margin-left:5px;}
-	#DirectionPanelLabel {margin: auto; position: absolute; top: 50%; left: 0; bottom: 0; right: 0;text-align: center;font-size = 30px;}
+#over_map {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	z-index: 0;
+	height: 100%;
+	width: 25%;
+	margin-left: 5px;
+}
+
+#DirectionPanelLabel {
+	margin: auto;
+	position: absolute;
+	top: 50%;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	text-align: center;
+	font-size
+	=
+	30px;
+}
 </style>
-  <div #map id="map"></div>
-  <div id="over_map" name="test_over_map"> 
-  	<label id ="DirectionPanelLabel" name = "panelLabel" class = "DirectionPanelLabel"><font size="5">No Direction To Show</font></label>
-  </div>
-  <ion-fab top right edge>
-    <button ion-fab (click)="changeLocation()"><ion-icon name="add"></ion-icon></button>
-  </ion-fab>
-</ion-content>
+<div #map id="map"></div>
+<div id="over_map" name="test_over_map">
+	<label id="DirectionPanelLabel" name="panelLabel"
+		class="DirectionPanelLabel"><font size="5">No Direction
+			To Show</font></label>
+</div>
+<ion-fab top right edge>
+<button ion-fab (click)="changeLocation()">
+	<ion-icon name="add"></ion-icon>
+</button>
+</ion-fab> </ion-content>
