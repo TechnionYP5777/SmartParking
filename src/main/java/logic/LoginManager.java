@@ -46,7 +46,6 @@ public class LoginManager {
 	}
 
 	public String userValueCheck(final String $, final String phone, final String email, final String car) {
-		System.out.println("Car: " + car + " Length: " + car.length());
 		try {
 			if (car != null) {
 				new User(car);

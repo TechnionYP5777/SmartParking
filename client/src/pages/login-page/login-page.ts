@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { LoginService } from './login-service';
 import { AlertController } from 'ionic-angular';
-import { RegisterPage } from '../register-page/register-page';
+import { HelloIonicPage } from '../hello-ionic/hello-ionic'
 
 @IonicPage()
 @Component({
@@ -36,8 +36,7 @@ export class LoginPage {
         console.log(data.name + " is logged in.");
       this.isLogin = true;
       this.presentAlert("You have sucsessfully logged in.\nWelcome, " + data.name, "Connected");
-      //TODO: Change the page it is navigated to, with Zahi's guidance.
-      this.navCtrl.push(RegisterPage);
+      this.navCtrl.push(HelloIonicPage);
       }
     }, err => {
       console.log(err);

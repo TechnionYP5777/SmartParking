@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 import 'rxjs/Rx';
-
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class RegisterService {
@@ -14,7 +14,7 @@ export class RegisterService {
 
       var value = "name=" + userName + "&pass=" + password + "&phone=" +
          phoneNum + "&car=" + carNum + "&email=" + eMail + "&type=" + stickerColor;
-        console.log("in userRegister, value = " + value);
+        //console.log("in userRegister, value = " + value);
         var headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
 
@@ -22,4 +22,15 @@ export class RegisterService {
             .map(res => res.json());
       
     }
+  
+  getRegisterData() {
+        return this.http.get('http://localhost:8080/User/Register').map(res => res.json())
+            .catch(this.handleError);
+    }
+  
+  handleError(error) {
+        console.error(error);
+        return Observable.throw('Server error');
+    }
+  
 }

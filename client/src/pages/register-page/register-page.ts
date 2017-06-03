@@ -2,6 +2,9 @@ import { RegisterService } from '../../providers/register-service';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
+import { LoginPage } from '../login-page/login-page';
+
+
 /**
  * Generated class for the RegisterPage page.
  *
@@ -24,16 +27,25 @@ export class RegisterPage {
   }
 
   Register(userName, password, phoneNum, carNum, eMail, stickerColor) {
-    // let ref = this; 
-    this.serve.userRegister(userName, password, phoneNum, carNum, eMail, "2").subscribe(() => {
-      console.log("Register working");
+    let ref = this; 
+    this.serve.userRegister(userName, password, phoneNum, carNum, eMail, stickerColor).subscribe(data => {
+      
     }, err => {
       console.log(err);
     });
-    this.presentAlert("Register is successful!", "Register");
-
-    //setTimeout(function() { ref.getInfo(); }, 5000);
+    this.navCtrl.push(LoginPage);
+    //setTimeout(function() { ref.getRegisterInfo(); }, 5000);
+    
   }
+    
+    getRegisterInfo(){
+      this.serve.getRegisterData().subscribe(data => {
+      this.presentAlert("Register is successful!" + data, "Register");
+      this.navCtrl.push(LoginPage);
+      });
+    }
+    
+
 
   presentAlert(str, myTitle) {
     let alert = this.alertCtrl.create({
