@@ -37,13 +37,13 @@ public class UserController {
 		user.setSticker(login.getSticker());
 	}
 
-	@RequestMapping(value = "/Register", produces = "application/json")
+	@RequestMapping(value = "/User/Register", produces = "application/json")
 	@ResponseBody
 	public String register() {
 		return  signUpStatus  != null ? signUpStatus : "Please try to signUp";
 	}
 
-	@RequestMapping(value = "/Register", method = RequestMethod.POST, produces = "application/json")
+	@RequestMapping(value = "/User/Register", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public void register(@RequestParam("name") String name, @RequestParam("pass") String pass,
 			@RequestParam("phone") String phone, @RequestParam("car") String car, @RequestParam("email") String email,
@@ -57,10 +57,11 @@ public class UserController {
 			signUpStatus = login.userSignUp(name, pass, phone, car, email, StickersColor.values()[type]);
 			if (!signUpStatus.equals("SignUpError"))
 				signUpStatus = "Succsesful signUp";
+				System.out.println("Succsesful signUp: " + name + " " + pass);
 
 		} catch (LoginException e) {
-			// TODO Auto-generated catch block
 			signUpStatus = e.toString();
+			System.out.println("Bad signUp!");
 		}
 
 		user.setName(login.getUserName());
