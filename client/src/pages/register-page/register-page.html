@@ -20,17 +20,16 @@
 <ion-label floating>Phone Number</ion-label> <ion-input
 	[(ngModel)]="phoneNumber" type="phoneNumber" value=""> </ion-input> </ion-item> <ion-item>
 <ion-label floating>Car Number</ion-label> <ion-input
-	[(ngModel)]="carNumber" type="carNumber" value=""> </ion-input> </ion-item> <ion-item>
+	[(ngModel)]="carNumber" type="text" value=""> </ion-input> </ion-item> <ion-item>
 <ion-label floating>E-Mail</ion-label> <ion-input [(ngModel)]="email"
 	type="email" value=""> </ion-input> </ion-item> <ion-item> <ion-label>Sticker
 Color</ion-label> <ion-select [(ngModel)]="sticker-color"> <ion-option
-	value="blue">Blue</ion-option> <ion-option value="white">White</ion-option>
-<ion-option value="red">Red</ion-option> <ion-option value="yellow">Yellow</ion-option>
-<ion-option value="green">Green</ion-option> </ion-select> </ion-item> </ion-list>
-
+	value="2">Blue</ion-option> <ion-option value="3">White</ion-option>
+<ion-option value="0">Red</ion-option> <ion-option value="4">Yellow</ion-option>
+<ion-option value="1">Green</ion-option> </ion-select> </ion-item> </ion-list>
 <div padding>
 	<button ion-button color="dark"
-		(click)="Register(username, password, phoneNumber, carNumber, email)">Sign
+		(click)="Register(username, password, phoneNumber, carNumber, email, sticker-color)">Sign
 		Up</button>
 </div>
 </ion-content>

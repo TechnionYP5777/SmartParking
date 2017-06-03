@@ -25,7 +25,7 @@ export class RegisterPage {
 
   Register(userName, password, phoneNum, carNum, eMail, stickerColor) {
     // let ref = this; 
-    this.serve.userRegister(userName, password, phoneNum, carNum, eMail, stickerColor).subscribe(() => {
+    this.serve.userRegister(userName, password, phoneNum, carNum, eMail, "2").subscribe(() => {
       console.log("Register working");
     }, err => {
       console.log(err);

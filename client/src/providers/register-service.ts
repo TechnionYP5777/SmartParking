@@ -11,14 +11,9 @@ export class RegisterService {
     }
    
     userRegister(userName, password, phoneNum, carNum, eMail, stickerColor) {
-      /*
-       * (@RequestParam("name") String name, @RequestParam("pass") String pass,
-      @RequestParam("phone") String phone, @RequestParam("car") String car, @RequestParam("email") String email,
-      @RequestParam("type") int type)
-       * 
-       */
+
       var value = "name=" + userName + "&pass=" + password + "&phone=" +
-         phoneNum + "&car=" + password + "@email=" + eMail + "&type=2";
+         phoneNum + "&car=" + carNum + "&email=" + eMail + "&type=" + stickerColor;
         console.log("in userRegister, value = " + value);
         var headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
