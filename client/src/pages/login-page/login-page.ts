@@ -4,6 +4,15 @@ import { LoginService } from './login-service';
 import { AlertController } from 'ionic-angular';
 import { HelloIonicPage } from '../hello-ionic/hello-ionic'
 
+
+/**
+ * @author DavidCohen55
+ * @author Shahar-Y
+ * Created: May 2017
+ * 
+ * This file contains the methods for the login functionality
+ */
+
 @IonicPage()
 @Component({
   selector: 'page-login-page',

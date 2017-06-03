@@ -4,6 +4,14 @@ import 'rxjs/add/operator/map';
 import 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
 
+/**
+ * @author DavidCohen55
+ * @author Shahar-Y
+ * Created: May 2017
+ * 
+ * This file contains all the services required for the register functionality
+ */
+
 @Injectable()
 export class RegisterService {
     constructor(public http: Http) {

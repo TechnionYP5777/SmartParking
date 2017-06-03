@@ -4,6 +4,15 @@ import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';
 
+
+/**
+ * @author DavidCohen55
+ * @author Shahar-Y
+ * Created: May 2017
+ * 
+ * This file contains the services for the login functionality
+ */
+
 @Injectable()
 export class LoginService {
     constructor(public http: Http) {

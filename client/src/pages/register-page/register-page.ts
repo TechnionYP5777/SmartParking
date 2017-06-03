@@ -11,6 +11,13 @@ import { LoginPage } from '../login-page/login-page';
  * See http://ionicframework.com/docs/components/#navigation for more info
  * on Ionic pages and navigation.
  */
+/**
+ * @author DavidCohen55
+ * @author Shahar-Y
+ * Created: May 2017
+ * 
+ * This file contains the methods for the register functionality
+ */
 @IonicPage()
 @Component({
   selector: 'page-register-page',

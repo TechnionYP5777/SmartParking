@@ -7,8 +7,16 @@ import org.springframework.web.bind.annotation.*;
 
 import main.java.Exceptions.LoginException;
 import main.java.data.members.User;
-
 import org.springframework.stereotype.Controller;
+
+/**
+ * @author DavidCohen55
+ * @author Shahar-Y
+ * Created: April 2017
+ * 
+ * This is a file for testing the functionality of the local host services. it should not 
+ * be a part of the files required for the application to run.
+ */
 @Controller
 public class TestController {
 	User user;

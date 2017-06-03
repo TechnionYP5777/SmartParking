@@ -11,11 +11,21 @@ import main.java.Exceptions.LoginException;
 import main.java.data.members.StickersColor;
 import main.java.logic.LoginManager;
 
+/**
+ * @author DavidCohen55
+ * @author Shahar-Y
+ * Created: May 2017
+ * 
+ * This file contains the java methods for the user services in the local host
+ */
+
 @Controller
 public class UserController {
 	ServerUser user;
 	String signUpStatus;
 	
+	
+	//login get method
 	@CrossOrigin(origins = "http://localhost:8100")
 	@RequestMapping(value = "/User", produces = "application/json")
 	@ResponseBody
@@ -23,6 +33,7 @@ public class UserController {
 		return user != null ? user : (user = new ServerUser());
 	}
 	
+	//login post method
 	@CrossOrigin(origins = "http://localhost:8100")
 	@RequestMapping(value = "/User", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
@@ -40,6 +51,7 @@ public class UserController {
 		user.setSticker(login.getSticker());
 	}
 
+	//register get method
 	@CrossOrigin(origins = "http://localhost:8100")
 	@RequestMapping(value = "/User/Register", produces = "application/json")
 	@ResponseBody
@@ -47,6 +59,7 @@ public class UserController {
 		return  signUpStatus  != null ? signUpStatus : "Please try to signUp";
 	}
 
+	//register post method
 	@CrossOrigin(origins = "http://localhost:8100")
 	@RequestMapping(value = "/User/Register", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
