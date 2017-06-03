@@ -23,9 +23,22 @@ export class LoginPage {
   ionViewDidLoad() {
   }
 
+  //TODO: better testing if the user is not logged in.
   getInfo() {
     this.serve.getDetails().subscribe(data => {
-      console.log("get data: " + data.name);
+      if (data.name == "") {
+        console.log("NOT logged in.");
+        this.isLogin = false;
+        this.presentAlert("Wrong car number or password. please try again.", "Error Connecting");
+      }
+      else {
+        console.log(data.name + " is logged in.");
+      this.isLogin = true;
+      this.presentAlert("Connected", "Congragulations");
+      }
+    }, err => {
+
+      console.log(err);
     });
   }
 
@@ -35,12 +48,11 @@ export class LoginPage {
     this.serve.userLogin(carNumber, password).subscribe(() => {
       console.log("use data here");
     }, err => {
-      console.log(err);
+      //console.log(err);
     });
 
     setTimeout(function() { ref.getInfo(); }, 5000);
-    this.isLogin = true;
-    this.presentAlert("Connected", "Congratulations");
+    
   }
 
   usingGet() {
