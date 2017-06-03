@@ -1,6 +1,7 @@
 package rest_test;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,13 +15,15 @@ import main.java.logic.LoginManager;
 public class UserController {
 	ServerUser user;
 	String signUpStatus;
-
+	
+	@CrossOrigin(origins = "http://localhost:8100")
 	@RequestMapping(value = "/User", produces = "application/json")
 	@ResponseBody
 	public ServerUser login() {
 		return user != null ? user : (user = new ServerUser());
 	}
-
+	
+	@CrossOrigin(origins = "http://localhost:8100")
 	@RequestMapping(value = "/User", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public void login(@RequestParam("name") String name, @RequestParam("pass") String pass) throws LoginException {
@@ -37,12 +40,14 @@ public class UserController {
 		user.setSticker(login.getSticker());
 	}
 
+	@CrossOrigin(origins = "http://localhost:8100")
 	@RequestMapping(value = "/User/Register", produces = "application/json")
 	@ResponseBody
 	public String register() {
 		return  signUpStatus  != null ? signUpStatus : "Please try to signUp";
 	}
 
+	@CrossOrigin(origins = "http://localhost:8100")
 	@RequestMapping(value = "/User/Register", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public void register(@RequestParam("name") String name, @RequestParam("pass") String pass,
