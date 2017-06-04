@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { LocationService } from '../../providers/location-service';
-/**
+declare var google;
+ /**
  * Generated class for the ChoosingPage page.
  *
  * See http://ionicframework.com/docs/components/#navigation for more info
@@ -28,6 +29,7 @@ export class ChoosingPage {
         this.dests=[];
         locService.getLocations(this.sources,this.dests,this.googleObj);
         this.mapPage = navParams.get('mapPage');
+        google.maps.event.clearListeners(this.mapPage.mapView, 'mousemove');
    
   }
 
@@ -48,5 +50,15 @@ export class ChoosingPage {
   changeToRecord(value:any){
 	this.mapPage.wantRecordRoute=value.checked;
   	console.log(value);
+  }
+  changeToSimulation(value:any){
+    if(value.checked){
+         google.maps.event.addListener(this.mapPage.mapView, 'mousemove', function (event) {
+                  console.log(event.latLng);
+         }); 
+    }
+    else{
+        google.maps.event.clearListeners(this.mapPage.mapView, 'mousemove');
+    }
   }
 }
