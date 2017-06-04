@@ -73,7 +73,7 @@ export class LoginPage {
       this.num = data.num;
     });
   }
-  
+
   navigateRegister() {
     this.navCtrl.push(RegisterPage);
   }

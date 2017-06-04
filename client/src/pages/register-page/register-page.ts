@@ -34,24 +34,23 @@ export class RegisterPage {
   }
 
   Register(userName, password, phoneNum, carNum, eMail, stickerColor) {
-    let ref = this; 
     this.serve.userRegister(userName, password, phoneNum, carNum, eMail, stickerColor).subscribe(data => {
-      
+
     }, err => {
       console.log(err);
     });
     this.navCtrl.push(LoginPage);
     //setTimeout(function() { ref.getRegisterInfo(); }, 5000);
-    
+
   }
-    
-    getRegisterInfo(){
-      this.serve.getRegisterData().subscribe(data => {
+
+  getRegisterInfo() {
+    this.serve.getRegisterData().subscribe(data => {
       this.presentAlert("Register is successful!" + data, "Register");
       this.navCtrl.push(LoginPage);
-      });
-    }
-    
+    });
+  }
+
 
 
   presentAlert(str, myTitle) {
