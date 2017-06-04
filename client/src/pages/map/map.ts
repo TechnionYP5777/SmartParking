@@ -47,7 +47,7 @@ export class MapPage {
 
   ionViewDidLoad() {
     this.loadMap();
-    if (this.loginPage.isLogin == false) {
+    while (this.loginPage.isLogin == false) {
       this.showAlertLogin(this.loginPage);
     }
   }
@@ -69,7 +69,7 @@ export class MapPage {
     });
   }
   showAlertLogin(loginPage) {
-    if (loginPage.isLogin == false) {
+    while (loginPage.isLogin == false) {
       this.presentLoginAlert();
     }
   }

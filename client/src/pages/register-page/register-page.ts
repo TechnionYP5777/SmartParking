@@ -34,7 +34,6 @@ export class RegisterPage {
   }
 
   Register(userName, password, phoneNum, carNum, eMail, stickerColor) {
-    let ref = this; 
     this.serve.userRegister(userName, password, phoneNum, carNum, eMail, stickerColor).subscribe(data => {
       
     }, err => {

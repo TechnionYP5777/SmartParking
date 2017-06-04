@@ -3,9 +3,11 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { LoginService } from './login-service';
 import { AlertController } from 'ionic-angular';
 import { HelloIonicPage } from '../hello-ionic/hello-ionic'
+import { RegisterPage } from '../register-page/register-page';
 
 
 /**
+ * @author zahimizrahi
  * @author DavidCohen55
  * @author Shahar-Y
  * Created: May 2017
@@ -73,6 +75,10 @@ export class LoginPage {
     });
   }
 
+  navigateRegister () {
+    this.navCtrl.push(RegisterPage);
+    
+  }
   presentAlert(str, myTitle) {
     let alert = this.alertCtrl.create({
       title: myTitle,
