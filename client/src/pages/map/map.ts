@@ -232,13 +232,14 @@ export class MapPage {
     alert.present();
   }
   loadMap() {
+
     this.directionsService = new google.maps.DirectionsService;
     this.directionsDisplay = new google.maps.DirectionsRenderer;
     var currentLocationMarker;
     var map = new google.maps.Map(this.mapElement.nativeElement, {
       zoom: 15,
       center: { lat: 32.776878, lng: 35.023106 }
-    });
+    });  
     this.mapView = map;
     var geolocation = new Geolocation();
     geolocation.getCurrentPosition().then((position) => {

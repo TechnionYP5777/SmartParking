@@ -24,7 +24,15 @@ ion-spinner {
 }
 </style>
 <ion-content padding>  
-    <ion-spinner *ngIf="sources.length==0 || dests.length==0"></ion-spinner>
+   <ion-spinner *ngIf="sources.length==0 || dests.length==0"></ion-spinner>
+   <ion-item>
+  	<ion-label>Record Route</ion-label>
+  	<ion-checkbox color="dark" checked="false" (ionChange)="changeToRecord($event)" [disabled]="sources.length==0 || dests.length==0"></ion-checkbox>
+   </ion-item>
+   <ion-item>
+  	<ion-label>Simulation Mode</ion-label>
+  	<ion-checkbox color="dark" checked="false" (ionChange)="changeToSimulation($event)" [disabled]="sources.length==0 || dests.length==0"></ion-checkbox>
+   </ion-item>
    	<ion-card>
   	<ion-card-header>Source
   	</ion-card-header>
@@ -49,8 +57,4 @@ ion-spinner {
     <ion-icon padding text-align: center round name="car">  </ion-icon>
     GO!
    </button>
-   <ion-item>
-  	<ion-label>record route</ion-label>
-  	<ion-checkbox color="dark" checked="false" (ionChange)="changeToRecord($event)" [disabled]="sources.length==0 || dests.length==0"></ion-checkbox>
-   </ion-item>
 </ion-content>
