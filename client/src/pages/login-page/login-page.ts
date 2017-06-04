@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { LoginService } from './login-service';
 import { AlertController } from 'ionic-angular';
 import { HelloIonicPage } from '../hello-ionic/hello-ionic'
+import { RegisterPage } from '../register-page/register-page';
 
 
 /**
@@ -43,9 +44,9 @@ export class LoginPage {
       }
       else {
         console.log(data.name + " is logged in.");
-      this.isLogin = true;
-      this.presentAlert("You have sucsessfully logged in.\nWelcome, " + data.name, "Connected");
-      this.navCtrl.push(HelloIonicPage);
+        this.isLogin = true;
+        this.presentAlert("You have sucsessfully logged in.\nWelcome, " + data.name, "Connected");
+        this.navCtrl.push(HelloIonicPage);
       }
     }, err => {
       console.log(err);
@@ -62,7 +63,7 @@ export class LoginPage {
     });
 
     setTimeout(function() { ref.getInfo(); }, 5000);
-    
+
   }
 
   usingGet() {
@@ -71,6 +72,10 @@ export class LoginPage {
       this.str = data.str;
       this.num = data.num;
     });
+  }
+  
+  navigateRegister() {
+    this.navCtrl.push(RegisterPage);
   }
 
   presentAlert(str, myTitle) {
