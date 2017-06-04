@@ -15,3 +15,52 @@
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
 
+
+.toolbar-title {
+    color: white; 
+    font-family: cursive;
+}
+
+
+.toolbar-background {
+  background-color: #66b2ff;
+}
+
+.item {
+	background-color: white;
+  opacity: 0.8; 		
+}
+
+.ion-label {
+  text-color: white;
+}
+
+.button {
+  font-weight: bold;
+	font-size: 20px;
+	background-color: color($colors, dark);
+  width: 95%;
+}
+
+.button:hover  {
+  background-color: color($colors, secondary) !important;
+}
+
+
+ion-list {
+  text-align: center;
+}
+
+
+ion-content {
+  background-color: color($colors, primary) !important;
+}
+
+.menu-toggle:hover {
+  color: color($colors, secondary) !important;
+}
+
+
+ion-buttons {
+  text-align: center;
+}
