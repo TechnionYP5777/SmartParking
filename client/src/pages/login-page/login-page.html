@@ -34,7 +34,7 @@
 <div padding>
   <button  ion-button (click)="Login(carNumber,password)" color="dark" style="margin-right: 16px" *ngIf="!isLoggedin" [navPush] = "signin" >Sign In</button>
   <button  ion-button color="dark" style="margin-right: 16px" *ngIf="isLoggedin" [navPush] = "logout" >Logout</button>
-    <button  ion-button (click)="navigateRegister()" color="dark" style="margin-right: 16px" *ngIf="isLoggedin" >New Here? Register!</button>
+    <a href="#/register-page" style="font-size: 16px; color: white" class="btn btn-link" size="8">New Here? Register!</a>
     </div>
   <div padding>
   <a href="#" style="font-size: 16px; color: white" class="btn btn-link" size="8">Forgot Password? Click Here!</a>
