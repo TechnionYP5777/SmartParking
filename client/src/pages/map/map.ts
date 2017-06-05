@@ -166,19 +166,18 @@ export class MapPage {
       // send to server Src and Destination
       // Server look for a path and return a result
       document.getElementById("DirectionPanelLabel").style.display = "none";
-      let parkingArea = this.getBestParking();
-      this.chosenParkingArea = parkingArea;
-      this.calculateAndDisplayRoute(this.directionsService, this.directionsDisplay, parkingArea.position);
+      this.chosenParkingArea = this.getBestParking();
       let mapObj = this;
-      if (this.wantRecordRoute) {
+      this.calculateAndDisplayRoute(this.directionsService, this.directionsDisplay, this.chosenParkingArea,function(){
+      if (mapObj.wantRecordRoute) {
         var geolocation = new Geolocation();
         this.intervalid = setInterval(function() {
           geolocation.getCurrentPosition().then((position) => {
             let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-            var distance = google.maps.geometry.spherical.computeDistanceBetween(latLng, parkingArea.position);
+            var distance = google.maps.geometry.spherical.computeDistanceBetween(latLng, this.chosenParkingArea.position);
             if (distance < 0.1) {
               mapObj.showReachedDestination('Reached Parking,\n will start recording your path now');
-              let alert = this.alertCtrl.create({
+              let alert = mapObj.alertCtrl.create({
                 title: 'You Have Reached Your Parking!',
                 message: 'press OK to start record the route',
                 buttons: [
@@ -193,9 +192,10 @@ export class MapPage {
           });
         }, 30000);
       } else {
-        this.calculateAndDisplayRouteWalking(this.directionsService, this.directionsDisplayWalk, parkingArea);
+        mapObj.calculateAndDisplayRouteWalking(mapObj.directionsService, mapObj.directionsDisplayWalk, mapObj.chosenParkingArea);
       }
-      this.ispathshown = true;
+      mapObj.ispathshown = true;
+        });
     } else {
       console.log("src or dst not defined");
     }
@@ -275,17 +275,19 @@ export class MapPage {
     alert.present();
     setTimeout(() => alert.dismiss(), 2000);
   }
-  calculateAndDisplayRoute(directionsService, directionsDisplay, parkingArea) {
+  calculateAndDisplayRoute(directionsService, directionsDisplay, parkingArea,callback) {
     directionsService.route({
       origin: this.srcPosition,
-      destination: parkingArea,
+      destination: parkingArea.position,
       travelMode: 'DRIVING'
     }, function(response, status) {
       if (status === 'OK') {
         directionsDisplay.setDirections(response);
+         parkingArea.position=new google.maps.LatLng(response.routes[0].overview_path.slice(-1)[0].lat(), response.routes[0].overview_path.slice(-1)[0].lng());
       } else {
         window.alert('Directions request failed due to ' + status);
       }
+      callback();
     });
   }
   calculateAndDisplayRouteWalking(directionsService, directionsDisplay, parkingArea) {
