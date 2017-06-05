@@ -117,7 +117,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<mainClass>main.java.gui.app.Opening</mainClass>
+					<mainClass>rest_test.Application</mainClass>
 				</configuration>
 			</plugin>
 
