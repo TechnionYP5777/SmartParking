@@ -16,7 +16,7 @@ export class PathService {
             }else{
                 retData.duration=data.Duration;
                 retData.path=[];
-                data.Root.foreach(function(element){
+                data.Route.forEach(function(element){
                     retData.path.push({lat:element.lat,lng: element.lon});
                 });
                 retData.description=data.Description;
