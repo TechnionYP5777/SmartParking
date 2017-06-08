@@ -3,7 +3,12 @@
 <button ion-butoon menuToggle>
 	<ion-icon name="menu"></ion-icon>
 </button>
-<ion-title>Map</ion-title> </ion-navbar> </ion-header>
+<ion-title>Map</ion-title> 
+<button ion-button style="background-color:#488AFF;" (click)="changeLocation()">
+	<ion-icon name="car"></ion-icon> <p>      </p>
+	    Navigate
+</button>
+</ion-navbar> </ion-header>
 
 
 
@@ -38,8 +43,4 @@
 		class="DirectionPanelLabel"><font size="5">No Direction
 			To Show</font></label>
 </div>
-<ion-fab top right edge>
-<button ion-fab (click)="changeLocation()">
-	<ion-icon name="add"></ion-icon>
-</button>
-</ion-fab> </ion-content>
+</ion-content>

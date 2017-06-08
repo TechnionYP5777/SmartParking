@@ -14,6 +14,7 @@
 </ion-header>
 <style>
 ion-spinner {
+ name: bubbles;
   margin: auto;
   position: absolute;
   top: 0; left: 0; bottom: 0; right: 0;
@@ -24,7 +25,7 @@ ion-spinner {
 }
 </style>
 <ion-content padding>  
-   <ion-spinner *ngIf="sources.length==0 || dests.length==0"></ion-spinner>
+   <ion-spinner name="dots" *ngIf="sources.length==0 || dests.length==0"></ion-spinner>
    <ion-item>
   	<ion-label>Record Route</ion-label>
   	<ion-checkbox color="dark" checked="false" (ionChange)="changeToRecord($event)" [disabled]="sources.length==0 || dests.length==0"></ion-checkbox>
@@ -34,7 +35,7 @@ ion-spinner {
   	<ion-checkbox color="dark" checked="false" (ionChange)="changeToSimulation($event)" [disabled]="sources.length==0 || dests.length==0"></ion-checkbox>
    </ion-item>
    	<ion-card>
-  	<ion-card-header>Source
+  	<ion-card-header><b>Source</b>
   	</ion-card-header>
 	<ion-list radio-group class="page-choosing-page">
 		<ion-item *ngFor="let p of sources">
@@ -44,7 +45,7 @@ ion-spinner {
   	</ion-list>
    </ion-card>
    <ion-card>
-  	<ion-card-header>Destination
+  	<ion-card-header><b>Destination</b>
   	</ion-card-header>
 	<ion-list radio-group>
 		<ion-item *ngFor="let p of dests">
