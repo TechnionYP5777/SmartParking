@@ -2,7 +2,7 @@ import { RegisterService } from '../../providers/register-service';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
-import { LoginPage } from '../login-page/login-page';
+import { HelloIonicPage } from '../hello-ionic/hello-ionic';
 
 
 /**
@@ -39,7 +39,7 @@ export class RegisterPage {
     }, err => {
       console.log(err);
     });
-    this.navCtrl.push(LoginPage);
+    this.navCtrl.push(HelloIonicPage);
     //setTimeout(function() { ref.getRegisterInfo(); }, 5000);
 
   }
@@ -47,7 +47,7 @@ export class RegisterPage {
   getRegisterInfo() {
     this.serve.getRegisterData().subscribe(data => {
       this.presentAlert("Register is successful!" + data, "Register");
-      this.navCtrl.push(LoginPage);
+      this.navCtrl.push(HelloIonicPage);
     });
   }
 
