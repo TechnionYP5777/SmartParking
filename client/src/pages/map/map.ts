@@ -6,12 +6,13 @@ import { ChoosingPage } from '../choosing-page/choosing-page';
 import { LocationService } from '../../providers/location-service';
 import { PathService } from '../../providers/path-service';
 import { LoginPage } from '../login-page/login-page';
+import { LogoutPage } from '../logout-page/logout-page';
 declare var google;
 
 @Component({
   selector: 'page-map',
   templateUrl: 'map.html',
-  providers: [LocationService, PathService, LoginPage]
+  providers: [LocationService, PathService, LoginPage, LogoutPage]
 })
 export class MapPage {
 
@@ -38,8 +39,9 @@ export class MapPage {
   parkingAreas: any;
   chosenParkingArea: any;
   loginPage: any;
-  constructor(public navCtrl: NavController, public alertCtrl: AlertController, private locService: LocationService, private pathService: PathService,
-    public login: LoginPage) {
+  constructor(public navCtrl: NavController, public alertCtrl: AlertController,
+     private locService: LocationService, private pathService: PathService,
+    public login: LoginPage,  private logout: LogoutPage) {
     this.recordedRoute = [];
     this.parkingAreas = [];
     this.loginPage = login;

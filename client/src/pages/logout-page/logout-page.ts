@@ -1,10 +1,13 @@
 import { Component } from '@angular/core';
+import { NavController, NavParams } from 'ionic-angular';
+import { AlertController } from 'ionic-angular';
+import { LogoutService } from '../../providers/logout-service';
 
 /**
- * @author zahimizrahi (?)
- * Created: May 2017
+ * @author Shahar-Y
+ * Created: 6.14.17
  * 
- * The basic hello page
+ * The logout page
  */
 
 @Component({
@@ -12,7 +15,17 @@ import { Component } from '@angular/core';
   templateUrl: 'logout-page.html'
 })
 export class LogoutPage {
-  constructor() {
-
+  
+  serve: any;
+  
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+     serve: LogoutService, public alertCtrl: AlertController) {
+    this.serve = serve;
   }
+  
+  Logout(){
+    this.serve.userLogout();
+  }
+  
 }
+

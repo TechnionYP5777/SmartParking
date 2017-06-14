@@ -45,7 +45,7 @@ export class LoginPage {
       else {
         console.log(data.name + " is logged in.");
         this.isLogin = true;
-        this.presentAlert("You have sucsessfully logged in.\nWelcome, " + data.name, "Connected");
+        //this.presentAlert("You have sucsessfully logged in.\nWelcome, " + data.name, "Connected");
         this.navCtrl.push(HelloIonicPage);
       }
     }, err => {

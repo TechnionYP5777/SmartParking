@@ -8,11 +8,11 @@
 </ion-header>
 
 
-<ion-content padding class="page-hello-ionic">
-  <h3 style="text-color: white, font-size: 32px;">Welcome to SmartParking!</h3>
+<ion-content padding class="page-logout-page">
+  <h3 style="text-color: white, font-size: 32px;">Here we log out.</h3>
   
-  <p style="text-color: white, font-size: 16px;">
-    Here we log out.
-  </p>
-
+  <div padding>
+  <button ion-button (click)="Logout()" color="dark"
+		style="margin-right: 16px" *ngIf="!isLoggedin" [navPush]="signin">Logout</button>
+	</div>
 </ion-content>

@@ -10,10 +10,12 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { MapPage } from '../pages/map/map';
 import { ChoosingPage } from '../pages/choosing-page/choosing-page';
+import { LogoutPage } from '../pages/logout-page/logout-page';
 
 import { LocationService } from '../providers/location-service';
 import {LoginService} from '../pages/login-page/login-service';
 import { RegisterService } from '../providers/register-service';
+import { LogoutService } from '../providers/logout-service';
 import { HttpModule } from '@angular/http';
 
 @NgModule({
@@ -23,6 +25,7 @@ import { HttpModule } from '@angular/http';
     LoginPage,
     RegisterPage,
     MapPage,
+    LogoutPage,
     ChoosingPage
   ],
   imports: [
@@ -35,6 +38,7 @@ import { HttpModule } from '@angular/http';
     MyApp,
     HelloIonicPage,
     LoginPage,
+    LogoutPage,
     RegisterPage,
     MapPage,
     ChoosingPage
@@ -44,6 +48,7 @@ import { HttpModule } from '@angular/http';
     LocationService,
     LoginService,
     RegisterService,
+    LogoutService,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]

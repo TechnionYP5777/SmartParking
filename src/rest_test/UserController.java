@@ -88,5 +88,13 @@ public class UserController {
 		user.setPhoneNumber(login.getPhoneNumber());
 		user.setSticker(login.getSticker());
 	}
+	
+	//logout get method
+	/*@CrossOrigin(origins = "http://localhost:8100")
+	@RequestMapping(value = "/User", produces = "application/json")
+	@ResponseBody
+	public ServerUser logout() {
+		return new ServerUser();
+	}*/
 
 }
