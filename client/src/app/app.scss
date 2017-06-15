@@ -26,6 +26,10 @@
   background-color: #66b2ff;
 }
 
+.toolbar:hover  {
+  background-color: color($colors, secondary) !important;
+}
+
 .item {
 	background-color: white;
   opacity: 0.8; 		
@@ -51,6 +55,9 @@ ion-list {
   text-align: center;
 }
 
+.button:hover  {
+  background-color: color($colors, secondary) !important;
+}
 
 ion-content {
   background-color: color($colors, primary) !important;
