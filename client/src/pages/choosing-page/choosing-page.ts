@@ -13,7 +13,7 @@ declare var google;
   selector: 'page-choosing-page',
   templateUrl: 'choosing-page.html'
 })
-export class ChoosingPage {
+export class ChoosingPage {copySources: { title: string; position: any; }[];copyDests: any[];
   sources: Array<{ title: string, position: any }>;
   dests: Array<{ title: string, position: any }>;
   sourceLoc: any;
@@ -23,8 +23,6 @@ export class ChoosingPage {
   goCallBack: any;
   mapPage: any;
   googleObj: any;
-  showSrcList = false;  
-  showDestList = false; 
   constructor(public navCtrl: NavController, public navParams: NavParams, public locService: LocationService) {
     this.googleObj = navParams.get('googleObj');
     this.sources = [];
@@ -44,36 +42,36 @@ export class ChoosingPage {
     this.navCtrl.pop();
   }
   
-   getItemsDest ( ev: any) {
-        let val = ev.target.value; 
-    if (val && val.trim!='') {
-      
-      this.dests=this.dests.filter((p) => {
-        return (p.title.toLowerCase().indexOf(val.toLowerCase()) > -1);
-      });
-      this.showDestList=true; 
-    } else {
-      this.showDestList = false; 
-  }
-}
+//   getItemsDest ( ev: any) {
+//        let val = ev.target.value; 
+//    if (val && val.trim!='') {
+//        this.copyDests = this.dests.slice(); 
+//        this.copyDests = this.copyDests.filter((p) => {
+//        return (p.title.toLowerCase().indexOf(val.toLowerCase()) > -1);
+//      });
+//      this.showDestList=true; 
+//    } else {
+//      this.showDestList = false; 
+//  }
+//}
   
     
   rememberDest(dict: any) {
      this.mapPage.setDstPosition(dict["position"], dict["title"]);
   }
   
-  getItemsSrc ( ev: any) {
-        let val = ev.target.value; 
-    if (val && val.trim!='') {
-      
-      this.sources=this.sources.filter((p) => {
-        return (p.title.toLowerCase().indexOf(val.toLowerCase()) > -1);
-      });
-      this.showSrcList = true; 
-    } else {
-      this.showSrcList = false; 
-  }
-}
+//  getItemsSrc ( ev: any) {
+//        let val = ev.target.value; 
+//    if (val && val.trim!='') {
+//      this.copySources = this.sources.slice();
+//      this.copySources=this.copySources.filter((p) => {
+//        return (p.title.toLowerCase().indexOf(val.toLowerCase()) > -1);
+//      });
+//      this.showSrcList = true; 
+//    } else {
+//      this.showSrcList = false; 
+//  }
+//}
 
   rememberSrc (dict: any ) {
     this.mapPage.setSrcPosition(dict["position"]);

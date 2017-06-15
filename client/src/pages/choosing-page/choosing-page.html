@@ -38,8 +38,7 @@ ion-spinner {
    	<ion-card>
   	<ion-card-header><b>Source</b>
   	</ion-card-header>
-  	<ion-searchbar (ionInput) = "getItemsSrc($event)"> </ion-searchbar>
-	<ion-list radio-group class="page-choosing-page" *ngIf="showSrcList">
+	<ion-list radio-group class="page-choosing-page">
 		<ion-item *ngFor="let p of sources">
                 	<ion-label>{{p.title}}</ion-label>
                 	<ion-radio [value]="p.title" (ionSelect)="rememberSrc(p)"></ion-radio>
@@ -49,8 +48,7 @@ ion-spinner {
    <ion-card>
   	<ion-card-header><b>Destination</b>
   	</ion-card-header>
-  	<ion-searchbar (ionInput) = "getItemsDest($event)"> </ion-searchbar>
-	<ion-list radio-group class="page-choosing-page" *ngIf="showDestList">
+	<ion-list radio-group class="page-choosing-page">
 		<ion-item *ngFor="let p of dests">
     			<ion-label>{{p.title}}</ion-label>
     			<ion-radio [value]="p.title" (ionSelect)="rememberDest(p)"></ion-radio>
