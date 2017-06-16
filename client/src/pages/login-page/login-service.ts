@@ -19,11 +19,6 @@ export class LoginService {
         console.log('Hello LoginService Provider');
     }
 
-    callHttp() {
-        return this.http.get('http://localhost:8080/shahar').map(res => res.json())
-            .catch(this.handleError);
-    }
-
     handleError(error) {
         console.error(error);
         return Observable.throw('Server error');
