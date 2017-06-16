@@ -25,6 +25,14 @@ public class UserController {
 	String signUpStatus;
 	
 	
+	void setUserData(String userName, String carNumber, String eMail, String phoneNum, StickersColor color){
+		user.setName(userName);
+		user.setCarNumber(carNumber);
+		user.setEmail(eMail);
+		user.setPhoneNumber(phoneNum);
+		user.setSticker(color);
+	}
+	
 	//login get method
 	@CrossOrigin(origins = "http://localhost:8100")
 	@RequestMapping(value = "/User", produces = "application/json")
@@ -38,19 +46,36 @@ public class UserController {
 	@RequestMapping(value = "/User", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public void login(@RequestParam("name") String name, @RequestParam("pass") String pass) throws LoginException {
-
+		
 		if (name == null)
 			return;
+		
+		//Shahar testing functionality:
+		/*System.out.println("In Login. user = " + user.getName() + ", name = " + name);
+		if(name.equals("")){
+			user.setName("TEST1");
+			System.out.println("TEST1 SIGNIN");
+			return;
+		}*/
+		
+		if(name.equals("")){
+			System.out.println("Logging out");
+			setUserData("","","","",StickersColor.WHITE);
+			return;
+		}
+
+
 		LoginManager login = new LoginManager();
 		if (!login.userLogin(name, pass))
 			return;
-		user.setName(login.getUserName());
-		user.setCarNumber(login.getCarNumber());
-		user.setEmail(login.getEmail());
-		user.setPhoneNumber(login.getPhoneNumber());
-		user.setSticker(login.getSticker());
+		
+		setUserData(login.getUserName(), login.getCarNumber(),
+				login.getEmail(), login.getPhoneNumber(), login.getSticker());
+
 	}
 
+	
+	
 	//register get method
 	@CrossOrigin(origins = "http://localhost:8100")
 	@RequestMapping(value = "/User/Register", produces = "application/json")

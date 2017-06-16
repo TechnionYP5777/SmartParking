@@ -20,16 +20,15 @@ export class LogoutService {
    
     userLogout() {
 
-      var value = "name=" + "1" + "&pass=" + "1" + "&phone=" +
-         "1" + "&car=" + "2" + "&email=" + "1" + "&type=" + "2";
+      var value = "name=" + "" + "&pass=" + "";
         var headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
 
-      this.presentAlert(this.http.post('http://localhost:8080/User/Try', value, { headers: headers })
-            .map(res => res.json()).toArray, "Connected");
+      /*this.presentAlert(this.http.post('http://localhost:8080/User/Try', value, { headers: headers })
+            .map(res => res.json()).toArray, "Connected");*/
       //this.http.delete('http://localhost:8080/User');
-       /*return this.http.post('http://localhost:8080/User/Try', value, { headers: headers })
-            .map(res => res.json());*/
+       return this.http.post('http://localhost:8080/User', value, { headers: headers })
+            .map(res => res.json());
       
     }
   
