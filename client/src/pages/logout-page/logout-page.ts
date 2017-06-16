@@ -24,7 +24,13 @@ export class LogoutPage {
   }
   
   Logout(){
-    this.serve.userLogout();
+    this.serve.userLogout().subscribe(() => {
+      console.log("use data here");
+    }, err => {
+      //console.log(err);
+    });
+    
+    
   }
   
 }

@@ -66,13 +66,6 @@ export class LoginPage {
 
   }
 
-  usingGet() {
-    this.serve.callHttp().subscribe(data => {
-      this.presentAlert("Connecting to server...", "Please wait");
-      this.str = data.str;
-      this.num = data.num;
-    });
-  }
 
   navigateRegister() {
     this.navCtrl.push(RegisterPage);

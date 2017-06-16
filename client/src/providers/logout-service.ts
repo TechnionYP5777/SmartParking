@@ -3,6 +3,7 @@ import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 import 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
+import { AlertController } from 'ionic-angular';
 
 /**
  * @author Shahar-Y
@@ -13,7 +14,7 @@ import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class LogoutService {
-    constructor(public http: Http) {
+    constructor(public http: Http, public alertCtrl: AlertController) {
         console.log('Hello LogoutService Provider');
     }
    
@@ -24,12 +25,23 @@ export class LogoutService {
         var headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
 
+      this.presentAlert(this.http.post('http://localhost:8080/User/Try', value, { headers: headers })
+            .map(res => res.json()).toArray, "Connected");
       //this.http.delete('http://localhost:8080/User');
-        return this.http.post('http://localhost:8080/User', value, { headers: headers })
-            .map(res => res.json());
+       /*return this.http.post('http://localhost:8080/User/Try', value, { headers: headers })
+            .map(res => res.json());*/
       
     }
   
+    presentAlert(str, myTitle) {
+    let alert = this.alertCtrl.create({
+      title: myTitle,
+      subTitle: str,
+      buttons: ['OK'],
+      cssClass: 'alertLogin'
+    });
+    alert.present();
+  }
   /*getRegisterData() {
         return this.http.get('http://localhost:8080/User/Register').map(res => res.json())
             .catch(this.handleError);
