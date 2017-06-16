@@ -76,20 +76,11 @@ export class ChoosingPage {copySources: { title: string; position: any; }[];copy
   rememberSrc (dict: any ) {
     this.mapPage.setSrcPosition(dict["position"]);
   }
-    
-    
+
   changeToRecord(value: any) {
     this.mapPage.wantRecordRoute = value.checked;
-    console.log(value);
   }
   changeToSimulation(value: any) {
-    if (value.checked) {
-      google.maps.event.addListener(this.mapPage.mapView, 'mousemove', function(event) {
-        console.log(event.latLng);
-      });
-    }
-    else {
-      google.maps.event.clearListeners(this.mapPage.mapView, 'mousemove');
-    }
+    this.mapPage.simulationMode=value.checked;
   }
 }

@@ -31,6 +31,7 @@ export class MapPage {
   dstPosition: any;
   dstName: any;
   wantRecordRoute: boolean;
+  simulationMode: boolean;
   mapView: any;
   ispathshown: any;
   recordedRoute: any;
@@ -42,6 +43,8 @@ export class MapPage {
   constructor(public navCtrl: NavController, public alertCtrl: AlertController,
      private locService: LocationService, private pathService: PathService,
     public login: LoginPage,  private logout: LogoutPage) {
+    this.simulationMode=false;
+    this.wantRecordRoute=false;
     this.recordedRoute = [];
     this.parkingAreas = [];
     this.loginPage = login;
@@ -66,6 +69,9 @@ export class MapPage {
         map: map,
         radius: 100,
         fillColor: parkingArea.color
+      });
+      google.maps.event.addListener(circle,"mousemove",function(event){
+        google.maps.event.trigger(map,'mousemove',event)    
       });
       circle.bindTo('center', marker, 'position');
     });
@@ -172,27 +178,49 @@ export class MapPage {
       let mapObj = this;
       this.calculateAndDisplayRoute(this.directionsService, this.directionsDisplay, this.chosenParkingArea,function(){
       if (mapObj.wantRecordRoute) {
-        var geolocation = new Geolocation();
-        this.intervalid = setInterval(function() {
-          geolocation.getCurrentPosition().then((position) => {
-            let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-            var distance = google.maps.geometry.spherical.computeDistanceBetween(latLng, this.chosenParkingArea.position);
-            if (distance < 0.1) {
-              mapObj.showReachedDestination('Reached Parking,\n will start recording your path now');
-              let alert = mapObj.alertCtrl.create({
-                title: 'You Have Reached Your Parking!',
-                message: 'press OK to start record the route',
-                buttons: [
-                  {
-                    text: 'OK',
-                    handler: () => { mapObj.suggestRoute(); }
-                  }
-                ]
+        let geolocation = new Geolocation();
+        if(mapObj.simulationMode){
+            google.maps.event.addListener(mapObj.mapView, 'mousemove', function (event) {
+                let distance = google.maps.geometry.spherical.computeDistanceBetween(event.latLng, mapObj.chosenParkingArea.position);
+                console.log(distance);
+                if (distance < 5) {
+                  mapObj.showReachedDestination('Reached Parking,\n will start recording your path now');
+                  let alert = mapObj.alertCtrl.create({
+                    title: 'You Have Reached Your Parking!',
+                    message: 'press OK to start record the route',
+                    buttons: [
+                      {
+                        text: 'OK',
+                        handler: () => { mapObj.suggestRoute(); }
+                      }
+                    ]
+                  });
+                  alert.present();
+                }
+            }); 
+        }else{
+            this.intervalid = setInterval(function() {
+              geolocation.getCurrentPosition().then((position) => {
+                let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                let distance = google.maps.geometry.spherical.computeDistanceBetween(latLng, mapObj.chosenParkingArea.position);
+                console.log(distance);
+                if (distance < 20) {
+                  mapObj.showReachedDestination('Reached Parking,\n will start recording your path now');
+                  let alert = mapObj.alertCtrl.create({
+                    title: 'You Have Reached Your Parking!',
+                    message: 'press OK to start record the route',
+                    buttons: [
+                      {
+                        text: 'OK',
+                        handler: () => { mapObj.suggestRoute(); }
+                      }
+                    ]
+                  });
+                  alert.present();
+                }
               });
-              alert.present();
-            }
-          });
-        }, 30000);
+            }, 30000);
+          }
       } else {
         mapObj.calculateAndDisplayRouteWalking(mapObj.directionsService, mapObj.directionsDisplayWalk, mapObj.chosenParkingArea);
       }
