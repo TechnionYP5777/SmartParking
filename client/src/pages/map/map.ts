@@ -112,11 +112,12 @@ export class MapPage {
   stopRecording(recordTimeInterval: number) {
     clearInterval(this.intervalid);
     var message = "";
-    this.presentPrompt(message);
-    let toServer = { duration: recordTimeInterval, points: this.recordedRoute, dst: this.dstName, parkingArea: this.chosenParkingArea.name, description: message };
-    this.pathService.sendRecordedPath(toServer);
+    this.presentPrompt(message,function(){
+        let toServer = { duration: recordTimeInterval, points: this.recordedRoute, dst: this.dstName, parkingArea: this.chosenParkingArea.name, description: message };
+        this.pathService.sendRecordedPath(toServer);
+    });    
   }
-  presentPrompt(message) {
+  presentPrompt(message,callback) {
     let alert = this.alertCtrl.create({
       title: 'You Have Reached Your Destination!',
       message: 'Please provide general directions',
@@ -136,6 +137,7 @@ export class MapPage {
           handler: data => {
             message = data;
             console.log(data);
+            callback();
           }
         }
       ]
@@ -143,19 +145,39 @@ export class MapPage {
     alert.present();
   }
   startRecording() {
+    this.recordedRoute=[];
     let recordedRoute = this.recordedRoute;
     let dstPosition = this.dstPosition;
     let mapObj = this;
     var geolocation = new Geolocation();
     let startTime = (new Date()).getTime()
-
+    var validTime = (new Date()).getTime();
+    if(this.simulationMode){
+        google.maps.event.addListener(mapObj.mapView, 'mousemove', function (event) {
+            let newTime=(new Date).getTime();
+            if(newTime-validTime<=1000){
+                return;
+            }
+            validTime=newTime;
+            recordedRoute.push({ lat: event.latLng.lat(), lng: event.latLng.lng() });
+            let distance = google.maps.geometry.spherical.computeDistanceBetween(event.latLng, mapObj.dstPosition);
+            console.log(distance);
+            mapObj.drawPath(recordedRoute.slice(-2));
+            if (distance < 5) {
+                google.maps.event.clearListeners(mapObj.mapView, 'mousemove');
+                mapObj.stopRecording((startTime - (new Date()).getTime()) / 1000);
+            }
+        });
+        return;   
+    }
     this.intervalid = setInterval(function() {
       geolocation.getCurrentPosition().then((position) => {
         let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
         console.log(recordedRoute);
-        recordedRoute.push({ lat: latLng.latitude, lon: latLng.latitude.longitude });
+        recordedRoute.push({ lat: latLng.lat(), lng: latLng.lng() });
         var distance = google.maps.geometry.spherical.computeDistanceBetween(latLng, dstPosition);
-        if (distance < 0.1) {
+        mapObj.drawPath(recordedRoute.slice(-2));
+        if (distance < 5) {
           mapObj.stopRecording((startTime - (new Date()).getTime()) / 1000);//get the time that the record took in seconds(may be minutes are better)
         }
         console.log(distance);
@@ -177,13 +199,14 @@ export class MapPage {
       this.chosenParkingArea = this.getBestParking();
       let mapObj = this;
       this.calculateAndDisplayRoute(this.directionsService, this.directionsDisplay, this.chosenParkingArea,function(){
-      if (mapObj.wantRecordRoute) {
-        let geolocation = new Geolocation();
+      let geolocation = new Geolocation();
+      if (mapObj.wantRecordRoute) {  
         if(mapObj.simulationMode){
             google.maps.event.addListener(mapObj.mapView, 'mousemove', function (event) {
                 let distance = google.maps.geometry.spherical.computeDistanceBetween(event.latLng, mapObj.chosenParkingArea.position);
                 console.log(distance);
                 if (distance < 5) {
+                  google.maps.event.clearListeners(mapObj.mapView, 'mousemove');
                   mapObj.showReachedDestination('Reached Parking,\n will start recording your path now');
                   let alert = mapObj.alertCtrl.create({
                     title: 'You Have Reached Your Parking!',
@@ -204,7 +227,7 @@ export class MapPage {
                 let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
                 let distance = google.maps.geometry.spherical.computeDistanceBetween(latLng, mapObj.chosenParkingArea.position);
                 console.log(distance);
-                if (distance < 20) {
+                if (distance < 5) {
                   mapObj.showReachedDestination('Reached Parking,\n will start recording your path now');
                   let alert = mapObj.alertCtrl.create({
                     title: 'You Have Reached Your Parking!',
@@ -223,6 +246,52 @@ export class MapPage {
           }
       } else {
         mapObj.calculateAndDisplayRouteWalking(mapObj.directionsService, mapObj.directionsDisplayWalk, mapObj.chosenParkingArea);
+        if(mapObj.simulationMode){
+            google.maps.event.addListener(mapObj.mapView, 'mousemove', function (event) {
+                let distance = google.maps.geometry.spherical.computeDistanceBetween(event.latLng, mapObj.dstPosition);
+                console.log(distance);
+                if (distance < 5) {
+                    let alert = mapObj.alertCtrl.create({
+                        title: 'You Have Reached Your Destination!',
+                        message: 'You Have Reached Your Destination!',
+                        buttons: [
+                          {
+                            text: 'OK',
+                            handler: () => {google.maps.event.clearListeners(mapObj.mapView, 'mousemove');
+                                mapObj.directionsDisplay.setMap(null);
+                                mapObj.directionsDisplay.setPanel(null);
+                            }
+                          }
+                        ]
+                      });
+                    alert.present();
+                }
+            });
+        }else{
+            mapObj.intervalid = setInterval(function() {
+              geolocation.getCurrentPosition().then((position) => {
+                let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                let distance = google.maps.geometry.spherical.computeDistanceBetween(latLng, mapObj.dstPosition);
+                console.log(distance);
+                if (distance < 5) {
+                   let alert = mapObj.alertCtrl.create({
+                        title: 'You Have Reached Your Destination!',
+                        message: 'You Have Reached Your Destination!',
+                        buttons: [
+                          {
+                            text: 'OK',
+                            handler: () => {clearInterval(mapObj.intervalid);
+                                mapObj.directionsDisplay.setMap(null);
+                                mapObj.directionsDisplay.setPanel(null);
+                            }
+                          }
+                        ]
+                      });
+                    alert.present();
+                }
+              });
+            }, 30000);
+        }   
       }
       mapObj.ispathshown = true;
         });
