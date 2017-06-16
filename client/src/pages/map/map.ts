@@ -49,6 +49,7 @@ export class MapPage {
     this.recordedRoute = [];
     this.parkingAreas = [];
     this.loginPage = login;
+    this.tts.speak("hello world");
   }
 
   ionViewDidLoad() {
@@ -376,14 +377,24 @@ export class MapPage {
     alert.present();
     setTimeout(() => alert.dismiss(), 2000);
   }
+  readDirections(response) {
+  	let arr = response.routes[0].legs[0].steps
+  	for (var i = 0; i < arr.length; i++) {
+  		var text = arr[i].instructions.replace(/<b>/g, "");
+		text = text.replace(/<\/b>/g, "");
+        console.log(text);
+	}
+  }
   calculateAndDisplayRoute(directionsService, directionsDisplay, parkingArea,callback) {
+    let mapObj = this;
     directionsService.route({
       origin: this.srcPosition,
       destination: parkingArea.position,
       travelMode: 'DRIVING'
     }, function(response, status) {
       if (status === 'OK') {
-        directionsDisplay.setDirections(response);
+         mapObj.readDirections(response);
+         directionsDisplay.setDirections(response);
          parkingArea.position=new google.maps.LatLng(response.routes[0].overview_path.slice(-1)[0].lat(), response.routes[0].overview_path.slice(-1)[0].lng());
       } else {
         window.alert('Directions request failed due to ' + status);
