@@ -7,6 +7,7 @@ import { LocationService } from '../../providers/location-service';
 import { PathService } from '../../providers/path-service';
 import { LoginPage } from '../login-page/login-page';
 import { LogoutPage } from '../logout-page/logout-page';
+import {TextToSpeech} from '@ionic-native/text-to-speech';
 declare var google;
 
 @Component({
@@ -42,7 +43,7 @@ export class MapPage {
   loginPage: any;
   constructor(public navCtrl: NavController, public alertCtrl: AlertController,
      private locService: LocationService, private pathService: PathService,
-    public login: LoginPage,  private logout: LogoutPage) {
+    public login: LoginPage,  private logout: LogoutPage, private tts: TextToSpeech) {
     this.simulationMode=false;
     this.wantRecordRoute=false;
     this.recordedRoute = [];
@@ -52,6 +53,7 @@ export class MapPage {
 
   ionViewDidLoad() {
     this.loadMap();
+    this.tts.speak("hello world");
     if (this.loginPage.isLogin == false) {
       this.showAlertLogin(this.loginPage);
     }

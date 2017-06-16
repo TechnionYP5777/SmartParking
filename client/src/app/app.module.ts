@@ -16,6 +16,7 @@ import { LocationService } from '../providers/location-service';
 import {LoginService} from '../pages/login-page/login-service';
 import { RegisterService } from '../providers/register-service';
 import { LogoutService } from '../providers/logout-service';
+import { TextToSpeech } from '@ionic-native/text-to-speech';
 import { HttpModule } from '@angular/http';
 
 @NgModule({
@@ -50,7 +51,8 @@ import { HttpModule } from '@angular/http';
     RegisterService,
     LogoutService,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    TextToSpeech
   ]
 })
 export class AppModule {}
