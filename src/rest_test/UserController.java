@@ -117,19 +117,24 @@ public class UserController {
 	}
 	
 	public String statusToString(UCStatus ucStatus){
-		
+		String JsonStatus = "{" + '"' + "status" + '"' + ":" + '"';
 		switch(ucStatus){
 		case SUCCESS:
-			return "Success";
+			JsonStatus += "Success";
+			break;
 		case BAD_LOGIN:
-			return "Bad Login";
+			JsonStatus += "Bad Login";
+			break;
 		case BAD_REGISTER:
-			return "Bad Register";
+			JsonStatus += "Bad Register";
+			break;
 		case UNSIGNED:
-			return "Not Signed";
+			JsonStatus += "Not Signed";
+			break;
 		}
-		
-		return "Bad Status";
+		JsonStatus += '"' + "}";
+		System.out.println("JsonStatus: " + JsonStatus);
+		return JsonStatus;
 	}
 
 }

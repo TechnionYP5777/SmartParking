@@ -26,13 +26,14 @@ export class RegisterService {
         var headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
 
-        return this.http.post('http://localhost:8080/User/Register', value, { headers: headers });
+        return this.http.post('http://localhost:8080/User/Register', value, { headers: headers })
+        .map(res => res.json()).catch(this.handleError);;
       
     }
   
   getRegisterData() {
-      console.log("getRegisterData(): " + this.http.get('http://localhost:8080/User/Register'));
-        return this.http.get('http://localhost:8080/User/Register');
+        return this.http.get('http://localhost:8080/User/Register').map(res => res.json())
+            .catch(this.handleError);
       
     }
   

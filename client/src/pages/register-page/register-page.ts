@@ -35,8 +35,12 @@ export class RegisterPage {
     
   getRegisterInfo() {
       this.serve.getRegisterData().subscribe(data => {
-      this.presentAlert("Register is successful! " + data, "Register");
-      this.navCtrl.push(HelloIonicPage);
+          if(data.status == "Success"){
+           this.presentAlert("Register is successful!","Register");
+           this.navCtrl.push(HelloIonicPage);
+          }else{
+              this.presentAlert(data.status + ". Please try again.","Register");
+            }
     });
   }
 
@@ -47,7 +51,6 @@ export class RegisterPage {
     }, err => {
       console.log(err);
     });
-    this.navCtrl.push(HelloIonicPage);
       
     setTimeout(function() { ref.getRegisterInfo(); }, 5000);
 
