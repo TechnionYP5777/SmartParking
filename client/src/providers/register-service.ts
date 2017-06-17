@@ -31,8 +31,9 @@ export class RegisterService {
     }
   
   getRegisterData() {
-        return this.http.get('http://localhost:8080/User/Register').map(res => res.json())
-            .catch(this.handleError);
+      console.log("getRegisterData(): " + this.http.get('http://localhost:8080/User/Register'));
+        return this.http.get('http://localhost:8080/User/Register');
+      
     }
   
   handleError(error) {
