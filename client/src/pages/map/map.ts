@@ -87,7 +87,6 @@ export class MapPage {
       google.maps.event.addListener(circle,"mousemove",function(event){
         google.maps.event.trigger(map,'mousemove',event)    
       });
-      //circle.bindTo('center', marker, 'position');
     });
   }
   showAlertLogin(loginPage) {
@@ -405,7 +404,8 @@ export class MapPage {
     this.directionsDisplayWalk = new google.maps.DirectionsRenderer({
       polylineOptions: {
         strokeColor: "red"
-      }
+      },
+      preserveViewport: true
     });
     this.directionsDisplayWalk.setMap(map);
     this.locService.getParkingAreas(google, this);
