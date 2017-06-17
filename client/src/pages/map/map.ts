@@ -41,7 +41,8 @@ export class MapPage {
   parkingAreas: any;
   chosenParkingArea: any;
   loginPage: any;
-  polylineArray:any;  
+  polylineArray:any;
+  dstMarker:any;  
   constructor(public navCtrl: NavController, public alertCtrl: AlertController,
      private locService: LocationService, private pathService: PathService,
     public login: LoginPage,  private logout: LogoutPage, private tts: TextToSpeech) {
@@ -65,10 +66,6 @@ export class MapPage {
     let map = this.mapView;
     let array = this.parkingAreas;
     parkingAreasPositions.forEach(function(parkingArea) {
-      var marker = new google.maps.Marker({
-        position: parkingArea.position,
-        map: map
-      });
       array.push(parkingArea);
       var circle = new google.maps.Circle({
         map: map,
@@ -78,7 +75,7 @@ export class MapPage {
       google.maps.event.addListener(circle,"mousemove",function(event){
         google.maps.event.trigger(map,'mousemove',event)    
       });
-      circle.bindTo('center', marker, 'position');
+      //circle.bindTo('center', marker, 'position');
     });
   }
   showAlertLogin(loginPage) {
@@ -124,6 +121,7 @@ export class MapPage {
     clearInterval(this.intervalid);
     var message = "";
     let mapObj=this;
+    mapObj.dstMarker.setMap(null);
     this.presentPrompt(message,function(){
         let toServer = { duration: recordTimeInterval, points: mapObj.recordedRoute, dst: mapObj.dstName, parkingArea: mapObj.chosenParkingArea.name, description: message };
         mapObj.removeWalkingPath();
@@ -216,7 +214,11 @@ export class MapPage {
       let mapObj = this;
       this.calculateAndDisplayRoute(this.directionsService, this.directionsDisplay, this.chosenParkingArea,function(){
       let geolocation = new Geolocation();
-      if (mapObj.wantRecordRoute) {  
+      if (mapObj.wantRecordRoute) {
+        mapObj.dstMarker = new google.maps.Marker({
+            position: mapObj.dstPosition,
+            map: mapObj.mapView
+        });
         if(mapObj.simulationMode){
             google.maps.event.addListener(mapObj.mapView, 'mousemove', function (event) {
                 let distance = google.maps.geometry.spherical.computeDistanceBetween(event.latLng, mapObj.chosenParkingArea.position);
@@ -238,6 +240,7 @@ export class MapPage {
                 }
             }); 
         }else{
+            
             this.intervalid = setInterval(function() {
               geolocation.getCurrentPosition().then((position) => {
                 let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
