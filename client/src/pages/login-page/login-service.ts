@@ -25,7 +25,7 @@ export class LoginService {
     }
 
     getDetails() {
-        return this.http.get('http://localhost:8080/User').map(res => res.json())
+        return this.http.get('http://localhost:8080/User/Login').map(res => res.json())
             .catch(this.handleError);
     }
 
@@ -35,7 +35,7 @@ export class LoginService {
         var headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
 
-        return this.http.post('http://localhost:8080/User', value, { headers: headers })
+        return this.http.post('http://localhost:8080/User/Login', value, { headers: headers })
             .map(res => res.json());
     }
 

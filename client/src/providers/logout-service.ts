@@ -27,7 +27,7 @@ export class LogoutService {
       /*this.presentAlert(this.http.post('http://localhost:8080/User/Try', value, { headers: headers })
             .map(res => res.json()).toArray, "Connected");*/
       //this.http.delete('http://localhost:8080/User');
-       return this.http.post('http://localhost:8080/User', value, { headers: headers })
+       return this.http.post('http://localhost:8080/User/Login', value, { headers: headers })
             .map(res => res.json());
       
     }

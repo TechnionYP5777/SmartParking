@@ -32,6 +32,7 @@ export class LoginPage {
   }
 
   ionViewDidLoad() {
+    console.log('ionViewDidLoad LoginPage');
   }
 
   //TODO: better testing if the user is not logged in.

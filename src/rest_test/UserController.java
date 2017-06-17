@@ -22,7 +22,12 @@ import main.java.logic.LoginManager;
 @Controller
 public class UserController {
 	ServerUser user;
-	String signUpStatus;
+	UCStatus status;
+	
+	UserController(){
+		user = new ServerUser();
+		status = UCStatus.UNSIGNED;
+	}
 	
 	
 	void setUserData(String userName, String carNumber, String eMail, String phoneNum, StickersColor color){
@@ -31,11 +36,13 @@ public class UserController {
 		user.setEmail(eMail);
 		user.setPhoneNumber(phoneNum);
 		user.setSticker(color);
+		System.out.println("setUserData: " + userName);
+		
 	}
 	
 	//login get method
 	@CrossOrigin(origins = "http://localhost:8100")
-	@RequestMapping(value = "/User", produces = "application/json")
+	@RequestMapping(value = "/User/Login", produces = "application/json")
 	@ResponseBody
 	public ServerUser login() {
 		return user != null ? user : (user = new ServerUser());
@@ -43,20 +50,13 @@ public class UserController {
 	
 	//login post method
 	@CrossOrigin(origins = "http://localhost:8100")
-	@RequestMapping(value = "/User", method = RequestMethod.POST, produces = "application/json")
+	@RequestMapping(value = "/User/Login", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public void login(@RequestParam("name") String name, @RequestParam("pass") String pass) throws LoginException {
 		
 		if (name == null)
 			return;
 		
-		//Shahar testing functionality:
-		/*System.out.println("In Login. user = " + user.getName() + ", name = " + name);
-		if(name.equals("")){
-			user.setName("TEST1");
-			System.out.println("TEST1 SIGNIN");
-			return;
-		}*/
 		
 		if(name.equals("")){
 			System.out.println("Logging out");
@@ -81,45 +81,55 @@ public class UserController {
 	@RequestMapping(value = "/User/Register", produces = "application/json")
 	@ResponseBody
 	public String register() {
-		return  signUpStatus  != null ? signUpStatus : "Please try to signUp";
+		return  statusToString(status);
 	}
 
 	//register post method
 	@CrossOrigin(origins = "http://localhost:8100")
 	@RequestMapping(value = "/User/Register", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
-	public void register(@RequestParam("name") String name, @RequestParam("pass") String pass,
+	public String register(@RequestParam("name") String name, @RequestParam("pass") String pass,
 			@RequestParam("phone") String phone, @RequestParam("car") String car, @RequestParam("email") String email,
 			@RequestParam("type") int type) {
 
-		if (name == null)
-			return;
+		if (name == null){
+			System.out.println("Register: name is null");
+			status = UCStatus.BAD_REGISTER;
+			return statusToString(status);
+		}
+		
 		LoginManager login = new LoginManager();
-		signUpStatus = "";
 		try {
-			signUpStatus = login.userSignUp(name, pass, phone, car, email, StickersColor.values()[type]);
-			if (!signUpStatus.equals("SignUpError"))
-				signUpStatus = "Succsesful signUp";
+			if (!(login.userSignUp(name, pass, phone, car, email, StickersColor.values()[type])).equals("SignUpError"))
+				status = UCStatus.SUCCESS;
+				setUserData(login.getUserName(), login.getCarNumber(),
+					login.getEmail(), login.getPhoneNumber(), login.getSticker());
 				System.out.println("Succsesful signUp: " + name + " " + pass);
+				return statusToString(status);
 
 		} catch (LoginException e) {
-			signUpStatus = e.toString();
-			System.out.println("Bad signUp!");
+			status = UCStatus.BAD_REGISTER;
+			System.out.println("Bad signUp! error:" + status);
 		}
+		return statusToString(status);
 
-		user.setName(login.getUserName());
-		user.setCarNumber(login.getCarNumber());
-		user.setEmail(login.getEmail());
-		user.setPhoneNumber(login.getPhoneNumber());
-		user.setSticker(login.getSticker());
+
 	}
 	
-	//logout get method
-	/*@CrossOrigin(origins = "http://localhost:8100")
-	@RequestMapping(value = "/User", produces = "application/json")
-	@ResponseBody
-	public ServerUser logout() {
-		return new ServerUser();
-	}*/
+	public String statusToString(UCStatus ucStatus){
+		
+		switch(ucStatus){
+		case SUCCESS:
+			return "Success";
+		case BAD_LOGIN:
+			return "Bad Login";
+		case BAD_REGISTER:
+			return "Bad Register";
+		case UNSIGNED:
+			return "Not Signed";
+		}
+		
+		return "Bad Status";
+	}
 
 }

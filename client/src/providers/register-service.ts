@@ -26,8 +26,7 @@ export class RegisterService {
         var headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
 
-        return this.http.post('http://localhost:8080/User/Register', value, { headers: headers })
-            .map(res => res.json());
+        return this.http.post('http://localhost:8080/User/Register', value, { headers: headers });
       
     }
   
