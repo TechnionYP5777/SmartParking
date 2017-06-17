@@ -37,10 +37,19 @@ export class MapPage {
   ispathshown: any;
   recordedRoute: any;
   intervalid: any;
+  voiceIntervalId: any;
   intervalDest: any;
   parkingAreas: any;
   chosenParkingArea: any;
   loginPage: any;
+
+  useVoice: any;
+  curr_step_index: any;
+  directionsResponse: any;
+
+  polylineArray:any;
+  dstMarker:any;  
+
   constructor(public navCtrl: NavController, public alertCtrl: AlertController,
      private locService: LocationService, private pathService: PathService,
     public login: LoginPage,  private logout: LogoutPage, private tts: TextToSpeech) {
@@ -50,6 +59,12 @@ export class MapPage {
     this.parkingAreas = [];
     this.loginPage = login;
     this.tts.speak("hello world");
+
+    this.useVoice = true;
+    this.curr_step_index = 0;
+
+    this.polylineArray = [];
+
   }
 
   ionViewDidLoad() {
@@ -63,10 +78,6 @@ export class MapPage {
     let map = this.mapView;
     let array = this.parkingAreas;
     parkingAreasPositions.forEach(function(parkingArea) {
-      var marker = new google.maps.Marker({
-        position: parkingArea.position,
-        map: map
-      });
       array.push(parkingArea);
       var circle = new google.maps.Circle({
         map: map,
@@ -76,13 +87,18 @@ export class MapPage {
       google.maps.event.addListener(circle,"mousemove",function(event){
         google.maps.event.trigger(map,'mousemove',event)    
       });
-      circle.bindTo('center', marker, 'position');
     });
   }
   showAlertLogin(loginPage) {
     if (loginPage.isLogin == false) {
       this.presentLoginAlert();
     }
+  }
+  removeWalkingPath(){
+    this.polylineArray.forEach(function(line){
+        line.setMap(null);
+    });
+    this.polylineArray=[];
   }
   drawPath(listLocsToDraw) {
     var drivePath = new google.maps.Polyline({
@@ -92,8 +108,8 @@ export class MapPage {
       strokeOpacity: 1.0,
       strokeWeight: 2
     });
-
     drivePath.setMap(this.mapView);
+    this.polylineArray.push(drivePath);
   }
 
   changeLocation() {
@@ -115,12 +131,16 @@ export class MapPage {
   stopRecording(recordTimeInterval: number) {
     clearInterval(this.intervalid);
     var message = "";
+    let mapObj=this;
+    mapObj.dstMarker.setMap(null);
     this.presentPrompt(message,function(){
-        let toServer = { duration: recordTimeInterval, points: this.recordedRoute, dst: this.dstName, parkingArea: this.chosenParkingArea.name, description: message };
-        this.pathService.sendRecordedPath(toServer);
+        let toServer = { duration: recordTimeInterval, points: mapObj.recordedRoute, dst: mapObj.dstName, parkingArea: mapObj.chosenParkingArea.name, description: message };
+        mapObj.removeWalkingPath();
+        mapObj.pathService.sendRecordedPath(toServer);
     });    
   }
   presentPrompt(message,callback) {
+    let mapObj=this;
     let alert = this.alertCtrl.create({
       title: 'You Have Reached Your Destination!',
       message: 'Please provide general directions',
@@ -133,7 +153,9 @@ export class MapPage {
       buttons: [
         {
           text: 'Cancel',
-          role: 'cancel'
+         handler: data => {
+             mapObj.removeWalkingPath();
+          }
         },
         {
           text: 'Submit',
@@ -203,11 +225,16 @@ export class MapPage {
       let mapObj = this;
       this.calculateAndDisplayRoute(this.directionsService, this.directionsDisplay, this.chosenParkingArea,function(){
       let geolocation = new Geolocation();
-      if (mapObj.wantRecordRoute) {  
+      if (mapObj.wantRecordRoute) {
+        mapObj.dstMarker = new google.maps.Marker({
+            position: mapObj.dstPosition,
+            map: mapObj.mapView
+        });
         if(mapObj.simulationMode){
             google.maps.event.addListener(mapObj.mapView, 'mousemove', function (event) {
                 let distance = google.maps.geometry.spherical.computeDistanceBetween(event.latLng, mapObj.chosenParkingArea.position);
                 console.log(distance);
+                mapObj.readDirections(event.latLng);
                 if (distance < 5) {
                   google.maps.event.clearListeners(mapObj.mapView, 'mousemove');
                   mapObj.showReachedDestination('Reached Parking,\n will start recording your path now');
@@ -225,11 +252,13 @@ export class MapPage {
                 }
             }); 
         }else{
+            
             this.intervalid = setInterval(function() {
               geolocation.getCurrentPosition().then((position) => {
                 let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
                 let distance = google.maps.geometry.spherical.computeDistanceBetween(latLng, mapObj.chosenParkingArea.position);
                 console.log(distance);
+                mapObj.readDirections(position);
                 if (distance < 5) {
                   mapObj.showReachedDestination('Reached Parking,\n will start recording your path now');
                   let alert = mapObj.alertCtrl.create({
@@ -253,6 +282,7 @@ export class MapPage {
             google.maps.event.addListener(mapObj.mapView, 'mousemove', function (event) {
                 let distance = google.maps.geometry.spherical.computeDistanceBetween(event.latLng, mapObj.dstPosition);
                 console.log(distance);
+                mapObj.readDirections(event.latLng);
                 if (distance < 5) {
                     let alert = mapObj.alertCtrl.create({
                         title: 'You Have Reached Your Destination!',
@@ -263,6 +293,9 @@ export class MapPage {
                             handler: () => {google.maps.event.clearListeners(mapObj.mapView, 'mousemove');
                                 mapObj.directionsDisplay.setMap(null);
                                 mapObj.directionsDisplay.setPanel(null);
+                                mapObj.directionsDisplayWalk.setMap(null);
+                                mapObj.directionsDisplayWalk.setPanel(null);
+                                mapObj.removeWalkingPath();
                             }
                           }
                         ]
@@ -275,6 +308,7 @@ export class MapPage {
               geolocation.getCurrentPosition().then((position) => {
                 let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
                 let distance = google.maps.geometry.spherical.computeDistanceBetween(latLng, mapObj.dstPosition);
+                mapObj.readDirections(position);
                 console.log(distance);
                 if (distance < 5) {
                    let alert = mapObj.alertCtrl.create({
@@ -283,9 +317,14 @@ export class MapPage {
                         buttons: [
                           {
                             text: 'OK',
-                            handler: () => {clearInterval(mapObj.intervalid);
+                            handler: () => {
+                                clearInterval(mapObj.intervalid);
+                                clearInterval(mapObj.voiceIntervalId);
                                 mapObj.directionsDisplay.setMap(null);
                                 mapObj.directionsDisplay.setPanel(null);
+                                mapObj.directionsDisplayWalk.setMap(null);
+                                mapObj.directionsDisplayWalk.setPanel(null);
+                                mapObj.removeWalkingPath();
                             }
                           }
                         ]
@@ -365,7 +404,8 @@ export class MapPage {
     this.directionsDisplayWalk = new google.maps.DirectionsRenderer({
       polylineOptions: {
         strokeColor: "red"
-      }
+      },
+      preserveViewport: true
     });
     this.directionsDisplayWalk.setMap(map);
     this.locService.getParkingAreas(google, this);
@@ -377,13 +417,28 @@ export class MapPage {
     alert.present();
     setTimeout(() => alert.dismiss(), 2000);
   }
-  readDirections(response) {
-  	let arr = response.routes[0].legs[0].steps
-  	for (var i = 0; i < arr.length; i++) {
-  		var text = arr[i].instructions.replace(/<b>/g, "");
-		text = text.replace(/<\/b>/g, "");
-        console.log(text);
-	}
+  readDirections(position) {
+    if (this.useVoice == false) {
+        console.log("no voice");
+        return;
+    }
+    let response = this.directionsResponse;
+    let steps = response.routes[0].legs[0].steps;
+    if (this.curr_step_index < steps.length - 1) {
+    	let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+        let distance = google.maps.geometry.spherical.computeDistanceBetween(latLng,
+        						 steps[this.curr_step_index + 1].start_location);
+        if (distance < 5) {
+           this.curr_step_index++;
+        }
+    }
+  	let step = steps[this.curr_step_index]
+	var text = step.instructions.replace(/<b>/g, "");
+	text = text.replace(/<\/b>/g, "");
+    console.log(text);
+  }
+  voicechanged(e : any) {
+     this.useVoice = e.checked;
   }
   calculateAndDisplayRoute(directionsService, directionsDisplay, parkingArea,callback) {
     let mapObj = this;
@@ -393,7 +448,7 @@ export class MapPage {
       travelMode: 'DRIVING'
     }, function(response, status) {
       if (status === 'OK') {
-         mapObj.readDirections(response);
+      	 mapObj.directionsResponse = response;
          directionsDisplay.setDirections(response);
          parkingArea.position=new google.maps.LatLng(response.routes[0].overview_path.slice(-1)[0].lat(), response.routes[0].overview_path.slice(-1)[0].lng());
       } else {
