@@ -4,14 +4,14 @@ package rest_test;
  * @author Shahar-Y
  * Created: May 2017
  * 
- * Made for my convenience for the User Controller statuses. 
+ * Made for my convenience for the User Controller statuses.
+ * NOT_REGISTERED means not registered in this session. 
  */
 
 public enum UCStatus {
-	BAD_LOGIN, 
 	SUCCESS,
 	BAD_REGISTER,
-	UNSIGNED
+	NOT_REGISTERED
 }
 
 

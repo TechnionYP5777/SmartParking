@@ -26,7 +26,7 @@ public class UserController {
 	
 	UserController(){
 		user = new ServerUser();
-		status = UCStatus.UNSIGNED;
+		status = UCStatus.NOT_REGISTERED;
 	}
 	
 	
@@ -122,18 +122,15 @@ public class UserController {
 		case SUCCESS:
 			JsonStatus += "Success";
 			break;
-		case BAD_LOGIN:
-			JsonStatus += "Bad Login";
-			break;
 		case BAD_REGISTER:
 			JsonStatus += "Bad Register";
 			break;
-		case UNSIGNED:
-			JsonStatus += "Not Signed";
+		case NOT_REGISTERED:
+			JsonStatus += "Not Registered";
 			break;
 		}
 		JsonStatus += '"' + "}";
-		System.out.println("JsonStatus: " + JsonStatus);
+		//System.out.println("JsonStatus: " + JsonStatus);
 		return JsonStatus;
 	}
 

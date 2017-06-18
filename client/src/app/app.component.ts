@@ -9,6 +9,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { MapPage } from '../pages/map/map';
 import { LogoutPage } from '../pages/logout-page/logout-page';
+import { MyDetailsPage } from '../pages/myDetails-page/myDetails-page';
 
 @Component({
   templateUrl: 'app.html'
@@ -34,7 +35,8 @@ export class MyApp {
       { title: 'About', component: HelloIonicPage },
       { title: 'Login', component: LoginPage },
       { title: 'Register', component: RegisterPage },
-      { title: 'Logout', component: LogoutPage }
+      { title: 'Logout', component: LogoutPage },
+      { title: 'My Details', component: MyDetailsPage }
     ];
   }
 

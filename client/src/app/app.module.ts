@@ -11,6 +11,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { MapPage } from '../pages/map/map';
 import { ChoosingPage } from '../pages/choosing-page/choosing-page';
 import { LogoutPage } from '../pages/logout-page/logout-page';
+import { MyDetailsPage } from '../pages/myDetails-page/myDetails-page';
 
 import { LocationService } from '../providers/location-service';
 import {LoginService} from '../pages/login-page/login-service';
@@ -27,6 +28,7 @@ import { HttpModule } from '@angular/http';
     RegisterPage,
     MapPage,
     LogoutPage,
+    MyDetailsPage,
     ChoosingPage
   ],
   imports: [
@@ -40,6 +42,7 @@ import { HttpModule } from '@angular/http';
     HelloIonicPage,
     LoginPage,
     LogoutPage,
+    MyDetailsPage,
     RegisterPage,
     MapPage,
     ChoosingPage
