@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
+import { MyDetailsService } from '../../providers/myDetails-service';
 
 /**
  * @author Shahar-Y
@@ -14,13 +15,26 @@ import { AlertController } from 'ionic-angular';
   templateUrl: 'myDetails-page.html'
 })
 export class MyDetailsPage {
+  serve : any;
   
-  
-  constructor(public navCtrl: NavController, public navParams: NavParams,
+  constructor(public navCtrl: NavController, public navParams: NavParams, serve : MyDetailsService,
    public alertCtrl: AlertController) {
+      this.serve = serve;
+      this.serve.getUserDetails().subscribe(data =>{
+          this.presentAlert("Your Data: name=" + data.name + " phoneNumber=" + data.phoneNumber ,"MyData");
+          });
 
   }
   
-  
+    presentAlert(str, myTitle) {
+    let alert = this.alertCtrl.create({
+      title: myTitle,
+      subTitle: str,
+      buttons: ['OK']
+    });
+    alert.present();
+  }
+
+    
 }
 

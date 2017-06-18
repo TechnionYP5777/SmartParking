@@ -17,6 +17,8 @@ import { LocationService } from '../providers/location-service';
 import {LoginService} from '../pages/login-page/login-service';
 import { RegisterService } from '../providers/register-service';
 import { LogoutService } from '../providers/logout-service';
+import { MyDetailsService } from '../providers/myDetails-service';
+
 import { TextToSpeech } from '@ionic-native/text-to-speech';
 import { HttpModule } from '@angular/http';
 
@@ -50,6 +52,7 @@ import { HttpModule } from '@angular/http';
   providers: [
     StatusBar,
     LocationService,
+    MyDetailsService,
     LoginService,
     RegisterService,
     LogoutService,
