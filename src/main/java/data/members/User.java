@@ -46,6 +46,11 @@ public class User extends dbMember {
 	// last log in time
 	private Date lastLoginTime;
 
+	// last paths the user searched for
+	private ArrayList<String> lastPaths;
+
+	private static final int LAST_PATH_SIZE = 5;
+
 	private static final String USER_NAME = "username";
 	private static final String PASSWORD = "password";
 	private static final String PHONE_NUMBER = "phoneNumber";
@@ -54,6 +59,7 @@ public class User extends dbMember {
 	private static final String EMAIL = "email";
 	private static final String PARKING = "currentParking";
 	private static final String LAST_LOGIN_TIME = "lastLoginTime";
+	private static final String LAST_PATHS = "lastPaths";
 	private static final String TABLE_NAME = "PMUser";
 
 	public User(final String name, final String password, final String phoneNumber, final String carNumber,
@@ -68,6 +74,7 @@ public class User extends dbMember {
 		setEmail(email);
 		setCurrentParking(currentLocation);
 		setLastLoginTime(null);
+		setLastPaths(null);
 		setObjectId();
 	}
 
@@ -83,6 +90,11 @@ public class User extends dbMember {
 		sticker = StickersColor.values()[parseObject.getInt(STICKER)];
 		email = parseObject.getString(EMAIL);
 		lastLoginTime = parseObject.getDate(LAST_LOGIN_TIME);
+
+		// TODO - edit here
+		List<String> list = parseObject.getList(LAST_PATHS);
+		lastPaths = (list == null ? new ArrayList<String>() : new ArrayList<String>(list));
+
 		objectId = parseObject.getObjectId();
 		if (parseObject.getParseObject(PARKING) == null)
 			return;
@@ -105,6 +117,10 @@ public class User extends dbMember {
 		currentParking = parseObject.getParseObject("currentParking") == null ? null
 				: new ParkingSlot(parseObject.getParseObject("currentParking"));
 		lastLoginTime = parseObject.getDate(LAST_LOGIN_TIME);
+
+		// TODO - edit here
+		List<String> list = parseObject.getList(LAST_PATHS);
+		lastPaths = (list == null ? new ArrayList<String>() : new ArrayList<String>(list));
 
 		objectId = parseObject.getObjectId();
 	}
@@ -166,6 +182,10 @@ public class User extends dbMember {
 
 	public Date getLastLoginTime() {
 		return lastLoginTime;
+	}
+
+	public ArrayList<String> getLastPaths() {
+		return lastPaths;
 	}
 
 	/* Set functions */
@@ -244,6 +264,14 @@ public class User extends dbMember {
 		parseObject.save();
 	}
 
+	private void setLastPaths(ArrayList<String> lastPaths) throws ParseException {
+		this.lastPaths = lastPaths;
+		if (lastPaths == null)
+			return;
+		parseObject.put(LAST_PATHS, lastPaths);
+		parseObject.save();
+	}
+
 	/**
 	 * will be use to update the properties of a user won't change stickerType
 	 * because you will need a manager approve won't change carNumber because
@@ -267,12 +295,12 @@ public class User extends dbMember {
 		parseObject.save();
 	}
 
-	public ArrayList<String> getLastPaths() {
-		// TODO the method need to be changed
-		ArrayList<String> l = new ArrayList<String>();
-		l.add("Taub$Canada");
-		l.add("Makak$Canada");
-		return l;
+	private void addToLastPaths(String src, String dst) throws ParseException {
+		String newPath = src + "$" + dst;
+		if (lastPaths.size() >= LAST_PATH_SIZE)
+			lastPaths.remove(!lastPaths.contains(newPath) ? 0 : lastPaths.lastIndexOf(newPath));
+		lastPaths.add(src + "$" + dst);
+		setLastPaths(lastPaths);
 	}
 
 }
