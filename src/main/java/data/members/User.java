@@ -1,6 +1,7 @@
 package main.java.data.members;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Date;
 
 import org.parse4j.ParseException;
@@ -9,7 +10,9 @@ import org.parse4j.ParseObject;
 import org.parse4j.ParseQuery;
 
 import main.java.Exceptions.LoginException;
+import main.java.Exceptions.NotExists;
 import main.java.data.management.DBManager;
+import rest_test.WrapObj;
 
 /**
  * @author DavidCohen55
@@ -262,6 +265,14 @@ public class User extends dbMember {
 		password = newPassword;
 		parseObject.put(PASSWORD, password);
 		parseObject.save();
+	}
+
+	public ArrayList<String> getLastPaths() {
+		// TODO the method need to be changed
+		ArrayList<String> l = new ArrayList<String>();
+		l.add("Taub$Canada");
+		l.add("Makak$Canada");
+		return l;
 	}
 
 }
