@@ -295,7 +295,7 @@ public class User extends dbMember {
 		parseObject.save();
 	}
 
-	private void addToLastPaths(String src, String dst) throws ParseException {
+	public void addToLastPaths(String src, String dst) throws ParseException {
 		String newPath = src + "$" + dst;
 		if (lastPaths.size() >= LAST_PATH_SIZE)
 			lastPaths.remove(!lastPaths.contains(newPath) ? 0 : lastPaths.lastIndexOf(newPath));

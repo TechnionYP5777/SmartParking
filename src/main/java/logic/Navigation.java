@@ -88,9 +88,8 @@ public class Navigation {
 	public static ParkingSlot closestParkingSlot(final User u, final MapLocation currentLocation, final ParkingAreas a, final Destination d)
 			throws org.parse4j.ParseException {
 
-		ParkingSlot $ = null;
+		ParkingSlot park = null;
 		long minDuration = Integer.MAX_VALUE;
-
 		for (final ParkingArea parkingArea : a.getParkingAreas())
 			if (parkingArea.getNumOfFreeSlots() > 0)
 				for (final ParkingSlot parkingSlot : parkingArea.getFreeSlots()) {
@@ -98,11 +97,15 @@ public class Navigation {
 						continue;
 					final long duration = getDuration(parkingSlot.getLocation(), d.getEntrance(), true);
 					if (duration < minDuration) {
-						$ = parkingSlot;
+						park = parkingSlot;
 						minDuration = duration;
 					}
 				}
-		return $;
+		
+		u.setCurrentParking(park);
+		park.changeStatus(ParkingSlotStatus.TAKEN);
+		
+		return park;
 	}
 
 	// returns the closest parking to the given faculty in the given parking
