@@ -25,12 +25,15 @@ export class ChoosingPage {copySources: { title: string; position: any; }[];copy
   mapPage: any;
   googleObj: any;
   floor: any;
+  floorsData: any;
   constructor(public navCtrl: NavController, public navParams: NavParams, public locService: LocationService,
         public alertCtrl: AlertController) {
     this.googleObj = navParams.get('googleObj');
     this.sources = [];
     this.dests = [];
     locService.getLocations(this.sources, this.dests, this.googleObj);
+    this.floorsData = [];
+    locService.getFloors(this.floorsData);
     this.mapPage = navParams.get('mapPage');
     google.maps.event.clearListeners(this.mapPage.mapView, 'mousemove');
 

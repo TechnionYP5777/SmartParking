@@ -79,6 +79,18 @@ public class LocationController {
 		setUpLocations();
 		return new JSONObject(hmap) + "";
 	}
+	
+	@CrossOrigin(origins = "http://localhost:8100")
+	@RequestMapping(value = "/Floors", produces = "application/json")
+	@ResponseBody
+	public String getFloors() {
+		setUpLocations();
+		Map<String, List<Map<Integer, String>>> floors = new HashMap<>();
+		for (String key : hmap.keySet()) {
+			floors.put(key, new ArrayList<>());
+		}
+		return new JSONObject(floors) + "";
+	}
 
 	@RequestMapping(value = "/Locations/{name}", produces = "application/json")
 	@ResponseBody

@@ -47,6 +47,13 @@ export class LocationService {
             });
         });
     }
+    getFloors(floorsObj) {
+      return this.http.get('http://localhost:8080/Floors').map(res => res.json()).subscribe(data => {
+           Object.keys(data).forEach(function(key){
+                    floorsObj[key] = data[key];
+            });
+      });
+    }
     getParkingAreas(googleObj,mapViewer) {
         
         return this.http.get('http://localhost:8080/ParkingAreas').map(res => res.json()).subscribe(data => {
