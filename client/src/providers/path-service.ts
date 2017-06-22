@@ -9,7 +9,7 @@ export class PathService {
         console.log('Hello PathService Provider');
     }
     getRecordedPath(parkingArea:string ,destination:string ,retData:any,googleObj,callback){
-        return this.http.get('http://localhost:8080/GetPath?area='+parkingArea+"&dest="+destination).map(res => res.json()).subscribe(data => {
+        return this.http.get('https://spring-boot-nav.herokuapp.com/GetPath?area='+parkingArea+"&dest="+destination).map(res => res.json()).subscribe(data => {
             if(data.error){
                 retData.error="there is an error";
                 
@@ -30,7 +30,7 @@ export class PathService {
         headers.append('Content-Type', 'application/json');
 
         return new Promise(resolve => {
-            this.http.post('http://localhost:8080/SendPath', toSend, { headers: headers }).subscribe(data => {
+            this.http.post('https://spring-boot-nav.herokuapp.com/SendPath', toSend, { headers: headers }).subscribe(data => {
                 if (data.status == 200) {
                     resolve(true);
                 }

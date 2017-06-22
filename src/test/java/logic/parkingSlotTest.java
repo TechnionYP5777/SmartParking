@@ -1,4 +1,4 @@
-package test.java.database;
+package test.java.logic;
 
 import java.util.Date;
 import java.util.HashSet;

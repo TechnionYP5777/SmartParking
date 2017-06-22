@@ -86,8 +86,10 @@ public class LocationController {
 	public String getFloors() {
 		setUpLocations();
 		Map<String, List<Map<String, String>>> floors = new HashMap<>();
-		for (String key : hmap.keySet()) {
-			if (key.equals("Ulman")) {
+		for (String key : hmap.keySet())
+			if (!"Ulman".equals(key))
+				floors.put(key, new ArrayList<>());
+			else {
 				List<Map<String, String>> ulman = new ArrayList<>();
 				Map<String, String> floor1 = new HashMap<>();
 				floor1.put("description", "take the stairs");
@@ -99,10 +101,6 @@ public class LocationController {
 				ulman.add(floor2);
 				floors.put(key, ulman);
 			}
-			else {
-				floors.put(key, new ArrayList<>());
-			}
-		}
 		return new JSONObject(floors) + "";
 	}
 

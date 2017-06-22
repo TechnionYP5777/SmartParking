@@ -20,7 +20,7 @@ export class MyDetailsService {
    
   
   getUserDetails() {
-        return this.http.get('http://localhost:8080/User/Login').map(res => res.json())
+        return this.http.get('https://spring-boot-nav.herokuapp.com/User/Login').map(res => res.json())
             .catch(this.handleError);
       
     }

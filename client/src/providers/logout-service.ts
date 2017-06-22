@@ -24,10 +24,10 @@ export class LogoutService {
         var headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
 
-      /*this.presentAlert(this.http.post('http://localhost:8080/User/Try', value, { headers: headers })
+      /*this.presentAlert(this.http.post('https://spring-boot-nav.herokuapp.com/User/Try', value, { headers: headers })
             .map(res => res.json()).toArray, "Connected");*/
-      //this.http.delete('http://localhost:8080/User');
-       return this.http.post('http://localhost:8080/User/Login', value, { headers: headers })
+      //this.http.delete('https://spring-boot-nav.herokuapp.com/User');
+       return this.http.post('https://spring-boot-nav.herokuapp.com/User/Login', value, { headers: headers })
             .map(res => res.json());
       
     }
@@ -42,7 +42,7 @@ export class LogoutService {
     alert.present();
   }
   /*getRegisterData() {
-        return this.http.get('http://localhost:8080/User/Register').map(res => res.json())
+        return this.http.get('https://spring-boot-nav.herokuapp.com/User/Register').map(res => res.json())
             .catch(this.handleError);
     }*/
   

@@ -33,7 +33,7 @@ export class LocationService {
         }
         var srces = this.srces;
         var dsts = this.dsts;
-        return this.http.get('http://localhost:8080/Locations').map(res => res.json()).subscribe(data => {
+        return this.http.get('https://spring-boot-nav.herokuapp.com/Locations').map(res => res.json()).subscribe(data => {
             Object.keys(data).forEach(function(key){
                     srcsArray.push({title:key,position: new googleObj.maps.LatLng(data[key].lat,data[key].lon)});
                     srces.push({title:key,position: new googleObj.maps.LatLng(data[key].lat,data[key].lon)});
@@ -48,7 +48,7 @@ export class LocationService {
         });
     }
     getFloors(floorsObj, page) {
-      return this.http.get('http://localhost:8080/Floors').map(res => res.json()).subscribe(data => {
+      return this.http.get('https://spring-boot-nav.herokuapp.com/Floors').map(res => res.json()).subscribe(data => {
            page.gotFloors = true;
            Object.keys(data).forEach(function(key){
                     floorsObj[key] = data[key];
@@ -57,7 +57,7 @@ export class LocationService {
     }
     getParkingAreas(googleObj,mapViewer) {
         
-        return this.http.get('http://localhost:8080/ParkingAreas').map(res => res.json()).subscribe(data => {
+        return this.http.get('https://spring-boot-nav.herokuapp.com/ParkingAreas').map(res => res.json()).subscribe(data => {
             var areasArray=[];
             Object.keys(data).forEach(function(key){
                     areasArray.push({name:data[key].name,color:data[key].color,position : new googleObj.maps.LatLng(data[key].location.lat,data[key].location.lon)});                    
