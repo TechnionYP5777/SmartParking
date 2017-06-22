@@ -133,6 +133,7 @@ export class MapPage {
   setDstPosition(position, name) {
     this.dstName = name;
     this.dstPosition = position;
+    this.indoorDescription = null;
     console.log(position);
   }
   stopRecording(recordTimeInterval: number) {
@@ -265,7 +266,7 @@ export class MapPage {
                 let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
                 let distance = google.maps.geometry.spherical.computeDistanceBetween(latLng, mapObj.chosenParkingArea.position);
                 console.log(distance);
-                mapObj.readDirections(position);
+                mapObj.readDirections(position.coords);
                 if (distance < 5) {
                   mapObj.showReachedDestination('Reached Parking,\n will start recording your path now');
                   let alert = mapObj.alertCtrl.create({
@@ -432,17 +433,24 @@ export class MapPage {
     let response = this.directionsResponse;
     let steps = response.routes[0].legs[0].steps;
     if (this.curr_step_index < steps.length - 1) {
-    	let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+    	  let latLng = new google.maps.LatLng(position.lat(), position.lng());
+        let latLng2 = new google.maps.LatLng(steps[this.curr_step_index + 1].start_location.lat(),
+                                      steps[this.curr_step_index + 1].start_location.lng());
+        console.log(latLng2);
         let distance = google.maps.geometry.spherical.computeDistanceBetween(latLng,
-        						 steps[this.curr_step_index + 1].start_location);
-        if (distance < 5) {
+        						latLng2);
+        console.log(distance);
+        if (distance < 50) {
            this.curr_step_index++;
         }
     }
   	let step = steps[this.curr_step_index]
-	var text = step.instructions.replace(/<b>/g, "");
-	text = text.replace(/<\/b>/g, "");
+  	var text = step.instructions.replace(/<b>/g, "");
+  	text = text.replace(/<\/b>/g, "");
     console.log(text);
+    if (this.curr_step_index >= steps.length - 1 && this.indoorDescription != null) {
+         console.log(this.indoorDescription);
+    }
   }
   voicechanged(e : any) {
      this.useVoice = e.checked;

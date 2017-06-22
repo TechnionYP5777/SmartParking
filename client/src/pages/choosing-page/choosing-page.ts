@@ -94,12 +94,14 @@ export class ChoosingPage {copySources: { title: string; position: any; }[];copy
        description: "take the stairs"
      }];
      let page = this;
+     if (dict["floors"].length == 0) {
+        this.mapPage.setDstPosition(dict["position"], dict["title"]);
+        return;
+     }
      this.showRadio(dict).then((result) => {
-        
         console.log(page.floor);
         this.mapPage.setDstPosition(dict["position"], dict["title"]);
         this.mapPage.setIndoorDescription(this.floor);
-       
      })
   }
   
