@@ -38,6 +38,36 @@ export class LoginPage {
         console.log('ionViewDidLoad LoginPage');
     }
 
+
+
+    getUserData(myData: {
+        name: string, phoneNumber: string, carNumber: string,
+        email: string, sticker: string
+    }): Promise<boolean> {
+        console.log("getUserData() myData before: " + JSON.stringify(myData));
+        return new Promise((resolve, reject) => {
+            this.serve.getDetails().subscribe(data => {
+                if (data.name == "") {
+                    console.log("getUserData() data: " + JSON.stringify(data));
+                    this.isLogin = false;
+                    myData = data;
+                    console.log("getUserData() myData after: " + JSON.stringify(myData));
+                    resolve(true);
+                }
+                else {
+                    console.log("getUserData() data: " + JSON.stringify(data));
+                    this.isLogin = true;
+                    myData = data;
+                    resolve(true);
+                }
+            }, err => {
+                console.log("getUserData error: " + err);
+                reject(true);
+            });
+        });
+    }
+
+
     //TODO: better testing if the user is not logged in.
     getInfo() {
         this.serve.getDetails().subscribe(data => {
