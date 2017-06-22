@@ -51,7 +51,8 @@ export class MapPage {
   dstMarker:any;
     
   indoorDescription: any;
-
+  lastTimeVoice: any;
+  
   constructor(public navCtrl: NavController, public alertCtrl: AlertController,
      private locService: LocationService, private pathService: PathService,
     public login: LoginPage,  private logout: LogoutPage, private tts: TextToSpeech) {
@@ -430,6 +431,16 @@ export class MapPage {
         console.log("no voice");
         return;
     }
+    let currentTime = (new Date()).getTime();
+    if (this.lastTimeVoice == 'undefined' || this.lastTimeVoice == null) {
+        this.lastTimeVoice = currentTime;
+    } else {
+        if (currentTime - this.lastTimeVoice < 5000) {
+             this.lastTimeVoice = currentTime;
+             return;
+        }
+    }
+    this.lastTimeVoice = currentTime;
     let response = this.directionsResponse;
     let steps = response.routes[0].legs[0].steps;
     if (this.curr_step_index < steps.length - 1) {
@@ -440,15 +451,17 @@ export class MapPage {
         let distance = google.maps.geometry.spherical.computeDistanceBetween(latLng,
         						latLng2);
         console.log(distance);
-        if (distance < 50) {
+        if (distance < 100) {
            this.curr_step_index++;
         }
     }
   	let step = steps[this.curr_step_index]
   	var text = step.instructions.replace(/<b>/g, "");
   	text = text.replace(/<\/b>/g, "");
+    this.tts.speak(text);
     console.log(text);
     if (this.curr_step_index >= steps.length - 1 && this.indoorDescription != null) {
+         this.tts.speak(this.indoorDescription);
          console.log(this.indoorDescription);
     }
   }
