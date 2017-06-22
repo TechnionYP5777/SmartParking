@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Geolocation } from '@ionic-native/geolocation';
+import { Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 import 'rxjs/Rx';
 
@@ -64,6 +65,17 @@ export class LocationService {
             });
             mapViewer.showParkingAreas(areasArray);
             
+        });
+    }
+    getBestParkingArea(carNumber, src, dst, mapPage, resolve, googleObj) {
+        var value = "car=" + carNumber + "&src=" + src + "&dest=" + dst;
+        var headers = new Headers();
+        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        return this.http.post('http://localhost:8080/FindPark', value, { headers: headers })
+        .map(res => res.json()).subscribe(data => {
+              console.log("done");
+              mapPage.chosenParkingArea = {title:"slot", position: new googleObj.maps.LatLng(data.lat, data.lon)}
+              resolve(true);
         });
     }
 }

@@ -115,8 +115,8 @@ export class ChoosingPage {copySources: { title: string; position: any; }[];copy
 //  }
 //}
 
-  rememberSrc (dict: any ) {
-    this.mapPage.setSrcPosition(dict["position"]);
+  rememberSrc(dict: any ) {
+    this.mapPage.setSrcPosition(dict["position"], dict["title"]);
   }
 
   changeToRecord(value: any) {
