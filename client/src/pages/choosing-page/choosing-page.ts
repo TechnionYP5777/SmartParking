@@ -26,19 +26,21 @@ export class ChoosingPage {copySources: { title: string; position: any; }[];copy
   googleObj: any;
   floor: any;
   floorsData: any;
+  gotFloors: any;
   constructor(public navCtrl: NavController, public navParams: NavParams, public locService: LocationService,
         public alertCtrl: AlertController) {
     this.googleObj = navParams.get('googleObj');
     this.sources = [];
     this.dests = [];
+    this.gotFloors = false;
     locService.getLocations(this.sources, this.dests, this.googleObj);
     this.floorsData = [];
-    locService.getFloors(this.floorsData);
+    locService.getFloors(this.floorsData, this);
     this.mapPage = navParams.get('mapPage');
     google.maps.event.clearListeners(this.mapPage.mapView, 'mousemove');
 
   }
-
+  
   ionViewDidLoad() {
     console.log('ionViewDidLoad ChoosingPage');
   }
@@ -66,11 +68,11 @@ export class ChoosingPage {copySources: { title: string; position: any; }[];copy
     return new Promise((resolve, reject) => {
       let alert = this.alertCtrl.create();
       alert.setTitle('Choose Floor');
-      for(var i = 0; i < dict["floors"].length; i+=1) {
+      for(var i = 0; i < dict.length; i+=1) {
         alert.addInput({
           type: 'radio',
-          label: dict["floors"][i]["id"],
-          value: dict["floors"][i],
+          label: dict[i]["id"],
+          value: dict[i],
           checked: false
         });
       }
@@ -88,20 +90,12 @@ export class ChoosingPage {copySources: { title: string; position: any; }[];copy
   }
   
   rememberDest(dict: any) {
-     dict["floors"] = [{
-       id: 1,
-       description: "take the elevator"
-     },
-     {
-       id: 2,
-       description: "take the stairs"
-     }];
      let page = this;
-     if (dict["floors"].length == 0) {
+     if (this.floorsData[dict["title"]].length == 0) {
         this.mapPage.setDstPosition(dict["position"], dict["title"]);
         return;
      }
-     this.showRadio(dict).then((result) => {
+     this.showRadio(this.floorsData[dict["title"]]).then((result) => {
         console.log(page.floor);
         this.mapPage.setDstPosition(dict["position"], dict["title"]);
         this.mapPage.setIndoorDescription(this.floor);

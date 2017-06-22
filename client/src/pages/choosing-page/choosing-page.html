@@ -26,7 +26,7 @@ ion-spinner {
 }
 </style>
 <ion-content padding>  
-   <ion-spinner name="dots" *ngIf="sources.length==0 || dests.length==0"></ion-spinner>
+   <ion-spinner name="dots" *ngIf="sources.length==0 || dests.length==0 || gotFloors == false"></ion-spinner>
    <ion-item>
   	<ion-label>Record Route</ion-label>
   	<ion-checkbox color="dark" checked="false" (ionChange)="changeToRecord($event)" [disabled]="sources.length==0 || dests.length==0"></ion-checkbox>

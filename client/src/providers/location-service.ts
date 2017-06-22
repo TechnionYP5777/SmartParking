@@ -47,8 +47,9 @@ export class LocationService {
             });
         });
     }
-    getFloors(floorsObj) {
+    getFloors(floorsObj, page) {
       return this.http.get('http://localhost:8080/Floors').map(res => res.json()).subscribe(data => {
+           page.gotFloors = true;
            Object.keys(data).forEach(function(key){
                     floorsObj[key] = data[key];
             });

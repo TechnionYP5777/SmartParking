@@ -85,9 +85,23 @@ public class LocationController {
 	@ResponseBody
 	public String getFloors() {
 		setUpLocations();
-		Map<String, List<Map<Integer, String>>> floors = new HashMap<>();
+		Map<String, List<Map<String, String>>> floors = new HashMap<>();
 		for (String key : hmap.keySet()) {
-			floors.put(key, new ArrayList<>());
+			if (key.equals("Ulman")) {
+				List<Map<String, String>> ulman = new ArrayList<>();
+				Map<String, String> floor1 = new HashMap<>();
+				floor1.put("description", "take the stairs");
+				floor1.put("id", "Floor 1");
+				Map<String, String> floor2 = new HashMap<>();
+				floor2.put("description", "take the elevator");
+				floor2.put("id", "Floor 2");
+				ulman.add(floor1);
+				ulman.add(floor2);
+				floors.put(key, ulman);
+			}
+			else {
+				floors.put(key, new ArrayList<>());
+			}
 		}
 		return new JSONObject(floors) + "";
 	}
