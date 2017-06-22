@@ -145,10 +145,11 @@ public class LocationController {
 				return pa;
 		return null;
 	}
-
+	
+	@CrossOrigin(origins = "http://localhost:8100")
 	@RequestMapping(value = "/FindPark", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
-	public void findBestPark(@RequestParam("car") String carNumber, @RequestParam("src") String src,
+	public MapLocation findBestPark(@RequestParam("car") String carNumber, @RequestParam("src") String src,
 			@RequestParam("dest") String dest) {
 		try {
 			User u = new User(carNumber);
@@ -161,11 +162,13 @@ public class LocationController {
 
 			sps = new ServerParkingSlot(
 					Navigation.closestParkingSlot(u, new Destination(src).getEntrance(), areas, new Destination(dest)));
+			return sps.getLocation();
 		} catch (ParseException | LoginException | NotExists e) {
 			System.out.println("exception...");
 		} catch (AlreadyExists e) {
 			System.out.println((e + ""));
 		}
+		return null;
 	}
 
 	@RequestMapping(value = "/FindPark", produces = "application/json")
