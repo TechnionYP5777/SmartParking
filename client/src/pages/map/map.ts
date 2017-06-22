@@ -48,7 +48,9 @@ export class MapPage {
   directionsResponse: any;
 
   polylineArray:any;
-  dstMarker:any;  
+  dstMarker:any;
+    
+  indoorDescription: any;
 
   constructor(public navCtrl: NavController, public alertCtrl: AlertController,
      private locService: LocationService, private pathService: PathService,
@@ -99,6 +101,11 @@ export class MapPage {
         line.setMap(null);
     });
     this.polylineArray=[];
+  }
+  setIndoorDescription(floor) {
+    console.log(floor["id"]);
+    console.log(floor["description"]);
+    this.indoorDescription = floor["description"];
   }
   drawPath(listLocsToDraw) {
     var drivePath = new google.maps.Polyline({

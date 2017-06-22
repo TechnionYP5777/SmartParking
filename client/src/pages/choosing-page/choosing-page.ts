@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { LocationService } from '../../providers/location-service';
+import { AlertController } from 'ionic-angular';
 declare var google;
 /**
 * Generated class for the ChoosingPage page.
@@ -23,7 +24,9 @@ export class ChoosingPage {copySources: { title: string; position: any; }[];copy
   goCallBack: any;
   mapPage: any;
   googleObj: any;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public locService: LocationService) {
+  floor: any;
+  constructor(public navCtrl: NavController, public navParams: NavParams, public locService: LocationService,
+        public alertCtrl: AlertController) {
     this.googleObj = navParams.get('googleObj');
     this.sources = [];
     this.dests = [];
@@ -55,9 +58,49 @@ export class ChoosingPage {copySources: { title: string; position: any; }[];copy
 //  }
 //}
   
-    
+  showRadio(dict): Promise<boolean> {
+    let pageObj = this;
+    return new Promise((resolve, reject) => {
+      let alert = this.alertCtrl.create();
+      alert.setTitle('Choose Floor');
+      for(var i = 0; i < dict["floors"].length; i+=1) {
+        alert.addInput({
+          type: 'radio',
+          label: dict["floors"][i]["id"],
+          value: dict["floors"][i],
+          checked: false
+        });
+      }
+      alert.addButton('Cancel');
+      alert.addButton({
+        text: 'OK',
+        handler: data => {
+          resolve(true);
+          console.log(data);
+          pageObj.floor = data;
+        }
+      });
+      alert.present();
+    });
+  }
+  
   rememberDest(dict: any) {
-     this.mapPage.setDstPosition(dict["position"], dict["title"]);
+     dict["floors"] = [{
+       id: 1,
+       description: "take the elevator"
+     },
+     {
+       id: 2,
+       description: "take the stairs"
+     }];
+     let page = this;
+     this.showRadio(dict).then((result) => {
+        
+        console.log(page.floor);
+        this.mapPage.setDstPosition(dict["position"], dict["title"]);
+        this.mapPage.setIndoorDescription(this.floor);
+       
+     })
   }
   
 //  getItemsSrc ( ev: any) {
