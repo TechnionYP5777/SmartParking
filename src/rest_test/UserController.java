@@ -13,78 +13,73 @@ import main.java.logic.LoginManager;
 
 /**
  * @author DavidCohen55
- * @author Shahar-Y
- * Created: May 2017
+ * @author Shahar-Y Created: May 2017
  * 
- * This file contains the java methods for the user services in the local host
+ *         This file contains the java methods for the user services in the
+ *         local host
  */
 
 @Controller
 public class UserController {
 	ServerUser user;
 	UCStatus status;
-	
-	UserController(){
+
+	UserController() {
 		user = new ServerUser();
 		status = UCStatus.NOT_REGISTERED;
 	}
-	
-	
-	void setUserData(String userName, String carNumber, String eMail, String phoneNum, StickersColor color){
+
+	void setUserData(String userName, String carNumber, String eMail, String phoneNum, StickersColor color) {
 		user.setName(userName);
 		user.setCarNumber(carNumber);
 		user.setEmail(eMail);
 		user.setPhoneNumber(phoneNum);
 		user.setSticker(color);
 		System.out.println("setUserData: " + userName);
-		
+
 	}
-	
-	//login get method
+
+	// login get method
 	@CrossOrigin(origins = "http://localhost:8100")
 	@RequestMapping(value = "/User/Login", produces = "application/json")
 	@ResponseBody
 	public ServerUser login() {
 		return user != null ? user : (user = new ServerUser());
 	}
-	
-	//login post method
+
+	// login post method
 	@CrossOrigin(origins = "http://localhost:8100")
 	@RequestMapping(value = "/User/Login", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public void login(@RequestParam("name") String name, @RequestParam("pass") String pass) throws LoginException {
-		
+
 		if (name == null)
 			return;
-		
-		
-		if(name.equals("")){
+
+		if (name.equals("")) {
 			System.out.println("Logging out");
-			setUserData("","","","",StickersColor.WHITE);
+			setUserData("", "", "", "", StickersColor.WHITE);
 			return;
 		}
-
 
 		LoginManager login = new LoginManager();
 		if (!login.userLogin(name, pass))
 			return;
-		
-		setUserData(login.getUserName(), login.getCarNumber(),
-				login.getEmail(), login.getPhoneNumber(), login.getSticker());
+
+		setUserData(login.getUserName(), login.getCarNumber(), login.getEmail(), login.getPhoneNumber(),
+				login.getSticker());
 
 	}
 
-	
-	
-	//register get method
+	// register get method
 	@CrossOrigin(origins = "http://localhost:8100")
 	@RequestMapping(value = "/User/Register", produces = "application/json")
 	@ResponseBody
 	public String register() {
-		return  statusToString(status);
+		return statusToString(status);
 	}
 
-	//register post method
+	// register post method
 	@CrossOrigin(origins = "http://localhost:8100")
 	@RequestMapping(value = "/User/Register", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
@@ -92,20 +87,20 @@ public class UserController {
 			@RequestParam("phone") String phone, @RequestParam("car") String car, @RequestParam("email") String email,
 			@RequestParam("type") int type) {
 
-		if (name == null){
+		if (name == null) {
 			System.out.println("Register: name is null");
 			status = UCStatus.BAD_REGISTER;
 			return statusToString(status);
 		}
-		
+
 		LoginManager login = new LoginManager();
 		try {
 			if (!(login.userSignUp(name, pass, phone, car, email, StickersColor.values()[type])).equals("SignUpError"))
 				status = UCStatus.SUCCESS;
-				setUserData(login.getUserName(), login.getCarNumber(),
-					login.getEmail(), login.getPhoneNumber(), login.getSticker());
-				System.out.println("Succsesful signUp: " + name + " " + pass);
-				return statusToString(status);
+			setUserData(login.getUserName(), login.getCarNumber(), login.getEmail(), login.getPhoneNumber(),
+					login.getSticker());
+			System.out.println("Succsesful signUp: " + name + " " + pass);
+			return statusToString(status);
 
 		} catch (LoginException e) {
 			status = UCStatus.BAD_REGISTER;
@@ -113,12 +108,11 @@ public class UserController {
 		}
 		return statusToString(status);
 
-
 	}
-	
-	public String statusToString(UCStatus ucStatus){
+
+	public String statusToString(UCStatus ucStatus) {
 		String JsonStatus = "{" + '"' + "status" + '"' + ":" + '"';
-		switch(ucStatus){
+		switch (ucStatus) {
 		case SUCCESS:
 			JsonStatus += "Success";
 			break;
@@ -130,8 +124,54 @@ public class UserController {
 			break;
 		}
 		JsonStatus += '"' + "}";
-		//System.out.println("JsonStatus: " + JsonStatus);
+		// System.out.println("JsonStatus: " + JsonStatus);
 		return JsonStatus;
+	}
+
+	// changeDetails get method
+	@CrossOrigin(origins = "http://localhost:8100")
+	@RequestMapping(value = "/User/ChangeDetails", produces = "application/json")
+	@ResponseBody
+	public boolean changeDetails() {
+		return false;
+	}
+
+	// login post method
+	@CrossOrigin(origins = "http://localhost:8100")
+	@RequestMapping(value = "/User/ChangeDetails", method = RequestMethod.POST, produces = "application/json")
+	@ResponseBody
+	public boolean changeDetails(@RequestParam("name") String name, @RequestParam("phone") String phone,
+			@RequestParam("newCar") String newCar, @RequestParam("email") String email,
+			@RequestParam("type") String type, @RequestParam("car") String car) {
+		boolean retVal = false;
+		
+		LoginManager login = new LoginManager();
+		try {
+			retVal = login.userUpdate(car, name, phone, email, newCar, SCStringToSC(type));
+		} catch (LoginException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return retVal;
+
+	}
+	
+
+	private StickersColor SCStringToSC(String type) {
+		switch (type) {
+		case "Green":
+			return StickersColor.GREEN;
+		case "Blue":
+			return StickersColor.BLUE;
+		case "Red":
+			return StickersColor.RED;
+		case "Yellow":
+			return StickersColor.YELLOW;
+		case "Bordeaux":
+			return StickersColor.BORDEAUX;
+		}
+
+		return StickersColor.WHITE;
 	}
 
 }

@@ -5,9 +5,9 @@ import { MyDetailsService } from '../../providers/myDetails-service';
 
 /**
  * @author Shahar-Y
- * Created: 18.6.17
+ * Created: 23.6.17
  * 
- * myDetails page
+ * myDetailsEdit page
  */
 
 @Component({

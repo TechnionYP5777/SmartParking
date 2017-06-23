@@ -18,8 +18,9 @@ export class LogoutService {
         console.log('Hello LogoutService Provider');
     }
 
+    
+    //In this case, logout means that the "eampty user" is logged in.
     userLogout() {
-
         var value = "name=" + "" + "&pass=" + "";
         var headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');

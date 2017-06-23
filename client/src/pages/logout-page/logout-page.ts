@@ -7,7 +7,7 @@ import { LoginPage } from '../login-page/login-page';
 
 /**
  * @author Shahar-Y
- * Created: 6.14.17
+ * Created: 14.6.17
  * 
  * The logout page
  */
