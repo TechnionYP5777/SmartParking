@@ -17,38 +17,37 @@ export class LogoutService {
     constructor(public http: Http, public alertCtrl: AlertController) {
         console.log('Hello LogoutService Provider');
     }
-   
+
     userLogout() {
 
-      var value = "name=" + "" + "&pass=" + "";
+        var value = "name=" + "" + "&pass=" + "";
         var headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
-
-      /*this.presentAlert(this.http.post('https://spring-boot-nav.herokuapp.com/User/Try', value, { headers: headers })
-            .map(res => res.json()).toArray, "Connected");*/
-      //this.http.delete('https://spring-boot-nav.herokuapp.com/User');
-       return this.http.post('https://spring-boot-nav.herokuapp.com/User/Login', value, { headers: headers })
+        /*this.presentAlert(this.http.post('https://spring-boot-nav.herokuapp.com/User/Try', value, { headers: headers })
+              .map(res => res.json()).toArray, "Connected");*/
+        //this.http.delete('https://spring-boot-nav.herokuapp.com/User');
+        return this.http.post('https://spring-boot-nav.herokuapp.com/User/Login', value, { headers: headers })
             .map(res => res.json());
-      
+
     }
-  
+
     presentAlert(str, myTitle) {
-    let alert = this.alertCtrl.create({
-      title: myTitle,
-      subTitle: str,
-      buttons: ['OK'],
-      cssClass: 'alertLogin'
-    });
-    alert.present();
-  }
-  /*getRegisterData() {
-        return this.http.get('https://spring-boot-nav.herokuapp.com/User/Register').map(res => res.json())
-            .catch(this.handleError);
+        let alert = this.alertCtrl.create({
+            title: myTitle,
+            subTitle: str,
+            buttons: ['OK'],
+            cssClass: 'alertLogin'
+        });
+        alert.present();
+    }
+    /*getRegisterData() {
+          return this.http.get('https://spring-boot-nav.herokuapp.com/User/Register').map(res => res.json())
+              .catch(this.handleError);
     }*/
   
-  handleError(error) {
+    handleError(error) {
         console.error(error);
         return Observable.throw('Server error');
     }
-  
+
 }

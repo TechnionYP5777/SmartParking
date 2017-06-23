@@ -120,8 +120,7 @@ public class populateDB {
 				defaultColor = StickersColor.valueOf(args[3]);
 		final double lat = Double.parseDouble(args[4]), lon = Double.parseDouble(args[5]);
 		try {
-			final ParkingSlot slot1 = new ParkingSlot(name, status, currentColor, defaultColor,
-					new MapLocation(lat, lon), new Date());
+			final ParkingSlot slot1 = new ParkingSlot(name, status, currentColor, new MapLocation(lat, lon));
 		} catch (final ParseException ¢) {
 			LogPrinter.createLogFile(¢);
 			return false;
@@ -145,7 +144,7 @@ public class populateDB {
 			}
 
 		try {
-			final ParkingArea area = new ParkingArea(id, name, new MapLocation(lat, lon), slots, defaultColor);
+			final ParkingArea area = new ParkingArea(name, new MapLocation(lat, lon), slots, defaultColor);
 		} catch (final ParseException ¢) {
 			LogPrinter.createLogFile(¢);
 			return false;

@@ -76,9 +76,9 @@ public class ParkingAreas extends dbMember {
 
 		// search if parkingArea exist
 		final ParseQuery<ParseObject> query = ParseQuery.getQuery("ParkingArea");
-		query.whereEqualTo("areaId", a.getAreaId());
+		query.whereEqualTo("areaId", a.getObjectId());
 		if (query.find().size() != 1 || parkingAreas == null) {
-			System.out.format("The area %d doest exist", a.getAreaId());
+			System.out.format("The area %d doest exist", a.getObjectId());
 			return;
 		}
 
@@ -94,7 +94,7 @@ public class ParkingAreas extends dbMember {
 	public int getNumOfTakenByArea(final ParkingArea a) {
 		int $ = 0;
 		for (final ParkingArea currentArea : parkingAreas)
-			if (currentArea.getAreaId() == a.getAreaId())
+			if (currentArea.getObjectId() == a.getObjectId())
 				$ = currentArea.getNumOfTakenSlots();
 		return $;
 	}
@@ -103,7 +103,7 @@ public class ParkingAreas extends dbMember {
 	public int getNumOfFreeByArea(final ParkingArea a) {
 		int $ = 0;
 		for (final ParkingArea currentArea : parkingAreas)
-			if (currentArea.getAreaId() == a.getAreaId())
+			if (currentArea.getObjectId() == a.getObjectId())
 				$ = currentArea.getNumOfFreeSlots();
 		return $;
 	}
@@ -128,7 +128,7 @@ public class ParkingAreas extends dbMember {
 	public int getNumOfSlotsByArea(final ParkingArea a) {
 		int $ = 0;
 		for (final ParkingArea currentArea : parkingAreas)
-			if (currentArea.getAreaId() == a.getAreaId())
+			if (currentArea.getObjectId() == a.getObjectId())
 				$ = currentArea.getNumOfParkingSlots();
 		return $;
 	}
@@ -137,7 +137,7 @@ public class ParkingAreas extends dbMember {
 	public ParkingSlot getParkingslotByArea(final ParkingArea a) throws ParseException {
 		ParkingSlot $ = null;
 		for (final ParkingArea currentArea : parkingAreas)
-			if (currentArea.getAreaId() == a.getAreaId())
+			if (currentArea.getObjectId() == a.getObjectId())
 				for (final ParkingSlot currentSlot : currentArea.getFreeSlots())
 					$ = currentSlot;
 		return $;

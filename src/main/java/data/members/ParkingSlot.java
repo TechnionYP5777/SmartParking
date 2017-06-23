@@ -1,6 +1,5 @@
 package main.java.data.members;
 
-import java.util.Date;
 import java.util.List;
 
 import org.parse4j.ParseException;
@@ -29,18 +28,13 @@ public class ParkingSlot extends dbMember {
 	// The slot's location
 	private MapLocation location;
 
-	// The slot's default color
-	private StickersColor defaultColor;
-
-	// The slot's endTime. if null the color permanent, else temporary
-	private Date endTime;
 
 	/* Constructors */
 
 	// Create a new parking slot. Will result in a new slot in the DB.
 	public ParkingSlot(final String name, final ParkingSlotStatus status, final StickersColor color,
-			final StickersColor defaultColor, final MapLocation location, final Date endTime) throws ParseException {
-		validateArgument(status, color, defaultColor, location);
+		 final MapLocation location) throws ParseException {
+		validateArgument(status, color, location);
 
 		DBManager.initialize();
 		setParseObject("ParkingSlot");
@@ -48,8 +42,6 @@ public class ParkingSlot extends dbMember {
 		setStatus(status);
 		setColor(color);
 		setLocation(location);
-		setDefaultColor(defaultColor);
-		setEndTime(endTime);
 		setObjectId();
 		parseObject.save();
 	}
@@ -62,8 +54,6 @@ public class ParkingSlot extends dbMember {
 		color = StickersColor.values()[parseObject.getInt("color")];
 		final ParseGeoPoint geo = parseObject.getParseGeoPoint("location");
 		location = new MapLocation(geo.getLatitude(), geo.getLongitude());
-		defaultColor = StickersColor.values()[parseObject.getInt("defaultColor")];
-		endTime = parseObject.getDate("endTime");
 		objectId = parseObject.getObjectId();
 		parseObject.save();
 	}
@@ -81,8 +71,6 @@ public class ParkingSlot extends dbMember {
 		color = StickersColor.values()[this.parseObject.getInt("color")];
 		final ParseGeoPoint geo = this.parseObject.getParseGeoPoint("location");
 		location = new MapLocation(geo.getLatitude(), geo.getLongitude());
-		defaultColor = StickersColor.values()[this.parseObject.getInt("defaultColor")];
-		endTime = this.parseObject.getDate("endTime");
 		objectId = this.parseObject.getObjectId();
 		this.parseObject.save();
 	}
@@ -117,13 +105,6 @@ public class ParkingSlot extends dbMember {
 		return location;
 	}
 
-	public StickersColor getDefaultColor() {
-		return defaultColor;
-	}
-
-	public Date getEndTime() {
-		return endTime;
-	}
 
 	/* Setters */
 
@@ -151,29 +132,14 @@ public class ParkingSlot extends dbMember {
 		parseObject.save();
 	}
 
-	private void setDefaultColor(final StickersColor defaultColor) throws ParseException {
-		this.defaultColor = defaultColor;
-		parseObject.put("defaultColor", defaultColor.ordinal());
-		parseObject.save();
-	}
-
-	public void setEndTime(final Date endTime) throws ParseException {
-		// TODO: check what happens if null (should be OK)
-		this.endTime = endTime;
-		parseObject.put("endTime", endTime);
-		parseObject.save();
-	}
-
 	/* Methods */
 
-	private void validateArgument(final ParkingSlotStatus s, final StickersColor c, final StickersColor defaultColor,
+	private void validateArgument(final ParkingSlotStatus s, final StickersColor c,
 			final MapLocation l) throws IllegalArgumentException {
 		if (s == null)
 			throw new IllegalArgumentException("status can not be empty!");
 		if (c == null)
 			throw new IllegalArgumentException("color can not be empty!");
-		if (defaultColor == null)
-			throw new IllegalArgumentException("defaultColor can not be empty!");
 		if (l == null)
 			throw new IllegalArgumentException("location can not be empty!");
 	}

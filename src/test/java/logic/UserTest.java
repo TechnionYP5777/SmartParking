@@ -37,7 +37,7 @@ public class UserTest {
 			user = new User("0000001");
 			if (user != null)
 				user.setCurrentParking(new ParkingSlot("DavidSlot", ParkingSlotStatus.FREE, StickersColor.RED,
-						StickersColor.RED, new MapLocation(32.778153, 35.021855), new Date()));
+						new MapLocation(32.778153, 35.021855)));
 			Assert.assertEquals(user.getCurrentParking().getName(), "DavidSlot");
 			user.getCurrentParking().setColor(StickersColor.BORDEAUX);
 			final ParseQuery<ParseObject> query = ParseQuery.getQuery("ParkingSlot");
@@ -62,7 +62,7 @@ public class UserTest {
 		try {
 			final User user = new User("0000001");
 			final ParkingSlot ps = new ParkingSlot("DavidSlot2", ParkingSlotStatus.FREE, StickersColor.RED,
-					StickersColor.RED, new MapLocation(32.778153, 35.021855), new Date());
+					new MapLocation(32.778153, 35.021855));
 			if (user != null)
 				user.setCurrentParking(ps);
 			Assert.assertEquals(user.getCurrentParking().getName(), "DavidSlot2");
@@ -84,7 +84,7 @@ public class UserTest {
 			final User user = new User("0000001");
 			if (user != null)
 				user.setCurrentParking(new ParkingSlot("DavidSlot3", ParkingSlotStatus.FREE, StickersColor.RED,
-						StickersColor.RED, new MapLocation(32.778153, 35.021855), new Date()));
+						new MapLocation(32.778153, 35.021855)));
 			Assert.assertEquals(user.getCurrentParking().getName(), "DavidSlot3");
 			final ParseObject park = ParseQuery.getQuery("ParkingSlot")
 					.get(user.getCurrentParking().getParseObject().getObjectId());
@@ -113,14 +113,14 @@ public class UserTest {
 			final User user = new User("0000001");
 			if (user != null)
 				user.setCurrentParking(new ParkingSlot("DavidSlot3", ParkingSlotStatus.FREE, StickersColor.RED,
-						StickersColor.RED, new MapLocation(32.778153, 35.021855), new Date()));
+						new MapLocation(32.778153, 35.021855)));
 			final ParseObject park1 = user.getCurrentParking().getParseObject();
 			Assert.assertEquals(user.getCurrentParking().getName(), "DavidSlot3");
 			Assert.assertEquals(user.getCurrentParking().getColor(), StickersColor.RED);
 			Assert.assertEquals(user.getCurrentParking().getStatus(), ParkingSlotStatus.FREE);
 			if (user != null)
 				user.setCurrentParking(new ParkingSlot("DavidSlot4", ParkingSlotStatus.TAKEN, StickersColor.GREEN,
-						StickersColor.GREEN, new MapLocation(32.778153, 35.021855), new Date()));
+						new MapLocation(32.778153, 35.021855)));
 			final ParseObject park2 = user.getCurrentParking().getParseObject();
 			Assert.assertEquals(user.getCurrentParking().getName(), "DavidSlot4");
 			Assert.assertEquals(user.getCurrentParking().getColor(), StickersColor.GREEN);
