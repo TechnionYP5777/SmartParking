@@ -25,11 +25,13 @@ export class LoginPage {
     serve: any;
     logoutService: any;
     isLogin: any;
+    carNumber: any;
 
     constructor(public navCtrl: NavController, public navParams: NavParams,
         serve: LoginService, public alertCtrl: AlertController, logoutService: LogoutService) {
         this.serve = serve;
         this.logoutService = logoutService;
+        this.carNumber = null;
         //this.num = serve.http.get('https://www.reddit.com/r/gifs/new/.json?limit=10').map(res=>res.json());
         this.isLogin = false;
     }
@@ -96,10 +98,12 @@ export class LoginPage {
         }*/
 
     }
-
+    getCarNumber() {
+      return this.carNumber;
+    }
     Login(carNumber, password) {
         let ref = this;
-
+        ref.carNumber = carNumber;
         this.serve.userLogin(carNumber, password).subscribe(() => {
             console.log("use data here");
         }, err => {

@@ -401,22 +401,16 @@ export class MapPage {
 
     }
     getBestParking(srcPosition, dstPosition, googleObj): Promise<boolean> {
+        var devMode = true;
+        var carNumber = "8006199";
+        if (devMode = false && (this.loginPage.getCarNumber() == 'undefined' || this.loginPage.getCarNumber() == null)) {
+            console.log("User not logged in !");
+            return;
+        }
         let mapPage = this;
         return new Promise((resolve, reject) => {
-            this.locService.getBestParkingArea("8074605", srcPosition, dstPosition, mapPage, resolve, googleObj);
+            this.locService.getBestParkingArea(carNumber, srcPosition, dstPosition, mapPage, resolve, googleObj);
         });
-        /*
-        var min = google.maps.geometry.spherical.computeDistanceBetween(this.parkingAreas[0].position, this.dstPosition);
-        let dst = this.dstPosition;
-        var min_pa = this.parkingAreas[0];
-        this.parkingAreas.forEach(function(pa) {
-          let distance = google.maps.geometry.spherical.computeDistanceBetween(pa.position, dst);
-          if (distance < min) {
-            min = distance;
-            min_pa = pa;
-          }
-        });
-        return min_pa;*/
     }
     presentLoginAlert() {
         let alert = this.alertCtrl.create({
