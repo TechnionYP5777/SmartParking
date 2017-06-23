@@ -80,7 +80,7 @@ export class MapPage {
     }
 
     ionViewDidLoad() {
-
+        let ref = this;
 
         this.loadMap();
         this.tts.speak("hello world");
@@ -90,7 +90,14 @@ export class MapPage {
         this.loginService.getDetails().subscribe(data => {
             //console.log("getUserData() Data : " + JSON.stringify(data));
             myData = data;
-            console.log("getUserData() myData after: " + JSON.stringify(myData));
+            console.log("getUserData() myData: " + JSON.stringify(myData));
+            if (myData == undefined) {
+                console.log("mydata undefined");
+                ref.showAlertLogin(ref.loginPage);
+            }
+            if (myData.name == "") {
+                ref.showAlertLogin(ref.loginPage);
+            }
         }, err => {
             console.log("getUserData error: " + err);
         });

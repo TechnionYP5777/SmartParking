@@ -16,12 +16,16 @@ import { MyDetailsService } from '../../providers/myDetails-service';
 })
 export class MyDetailsPage {
   serve : any;
+  public storeArray: Array<any> = [];
+    
   
   constructor(public navCtrl: NavController, public navParams: NavParams, serve : MyDetailsService,
    public alertCtrl: AlertController) {
       this.serve = serve;
       this.serve.getUserDetails().subscribe(data =>{
           this.presentAlert("Your Data: name=" + data.name + " phoneNumber=" + data.phoneNumber ,"MyData");
+          //this.storeArray = [data.name, data.phoneNumber];
+          
           });
 
   }
