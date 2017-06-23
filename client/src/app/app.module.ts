@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, ErrorHandler } from '@angular/core';
-import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
+import { IonicApp, IonicModule } from 'ionic-angular';
 import { MyApp } from './app.component';
 
 import { HelloIonicPage } from '../pages/hello-ionic/hello-ionic';
@@ -18,9 +18,11 @@ import {LoginService} from '../pages/login-page/login-service';
 import { RegisterService } from '../providers/register-service';
 import { LogoutService } from '../providers/logout-service';
 import { MyDetailsService } from '../providers/myDetails-service';
+import { MyExceptionHandler }from '../providers/errorHandler';
 
 import { TextToSpeech } from '@ionic-native/text-to-speech';
 import { HttpModule } from '@angular/http';
+import {File} from '@ionic-native/file';
 
 @NgModule({
   declarations: [
@@ -57,8 +59,9 @@ import { HttpModule } from '@angular/http';
     RegisterService,
     LogoutService,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
-    TextToSpeech
+    {provide: ErrorHandler, useClass: MyExceptionHandler},
+    TextToSpeech,
+    File
   ]
 })
 export class AppModule {}
