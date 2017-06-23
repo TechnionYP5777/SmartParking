@@ -10,6 +10,7 @@
 
 <ion-content padding class="page-myDetails-page">
   <h3 style="text-color: white, font-size: 32px;">These are your details:</h3>
+  
   <p> Name: {{this.storeArray[0]}} </p>
   <p> Phone Number: {{this.storeArray[1]}} </p>
   <p> Car Number: {{this.storeArray[2]}} </p>
@@ -17,7 +18,7 @@
   <p> Sticker Color: {{this.storeArray[4]}} </p>
   
     <div padding>
-  <button ion-button (click)="ChangeDetails()" color="dark"
+  <button ion-button (click)="EditDetails()" color="dark"
 		style="margin-right: 16px" >Change Details</button>
 	</div>
   

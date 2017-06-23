@@ -12,6 +12,7 @@ import { MapPage } from '../pages/map/map';
 import { ChoosingPage } from '../pages/choosing-page/choosing-page';
 import { LogoutPage } from '../pages/logout-page/logout-page';
 import { MyDetailsPage } from '../pages/myDetails-page/myDetails-page';
+import { MyDetailsEditPage } from '../pages/myDetailsEdit-page/myDetailsEdit-page';
 
 import { LocationService } from '../providers/location-service';
 import {LoginService} from '../pages/login-page/login-service';
@@ -31,6 +32,7 @@ import { HttpModule } from '@angular/http';
     MapPage,
     LogoutPage,
     MyDetailsPage,
+    MyDetailsEditPage,
     ChoosingPage
   ],
   imports: [
@@ -45,6 +47,7 @@ import { HttpModule } from '@angular/http';
     LoginPage,
     LogoutPage,
     MyDetailsPage,
+    MyDetailsEditPage,
     RegisterPage,
     MapPage,
     ChoosingPage

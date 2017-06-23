@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>My Details Edit</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<style>
+    tab1 { padding-left: 8em; }
+</style>
+
+
+
+<ion-content padding class="page-myDetailsEdit-page">
+  <h3 style="text-color: white, font-size: 32px;">These are your details:</h3>
+  
+<form>
+  <p>Name: <input type="text" name="name" value={{this.storeArray[0]}}></p>
+  <p>Phone Number: <input type="text" name="phoneNum" value={{this.storeArray[1]}}></p>
+  <p>Car Number: <input type="text" name="carNum" value={{this.storeArray[2]}}></p>
+  <p>Email: <input type="text" name="eMail" value={{this.storeArray[3]}}></p>
+  <p>Sticker Color:	<input type="text" name="sticker" value={{this.storeArray[4]}}></p>
+</form> 
+
+  
+    <div padding>
+  <button ion-button (click)="ChangeDetails()" color="dark"
+		style="margin-right: 16px" >Change Details</button>
+	</div>
+  
+  
+  
+
+</ion-content>

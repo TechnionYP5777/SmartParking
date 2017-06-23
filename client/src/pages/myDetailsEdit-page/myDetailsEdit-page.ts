@@ -2,8 +2,6 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
 import { MyDetailsService } from '../../providers/myDetails-service';
-import { MyDetailsEditPage } from '../myDetailsEdit-page/myDetailsEdit-page';
-
 
 /**
  * @author Shahar-Y
@@ -13,10 +11,10 @@ import { MyDetailsEditPage } from '../myDetailsEdit-page/myDetailsEdit-page';
  */
 
 @Component({
-    selector: 'page-myDetails-page',
-    templateUrl: 'myDetails-page.html'
+    selector: 'page-myDetailsEdit-page',
+    templateUrl: 'myDetailsEdit-page.html'
 })
-export class MyDetailsPage {
+export class MyDetailsEditPage {
     serve: any;
     public storeArray: Array<any> = [];
 
@@ -30,9 +28,13 @@ export class MyDetailsPage {
 
         });
     }
+    
+     ionViewDidLoad() {
+        console.log('ionViewDidLoad MyDetailsEditPage');
+    }
 
-    EditDetails() {
-        this.navCtrl.push(MyDetailsEditPage);
+    ChangeDetails() {
+
     }
     
     presentAlert(str, myTitle) {

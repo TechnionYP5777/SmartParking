@@ -11,6 +11,7 @@ import { MapPage } from '../pages/map/map';
 import { LogoutPage } from '../pages/logout-page/logout-page';
 import { MyDetailsPage } from '../pages/myDetails-page/myDetails-page';
 
+
 @Component({
   templateUrl: 'app.html'
 })
