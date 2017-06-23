@@ -26,7 +26,7 @@ ion-spinner {
 }
 </style>
 <ion-content padding>  
-   <ion-spinner name="dots" *ngIf="sources.length==0 || dests.length==0 || gotFloors == false"></ion-spinner>
+   <ion-spinner name="dots" *ngIf="(sources.length==0 && firstSrc)|| (dests.length==0 && firstDest) || gotFloors == false"></ion-spinner>
    <ion-item>
   	<ion-label>Record Route</ion-label>
   	<ion-checkbox color="dark" checked="false" (ionChange)="changeToRecord($event)" [disabled]="sources.length==0 || dests.length==0"></ion-checkbox>
@@ -38,7 +38,8 @@ ion-spinner {
    	<ion-card>
   	<ion-card-header><b>Source</b>
   	</ion-card-header>
-	<ion-list radio-group class="page-choosing-page">
+  		<ion-searchbar (ionInput) = "getItemsSrc($event)"> </ion-searchbar>
+ -	<ion-list radio-group class="page-choosing-page" *ngIf="showSrcList">
 		<ion-item *ngFor="let p of sources">
                 	<ion-label>{{p.title}}</ion-label>
                 	<ion-radio [value]="p.title" (ionSelect)="rememberSrc(p)"></ion-radio>
@@ -48,7 +49,8 @@ ion-spinner {
    <ion-card>
   	<ion-card-header><b>Destination</b>
   	</ion-card-header>
-	<ion-list radio-group class="page-choosing-page">
+  	-  	<ion-searchbar (ionInput) = "getItemsDest($event)"> </ion-searchbar>
+ -	<ion-list radio-group class="page-choosing-page" *ngIf="showDestList">
 		<ion-item *ngFor="let p of dests">
     			<ion-label>{{p.title}}</ion-label>
     			<ion-radio [value]="p.title" (ionSelect)="rememberDest(p)"></ion-radio>
