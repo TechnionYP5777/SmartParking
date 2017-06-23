@@ -10,11 +10,15 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { MapPage } from '../pages/map/map';
 import { LogoutPage } from '../pages/logout-page/logout-page';
 import { MyDetailsPage } from '../pages/myDetails-page/myDetails-page';
+import { File } from '@ionic-native/file';
+import { MyExceptionHandler } from '../providers/errorHandler';
 
 
 @Component({
   templateUrl: 'app.html'
 })
+
+
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
   map = MapPage;
@@ -26,10 +30,15 @@ export class MyApp {
     public platform: Platform,
     public menu: MenuController,
     public statusBar: StatusBar,
-    public splashScreen: SplashScreen
+    public splashScreen: SplashScreen,
+    public file : File,
+    public plt: Platform
   ) {
-    this.initializeApp();
 
+    this.initializeApp();
+    MyExceptionHandler.isCordova=this.plt.is('cordova');
+    MyExceptionHandler.file=file;
+      
     // set our app's pages
     this.pages = [
       { title: 'Map', component: MapPage },
@@ -40,11 +49,15 @@ export class MyApp {
       { title: 'My Details', component: MyDetailsPage }
     ];
   }
-
   initializeApp() {
+    window.onerror = function myErrorHandler(errorMsg, url, lineNumber) {
+        window.alert("Hey.. it's seems like you have and error...\nThe error message is: " + errorMsg+"\n\n\nWe hope it help you!");//or any message
+        return false;
+     }
     this.platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
+
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
