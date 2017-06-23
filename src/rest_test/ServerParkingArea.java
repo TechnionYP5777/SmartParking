@@ -9,8 +9,7 @@ import main.java.data.members.ParkingSlot;
 import main.java.data.members.StickersColor;
 
 public class ServerParkingArea {
-	
-	private int areaId;
+
 	private String name;
 	private StickersColor color;
 	private MapLocation location;
@@ -18,21 +17,12 @@ public class ServerParkingArea {
 
 	public ServerParkingArea(ParkingArea p) {
 		color = p.getColor();
-		areaId = p.getAreaId();
 		name = p.getName();
 		location = p.getLocation();
 		parkingSlots = new HashSet<ServerParkingSlot>();
-		
+
 		for (ParkingSlot parkSlot : p.getParkingSlots())
 			parkingSlots.add(new ServerParkingSlot(parkSlot));
-	}
-
-	public int getAreaId() {
-		return areaId;
-	}
-
-	public void setAreaId(int areaId) {
-		this.areaId = areaId;
 	}
 
 	public StickersColor getColor() {

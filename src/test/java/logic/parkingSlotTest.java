@@ -1,6 +1,5 @@
 package test.java.logic;
 
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,7 +22,7 @@ public class parkingSlotTest {
 		// testSlot row in the DB
 		try {
 			final ParkingSlot p = new ParkingSlot("testSlotA", ParkingSlotStatus.FREE, StickersColor.RED,
-					StickersColor.RED, new MapLocation(32.778153, 35.021855), new Date());
+					new MapLocation(32.778153, 35.021855));
 			assert p != null;
 			p.deleteParseObject();
 		} catch (final Exception ¢) {
@@ -36,11 +35,10 @@ public class parkingSlotTest {
 	public void testGetContainingArea() {
 		try {
 			final ParkingSlot slot1 = new ParkingSlot("testSlotB", ParkingSlotStatus.FREE, StickersColor.RED,
-					StickersColor.RED, new MapLocation(0, 0), new Date());
+					new MapLocation(0, 0));
 			final Set<ParkingSlot> slots = new HashSet<ParkingSlot>();
 			slots.add(slot1);
-			final ParkingArea area = new ParkingArea(0, "areaSlotTestB", new MapLocation(0, 0), slots,
-					StickersColor.RED);
+			final ParkingArea area = new ParkingArea("areaSlotTestB", new MapLocation(0, 0), slots, StickersColor.RED);
 			Assert.assertEquals(area.getName(), slot1.findContainingParkingArea());
 
 			area.deleteParseObject();
@@ -57,15 +55,14 @@ public class parkingSlotTest {
 		try {
 			// Arrange
 			final ParkingSlot slot1 = new ParkingSlot("testSlotC", ParkingSlotStatus.FREE, StickersColor.RED,
-					StickersColor.RED, new MapLocation(0, 0), new Date());
+					new MapLocation(0, 0));
 			final Set<ParkingSlot> slots = new HashSet<ParkingSlot>();
 			slots.add(slot1);
-			final ParkingArea area = new ParkingArea(12, "areaSlotTestC", new MapLocation(0, 0), slots,
-					StickersColor.RED);
+			final ParkingArea area = new ParkingArea("areaSlotTestC", new MapLocation(0, 0), slots, StickersColor.RED);
 
 			// Act + assert
 			slot1.deleteParseObject();
-			//slot1.removeParkingSlotFromAreaAndDB();
+			// slot1.removeParkingSlotFromAreaAndDB();
 			area.deleteParseObject();
 		} catch (final Exception ¢) {
 			LogPrinter.createLogFile(¢);
@@ -78,7 +75,7 @@ public class parkingSlotTest {
 		try {
 			// Arrange
 			final ParkingSlot slot1 = new ParkingSlot("testSlotD", ParkingSlotStatus.FREE, StickersColor.RED,
-					StickersColor.RED, new MapLocation(0, 0), new Date());
+					new MapLocation(0, 0));
 
 			// Assert
 			Assert.assertEquals(slot1.getObjectId(), new ParkingSlot("testSlotD").getObjectId());

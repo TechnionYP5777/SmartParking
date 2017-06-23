@@ -10,14 +10,12 @@ public class ServerParkingSlot {
 	private ParkingSlotStatus status;
 	private StickersColor color;
 	private MapLocation location;
-	private StickersColor defaultColor;
 
 	public ServerParkingSlot(ParkingSlot parkSlot) {
 		this.name = parkSlot.getName();
 		this.status = parkSlot.getStatus();
 		this.color = parkSlot.getColor();
 		this.location = parkSlot.getLocation();
-		this.defaultColor = parkSlot.getDefaultColor();
 	}
 
 	public String getName() {
@@ -50,13 +48,5 @@ public class ServerParkingSlot {
 
 	public void setLocation(MapLocation l) {
 		this.location = l;
-	}
-
-	public StickersColor getDefaultColor() {
-		return defaultColor;
-	}
-
-	public void setDefaultColor(StickersColor defaultColor) {
-		this.defaultColor = defaultColor;
 	}
 }

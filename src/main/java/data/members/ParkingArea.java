@@ -26,7 +26,6 @@ import main.java.util.LogPrinter;
 public class ParkingArea extends dbMember {
 
 	private StickersColor color;
-	private int areaId;
 	private String name;
 	private MapLocation location;
 	private Set<ParkingSlot> parkingSlots;
@@ -58,7 +57,6 @@ public class ParkingArea extends dbMember {
 		final ParseObject parseObject = query.find().get(0);
 
 		this.parseObject = parseObject;
-		areaId = (Integer) parseObject.get("areaId");
 		this.name = (String) parseObject.get("name");
 		color = StickersColor.values()[(Integer) parseObject.get("color")];
 		final ParseGeoPoint geo = this.parseObject.getParseGeoPoint("location");
@@ -69,11 +67,10 @@ public class ParkingArea extends dbMember {
 	}
 
 	// Create a new parking area
-	public ParkingArea(final int areaId, final String name, final MapLocation location, final Set<ParkingSlot> parkingSlots,
+	public ParkingArea(final String name, final MapLocation location, final Set<ParkingSlot> parkingSlots,
 			final StickersColor defaultColor) throws ParseException {
 		DBManager.initialize();
 		parseObject = new ParseObject("ParkingArea");
-		setAreaId(areaId);
 		setName(name);
 		setColor(defaultColor);
 		setLocation(location);
@@ -85,7 +82,6 @@ public class ParkingArea extends dbMember {
 
 	public ParkingArea(final ParseObject parseObject) throws ParseException {
 		this.parseObject = parseObject;
-		areaId = (Integer) parseObject.get("areaId");
 		name = (String) parseObject.get("name");
 		color = StickersColor.values()[(Integer) parseObject.get("color")];
 		final ParseGeoPoint geo = this.parseObject.getParseGeoPoint("location");
@@ -95,10 +91,6 @@ public class ParkingArea extends dbMember {
 	}
 
 	/* Getters */
-
-	public int getAreaId() {
-		return areaId;
-	}
 
 	public String getName() {
 		return name;
@@ -156,11 +148,6 @@ public class ParkingArea extends dbMember {
 	}
 
 	/* Setters */
-
-	private void setAreaId(final int areaId) {
-		this.areaId = areaId;
-		parseObject.put("areaId", areaId);
-	}
 
 	private void setName(final String name) {
 		this.name = name;

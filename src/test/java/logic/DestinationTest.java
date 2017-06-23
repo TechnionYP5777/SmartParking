@@ -107,13 +107,21 @@ public class DestinationTest {
 	public void setEntranceTest() {
 		try {
 
-			final Destination d1 = new Destination("taubTest123", new MapLocation(32.777318, 35.021149));
+			Destination d1 = new Destination("taubTest123", new MapLocation(32.777318, 35.021149));
 			d1.setEntrance(new MapLocation(32.778069, 35.021935));
 			Assert.assertEquals(d1.getEntrance().getLat(), 32.778069, 0);
 			Assert.assertEquals(d1.getEntrance().getLon(), 35.021935, 0);
-			final Destination d2 = new Destination("taubTest123");
+			Destination d2 = new Destination("taubTest123");
 			Assert.assertEquals(d1.getEntrance().getLat(), d2.getEntrance().getLat(), 0);
 			Assert.assertEquals(d1.getEntrance().getLon(), d2.getEntrance().getLon(), 0);
+			
+			d1.setEntrance(32.123, 35.123);
+			Assert.assertEquals(d1.getEntrance().getLat(), 32.123, 0);
+			Assert.assertEquals(d1.getEntrance().getLon(), 35.123, 0);
+			d2 = new Destination("taubTest123");
+			Assert.assertEquals(d1.getEntrance().getLat(), d2.getEntrance().getLat(), 0);
+			Assert.assertEquals(d1.getEntrance().getLon(), d2.getEntrance().getLon(), 0);
+			
 			d1.deleteParseObject();
 		} catch (final Exception ¢) {
 			LogPrinter.createLogFile(¢);
@@ -192,6 +200,38 @@ public class DestinationTest {
 	@Test
 	public void getDestinationsTest() {
 		assert Destination.getDestinations().keySet().contains("Computer Science Faculty");
+	}
+
+	@Test
+	public void constructorTest4() {
+		Assert.assertEquals(Destination.destinationExists("taubTest123"), false);
+		try {
+			final Destination d = new Destination("taubTest123", 32.778069, 35.021935);
+			Destination d2 = new Destination("taubTest123");
+			Assert.assertEquals("taubTest123", d2.getDestinationName());
+			Assert.assertEquals(d.getEntrance().getLat(), d2.getEntrance().getLat(), 0);
+			Assert.assertEquals(d.getEntrance().getLon(), d2.getEntrance().getLon(), 0);
+			d.deleteParseObject();
+		} catch (final Exception ¢) {
+			LogPrinter.createLogFile(¢);
+			Assert.fail();
+		}
+	}
+
+	@Test
+	public void constructorTest5() {
+		Assert.assertEquals(Destination.destinationExists("taubTest123"), false);
+		try {
+			final Destination d = new Destination("taubTest123", 32.778069, 35.021935);
+			Destination d2 = new Destination(new MapLocation(32.778069, 35.021935));
+			Assert.assertEquals("taubTest123", d2.getDestinationName());
+			Assert.assertEquals(d.getEntrance().getLat(), d2.getEntrance().getLat(), 0);
+			Assert.assertEquals(d.getEntrance().getLon(), d2.getEntrance().getLon(), 0);
+			d.deleteParseObject();
+		} catch (final Exception ¢) {
+			LogPrinter.createLogFile(¢);
+			Assert.fail();
+		}
 	}
 
 }

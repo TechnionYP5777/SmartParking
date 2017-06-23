@@ -39,13 +39,13 @@ public class NavigationTest {
 		try {
 			MapLocation location = new MapLocation(32.777408, 35.020332); // farest
 			final ParkingSlot taubSlot1 = new ParkingSlot("upperTaub-slot1", ParkingSlotStatus.FREE, StickersColor.RED,
-					StickersColor.RED, location, new Date());
+					location);
 			location = new MapLocation(32.777223, 35.020890); // middle
 			final ParkingSlot taubSlot2 = new ParkingSlot("upperTaub-slot2", ParkingSlotStatus.FREE, StickersColor.RED,
-					StickersColor.RED, location, new Date());
+					location);
 			location = new MapLocation(32.777195, 35.021281); // closest
 			final ParkingSlot taubSlot3 = new ParkingSlot("upperTaub-slot3", ParkingSlotStatus.FREE, StickersColor.RED,
-					StickersColor.RED, location, new Date());
+					location);
 
 			final Set<ParkingSlot> taubSlots = new HashSet<ParkingSlot>();
 			taubSlots.add(taubSlot1);
@@ -61,7 +61,7 @@ public class NavigationTest {
 				Assert.fail();
 			}
 
-			final ParkingArea upperTaubArea = new ParkingArea(100, "t1", new MapLocation(0, 0), taubSlots,
+			final ParkingArea upperTaubArea = new ParkingArea("t1", new MapLocation(0, 0), taubSlots,
 					StickersColor.RED);
 			try {
 
@@ -104,49 +104,48 @@ public class NavigationTest {
 
 			MapLocation location = new MapLocation(32.777408, 35.020332); // farest
 			final ParkingSlot taubSlot1 = new ParkingSlot("upperTaub-slot1", ParkingSlotStatus.FREE, StickersColor.RED,
-					StickersColor.RED, location, new Date());
+					location);
 			location = new MapLocation(32.777223, 35.020890); // middle
 			final ParkingSlot taubSlot2 = new ParkingSlot("upperTaub-slot2", ParkingSlotStatus.FREE, StickersColor.RED,
-					StickersColor.RED, location, new Date());
+					location);
 			location = new MapLocation(32.777195, 35.021281); // closest
 			final ParkingSlot taubSlot3 = new ParkingSlot("upperTaub-slot3", ParkingSlotStatus.FREE, StickersColor.RED,
-					StickersColor.RED, location, new Date());
+					location);
 
 			final Set<ParkingSlot> taubSlots = new HashSet<ParkingSlot>();
 			taubSlots.add(taubSlot1);
 			taubSlots.add(taubSlot2);
 			taubSlots.add(taubSlot3);
 
-			final ParkingArea upperTaubArea = new ParkingArea(100, "t1", new MapLocation(0, 0), taubSlots,
+			final ParkingArea upperTaubArea = new ParkingArea("t1", new MapLocation(0, 0), taubSlots,
 					StickersColor.RED);
 
 			// nesher area + slots
 
 			location = new MapLocation(32.774596, 35.029031);
 			final ParkingSlot nesherSlot1 = new ParkingSlot("nesher-slot1", ParkingSlotStatus.FREE, StickersColor.WHITE,
-					StickersColor.WHITE, location, new Date());
+					location);
 
 			final Set<ParkingSlot> nesherSlots = new HashSet<ParkingSlot>();
 			nesherSlots.add(nesherSlot1);
 
-			final ParkingArea nesherArea = new ParkingArea(101, "t1", new MapLocation(0, 0), nesherSlots,
+			final ParkingArea nesherArea = new ParkingArea("t1", new MapLocation(0, 0), nesherSlots,
 					StickersColor.WHITE);
 
 			// pool area + slots
 
 			location = new MapLocation(32.778782, 35.016993); // farest
 			final ParkingSlot poolSlot1 = new ParkingSlot("pool-slot1", ParkingSlotStatus.FREE, StickersColor.BLUE,
-					StickersColor.BLUE, location, new Date());
+					location);
 			location = new MapLocation(32.778818, 35.019418); // closest
 			final ParkingSlot poolSlot2 = new ParkingSlot("pool-slot2", ParkingSlotStatus.FREE, StickersColor.BLUE,
-					StickersColor.BLUE, location, new Date());
+					location);
 
 			final Set<ParkingSlot> poolSlots = new HashSet<ParkingSlot>();
 			poolSlots.add(poolSlot1);
 			poolSlots.add(poolSlot2);
 
-			final ParkingArea poolArea = new ParkingArea(102, "t1", new MapLocation(0, 0), poolSlots,
-					StickersColor.BLUE);
+			final ParkingArea poolArea = new ParkingArea("t1", new MapLocation(0, 0), poolSlots, StickersColor.BLUE);
 
 			final Set<ParkingArea> areas = new HashSet<ParkingArea>();
 			areas.add(upperTaubArea);
@@ -207,13 +206,12 @@ public class NavigationTest {
 		try {
 			MapLocation location = new MapLocation(32.777408, 35.020332);
 			final ParkingSlot taubSlot1 = new ParkingSlot("upperTaub-slot1", ParkingSlotStatus.FREE, StickersColor.RED,
-					StickersColor.RED, location, new Date());
+					location);
 
 			final Set<ParkingSlot> slots = new HashSet<ParkingSlot>();
 			slots.add(taubSlot1);
 
-			final ParkingArea upperTaubArea = new ParkingArea(100, "t1", new MapLocation(0, 0), slots,
-					StickersColor.RED);
+			final ParkingArea upperTaubArea = new ParkingArea("t1", new MapLocation(0, 0), slots, StickersColor.RED);
 
 			location = new MapLocation(32.777466, 35.021094);
 			Destination destination = null;
