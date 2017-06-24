@@ -136,7 +136,7 @@ public class UserController {
 		return false;
 	}
 
-	// login post method
+	// changeDetails post method
 	@CrossOrigin(origins = "http://localhost:8100")
 	@RequestMapping(value = "/User/ChangeDetails", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
@@ -144,10 +144,11 @@ public class UserController {
 			@RequestParam("newCar") String newCar, @RequestParam("email") String email,
 			@RequestParam("type") String type, @RequestParam("car") String car) {
 		boolean retVal = false;
-		
+		System.out.println("in UC.changeDetails. ");
 		LoginManager login = new LoginManager();
 		try {
 			retVal = login.userUpdate(car, name, phone, email, newCar, SCStringToSC(type));
+			System.out.println("in UC.changeDetails. retVal = " + retVal);
 		} catch (LoginException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -156,7 +157,7 @@ public class UserController {
 
 	}
 	
-
+	//convert String to StickersColor
 	private StickersColor SCStringToSC(String type) {
 		switch (type) {
 		case "Green":

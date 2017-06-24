@@ -1,5 +1,4 @@
 import {ErrorHandler} from '@angular/core';
-import { File } from '@ionic-native/file';
 
 export class MyExceptionHandler implements ErrorHandler {
   static file:any;
