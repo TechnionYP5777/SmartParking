@@ -1,7 +1,5 @@
 package test.java.logic;
 
-import java.util.Date;
-
 import org.junit.*;
 import org.parse4j.ParseException;
 import org.parse4j.ParseObject;
@@ -15,7 +13,6 @@ import main.java.util.LogPrinter;
  * @Author DavidCohen55
  */
 public class UserTest {
-
 	@Before
 	public void BeforeUserTest() {
 		try {

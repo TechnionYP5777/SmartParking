@@ -1,9 +1,6 @@
 package main.java.data.management;
 
 import org.parse4j.Parse;
-import org.parse4j.ParseObject;
-
-import main.java.data.members.dbMember;
 
 public class DBManager {
 	private static final String appId = "ParkingNav";
@@ -12,9 +9,5 @@ public class DBManager {
 
 	public static void initialize() {
 		Parse.initialize(appId, restKey, serverUrl);
-	}
-
-	public static ParseObject getParseObject(final dbMember ¢) {
-		return ¢.getParseObject();
 	}
 }

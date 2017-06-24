@@ -12,13 +12,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import main.java.Exceptions.NoSlotAvailable;
-import main.java.data.members.Destination;
-import main.java.data.members.MapLocation;
-import main.java.data.members.ParkingArea;
-import main.java.data.members.ParkingAreas;
-import main.java.data.members.ParkingSlot;
-import main.java.data.members.ParkingSlotStatus;
-import main.java.data.members.User;
+import main.java.data.members.*;
 import main.java.util.LogPrinter;
 
 public class Navigation {
