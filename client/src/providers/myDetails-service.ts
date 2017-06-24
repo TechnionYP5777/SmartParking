@@ -32,7 +32,7 @@ export class MyDetailsService {
         var headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
 
-        return this.http.post('http://localhost:8080/User/ChangeDetails', value, { headers: headers })
+        return this.http.post('https://spring-boot-nav.herokuapp.com/User/ChangeDetails', value, { headers: headers })
         .map(res => res.json()).catch(this.handleError);;
         
     }
