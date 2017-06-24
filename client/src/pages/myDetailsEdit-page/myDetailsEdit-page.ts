@@ -39,7 +39,7 @@ export class MyDetailsEditPage {
             this.navCtrl.push(LoginPage);
     }
     
-    presentAlert(str, myTitle) {https://marketplace.eclipse.org/content/spartan-refactoring-0
+    presentAlert(str, myTitle) {
         let alert = this.alertCtrl.create({
             title: myTitle,
             subTitle: str,
