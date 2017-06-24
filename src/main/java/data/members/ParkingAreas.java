@@ -93,8 +93,10 @@ public class ParkingAreas extends dbMember {
 	// Return num of taken parking slots by a given area
 	public int getNumOfTakenByArea(final ParkingArea a) {
 		int $ = 0;
+		if (a == null)
+			return 0;
 		for (final ParkingArea currentArea : parkingAreas)
-			if (currentArea.getObjectId() == a.getObjectId())
+			if (currentArea.getName().equals(a.getName()))
 				$ = currentArea.getNumOfTakenSlots();
 		return $;
 	}
@@ -102,8 +104,10 @@ public class ParkingAreas extends dbMember {
 	// Return num of free parking slots by given area
 	public int getNumOfFreeByArea(final ParkingArea a) {
 		int $ = 0;
+		if (a == null)
+			return 0;
 		for (final ParkingArea currentArea : parkingAreas)
-			if (currentArea.getObjectId() == a.getObjectId())
+			if (currentArea.getName().equals(a.getName()))
 				$ = currentArea.getNumOfFreeSlots();
 		return $;
 	}
@@ -127,8 +131,10 @@ public class ParkingAreas extends dbMember {
 	// Return parking slots per area
 	public int getNumOfSlotsByArea(final ParkingArea a) {
 		int $ = 0;
+		if (a == null)
+			return 0;
 		for (final ParkingArea currentArea : parkingAreas)
-			if (currentArea.getObjectId() == a.getObjectId())
+			if (currentArea.getName().equals(a.getName()))
 				$ = currentArea.getNumOfParkingSlots();
 		return $;
 	}
@@ -136,8 +142,10 @@ public class ParkingAreas extends dbMember {
 	// Return a free parking slot by a given area
 	public ParkingSlot getParkingslotByArea(final ParkingArea a) throws ParseException {
 		ParkingSlot $ = null;
+		if (a == null)
+			return null;
 		for (final ParkingArea currentArea : parkingAreas)
-			if (currentArea.getObjectId() == a.getObjectId())
+			if (currentArea.getName().equals(a.getName()))
 				for (final ParkingSlot currentSlot : currentArea.getFreeSlots())
 					$ = currentSlot;
 		return $;
