@@ -184,7 +184,9 @@ public class ParkingArea extends dbMember {
 
 	/* Methods */
 	public void removeParkingAreaFromDB() throws ParseException {
-		deleteParseObject();
+		for(ParkingSlot s :parkingSlots)
+			s.deleteParseObject();
+		this.deleteParseObject();
 	}
 
 	public Set<ParkingSlot> convertToSlots(final List<ParseObject> slots) {

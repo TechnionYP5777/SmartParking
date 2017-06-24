@@ -59,8 +59,8 @@ public class ParkingAreas extends dbMember {
 
 	/* Setters */
 
-	public void setParkingAreas(final Set<ParkingArea> ¢) throws ParseException {
-		parkingAreas = ¢;
+	public void setParkingAreas(final Set<ParkingArea> as) throws ParseException {
+		parkingAreas = as != null ? as : new HashSet<ParkingArea>();
 		updateAreasArray();
 	}
 
@@ -76,15 +76,15 @@ public class ParkingAreas extends dbMember {
 
 		// search if parkingArea exist
 		final ParseQuery<ParseObject> query = ParseQuery.getQuery("ParkingArea");
-		query.whereEqualTo("areaId", a.getObjectId());
+		query.whereEqualTo("name", a.getName());
 		if (query.find().size() != 1 || parkingAreas == null) {
 			System.out.format("The area %d doest exist", a.getObjectId());
 			return;
 		}
 
-		// remove the are
+		// remove the area
 		for (final ParkingArea ¢ : parkingAreas)
-			if (¢.objectId.equals(a.objectId))
+			if (¢.getName().equals(a.getName()))
 				parkingAreas.remove(¢);
 		a.removeParkingAreaFromDB();
 		updateAreasArray();
