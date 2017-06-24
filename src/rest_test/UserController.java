@@ -23,6 +23,7 @@ import main.java.logic.LoginManager;
 public class UserController {
 	ServerUser user;
 	UCStatus status;
+	String lastRegVal = "";
 
 	UserController() {
 		user = new ServerUser();
@@ -76,7 +77,7 @@ public class UserController {
 	@RequestMapping(value = "/User/Register", produces = "application/json")
 	@ResponseBody
 	public String register() {
-		return statusToString(status, "");
+		return (lastRegVal == "" ? statusToString(status) : JSONize(lastRegVal));
 	}
 
 	// register post method
@@ -90,7 +91,7 @@ public class UserController {
 		if (name == null) {
 			System.out.println("Register: name is null");
 			status = UCStatus.BAD_REGISTER;
-			return statusToString(status, "");
+			return statusToString1(status, "");
 		}
 
 		LoginManager login = new LoginManager();
@@ -100,19 +101,49 @@ public class UserController {
 			setUserData(login.getUserName(), login.getCarNumber(), login.getEmail(), login.getPhoneNumber(),
 					login.getSticker());
 			System.out.println("Succsesful signUp: " + name + " " + pass);
-			return statusToString(status, "");
+			return statusToString1(status, "");
 
 		} catch (LoginException e) {
 			status = UCStatus.BAD_PARAMS;
-			System.out.println("Bad signUp! error:" + status);
-			return statusToString(status, e.toString());
+			System.out.println("status: " + status + "e.toString: " + e.toString());
+			return statusToString1(status, "" + e.toString());
 		}
 
 	}
 
-	public String statusToString(UCStatus ucStatus, String message) {
+	public String JSONize(String str){
+		return ("{" + '"' + "status" + '"' + ":" + '"' + str + '"' + "}");
+	}
+	
+	public String statusToString(UCStatus ucStatus) {
 		String JsonStatus = "{" + '"' + "status" + '"' + ":" + '"';
-		if (message.equals("")) {
+		switch (ucStatus) {
+		case SUCCESS:
+			JsonStatus += "Success";
+			break;
+		case BAD_REGISTER:
+			JsonStatus += "Bad Register";
+			break;
+		case NOT_REGISTERED:
+			JsonStatus += "Not Registered";
+			break;
+		case BAD_PARAMS:
+			JsonStatus += "Bad Params";
+			break;
+		}
+		JsonStatus += '"' + "}";
+		// System.out.println("JsonStatus: " + JsonStatus);
+		return JsonStatus;
+	}
+
+	public String statusToString1(UCStatus ucStatus, String message) {
+		System.out.println("in statusToString. status: " + ucStatus + "message: " + message);
+		String JsonStatus = "{" + '"' + "status" + '"' + ":" + '"';
+		if (message != "") {
+			JsonStatus += message;
+			lastRegVal = message;
+		} else {
+			lastRegVal = "";
 			switch (ucStatus) {
 			case SUCCESS:
 				JsonStatus += "Success";
@@ -122,12 +153,11 @@ public class UserController {
 				break;
 			case NOT_REGISTERED:
 				JsonStatus += "Not Registered";
+				break;
 			case BAD_PARAMS:
 				JsonStatus += "Bad Params";
 				break;
 			}
-		} else{
-			JsonStatus += message;
 		}
 		JsonStatus += '"' + "}";
 		// System.out.println("JsonStatus: " + JsonStatus);
