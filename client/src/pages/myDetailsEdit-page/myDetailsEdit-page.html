@@ -17,17 +17,31 @@
 <ion-content padding class="page-myDetailsEdit-page">
   <h3 style="text-color: white, font-size: 32px;">These are your details:</h3>
   
-<form>
-  <p>Name: <input type="text" name="name" value={{this.storeArray[0]}}></p>
-  <p>Phone Number: <input type="text" name="phoneNum" value={{this.storeArray[1]}}></p>
-  <p>Car Number: <input type="text" name="carNum" value={{this.storeArray[2]}}></p>
-  <p>Email: <input type="text" name="eMail" value={{this.storeArray[3]}}></p>
-  <p>Sticker Color:	<input type="text" name="sticker" value={{this.storeArray[4]}}></p>
-</form> 
+  
+  <ion-item> 
+	<ion-label style="color: black" floating>User Name:</ion-label> 
+	<ion-input [(ngModel)]="name" type="name" value={{this.storeArray[0]}}></ion-input>
+  </ion-item>
+  <ion-item> 
+	<ion-label style="color: black" floating>Phone Number:</ion-label> 
+	<ion-input [(ngModel)]="phoneNum" type="phoneNum" value={{this.storeArray[1]}}></ion-input>
+  </ion-item>
+  <ion-item> 
+	<ion-label style="color: black" floating>Car Number:</ion-label> 
+	<ion-input [(ngModel)]="carNum" type="carNum" value={{this.storeArray[2]}}></ion-input>
+  </ion-item>
+  <ion-item> 
+	<ion-label style="color: black" floating>Email:</ion-label> 
+	<ion-input [(ngModel)]="eMail" type="eMail" value={{this.storeArray[3]}}></ion-input>
+  </ion-item>
+  <ion-item> 
+	<ion-label style="color: black" floating>Sticker Color:</ion-label> 
+	<ion-input [(ngModel)]="sticker" type="sticker" value={{this.storeArray[4]}}></ion-input>
+  </ion-item>
 
   
     <div padding>
-  <button ion-button (click)="ChangeDetails()" color="dark"
+  <button ion-button (click)="ChangeDetails(name, phoneNum, carNum, eMail, sticker)" color="dark"
 		style="margin-right: 16px" >Change Details</button>
 	</div>
 

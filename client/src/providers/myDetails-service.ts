@@ -25,14 +25,14 @@ export class MyDetailsService {
 
     }
 
-    setUserDetails(userName, password, phoneNum, carNum, eMail, stickerColor) {
+    setUserDetails(userName, password, phoneNum, carNum, eMail, stickerColor, oldCarNum) {
               var value = "name=" + userName + "&pass=" + password + "&phone=" +
          phoneNum + "&car=" + carNum + "&email=" + eMail + "&type=" + stickerColor;
         console.log("in setUserDetails, value = " + value);
         var headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
 
-        return this.http.post('https://spring-boot-nav.herokuapp.com/User/ChangeDetails', value, { headers: headers })
+        return this.http.post('http://localhost:8080/User/ChangeDetails', value, { headers: headers })
         .map(res => res.json()).catch(this.handleError);;
         
     }
