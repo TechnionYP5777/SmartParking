@@ -112,7 +112,6 @@ public class PathController {
 				JSONArray list = new JSONArray();
 				for (String route : lastRoutes){
 					JSONObject r = new JSONObject();
-					String[] a = route.split("\\$");
 					r.put("src", route.split("\\$")[0]);
 					r.put("dst", route.split("\\$")[1]);
 					list.put(r);

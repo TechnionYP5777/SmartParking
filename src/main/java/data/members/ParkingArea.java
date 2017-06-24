@@ -33,7 +33,7 @@ public class ParkingArea extends dbMember {
 	public static boolean areaExists(final String name) {
 		return getDbAreaObject(name) != null;
 	}
-	
+
 	public static ParseObject getDbAreaObject(final String name) {
 		DBManager.initialize();
 		final ParseQuery<ParseObject> query = ParseQuery.getQuery("ParkingArea");
@@ -45,7 +45,7 @@ public class ParkingArea extends dbMember {
 			return null;
 		}
 	}
-	
+
 	/* Constructors */
 
 	// Retrieve an exiting area from DB by the name
@@ -109,11 +109,6 @@ public class ParkingArea extends dbMember {
 		return parkingSlots;
 	}
 
-	public int getNumOfFreeSlots() {
-		final Set<ParkingSlot> $ = getSlotsByStatus(ParkingSlotStatus.FREE);
-		return $ == null ? 0 : $.size();
-	}
-
 	public List<ParseObject> getAllSlots() {
 		try {
 			final List<ParseObject> slots = parseObject.getList("parkingSlots");
@@ -126,8 +121,26 @@ public class ParkingArea extends dbMember {
 		}
 	}
 
+	private void updateSlotsStatus() {
+		try {
+			List<ParkingSlot> ps = new ArrayList<ParkingSlot>();
+			for (ParkingSlot s : parkingSlots)
+				ps.add(new ParkingSlot(s.getName()));
+			parkingSlots = new HashSet<ParkingSlot>(ps);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	public Set<ParkingSlot> getSlotsByStatus(final ParkingSlotStatus s) {
+		this.updateSlotsStatus();
 		return parkingSlots.stream().filter(λ -> λ.getStatus().equals(s)).collect(Collectors.toSet());
+	}
+
+	public int getNumOfFreeSlots() {
+		final Set<ParkingSlot> $ = getSlotsByStatus(ParkingSlotStatus.FREE);
+		return $ == null ? 0 : $.size();
 	}
 
 	public int getNumOfTakenSlots() {
@@ -171,7 +184,9 @@ public class ParkingArea extends dbMember {
 
 	/* Methods */
 	public void removeParkingAreaFromDB() throws ParseException {
-		deleteParseObject();
+		for(ParkingSlot s :parkingSlots)
+			s.deleteParseObject();
+		this.deleteParseObject();
 	}
 
 	public Set<ParkingSlot> convertToSlots(final List<ParseObject> slots) {

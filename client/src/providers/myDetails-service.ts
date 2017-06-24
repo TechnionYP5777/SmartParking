@@ -25,7 +25,7 @@ export class MyDetailsService {
 
     }
 
-    setUserDetails(userName, password, phoneNum, carNum, eMail, stickerColor) {
+    setUserDetails(userName, password, phoneNum, carNum, eMail, stickerColor, oldCarNum) {
               var value = "name=" + userName + "&pass=" + password + "&phone=" +
          phoneNum + "&car=" + carNum + "&email=" + eMail + "&type=" + stickerColor;
         console.log("in setUserDetails, value = " + value);

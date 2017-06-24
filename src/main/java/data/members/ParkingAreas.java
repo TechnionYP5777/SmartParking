@@ -59,8 +59,8 @@ public class ParkingAreas extends dbMember {
 
 	/* Setters */
 
-	public void setParkingAreas(final Set<ParkingArea> ¢) throws ParseException {
-		parkingAreas = ¢;
+	public void setParkingAreas(final Set<ParkingArea> as) throws ParseException {
+		parkingAreas = as != null ? as : new HashSet<ParkingArea>();
 		updateAreasArray();
 	}
 
@@ -76,15 +76,15 @@ public class ParkingAreas extends dbMember {
 
 		// search if parkingArea exist
 		final ParseQuery<ParseObject> query = ParseQuery.getQuery("ParkingArea");
-		query.whereEqualTo("areaId", a.getObjectId());
+		query.whereEqualTo("name", a.getName());
 		if (query.find().size() != 1 || parkingAreas == null) {
 			System.out.format("The area %d doest exist", a.getObjectId());
 			return;
 		}
 
-		// remove the are
+		// remove the area
 		for (final ParkingArea ¢ : parkingAreas)
-			if (¢.objectId.equals(a.objectId))
+			if (¢.getName().equals(a.getName()))
 				parkingAreas.remove(¢);
 		a.removeParkingAreaFromDB();
 		updateAreasArray();
@@ -93,8 +93,10 @@ public class ParkingAreas extends dbMember {
 	// Return num of taken parking slots by a given area
 	public int getNumOfTakenByArea(final ParkingArea a) {
 		int $ = 0;
+		if (a == null)
+			return 0;
 		for (final ParkingArea currentArea : parkingAreas)
-			if (currentArea.getObjectId() == a.getObjectId())
+			if (currentArea.getName().equals(a.getName()))
 				$ = currentArea.getNumOfTakenSlots();
 		return $;
 	}
@@ -102,8 +104,10 @@ public class ParkingAreas extends dbMember {
 	// Return num of free parking slots by given area
 	public int getNumOfFreeByArea(final ParkingArea a) {
 		int $ = 0;
+		if (a == null)
+			return 0;
 		for (final ParkingArea currentArea : parkingAreas)
-			if (currentArea.getObjectId() == a.getObjectId())
+			if (currentArea.getName().equals(a.getName()))
 				$ = currentArea.getNumOfFreeSlots();
 		return $;
 	}
@@ -127,8 +131,10 @@ public class ParkingAreas extends dbMember {
 	// Return parking slots per area
 	public int getNumOfSlotsByArea(final ParkingArea a) {
 		int $ = 0;
+		if (a == null)
+			return 0;
 		for (final ParkingArea currentArea : parkingAreas)
-			if (currentArea.getObjectId() == a.getObjectId())
+			if (currentArea.getName().equals(a.getName()))
 				$ = currentArea.getNumOfParkingSlots();
 		return $;
 	}
@@ -136,8 +142,10 @@ public class ParkingAreas extends dbMember {
 	// Return a free parking slot by a given area
 	public ParkingSlot getParkingslotByArea(final ParkingArea a) throws ParseException {
 		ParkingSlot $ = null;
+		if (a == null)
+			return null;
 		for (final ParkingArea currentArea : parkingAreas)
-			if (currentArea.getObjectId() == a.getObjectId())
+			if (currentArea.getName().equals(a.getName()))
 				for (final ParkingSlot currentSlot : currentArea.getFreeSlots())
 					$ = currentSlot;
 		return $;

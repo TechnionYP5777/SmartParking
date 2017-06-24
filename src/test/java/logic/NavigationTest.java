@@ -1,6 +1,5 @@
 package test.java.logic;
 
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -9,14 +8,7 @@ import org.junit.Test;
 import org.parse4j.ParseException;
 
 import main.java.Exceptions.AlreadyExists;
-import main.java.data.members.Destination;
-import main.java.data.members.MapLocation;
-import main.java.data.members.ParkingArea;
-import main.java.data.members.ParkingAreas;
-import main.java.data.members.ParkingSlot;
-import main.java.data.members.ParkingSlotStatus;
-import main.java.data.members.StickersColor;
-import main.java.data.members.User;
+import main.java.data.members.*;
 import main.java.logic.Navigation;
 import main.java.util.LogPrinter;
 
@@ -24,8 +16,12 @@ public class NavigationTest {
 
 	@Test
 	public void getDistanceTest() {
-		Assert.assertEquals(532, Navigation.getDistance(new MapLocation(32.777552, 35.020578),
-				new MapLocation(32.778761, 35.016469), false));
+		MapLocation ml1 = new MapLocation(32.777552, 35.020578);
+		MapLocation ml2 = new MapLocation(32.778761, 35.016469);
+		Assert.assertEquals(532, Navigation.getDistance(ml1, ml2, false));
+		ml2.setLat(32.777552);
+		ml2.setLon(35.020578);
+		Assert.assertEquals(0, Navigation.getDistance(ml1, ml2, false));
 	}
 
 	@Test
@@ -200,7 +196,6 @@ public class NavigationTest {
 		}
 	}
 
-	// the parkAtClosestSlot test is similar so I'll check only one parkAtArea
 	@Test
 	public void parkAtAreaTest() {
 		try {

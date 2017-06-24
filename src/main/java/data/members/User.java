@@ -10,9 +10,7 @@ import org.parse4j.ParseObject;
 import org.parse4j.ParseQuery;
 
 import main.java.Exceptions.LoginException;
-import main.java.Exceptions.NotExists;
 import main.java.data.management.DBManager;
-import rest_test.WrapObj;
 
 /**
  * @author DavidCohen55
