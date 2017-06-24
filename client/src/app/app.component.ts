@@ -25,7 +25,7 @@ export class MyApp {
   // make HelloIonicPage the root (or first) page
   rootPage = MapPage;
   pages: Array<{title: string, component: any}>;
-
+  isLoggedIn: any; 
   constructor(
     public platform: Platform,
     public menu: MenuController,
@@ -45,9 +45,10 @@ export class MyApp {
       { title: 'About', component: HelloIonicPage },
       { title: 'Login', component: LoginPage },
       { title: 'Register', component: RegisterPage },
-      { title: 'Logout', component: LogoutPage },
-      { title: 'My Details', component: MyDetailsPage }
-    ];
+      { title: 'My Details', component: MyDetailsPage },
+      { title: 'Login', component: LoginPage },
+        { title: 'Logout', component: LogoutPage },
+            ];
   }
   initializeApp() {
     window.onerror = function myErrorHandler(errorMsg, url, lineNumber) {
