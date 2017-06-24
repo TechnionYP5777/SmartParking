@@ -11,7 +11,8 @@ package rest_test;
 public enum UCStatus {
 	SUCCESS,
 	BAD_REGISTER,
-	NOT_REGISTERED
+	NOT_REGISTERED,
+	BAD_PARAMS
 }
 
 

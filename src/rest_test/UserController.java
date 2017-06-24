@@ -76,7 +76,7 @@ public class UserController {
 	@RequestMapping(value = "/User/Register", produces = "application/json")
 	@ResponseBody
 	public String register() {
-		return statusToString(status);
+		return statusToString(status, "");
 	}
 
 	// register post method
@@ -90,7 +90,7 @@ public class UserController {
 		if (name == null) {
 			System.out.println("Register: name is null");
 			status = UCStatus.BAD_REGISTER;
-			return statusToString(status);
+			return statusToString(status, "");
 		}
 
 		LoginManager login = new LoginManager();
@@ -100,28 +100,34 @@ public class UserController {
 			setUserData(login.getUserName(), login.getCarNumber(), login.getEmail(), login.getPhoneNumber(),
 					login.getSticker());
 			System.out.println("Succsesful signUp: " + name + " " + pass);
-			return statusToString(status);
+			return statusToString(status, "");
 
 		} catch (LoginException e) {
-			status = UCStatus.BAD_REGISTER;
+			status = UCStatus.BAD_PARAMS;
 			System.out.println("Bad signUp! error:" + status);
+			return statusToString(status, e.toString());
 		}
-		return statusToString(status);
 
 	}
 
-	public String statusToString(UCStatus ucStatus) {
+	public String statusToString(UCStatus ucStatus, String message) {
 		String JsonStatus = "{" + '"' + "status" + '"' + ":" + '"';
-		switch (ucStatus) {
-		case SUCCESS:
-			JsonStatus += "Success";
-			break;
-		case BAD_REGISTER:
-			JsonStatus += "Bad Register";
-			break;
-		case NOT_REGISTERED:
-			JsonStatus += "Not Registered";
-			break;
+		if (message.equals("")) {
+			switch (ucStatus) {
+			case SUCCESS:
+				JsonStatus += "Success";
+				break;
+			case BAD_REGISTER:
+				JsonStatus += "Bad Register";
+				break;
+			case NOT_REGISTERED:
+				JsonStatus += "Not Registered";
+			case BAD_PARAMS:
+				JsonStatus += "Bad Params";
+				break;
+			}
+		} else{
+			JsonStatus += message;
 		}
 		JsonStatus += '"' + "}";
 		// System.out.println("JsonStatus: " + JsonStatus);
@@ -156,8 +162,8 @@ public class UserController {
 		return retVal;
 
 	}
-	
-	//convert String to StickersColor
+
+	// convert String to StickersColor
 	private StickersColor SCStringToSC(String type) {
 		switch (type) {
 		case "Green":
