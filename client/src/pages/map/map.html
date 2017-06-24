@@ -1,13 +1,15 @@
 
 <ion-header> <ion-navbar>
+	 <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+  <ion-title>Map</ion-title> 
+  </ion-navbar>
+  <ion-navbar> 
 <ion-item>
   <ion-label>Voice</ion-label>
   <ion-checkbox color="dark" checked="true" (ionChange)="voicechanged($event)" ></ion-checkbox>
 </ion-item>
-<button ion-butoon menuToggle>
-	<ion-icon name="menu"></ion-icon>
-</button>
-<ion-title>Map</ion-title> 
 <button ion-button style="background-color:#488AFF;" (click)="changeLocation()">
 	
 	<ion-icon name="car"></ion-icon> 
