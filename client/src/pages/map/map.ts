@@ -408,8 +408,8 @@ export class MapPage {
     }
     getBestParking(srcPosition, dstPosition, googleObj): Promise<boolean> {
         var devMode = true;
-        var carNumber = "8006199";
-        if (devMode && (this.loginPage.getCarNumber() == 'undefined' || this.loginPage.getCarNumber() == null)) {
+        var carNumber = this.loginPage.getCarNumber()
+        if (!devMode && (carNumber == 'undefined' || this.loginPage.getCarNumber() == null)) {
             console.log("User not logged in !");
             return;
         }
@@ -461,6 +461,7 @@ export class MapPage {
         });
         this.i = 0;
         this.directionsDisplay.setMap(map);
+        this.directionsDisplay.setOptions( { suppressMarkers: true } );
         let panel = document.getElementsByName("test_over_map")[0];
         panel.style.backgroundColor = "white";
         this.directionsDisplay.setPanel(panel);
@@ -471,6 +472,7 @@ export class MapPage {
             preserveViewport: true
         });
         this.directionsDisplayWalk.setMap(map);
+        this.directionsDisplayWalk.setOptions( { suppressMarkers: true } );
         this.locService.getParkingAreas(google, this);
     }
     showReachedDestination(message) {
