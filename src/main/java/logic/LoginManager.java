@@ -57,7 +57,7 @@ public class LoginManager {
 				: phone != null && phone.length() != 10 ? "Phone need to be in size 10"
 						: phone != null && !phone.startsWith("05") ? "Phone should start with 05"
 								: phone != null && phone.matches(".*[a-zA-z].*") ? "Phone contains only integers"
-										: email != null && !email.matches("[\\d\\w]+@[\\d\\w\\.]+(ac.il|com|co.il)")
+										: email != null && !email.matches("[\\d\\w\\.]+@(campus.technion.ac.il|gmail.com|walla.com|hotmail.com|t2.technion.ac.il)")
 														? "Invalid email address"
 														: car == null || car.length() == 7 ? "Good Params"
 																: "Car need to be in size 7";

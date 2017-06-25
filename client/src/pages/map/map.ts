@@ -78,11 +78,9 @@ export class MapPage {
         this.polylineArray = [];
         this.bestParking = null;
 
-
     }
 
     ionViewDidLoad() {
-        let ref = this;
 
         this.loadMap();
         this.tts.speak("hello world");
@@ -91,13 +89,9 @@ export class MapPage {
         this.loginService.getDetails().subscribe(data => {
             //console.log("getUserData() Data : " + JSON.stringify(data));
             console.log("getUserData() myData: " + JSON.stringify(data));
-            this.loginPage.carNumber=data.carNumber;
+            this.loginPage.carNumber = data.carNumber;
             if (data == undefined) {
                 console.log("mydata undefined");
-                ref.showAlertLogin(ref.loginPage);
-            }
-            if (data.name == "") {
-                ref.showAlertLogin(ref.loginPage);
             }
         }, err => {
             console.log("getUserData error: " + err);
@@ -161,11 +155,16 @@ export class MapPage {
     }
 
     changeLocation() {
+        if (this.loginPage.isLogin == false) {
+            this.presentLoginAlert();
+        }
+        else { 
         this.navCtrl.push(ChoosingPage,
             {
                 googleObj: google,
                 mapPage: this
             });
+        }
     }
     setSrcPosition(position, name) {
         this.srcPosition = position;
@@ -191,6 +190,7 @@ export class MapPage {
     }
     presentPrompt(message, callback) {
         let mapObj = this;
+
         let alert = this.alertCtrl.create({
             title: 'You Have Reached Your Destination!',
             message: 'Please provide general directions',
@@ -470,7 +470,7 @@ export class MapPage {
         });
         this.i = 0;
         this.directionsDisplay.setMap(map);
-        this.directionsDisplay.setOptions( { suppressMarkers: true } );
+        this.directionsDisplay.setOptions({ suppressMarkers: true });
         let panel = document.getElementsByName("test_over_map")[0];
         panel.style.backgroundColor = "white";
         this.directionsDisplay.setPanel(panel);
@@ -481,7 +481,7 @@ export class MapPage {
             preserveViewport: true
         });
         this.directionsDisplayWalk.setMap(map);
-        this.directionsDisplayWalk.setOptions( { suppressMarkers: true } );
+        this.directionsDisplayWalk.setOptions({ suppressMarkers: true });
         this.locService.getParkingAreas(google, this);
     }
     showReachedDestination(message) {
