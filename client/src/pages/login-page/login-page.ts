@@ -52,14 +52,22 @@ export class LoginPage {
                 if (data.name == "") {
                     console.log("getUserData() data: " + JSON.stringify(data));
                     this.isLogin = false;
-                    myData = data;
+                    myData.name=data.name;
+                    myData.phoneNumber=data.phoneNumber;
+                    myData.carNumber=data.carNumber;
+                    myData.email=data.email;
+                    myData.sticker=data.sticker;                    
                     console.log("getUserData() myData after: " + JSON.stringify(myData));
                     resolve(true);
                 }
                 else {
                     console.log("getUserData() data: " + JSON.stringify(data));
                     this.isLogin = true;
-                    myData = data;
+                    myData.name=data.name;
+                    myData.phoneNumber=data.phoneNumber;
+                    myData.carNumber=data.carNumber;
+                    myData.email=data.email;
+                    myData.sticker=data.sticker;
                     resolve(true);
                 }
             }, err => {

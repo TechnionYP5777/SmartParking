@@ -85,17 +85,16 @@ export class MapPage {
         this.loadMap();
         this.tts.speak("hello world");
         console.log("in map page");
-        var myData: { name: string, phoneNumber: string, carNumber: string, email: string, sticker: string };
 
         this.loginService.getDetails().subscribe(data => {
             //console.log("getUserData() Data : " + JSON.stringify(data));
-            myData = data;
-            console.log("getUserData() myData: " + JSON.stringify(myData));
-            if (myData == undefined) {
+            console.log("getUserData() myData: " + JSON.stringify(data));
+            this.loginPage.carNumber=data.carNumber;
+            if (data == undefined) {
                 console.log("mydata undefined");
                 ref.showAlertLogin(ref.loginPage);
             }
-            if (myData.name == "") {
+            if (data.name == "") {
                 ref.showAlertLogin(ref.loginPage);
             }
         }, err => {
@@ -410,7 +409,7 @@ export class MapPage {
     getBestParking(srcPosition, dstPosition, googleObj): Promise<boolean> {
         var devMode = true;
         var carNumber = "8006199";
-        if (devMode = false && (this.loginPage.getCarNumber() == 'undefined' || this.loginPage.getCarNumber() == null)) {
+        if (devMode && (this.loginPage.getCarNumber() == 'undefined' || this.loginPage.getCarNumber() == null)) {
             console.log("User not logged in !");
             return;
         }
