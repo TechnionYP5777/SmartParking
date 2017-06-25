@@ -27,9 +27,12 @@ export class RegisterService {
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
 
         return this.http.post('https://spring-boot-nav.herokuapp.com/User/Register', value, { headers: headers })
-        .map(res => res.json()).catch(this.handleError);;
-      
+        .map(res => res.json()).catch(this.handleError);
     }
+    
+    
+    //http://localhost:8080
+    //https://spring-boot-nav.herokuapp.com
   
   getRegisterData() {
         return this.http.get('https://spring-boot-nav.herokuapp.com/User/Register').map(res => res.json())

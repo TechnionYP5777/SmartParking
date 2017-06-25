@@ -57,6 +57,7 @@ export class MapPage {
 
     bestParking: any;
     srcName: any;
+    didNavigate: any;
 
     constructor(public navCtrl: NavController, public alertCtrl: AlertController,
         private locService: LocationService, private pathService: PathService,
@@ -67,6 +68,7 @@ export class MapPage {
         this.parkingAreas = [];
         this.loginPage = login;
         this.tts.speak("hello world");
+        this.didNavigate = false;
 
         this.loginService = loginService;
 
@@ -85,17 +87,16 @@ export class MapPage {
         this.loadMap();
         this.tts.speak("hello world");
         console.log("in map page");
-        var myData: { name: string, phoneNumber: string, carNumber: string, email: string, sticker: string };
 
         this.loginService.getDetails().subscribe(data => {
             //console.log("getUserData() Data : " + JSON.stringify(data));
-            myData = data;
-            console.log("getUserData() myData: " + JSON.stringify(myData));
-            if (myData == undefined) {
+            console.log("getUserData() myData: " + JSON.stringify(data));
+            this.loginPage.carNumber=data.carNumber;
+            if (data == undefined) {
                 console.log("mydata undefined");
                 ref.showAlertLogin(ref.loginPage);
             }
-            if (myData.name == "") {
+            if (data.name == "") {
                 ref.showAlertLogin(ref.loginPage);
             }
         }, err => {
@@ -398,9 +399,12 @@ export class MapPage {
             // Server look for a path and return a result
             document.getElementById("DirectionPanelLabel").style.display = "none";
             let page = this;
+            var carNumber = this.loginPage.getCarNumber();
             // what about srcName == currentLocation ? 
-            this.getBestParking(this.srcName, this.dstName, google).then((result) => {
-                page.goAux();
+            this.leavePark(carNumber).then((result) => {
+                page.getBestParking(page.srcName, page.dstName, google).then((result) => {
+                    page.goAux();
+                });
             });
         } else {
             console.log("src or dst not defined");
@@ -409,14 +413,19 @@ export class MapPage {
     }
     getBestParking(srcPosition, dstPosition, googleObj): Promise<boolean> {
         var devMode = true;
-        var carNumber = "8006199";
-        if (devMode = false && (this.loginPage.getCarNumber() == 'undefined' || this.loginPage.getCarNumber() == null)) {
+        var carNumber = this.loginPage.getCarNumber()
+        if (!devMode && (carNumber == 'undefined' || this.loginPage.getCarNumber() == null)) {
             console.log("User not logged in !");
             return;
         }
         let mapPage = this;
         return new Promise((resolve, reject) => {
             this.locService.getBestParkingArea(carNumber, srcPosition, dstPosition, mapPage, resolve, googleObj);
+        });
+    }
+    leavePark(carNumber): Promise<boolean> {
+        return new Promise((resolve, reject) => {
+            this.locService.leavePark(carNumber, resolve);
         });
     }
     presentLoginAlert() {
@@ -447,21 +456,21 @@ export class MapPage {
         });
         this.mapView = map;
         var geolocation = new Geolocation();
+        console.log("shay is wrong");
         geolocation.getCurrentPosition().then((position) => {
+            console.log("got position!!!!!")
+            console.log(position);
             let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
             map.setCenter(latLng);
             currentLocationMarker = new google.maps.Marker({
                 position: latLng,
-                icon: {
-                    path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
-                    scale: 10
-                },
                 draggable: false,
                 map: map
             });
         });
         this.i = 0;
         this.directionsDisplay.setMap(map);
+        this.directionsDisplay.setOptions( { suppressMarkers: true } );
         let panel = document.getElementsByName("test_over_map")[0];
         panel.style.backgroundColor = "white";
         this.directionsDisplay.setPanel(panel);
@@ -472,6 +481,7 @@ export class MapPage {
             preserveViewport: true
         });
         this.directionsDisplayWalk.setMap(map);
+        this.directionsDisplayWalk.setOptions( { suppressMarkers: true } );
         this.locService.getParkingAreas(google, this);
     }
     showReachedDestination(message) {
