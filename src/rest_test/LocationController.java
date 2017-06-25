@@ -176,19 +176,17 @@ public class LocationController {
 	public ServerParkingSlot getBestPark() {
 		return sps != null ? sps : null;
 	}
-
+	
+	@CrossOrigin(origins = "http://localhost:8100")
 	@RequestMapping(value = "/LeavePark", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
-	public void leavePark(@RequestParam("car") String carNumber) {
+	public String leavePark(@RequestParam("car") String carNumber) {
 		try {
 			User u = new User(carNumber);
 			u.getCurrentParking().changeStatus(ParkingSlotStatus.FREE);
 			u.setCurrentParking(null);
 			sps = null;
-
-		} catch (LoginException | ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
+		} catch (Exception e) {} 
+		return "{}";
 	}
 }

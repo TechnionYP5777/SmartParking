@@ -57,6 +57,7 @@ export class MapPage {
 
     bestParking: any;
     srcName: any;
+    didNavigate: any;
 
     constructor(public navCtrl: NavController, public alertCtrl: AlertController,
         private locService: LocationService, private pathService: PathService,
@@ -67,6 +68,7 @@ export class MapPage {
         this.parkingAreas = [];
         this.loginPage = login;
         this.tts.speak("hello world");
+        this.didNavigate = false;
 
         this.loginService = loginService;
 
@@ -397,9 +399,12 @@ export class MapPage {
             // Server look for a path and return a result
             document.getElementById("DirectionPanelLabel").style.display = "none";
             let page = this;
+            var carNumber = this.loginPage.getCarNumber();
             // what about srcName == currentLocation ? 
-            this.getBestParking(this.srcName, this.dstName, google).then((result) => {
-                page.goAux();
+            this.leavePark(carNumber).then((result) => {
+                page.getBestParking(page.srcName, page.dstName, google).then((result) => {
+                    page.goAux();
+                });
             });
         } else {
             console.log("src or dst not defined");
@@ -416,6 +421,11 @@ export class MapPage {
         let mapPage = this;
         return new Promise((resolve, reject) => {
             this.locService.getBestParkingArea(carNumber, srcPosition, dstPosition, mapPage, resolve, googleObj);
+        });
+    }
+    leavePark(carNumber): Promise<boolean> {
+        return new Promise((resolve, reject) => {
+            this.locService.leavePark(carNumber, resolve);
         });
     }
     presentLoginAlert() {
@@ -446,15 +456,14 @@ export class MapPage {
         });
         this.mapView = map;
         var geolocation = new Geolocation();
+        console.log("shay is wrong");
         geolocation.getCurrentPosition().then((position) => {
+            console.log("got position!!!!!")
+            console.log(position);
             let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
             map.setCenter(latLng);
             currentLocationMarker = new google.maps.Marker({
                 position: latLng,
-                icon: {
-                    path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
-                    scale: 10
-                },
                 draggable: false,
                 map: map
             });
