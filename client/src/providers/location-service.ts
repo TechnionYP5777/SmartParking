@@ -71,11 +71,22 @@ export class LocationService {
         var value = "car=" + carNumber + "&src=" + src + "&dest=" + dst;
         var headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        return this.http.post('http://localhost:8080/FindPark', value, { headers: headers })
+        return this.http.post('https://spring-boot-nav.herokuapp.com/FindPark', value, { headers: headers })
         .map(res => res.json()).subscribe(data => {
               console.log("done");
               mapPage.chosenParkingArea = {title:"slot", position: new googleObj.maps.LatLng(data.lat, data.lon)}
               resolve(true);
+              mapPage.didNavigate = true;
         });
     }
+    leavePark(carNumber, resolve) {
+          var value = "car=" + carNumber;
+          var headers = new Headers();
+          headers.append('Content-Type', 'application/x-www-form-urlencoded');
+          return this.http.post('https://spring-boot-nav.herokuapp.com/LeavePark', value, { headers: headers })
+          .map(res => res.json()).subscribe(data => {
+                console.log("lost parking");
+                resolve(true);
+          });
+      }
 }
