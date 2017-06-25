@@ -57,8 +57,7 @@ public class LoginManager {
 				: phone != null && phone.length() != 10 ? "Phone need to be in size 10"
 						: phone != null && !phone.startsWith("05") ? "Phone should start with 05"
 								: phone != null && phone.matches(".*[a-zA-z].*") ? "Phone contains only integers"
-										: email != null && !email.matches(
-												"[\\d\\w\\.]+@(campus.technion.ac.il|gmail.com|walla.com|hotmail.com|t2.technion.ac.il)")
+										: email != null && !email.matches("[\\d\\w]+@[\\d\\w\\.]+(ac.il|com|co.il)")
 														? "Invalid email address"
 														: car == null || car.length() == 7 ? "Good Params"
 																: "Car need to be in size 7";
@@ -84,8 +83,8 @@ public class LoginManager {
 	 *             is thrown if there is a problem with the user value according
 	 *             to the UserValueCheck function
 	 */
-	public String userSignUp(final String name, final String pass, final String phone, final String car, final String email, final StickersColor type)
-			throws LoginException {
+	public String userSignUp(final String name, final String pass, final String phone, final String car,
+			final String email, final StickersColor type) throws LoginException {
 		user = null;
 		String $ = userValueCheck(name, phone, email, car);
 		if (!"Good Params".equals($))
@@ -117,8 +116,8 @@ public class LoginManager {
 	 *             is thrown if there is a problem with the user value according
 	 *             to the UserValueCheck function
 	 */
-	public boolean userUpdate(final String carNumber, final String name, final String phoneNumber, final String email, final String newCar,
-			final StickersColor type) throws LoginException {
+	public boolean userUpdate(final String carNumber, final String name, final String phoneNumber, final String email,
+			final String newCar, final StickersColor type) throws LoginException {
 		try {
 			final String s = userValueCheck(name, phoneNumber, email, newCar.equals(carNumber) ? null : newCar);
 			if (!"Good Params".equals(s))
