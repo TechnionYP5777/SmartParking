@@ -6,8 +6,11 @@ export class MyExceptionHandler implements ErrorHandler {
   handleError(error) {
     let time = new Date();
     if(MyExceptionHandler.isCordova){
-        MyExceptionHandler.file.writeFile(MyExceptionHandler.file.externalApplicationStorageDirectory, "log"+time.toString(), error, null)
-    
+        MyExceptionHandler.file.writeFile(MyExceptionHandler.file.externalApplicationStorageDirectory, 
+           "log", error.toString(),
+           {replace: true});
+        console.log(MyExceptionHandler.file.externalApplicationStorageDirectory);
+        console.log("gt log");
     }else{
         console.log(error)
     }
