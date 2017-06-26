@@ -6,13 +6,23 @@
 <ion-title>Map</ion-title> </ion-navbar> <ion-navbar> <ion-item>
 <ion-label>Voice</ion-label> <ion-checkbox color="dark" checked="true"
 	(ionChange)="voicechanged($event)"></ion-checkbox> </ion-item>
-<button ion-button style="background-color: #488AFF;"
-	(click)="changeLocation()">
+<ion-grid>
 
-	<ion-icon name="car"></ion-icon>
-	&nbsp; Navigate
-</button>
+   <ion-row class="ionrow">
+        <ion-col width-33><button ion-button style="background-color: #488AFF;"
+			(click)="changeLocation()">
+			<ion-icon name="car"></ion-icon>
+			&nbsp; Navigate
+		</button></ion-col>
+        <ion-col width-67><button ion-button style="background-color: #488AFF;"
+			(click)="freeSlot()">
+			&nbsp; Free Parking Slot
+		</button></ion-col>
+  </ion-row>
+
+</ion-grid>
 </ion-navbar> </ion-header>
+
 
 
 

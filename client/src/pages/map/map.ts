@@ -416,6 +416,13 @@ export class MapPage {
         }
 
     }
+    freeSlot() {
+        let page = this;
+        var carNumber = this.loginPage.getCarNumber();
+        this.leavePark(carNumber).then((result) => {
+            console.log("left park")
+        });
+    }
     getBestParking(srcPosition, dstPosition, googleObj): Promise<boolean> {
         var devMode = true;
         var carNumber = this.loginPage.getCarNumber()
