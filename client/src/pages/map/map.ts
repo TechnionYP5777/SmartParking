@@ -403,7 +403,11 @@ export class MapPage {
             var carNumber = this.loginPage.getCarNumber();
             // what about srcName == currentLocation ? 
             this.leavePark(carNumber).then((result) => {
-                page.getBestParking(page.srcName, page.dstName, google).then((result) => {
+                var src = page.srcName;
+                if (src == "Current Location") {
+                   src = "$" + page.srcPosition.toString();
+                }
+                page.getBestParking(src, page.dstName, google).then((result) => {
                     page.goAux();
                 });
             });

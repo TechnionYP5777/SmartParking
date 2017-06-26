@@ -157,11 +157,16 @@ public class LocationController {
 
 			if (u.getCurrentParking() != null)
 				throw new AlreadyExists("You have a parking slot");
-
+				
 			u.addToLastPaths(src, dest);
-
+			MapLocation srcLocation = null;
+			if (src.startsWith("$")) {
+				String[] point = src.replace("$", "").substring(1, src.length()-2).split(",");
+				srcLocation = new MapLocation(Double.parseDouble(point[0].trim()), Double.parseDouble(point[1].trim()));
+			} else
+				srcLocation = new Destination(src).getEntrance();
 			sps = new ServerParkingSlot(
-					Navigation.closestParkingSlot(u, new Destination(src).getEntrance(), areas, new Destination(dest)));
+					Navigation.closestParkingSlot(u, srcLocation, areas, new Destination(dest)));
 			return sps.getLocation();
 		} catch (ParseException | LoginException | NotExists e) {
 			System.out.println("exception...");
@@ -170,7 +175,8 @@ public class LocationController {
 		}
 		return null;
 	}
-
+	
+	@CrossOrigin(origins = "http://localhost:8100")
 	@RequestMapping(value = "/FindPark", produces = "application/json")
 	@ResponseBody
 	public ServerParkingSlot getBestPark() {
