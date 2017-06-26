@@ -59,7 +59,8 @@ export class MapPage {
     srcName: any;
     didNavigate: any;
     isLogin: any;
-
+    inNav:boolean;
+    currentLocationMarker: any;
     constructor(public navCtrl: NavController, public alertCtrl: AlertController,
         private locService: LocationService, private pathService: PathService,
         public login: LoginPage, private logout: LogoutPage, private tts: TextToSpeech, loginService: LoginService) {
@@ -78,7 +79,7 @@ export class MapPage {
 
         this.polylineArray = [];
         this.bestParking = null;
-
+        this.inNav=false;
     }
 
     ionViewDidLoad() {
@@ -183,6 +184,7 @@ export class MapPage {
         var message = "";
         let mapObj = this;
         mapObj.dstMarker.setMap(null);
+        this.inNav=false;
         this.presentPrompt(message, function() {
             let toServer = { duration: recordTimeInterval, points: mapObj.recordedRoute, dst: mapObj.dstName, parkingArea: mapObj.chosenParkingArea.name, description: message };
             mapObj.removeWalkingPath();
@@ -230,6 +232,7 @@ export class MapPage {
         var validTime = (new Date()).getTime();
         if (this.simulationMode) {
             google.maps.event.addListener(mapObj.mapView, 'mousemove', function(event) {
+                mapObj.currentLocationMarker.setPosition(event.latLng);
                 let newTime = (new Date).getTime();
                 if (newTime - validTime <= 1000) {
                     return;
@@ -248,7 +251,9 @@ export class MapPage {
         }
         this.intervalid = setInterval(function() {
             geolocation.getCurrentPosition().then((position) => {
+                
                 let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                mapObj.currentLocationMarker.setPosition(latLng);
                 console.log(recordedRoute);
                 recordedRoute.push({ lat: latLng.lat(), lng: latLng.lng() });
                 var distance = google.maps.geometry.spherical.computeDistanceBetween(latLng, dstPosition);
@@ -283,6 +288,7 @@ export class MapPage {
                     });
                     if (mapObj.simulationMode) {
                         google.maps.event.addListener(mapObj.mapView, 'mousemove', function(event) {
+                            mapObj.currentLocationMarker.setPosition(event.latLng);
                             let distance = google.maps.geometry.spherical.computeDistanceBetween(event.latLng, mapObj.chosenParkingArea.position);
                             console.log(distance);
                             mapObj.readDirections(event.latLng);
@@ -308,6 +314,7 @@ export class MapPage {
                             geolocation.getCurrentPosition().then((position) => {
                                 let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
                                 let distance = google.maps.geometry.spherical.computeDistanceBetween(latLng, mapObj.chosenParkingArea.position);
+                                mapObj.currentLocationMarker.setPosition(latLng);
                                 console.log(distance);
                                 mapObj.readDirections(position.coords);
                                 if (distance < 5) {
@@ -331,6 +338,7 @@ export class MapPage {
                     mapObj.calculateAndDisplayRouteWalking(mapObj.directionsService, mapObj.directionsDisplayWalk, mapObj.chosenParkingArea);
                     if (mapObj.simulationMode) {
                         google.maps.event.addListener(mapObj.mapView, 'mousemove', function(event) {
+                            mapObj.currentLocationMarker.setPosition(event.latLng);
                             let distance = google.maps.geometry.spherical.computeDistanceBetween(event.latLng, mapObj.dstPosition);
                             console.log(distance);
                             mapObj.readDirections(event.latLng);
@@ -342,6 +350,7 @@ export class MapPage {
                                         {
                                             text: 'OK',
                                             handler: () => {
+                                                mapObj.inNav=false;
                                                 google.maps.event.clearListeners(mapObj.mapView, 'mousemove');
                                                 mapObj.directionsDisplay.setMap(null);
                                                 mapObj.directionsDisplay.setPanel(null);
@@ -359,6 +368,7 @@ export class MapPage {
                         mapObj.intervalid = setInterval(function() {
                             geolocation.getCurrentPosition().then((position) => {
                                 let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                                mapObj.currentLocationMarker.setPosition(latLng);
                                 let distance = google.maps.geometry.spherical.computeDistanceBetween(latLng, mapObj.dstPosition);
                                 mapObj.readDirections(position);
                                 console.log(distance);
@@ -370,6 +380,7 @@ export class MapPage {
                                             {
                                                 text: 'OK',
                                                 handler: () => {
+                                                    mapObj.inNav=false;
                                                     clearInterval(mapObj.intervalid);
                                                     clearInterval(mapObj.voiceIntervalId);
                                                     mapObj.directionsDisplay.setMap(null);
@@ -396,6 +407,7 @@ export class MapPage {
     }
     go() {
         if (this.srcPosition && this.dstPosition) {
+            this.inNav=true;
             // send to server Src and Destination
             // Server look for a path and return a result
             document.getElementById("DirectionPanelLabel").style.display = "none";
@@ -461,12 +473,13 @@ export class MapPage {
 
         this.directionsService = new google.maps.DirectionsService;
         this.directionsDisplay = new google.maps.DirectionsRenderer;
-        var currentLocationMarker;
+        
         var map = new google.maps.Map(this.mapElement.nativeElement, {
             zoom: 15,
             center: { lat: 32.776878, lng: 35.023106 }
         });
         this.mapView = map;
+        let mapObj=this;
         var geolocation = new Geolocation();
         console.log("shay is wrong");
         geolocation.getCurrentPosition().then((position) => {
@@ -474,7 +487,7 @@ export class MapPage {
             console.log(position);
             let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
             map.setCenter(latLng);
-            currentLocationMarker = new google.maps.Marker({
+            mapObj.currentLocationMarker = new google.maps.Marker({
                 position: latLng,
                 draggable: false,
                 map: map

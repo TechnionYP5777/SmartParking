@@ -49,6 +49,7 @@ export class ChoosingPage {
     locService.getFloors(this.floorsData, this);
     this.mapPage = navParams.get('mapPage');
     google.maps.event.clearListeners(this.mapPage.mapView, 'mousemove');
+    
 
   }
 
