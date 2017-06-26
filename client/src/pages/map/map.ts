@@ -58,6 +58,7 @@ export class MapPage {
     bestParking: any;
     srcName: any;
     didNavigate: any;
+    isLogin: any;
 
     constructor(public navCtrl: NavController, public alertCtrl: AlertController,
         private locService: LocationService, private pathService: PathService,
@@ -69,7 +70,7 @@ export class MapPage {
         this.loginPage = login;
         this.tts.speak("hello world");
         this.didNavigate = false;
-
+        this.isLogin = false;
         this.loginService = loginService;
 
         this.useVoice = true;
@@ -127,7 +128,7 @@ export class MapPage {
         });
     }
     showAlertLogin(loginPage) {
-        if (loginPage.isLogin == false) {
+        if (!this.isLogin) {
             this.presentLoginAlert();
         }
     }
@@ -155,7 +156,7 @@ export class MapPage {
     }
 
     changeLocation() {
-        if (this.loginPage.isLogin == false) {
+        if (!this.isLogin) {
             this.presentLoginAlert();
         }
         else { 
@@ -437,7 +438,7 @@ export class MapPage {
                     text: 'Go to Login',
                     role: 'goToLogin',
                     handler: () => {
-                        this.navCtrl.push(LoginPage);
+                        this.navCtrl.push(LoginPage, {mapPage: this});
                     }
                 }
             ],

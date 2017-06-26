@@ -24,19 +24,19 @@ export class LoginPage {
     num: any;
     serve: any;
     logoutService: any;
-    isLogin: any;
     carNumber: any;
+    page: any;
 
     constructor(public navCtrl: NavController, public navParams: NavParams,
         serve: LoginService, public alertCtrl: AlertController, logoutService: LogoutService) {
         this.serve = serve;
         this.logoutService = logoutService;
-        this.carNumber = null;
+        this.page = this.navParams.get("mapPage");
         //this.num = serve.http.get('https://www.reddit.com/r/gifs/new/.json?limit=10').map(res=>res.json());
-        this.isLogin = false;
     }
 
     ionViewDidLoad() {
+        this.carNumber = null;
         console.log('ionViewDidLoad LoginPage');
     }
 
@@ -49,29 +49,18 @@ export class LoginPage {
         console.log("getUserData() myData before: " + JSON.stringify(myData));
         return new Promise((resolve, reject) => {
             this.serve.getDetails().subscribe(data => {
-                if (data.name == "") {
                     console.log("getUserData() data: " + JSON.stringify(data));
-                    this.isLogin = false;
-                    myData.name=data.name;
-                    myData.phoneNumber=data.phoneNumber;
-                    myData.carNumber=data.carNumber;
-                    myData.email=data.email;
-                    myData.sticker=data.sticker;                    
-                    console.log("getUserData() myData after: " + JSON.stringify(myData));
-                    resolve(true);
-                }
-                else {
-                    console.log("getUserData() data: " + JSON.stringify(data));
-                    this.isLogin = true;
+                    this.page.isLogin = true;
                     myData.name=data.name;
                     myData.phoneNumber=data.phoneNumber;
                     myData.carNumber=data.carNumber;
                     myData.email=data.email;
                     myData.sticker=data.sticker;
-                    resolve(true);
-                }
+                    resolve(true);      
+                    console.log("getUserData() myData after: " + JSON.stringify(myData));     
             }, err => {
                 console.log("getUserData error: " + err);
+                this.page.isLogin = false;
                 reject(true);
             });
         });
@@ -83,12 +72,11 @@ export class LoginPage {
         this.serve.getDetails().subscribe(data => {
             if (data.name == "") {
                 console.log("NOT logged in.");
-                this.isLogin = false;
                 this.presentAlert("Wrong car number or password. please try again.", "Error Connecting");
             }
             else {
                 console.log(data.name + " is logged in.");
-                this.isLogin = true;
+                this.page.isLogin = true;
                 //this.presentAlert("You have sucsessfully logged in.\nWelcome, " + data.name, "Connected");
                 this.navCtrl.push(HelloIonicPage);
             }
