@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef  } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
 import { MyDetailsService } from '../../providers/myDetails-service';
 import { LoginPage } from '../login-page/login-page';
+
+
 
 /**
  * @author Shahar-Y
@@ -18,27 +20,29 @@ import { LoginPage } from '../login-page/login-page';
 export class MyDetailsEditPage {
     MDServe: any;
     public storeArray: Array<any> = [];
+    public cdr: any;
 
 
     constructor(public navCtrl: NavController, public navParams: NavParams, MDServe: MyDetailsService,
-        public alertCtrl: AlertController) {
+        public alertCtrl: AlertController, private CDR: ChangeDetectorRef) {
         this.MDServe = MDServe;
         this.MDServe.getUserDetails().subscribe(data => {
-            //this.presentAlert("Your Data: " + JSON.stringify(data), "MyData");
             this.storeArray = [data.name, data.phoneNumber, data.carNumber, data.email, data.sticker];
+            this.cdr = CDR;
+            this.cdr.detectChanges();
 
         });
     }
-    
-     ionViewDidLoad() {
+
+    ionViewDidLoad() {
         console.log('ionViewDidLoad MyDetailsEditPage');
     }
 
     ChangeDetails(name, phoneNum, carNum, eMail, sticker) {
-           this.MDServe.setUserDetails(name, 123456, phoneNum, carNum, eMail, sticker, this.storeArray[2]);
-            this.navCtrl.push(LoginPage);
+        this.MDServe.setUserDetails(name, 123456, phoneNum, carNum, eMail, sticker, this.storeArray[2]);
+        this.navCtrl.push(LoginPage);
     }
-    
+
     presentAlert(str, myTitle) {
         let alert = this.alertCtrl.create({
             title: myTitle,
