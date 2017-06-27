@@ -26,16 +26,21 @@ export class MyDetailsEditPage {
     constructor(public navCtrl: NavController, public navParams: NavParams, MDServe: MyDetailsService,
         public alertCtrl: AlertController, private CDR: ChangeDetectorRef) {
         this.MDServe = MDServe;
-        this.MDServe.getUserDetails().subscribe(data => {
-            this.storeArray = [data.name, data.phoneNumber, data.carNumber, data.email, data.sticker];
-            this.cdr = CDR;
-            this.cdr.detectChanges();
+        this.cdr = CDR;
+        this.updateFields();
 
-        });
     }
 
     ionViewDidLoad() {
         console.log('ionViewDidLoad MyDetailsEditPage');
+    }
+
+    updateFields() {
+        this.MDServe.getUserDetails().subscribe(data => {
+            this.storeArray = [data.name, data.phoneNumber, data.carNumber, data.email, data.sticker];
+            this.cdr.detectChanges();
+        });
+
     }
 
     ChangeDetails(name, phoneNum, carNum, eMail, sticker) {

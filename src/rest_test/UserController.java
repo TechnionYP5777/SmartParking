@@ -24,10 +24,12 @@ public class UserController {
 	ServerUser user;
 	UCStatus status;
 	String lastRegVal = "";
+	boolean detailsChanged;
 
 	UserController() {
 		user = new ServerUser();
 		status = UCStatus.NOT_REGISTERED;
+		detailsChanged = false;
 	}
 
 	void setUserData(String userName, String carNumber, String eMail, String phoneNum, StickersColor color) {
@@ -52,7 +54,7 @@ public class UserController {
 	@CrossOrigin(origins = "http://localhost:8100")
 	@RequestMapping(value = "/User/Login", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
-	public void login(@RequestParam("name") String name, @RequestParam("pass") String pass) throws LoginException {
+	public void login(@RequestParam("name") String name, @RequestParam("pass") String pass){
 
 		if (name == null)
 			return;
@@ -77,7 +79,7 @@ public class UserController {
 	@RequestMapping(value = "/User/Register", produces = "application/json")
 	@ResponseBody
 	public String register() {
-		return (lastRegVal == "" ? statusToString(status) : JSONize(lastRegVal));
+		return (lastRegVal == "" ? statusToString(status) : JSONize("status", lastRegVal));
 	}
 
 	// register post method
@@ -111,10 +113,10 @@ public class UserController {
 
 	}
 
-	public String JSONize(String str){
-		return ("{" + '"' + "status" + '"' + ":" + '"' + str + '"' + "}");
+	public String JSONize(String name, String value) {
+		return ("{" + '"' + name + '"' + ":" + '"' + value + '"' + "}");
 	}
-	
+
 	public String statusToString(UCStatus ucStatus) {
 		String JsonStatus = "{" + '"' + "status" + '"' + ":" + '"';
 		switch (ucStatus) {
@@ -168,28 +170,31 @@ public class UserController {
 	@CrossOrigin(origins = "http://localhost:8100")
 	@RequestMapping(value = "/User/ChangeDetails", produces = "application/json")
 	@ResponseBody
-	public boolean changeDetails() {
-		return false;
+	public String changeDetails() {
+		System.out.println("in UC.changeDetails.GET");
+		String changed = detailsChanged ? "true" : "false";
+		return JSONize("changed:", changed);
 	}
 
-	// changeDetails post method
+	// changeDetails post method	
 	@CrossOrigin(origins = "http://localhost:8100")
 	@RequestMapping(value = "/User/ChangeDetails", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
-	public boolean changeDetails(@RequestParam("name") String name, @RequestParam("phone") String phone,
+	public String changeDetails(@RequestParam("name") String name, @RequestParam("phone") String phone,
 			@RequestParam("newCar") String newCar, @RequestParam("email") String email,
-			@RequestParam("type") String type, @RequestParam("car") String car) {
+			@RequestParam("type") String type, @RequestParam("oldCar") String oldCar) {
 		boolean retVal = false;
-		System.out.println("in UC.changeDetails. ");
+		System.out.println("in UC.changeDetails. : name = " + name);
 		LoginManager login = new LoginManager();
 		try {
-			retVal = login.userUpdate(car, name, phone, email, newCar, SCStringToSC(type));
+			retVal = login.userUpdate(oldCar, name, phone, email, newCar, SCStringToSC(type));
 			System.out.println("in UC.changeDetails. retVal = " + retVal);
 		} catch (LoginException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return retVal;
+		detailsChanged = true;
+		return JSONize("val", "true");
 
 	}
 

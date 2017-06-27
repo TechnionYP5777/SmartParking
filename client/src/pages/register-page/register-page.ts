@@ -58,8 +58,6 @@ export class RegisterPage {
 
 
 
-
-
   presentAlert(str, myTitle) {
     let alert = this.alertCtrl.create({
       title: myTitle,
