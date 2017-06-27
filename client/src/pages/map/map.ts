@@ -482,17 +482,22 @@ export class MapPage {
         let mapObj=this;
         var geolocation = new Geolocation();
         console.log("shay is wrong");
-        geolocation.getCurrentPosition().then((position) => {
-            console.log("got position!!!!!")
-            console.log(position);
-            let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-            map.setCenter(latLng);
-            mapObj.currentLocationMarker = new google.maps.Marker({
-                position: latLng,
-                draggable: false,
-                map: map
+        setInterval(function(){
+            if(mapObj.inNav){
+                return;    
+            }
+            geolocation.getCurrentPosition().then((position) => {
+                console.log("got position!!!!!")
+                console.log(position);
+                let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                map.setCenter(latLng);
+                mapObj.currentLocationMarker = new google.maps.Marker({
+                    position: latLng,
+                    draggable: false,
+                    map: map
+                });
             });
-        });
+        },30000);
         this.i = 0;
         this.directionsDisplay.setMap(map);
         this.directionsDisplay.setOptions({ suppressMarkers: true });
