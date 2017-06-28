@@ -12,7 +12,7 @@ import { LogoutPage } from '../pages/logout-page/logout-page';
 import { MyDetailsPage } from '../pages/myDetails-page/myDetails-page';
 import { File } from '@ionic-native/file';
 import { MyExceptionHandler } from '../providers/errorHandler';
-
+declare function require(name:string);
 
 @Component({
   templateUrl: 'app.html'
