@@ -11,6 +11,8 @@ import main.java.Exceptions.LoginException;
 import main.java.data.members.StickersColor;
 import main.java.logic.LoginManager;
 
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * @author DavidCohen55
  * @author Shahar-Y Created: May 2017
@@ -56,6 +58,8 @@ public class UserController {
 	@ResponseBody
 	public void login(@RequestParam("name") String name, @RequestParam("pass") String pass){
 
+		System.out.println("Login.POST: name:" + name + "pass:" + pass);
+		
 		if (name == null)
 			return;
 
@@ -112,6 +116,48 @@ public class UserController {
 		}
 
 	}
+	
+	
+	// changeDetails get method
+	@CrossOrigin(origins = "http://localhost:8100")
+	@RequestMapping(value = "/User/ChangeDetails", produces = "application/json")
+	@ResponseBody
+	public String changeDetails() {
+		System.out.println("in UC.changeDetails.GET");
+		String changed = detailsChanged ? "true" : "false";
+		return JSONize("changed", changed);
+	}
+
+	// changeDetails post method	
+	@CrossOrigin(origins = "http://localhost:8100")
+	@RequestMapping(value = "/User/ChangeDetails", method = RequestMethod.POST, produces = "application/json")
+	@ResponseBody
+	public String changeDetails(@RequestParam("name") String name, @RequestParam("phone") String phone,
+			@RequestParam("newCar") String newCar, @RequestParam("email") String email,
+			@RequestParam("type") String type, @RequestParam("oldCar") String oldCar) {
+		boolean retVal = false;
+		System.out.println("in UC.changeDetails. : name = " + name);
+		LoginManager login = new LoginManager();
+		try {
+			retVal = login.userUpdate(oldCar, name, phone, email, newCar, SCStringToSC(type));
+			System.out.println("in UC.changeDetails. retVal = " + retVal);
+		} catch (LoginException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		detailsChanged = true;
+		return JSONize("val", "true");
+	}
+
+	@RequestMapping(value= "/User/ChangeDetails", method=RequestMethod.OPTIONS)
+	public void corsHeaders(HttpServletResponse response) {
+	    response.addHeader("Access-Control-Allow-Origin", "*");
+	    response.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+	    response.addHeader("Access-Control-Allow-Headers", "origin, content-type, accept, x-requested-with");
+	    response.addHeader("Access-Control-Max-Age", "3600");
+	}
+	
+	
 
 	public String JSONize(String name, String value) {
 		return ("{" + '"' + name + '"' + ":" + '"' + value + '"' + "}");
@@ -166,38 +212,8 @@ public class UserController {
 		return JsonStatus;
 	}
 
-	// changeDetails get method
-	@CrossOrigin(origins = "http://localhost:8100")
-	@RequestMapping(value = "/User/ChangeDetails", produces = "application/json")
-	@ResponseBody
-	public String changeDetails() {
-		System.out.println("in UC.changeDetails.GET");
-		String changed = detailsChanged ? "true" : "false";
-		return JSONize("changed:", changed);
-	}
 
-	// changeDetails post method	
-	@CrossOrigin(origins = "http://localhost:8100")
-	@RequestMapping(value = "/User/ChangeDetails", method = RequestMethod.POST, produces = "application/json")
-	@ResponseBody
-	public String changeDetails(@RequestParam("name") String name, @RequestParam("phone") String phone,
-			@RequestParam("newCar") String newCar, @RequestParam("email") String email,
-			@RequestParam("type") String type, @RequestParam("oldCar") String oldCar) {
-		boolean retVal = false;
-		System.out.println("in UC.changeDetails. : name = " + name);
-		LoginManager login = new LoginManager();
-		try {
-			retVal = login.userUpdate(oldCar, name, phone, email, newCar, SCStringToSC(type));
-			System.out.println("in UC.changeDetails. retVal = " + retVal);
-		} catch (LoginException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		detailsChanged = true;
-		return JSONize("val", "true");
-
-	}
-
+	
 	// convert String to StickersColor
 	private StickersColor SCStringToSC(String type) {
 		switch (type) {
