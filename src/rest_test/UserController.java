@@ -27,11 +27,13 @@ public class UserController {
 	UCStatus status;
 	String lastRegVal = "";
 	boolean detailsChanged;
+	LoginManager login;
 
 	UserController() {
 		user = new ServerUser();
 		status = UCStatus.NOT_REGISTERED;
 		detailsChanged = false;
+		login = new LoginManager();
 	}
 
 	void setUserData(String userName, String carNumber, String eMail, String phoneNum, StickersColor color) {
@@ -69,7 +71,7 @@ public class UserController {
 			return;
 		}
 
-		LoginManager login = new LoginManager();
+		//LoginManager login = new LoginManager();
 		if (!login.userLogin(name, pass))
 			return;
 
@@ -100,7 +102,7 @@ public class UserController {
 			return statusToString1(status, "");
 		}
 
-		LoginManager login = new LoginManager();
+		//LoginManager login = new LoginManager();
 		try {
 			if (!(login.userSignUp(name, pass, phone, car, email, StickersColor.values()[type])).equals("SignUpError"))
 				status = UCStatus.SUCCESS;
@@ -136,13 +138,20 @@ public class UserController {
 			@RequestParam("newCar") String newCar, @RequestParam("email") String email,
 			@RequestParam("type") String type, @RequestParam("oldCar") String oldCar) {
 		boolean retVal = false;
-		System.out.println("in UC.changeDetails. : name = " + name);
-		LoginManager login = new LoginManager();
+		System.out.println("in UC.changeDetails.POST : name=" + name);
+		//LoginManager login = new LoginManager();
 		try {
 			retVal = login.userUpdate(oldCar, name, phone, email, newCar, SCStringToSC(type));
-			System.out.println("in UC.changeDetails. retVal = " + retVal);
+			System.out.println("in UC.changeDetails.POST retVal=" + retVal);
+			if(retVal){
+				//TODO: commit login
+			}
+			else{
+				
+				System.out.println("in UC.changeDetails.POST changeDetails failed!");
+			}
+			
 		} catch (LoginException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		detailsChanged = true;
