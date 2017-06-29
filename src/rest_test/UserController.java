@@ -1,9 +1,9 @@
 package rest_test;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
+import org.json.JSONObject;
 import org.parse4j.ParseObject;
 import org.parse4j.ParseQuery;
 import org.springframework.stereotype.Controller;
@@ -31,8 +31,7 @@ import main.java.logic.LoginManager;
 
 @Controller
 public class UserController {
-	Map<String, String> users;
-	Map<String, String> stat;
+	Map<String, UserState> users;
 
 	ServerUser user;
 	UCStatus status;
@@ -45,7 +44,9 @@ public class UserController {
 		status = UCStatus.NOT_REGISTERED;
 		detailsChanged = false;
 		login = new LoginManager();
-		users= new HashMap<String,String>();
+
+		/* after change */
+		users = new HashMap<String, UserState>();
 	}
 
 	/**
@@ -73,7 +74,7 @@ public class UserController {
 		if (users.get(key) != null) {
 			final ParseQuery<ParseObject> query = ParseQuery.getQuery("PMUser");
 			try {
-				ParseObject o = query.get(users.get(key));
+				ParseObject o = query.get(users.get(key).getUserId());
 				return (o == null) ? new ServerUser() : new ServerUser(new User(o));
 			} catch (final Exception e) {
 				return null;
@@ -85,21 +86,96 @@ public class UserController {
 	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/User/LoginDemo/{key}", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
-	public void loginDemo(@PathVariable("key") String key, @RequestParam("name") String name,
+	public String loginDemo(@PathVariable("key") String key, @RequestParam("name") String name,
 			@RequestParam("pass") String pass) {
-		LoginManager loginUsers = new LoginManager();
-		if (name != null)
-			if ("".equals(name)) {
-				if (users.get(key) != null) {
-					System.out.println("Logging out");
-					users.remove(key);
-				}
-			} else {
-				System.out.println("Logging in " + name);
-				if (users.get(key) == null && loginUsers.userLogin(name, pass))
-					users.put(key, loginUsers.getUser().getObjectId());
-			}
+		if (name == null)
+			return statusToString(UCStatus.BAD_PARAMS);
+		if (!"".equals(name)) {
+			System.out.println("Logging in " + name);
+			UserState us = new UserState();
+			if ((users.get(key) != null && users.get(key).getStatus() == UCStatus.SUCCESS) || !us.UserLogin(name, pass))
+				return statusToString(UCStatus.ALREADY_CONNECTED);
+			if (users.get(key) != null)
+				users.remove(key);
+			us.setStatus(UCStatus.SUCCESS);
+			users.put(key, us);
+			return statusToString(users.get(key).getStatus());
+		}
+		if (users.get(key) == null)
+			return statusToString(UCStatus.NOT_CONNECTED);
+		System.out.println("Logging out");
+		users.remove(key);
+		return statusToString(UCStatus.SUCCESS);
 	}
+
+	/**
+	 * Register get method
+	 * 
+	 * @return the register status.
+	 */
+	@CrossOrigin(origins = "*")
+	@RequestMapping(value = "/User/RegisterDemo/{key}", produces = "application/json")
+	@ResponseBody
+	public String registerDemo(@PathVariable("key") String key) {
+		if (users.get(key) == null)
+			return "";
+		JSONObject o = new JSONObject();
+		o.put("status", users.get(key).getStatusString());
+		o.put("error", users.get(key).getError());
+		return o + "";
+	}
+
+	/**
+	 * Register post method Creates a new user with the parameters.
+	 * 
+	 * @param name
+	 * @param pass
+	 * @param phone
+	 * @param car
+	 * @param email
+	 * @param type
+	 * @return a JSONized string of the login status.
+	 */
+	@CrossOrigin(origins = "*")
+	@RequestMapping(value = "/User/RegisterDemo/{key}", method = RequestMethod.POST, produces = "application/json")
+	@ResponseBody
+	public String registerDemo(@PathVariable("key") String key, @RequestParam("name") String name,
+			@RequestParam("pass") String pass, @RequestParam("phone") String phone, @RequestParam("car") String car,
+			@RequestParam("email") String email, @RequestParam("type") int type) {
+		UserState us = new UserState();
+		try {
+			if ("SignUpError"
+					.equals(us.getLogin().userSignUp(name, pass, phone, car, email, StickersColor.values()[type]))) {
+				us.setStatus(UCStatus.BAD_REGISTER);
+				JSONObject o = new JSONObject();
+				o.put("status", us.getStatus());
+				users.put(key, us);
+				return o + "";
+			}
+
+			if ((users.get(key) != null && users.get(key).getStatus() == UCStatus.SUCCESS) || !us.UserLogin(car, pass))
+				return statusToString(UCStatus.ALREADY_CONNECTED);
+			if (users.get(key) != null)
+				users.remove(key);
+
+			us.setStatus(UCStatus.SUCCESS);
+			users.put(key, us);
+			System.out.println("Succsesful signUp: " + name);
+			return statusToString(users.get(key).getStatus());
+		} catch (LoginException e) {
+			us.setStatus(UCStatus.BAD_PARAMS);
+			users.put(key, us);
+			System.out.println("status: " + status + "e.toString: " + e);
+			JSONObject o = new JSONObject();
+			o.put("status", users.get(key).getStatus());
+			o.put("message", (e + ""));
+			us.setError(e + "");
+			users.put(key, us);
+			return o + "";
+		}
+	}
+
+	/********************************************************/
 
 	/**
 	 * Login get method
@@ -246,17 +322,6 @@ public class UserController {
 		return JSONize("val", retVal ? "true" : "false");
 	}
 
-	/*
-	 * @RequestMapping(value= "/User/ChangeDetails",
-	 * method=RequestMethod.OPTIONS) public void corsHeaders(HttpServletResponse
-	 * response) { response.addHeader("Access-Control-Allow-Origin", "*");
-	 * response.addHeader("Access-Control-Allow-Methods",
-	 * "GET, POST, PUT, DELETE, OPTIONS");
-	 * response.addHeader("Access-Control-Allow-Headers",
-	 * "origin, content-type, accept, x-requested-with");
-	 * response.addHeader("Access-Control-Max-Age", "3600"); }
-	 */
-
 	/**
 	 * Creates a JSON string of the parameter and its value.
 	 * 
@@ -275,22 +340,33 @@ public class UserController {
 	 * @return the JSON String.
 	 */
 	public String statusToString(UCStatus s) {
-		String JsonStatus = "{" + '"' + "status" + '"' + ":" + '"';
+		JSONObject o = new JSONObject();
+		String value = "";
 		switch (s) {
 		case SUCCESS:
-			JsonStatus += "Success";
+			value = "Success";
 			break;
 		case BAD_REGISTER:
-			JsonStatus += "Bad Register";
+			value = "Bad Register";
 			break;
 		case NOT_REGISTERED:
-			JsonStatus += "Not Registered";
+			value = "Not Registered";
 			break;
 		case BAD_PARAMS:
-			JsonStatus += "Bad Params";
+			value = "Bad Params";
+			break;
+		case ALREADY_CONNECTED:
+			value = "Already Connected";
+			break;
+		case NOT_CONNECTED:
+			value = "Not Connected";
+			break;
+		case NOT_USED:
+			value = "Not Used";
 			break;
 		}
-		return JsonStatus += '"' + "}";
+		o.put("status", value);
+		return o + "";
 	}
 
 	/**
@@ -321,6 +397,16 @@ public class UserController {
 			case BAD_PARAMS:
 				JsonStatus += "Bad Params";
 				break;
+			case ALREADY_CONNECTED:
+				JsonStatus += "Already Connected";
+				break;
+			case NOT_CONNECTED:
+				JsonStatus += "Not Connected";
+				break;
+			case NOT_USED:
+				JsonStatus += "Not Used";
+				break;
+
 			}
 		}
 		return JsonStatus += '"' + "}";
