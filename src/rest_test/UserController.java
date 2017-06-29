@@ -67,6 +67,11 @@ public class UserController {
 		System.out.println("setUserData: " + userName);
 	}
 
+	/**
+	 * New Login get method
+	 * 
+	 * @return the user object
+	 */
 	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/User/LoginDemo/{key}", produces = "application/json")
 	@ResponseBody
@@ -83,6 +88,14 @@ public class UserController {
 		return new ServerUser();
 	}
 
+	/**
+	 * New Login post method. logs the user into the heroku server.
+	 * 
+	 * @param name
+	 *            : the unique user id.
+	 * @param pass
+	 *            : the user password.
+	 */
 	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/User/LoginDemo/{key}", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
@@ -109,7 +122,7 @@ public class UserController {
 	}
 
 	/**
-	 * Register get method
+	 * New Register get method
 	 * 
 	 * @return the register status.
 	 */
@@ -126,7 +139,7 @@ public class UserController {
 	}
 
 	/**
-	 * Register post method Creates a new user with the parameters.
+	 * New Register post method Creates a new user with the parameters.
 	 * 
 	 * @param name
 	 * @param pass
@@ -173,6 +186,66 @@ public class UserController {
 			users.put(key, us);
 			return o + "";
 		}
+	}
+
+	/**
+	 * New ChangeDetails get method
+	 * 
+	 * 
+	 * @return a JSONized string of the change status.
+	 */
+	@CrossOrigin(origins = "*")
+	@RequestMapping(value = "/User/ChangeDetails/{key}", produces = "application/json")
+	@ResponseBody
+	public String changeDetailsDemo(@PathVariable("key") String key) {
+		System.out.println("in UC.changeDetails.GET");
+		JSONObject o = new JSONObject();
+		if (users.get(key) != null) {
+			o.put("status", users.get(key).getStatusString());
+			o.put("error", users.get(key).getError());
+		}
+		return o + "";
+	}
+
+	/**
+	 * New ChangeDetails post method. Receives the new information of the user,
+	 * checks it and updates it on the heroku server.
+	 * 
+	 * @param name
+	 * @param phone
+	 * @param newCar
+	 * @param email
+	 * @param type
+	 * @param oldCar
+	 * @return A JSONized string of the success/error value.
+	 */
+	@CrossOrigin(origins = "*")
+	@RequestMapping(value = "/User/ChangeDetails/{key}", method = RequestMethod.POST, produces = "application/json")
+	@ResponseBody
+	public String changeDetailsDemo(@PathVariable("key") String key, @RequestParam("name") String name,
+			@RequestParam("phone") String phone, @RequestParam("newCar") String newCar,
+			@RequestParam("email") String email, @RequestParam("type") String type,
+			@RequestParam("oldCar") String oldCar) {
+
+		JSONObject o = new JSONObject();
+		// Not supposed to happen through GUI
+		if (users.get(key) == null) {
+			System.out.println("Error: in UC.changeDetails.POST users.get(key)=null!");
+			o.put("status", "Not Connected");
+			return o + "";
+		}
+		try {
+			users.get(key).getLogin().userUpdate(oldCar, name, phone, email, newCar, SCStringToSC(type));
+			System.out.println("in UC.changeDetails.POST changeDetails SUCCESS!");
+			users.get(key).setStatus(UCStatus.SUCCESS);
+		} catch (LoginException e1) {
+			System.out.println("in UC.changeDetails.POST Exception thrown: " + e1);
+			users.get(key).setError("" + e1);
+			users.get(key).setStatus(UCStatus.BAD_PARAMS);
+		}
+		o.put("error", users.get(key).getError());
+		o.put("status", users.get(key).getStatusString());
+		return o + "";
 	}
 
 	/********************************************************/
