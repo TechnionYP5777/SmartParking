@@ -2,3 +2,4 @@
 /target/
 /logs/
 /demo/
+/client/src/identity.js
