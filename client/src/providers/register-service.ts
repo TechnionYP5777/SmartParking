@@ -18,22 +18,20 @@ export class RegisterService {
         console.log('Hello RegisterService Provider');
     }
    
+    
+    //The method that is called when the user asks to register.
+    //sends a post request to the User/Register in order to create a new user with the parameters.
     userRegister(userName, password, phoneNum, carNum, eMail, stickerColor) {
-
       var value = "name=" + userName + "&pass=" + password + "&phone=" +
          phoneNum + "&car=" + carNum + "&email=" + eMail + "&type=" + stickerColor;
         //console.log("in userRegister, value = " + value);
         var headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
-
         return this.http.post('https://spring-boot-nav.herokuapp.com/User/Register', value, { headers: headers })
         .map(res => res.json()).catch(this.handleError);
     }
     
-    
-    //http://localhost:8080
-    //https://spring-boot-nav.herokuapp.com
-  
+  //A get method for getting the register status.
   getRegisterData() {
         return this.http.get('https://spring-boot-nav.herokuapp.com/User/Register').map(res => res.json())
             .catch(this.handleError);

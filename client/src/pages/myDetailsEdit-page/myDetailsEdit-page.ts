@@ -2,9 +2,8 @@ import { Component, ChangeDetectorRef  } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
 import { MyDetailsService } from '../../providers/myDetails-service';
-import { LoginPage } from '../login-page/login-page';
 import { LoginService } from '../login-page/login-service';
-
+import { HelloIonicPage } from '../hello-ionic/hello-ionic';
 
 
 
@@ -39,6 +38,7 @@ export class MyDetailsEditPage {
         console.log('ionViewDidLoad MyDetailsEditPage');
     }
 
+    //Shows the current values of the user details in the boxes of MyDetailsEdit page
     updateFields() {
         this.MDServe.getUserDetails().subscribe(data => {
             this.storeArray = [data.name, data.phoneNumber, data.carNumber, data.email, data.sticker];
@@ -47,16 +47,20 @@ export class MyDetailsEditPage {
 
     }
 
+    //This method is called when the user presses the 'Change Details' button. 
     ChangeDetails(name, phoneNum, carNum, eMail, sticker) {
-
-        this.LoginServe.setUserDetails(name, "123456", phoneNum, carNum, eMail, sticker, this.storeArray[2]).subscribe(() => {
-            console.log("ChangeDetails: " + name);
+        this.LoginServe.setUserDetails(name, phoneNum, carNum, eMail, sticker, this.storeArray[2]).subscribe(() => {
+            var newDetails = '<br\><br\>' + "User Name: " + name + '<br\><br\>' + "Phone: " + phoneNum + '<br\><br\>' + "Car: " + carNum + '<br\><br\>' +
+                "Mail: " + eMail + '<br\><br\>' + "Sticker: " + sticker;
+            this.presentAlert("Your Details were changed." + '\n' + newDetails, "Change Details Success!");
+            this.updateFields();
         }, err => {
+            this.presentAlert("There was an error with the request. Please try again.", "Error");
             console.log(err);
         });
 
-        
-        //this.navCtrl.push(LoginPage);
+        this.navCtrl.push(HelloIonicPage);
+
     }
 
     presentAlert(str, myTitle) {

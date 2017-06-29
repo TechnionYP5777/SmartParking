@@ -29,6 +29,9 @@ export class LoginService {
             .catch(this.handleError);
     }
 
+    
+    //The service that logs the user into the system.
+    //Sends a post request to the heroku in order to update the condition of the user.
     userLogin(carNumber, password) {
         var value = "name=" + carNumber + "&pass=" + password;
 
@@ -40,7 +43,8 @@ export class LoginService {
             .map(res => res.json());
     }
 
-    setUserDetails(userName, password, phoneNum, carNum, eMail, stickerColor, oldCarNum) {
+    //This service updates the user details from MyDetailsEdit page.
+    setUserDetails(userName, phoneNum, carNum, eMail, stickerColor, oldCarNum) {
         
         var headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');

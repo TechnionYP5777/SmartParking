@@ -36,6 +36,15 @@ public class UserController {
 		login = new LoginManager();
 	}
 
+	/**
+	 * Updates the user data according to the parameters.
+	 * 
+	 * @param userName
+	 * @param carNumber
+	 * @param eMail
+	 * @param phoneNum
+	 * @param color
+	 */
 	void setUserData(String userName, String carNumber, String eMail, String phoneNum, StickersColor color) {
 		user.setName(userName);
 		user.setCarNumber(carNumber);
@@ -46,7 +55,11 @@ public class UserController {
 
 	}
 
-	// login get method
+	/**
+	 * Login get method
+	 * 
+	 * @return the user object
+	 */
 	@CrossOrigin(origins = "http://localhost:8100")
 	@RequestMapping(value = "/User/Login", produces = "application/json")
 	@ResponseBody
@@ -54,24 +67,32 @@ public class UserController {
 		return user != null ? user : (user = new ServerUser());
 	}
 
-	// login post method
+	/**
+	 * Login post method. logs the user into the heroku server.
+	 * 
+	 * @param name
+	 *            : the unique user id.
+	 * @param pass
+	 *            : the user password.
+	 */
 	@CrossOrigin(origins = "http://localhost:8100")
 	@RequestMapping(value = "/User/Login", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
-	public void login(@RequestParam("name") String name, @RequestParam("pass") String pass){
-
+	public void login(@RequestParam("name") String name, @RequestParam("pass") String pass) {
 		System.out.println("Login.POST: name:" + name + "pass:" + pass);
-		
+
 		if (name == null)
 			return;
 
 		if (name.equals("")) {
 			System.out.println("Logging out");
 			setUserData("", "", "", "", StickersColor.WHITE);
+			lastRegVal = "";
+			detailsChanged = false;
 			return;
 		}
 
-		//LoginManager login = new LoginManager();
+		// LoginManager login = new LoginManager();
 		if (!login.userLogin(name, pass))
 			return;
 
@@ -80,7 +101,11 @@ public class UserController {
 
 	}
 
-	// register get method
+	/**
+	 * Register get method
+	 * 
+	 * @return the register status.
+	 */
 	@CrossOrigin(origins = "http://localhost:8100")
 	@RequestMapping(value = "/User/Register", produces = "application/json")
 	@ResponseBody
@@ -88,7 +113,17 @@ public class UserController {
 		return (lastRegVal == "" ? statusToString(status) : JSONize("status", lastRegVal));
 	}
 
-	// register post method
+	/**
+	 * Register post method Creates a new user with the parameters.
+	 * 
+	 * @param name
+	 * @param pass
+	 * @param phone
+	 * @param car
+	 * @param email
+	 * @param type
+	 * @return a JSONized string of the login status.
+	 */
 	@CrossOrigin(origins = "http://localhost:8100")
 	@RequestMapping(value = "/User/Register", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
@@ -102,7 +137,7 @@ public class UserController {
 			return statusToString1(status, "");
 		}
 
-		//LoginManager login = new LoginManager();
+		// LoginManager login = new LoginManager();
 		try {
 			if (!(login.userSignUp(name, pass, phone, car, email, StickersColor.values()[type])).equals("SignUpError"))
 				status = UCStatus.SUCCESS;
@@ -118,9 +153,13 @@ public class UserController {
 		}
 
 	}
-	
-	
-	// changeDetails get method
+
+	/**
+	 * ChangeDetails get method
+	 * 
+	 * 
+	 * @return a JSONized string of the change status.
+	 */
 	@CrossOrigin(origins = "http://localhost:8100")
 	@RequestMapping(value = "/User/ChangeDetails", produces = "application/json")
 	@ResponseBody
@@ -130,7 +169,18 @@ public class UserController {
 		return JSONize("changed", changed);
 	}
 
-	// changeDetails post method	
+	/**
+	 * ChangeDetails post method. Receives the new information of the user,
+	 * checks it and updates it on the heroku server.
+	 * 
+	 * @param name
+	 * @param phone
+	 * @param newCar
+	 * @param email
+	 * @param type
+	 * @param oldCar
+	 * @return A JSONized string of the success/error value.
+	 */
 	@CrossOrigin(origins = "http://localhost:8100")
 	@RequestMapping(value = "/User/ChangeDetails", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
@@ -138,40 +188,52 @@ public class UserController {
 			@RequestParam("newCar") String newCar, @RequestParam("email") String email,
 			@RequestParam("type") String type, @RequestParam("oldCar") String oldCar) {
 		boolean retVal = false;
-		System.out.println("in UC.changeDetails.POST : name=" + name);
-		//LoginManager login = new LoginManager();
+		// LoginManager login = new LoginManager();
 		try {
 			retVal = login.userUpdate(oldCar, name, phone, email, newCar, SCStringToSC(type));
 			System.out.println("in UC.changeDetails.POST retVal=" + retVal);
-			if(retVal){
-				//TODO: commit login
-			}
-			else{
-				
+			if (retVal) {
+				setUserData(name, newCar, email, phone, SCStringToSC(type));
+				System.out.println("in UC.changeDetails.POST changeDetails success!");
+			} else {
+
 				System.out.println("in UC.changeDetails.POST changeDetails failed!");
 			}
-			
+
 		} catch (LoginException e) {
+			System.out.println("in UC.changeDetails.POST Exception thrown: " + e.toString());
 			e.printStackTrace();
 		}
 		detailsChanged = true;
-		return JSONize("val", "true");
+		return JSONize("val", retVal ? "true" : "false");
 	}
 
-	/*@RequestMapping(value= "/User/ChangeDetails", method=RequestMethod.OPTIONS)
-	public void corsHeaders(HttpServletResponse response) {
-	    response.addHeader("Access-Control-Allow-Origin", "*");
-	    response.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-	    response.addHeader("Access-Control-Allow-Headers", "origin, content-type, accept, x-requested-with");
-	    response.addHeader("Access-Control-Max-Age", "3600");
-	}
-	*/
-	
+	/*
+	 * @RequestMapping(value= "/User/ChangeDetails",
+	 * method=RequestMethod.OPTIONS) public void corsHeaders(HttpServletResponse
+	 * response) { response.addHeader("Access-Control-Allow-Origin", "*");
+	 * response.addHeader("Access-Control-Allow-Methods",
+	 * "GET, POST, PUT, DELETE, OPTIONS");
+	 * response.addHeader("Access-Control-Allow-Headers",
+	 * "origin, content-type, accept, x-requested-with");
+	 * response.addHeader("Access-Control-Max-Age", "3600"); }
+	 */
 
+	/**
+	 * Creates a JSON string of the parameter and its value.
+	 * @param name
+	 * @param value
+	 * @return the JSON string.
+	 */
 	public String JSONize(String name, String value) {
 		return ("{" + '"' + name + '"' + ":" + '"' + value + '"' + "}");
 	}
 
+	/**
+	 * Converts the UCStatus to a JSON string
+	 * @param ucStatus
+	 * @return the JSON String.
+	 */
 	public String statusToString(UCStatus ucStatus) {
 		String JsonStatus = "{" + '"' + "status" + '"' + ":" + '"';
 		switch (ucStatus) {
@@ -189,10 +251,15 @@ public class UserController {
 			break;
 		}
 		JsonStatus += '"' + "}";
-		// System.out.println("JsonStatus: " + JsonStatus);
 		return JsonStatus;
 	}
 
+	/**
+	 * Creates a JSON string of the status, or the message if there is any.
+	 * @param ucStatus
+	 * @param message
+	 * @return The JSON string.
+	 */
 	public String statusToString1(UCStatus ucStatus, String message) {
 		System.out.println("in statusToString. status: " + ucStatus + "message: " + message);
 		String JsonStatus = "{" + '"' + "status" + '"' + ":" + '"';
@@ -221,9 +288,11 @@ public class UserController {
 		return JsonStatus;
 	}
 
-
-	
-	// convert String to StickersColor
+	/**
+	 * Convert String to StickersColor
+	 * @param type
+	 * @return The string of the color.
+	 */
 	private StickersColor SCStringToSC(String type) {
 		switch (type) {
 		case "Green":
