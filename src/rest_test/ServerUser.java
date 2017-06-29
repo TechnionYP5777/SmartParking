@@ -1,5 +1,6 @@
 package rest_test;
 import main.java.data.members.StickersColor;
+import main.java.data.members.User;
 
 public class ServerUser {
 	private String name;
@@ -14,6 +15,14 @@ public class ServerUser {
 		this.setEmail("");
 		this.setPhoneNumber("");
 		this.setSticker(StickersColor.WHITE);	
+	}
+	
+	public ServerUser(User u) {
+		this.setName(u.getName());
+		this.setCarNumber(u.getCarNumber());
+		this.setEmail(u.getEmail());
+		this.setPhoneNumber(u.getPhoneNumber());
+		this.setSticker(u.getSticker());	
 	}
 	
 	public String getName() {

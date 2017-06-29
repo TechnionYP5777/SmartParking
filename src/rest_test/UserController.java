@@ -1,7 +1,14 @@
 package rest_test;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.parse4j.ParseObject;
+import org.parse4j.ParseQuery;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -9,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import main.java.Exceptions.LoginException;
 import main.java.data.members.StickersColor;
+import main.java.data.members.User;
 import main.java.logic.LoginManager;
 
 //import javax.servlet.http.HttpServletResponse;
@@ -23,6 +31,9 @@ import main.java.logic.LoginManager;
 
 @Controller
 public class UserController {
+	Map<String, String> users;
+	Map<String, String> stat;
+
 	ServerUser user;
 	UCStatus status;
 	String lastRegVal = "";
@@ -34,6 +45,7 @@ public class UserController {
 		status = UCStatus.NOT_REGISTERED;
 		detailsChanged = false;
 		login = new LoginManager();
+		users= new HashMap<String,String>();
 	}
 
 	/**
@@ -43,16 +55,50 @@ public class UserController {
 	 * @param carNumber
 	 * @param eMail
 	 * @param phoneNum
-	 * @param color
+	 * @param c
 	 */
-	void setUserData(String userName, String carNumber, String eMail, String phoneNum, StickersColor color) {
+	void setUserData(String userName, String carNumber, String eMail, String phoneNum, StickersColor c) {
 		user.setName(userName);
 		user.setCarNumber(carNumber);
 		user.setEmail(eMail);
 		user.setPhoneNumber(phoneNum);
-		user.setSticker(color);
+		user.setSticker(c);
 		System.out.println("setUserData: " + userName);
+	}
 
+	@CrossOrigin(origins = "http://localhost:8100")
+	@RequestMapping(value = "/User/LoginDemo/{key}", produces = "application/json")
+	@ResponseBody
+	public ServerUser loginDemo(@PathVariable String key) {
+		if (users.get(key) != null) {
+			final ParseQuery<ParseObject> query = ParseQuery.getQuery("PMUser");
+			try {
+				ParseObject o = query.get(users.get(key));
+				return (o == null) ? new ServerUser() : new ServerUser(new User(o));
+			} catch (final Exception e) {
+				return null;
+			}
+		}
+		return new ServerUser();
+	}
+
+	@CrossOrigin(origins = "http://localhost:8100")
+	@RequestMapping(value = "/User/LoginDemo/{key}", method = RequestMethod.POST, produces = "application/json")
+	@ResponseBody
+	public void loginDemo(@PathVariable("key") String key, @RequestParam("name") String name,
+			@RequestParam("pass") String pass) {
+		LoginManager loginUsers = new LoginManager();
+		if (name != null)
+			if ("".equals(name)) {
+				if (users.get(key) != null) {
+					System.out.println("Logging out");
+					users.remove(key);
+				}
+			} else {
+				System.out.println("Logging in " + name);
+				if (users.get(key) == null && loginUsers.userLogin(name, pass))
+					users.put(key, loginUsers.getUser().getObjectId());
+			}
 	}
 
 	/**
@@ -81,23 +127,17 @@ public class UserController {
 	public void login(@RequestParam("name") String name, @RequestParam("pass") String pass) {
 		System.out.println("Login.POST: name:" + name + "pass:" + pass);
 
-		if (name == null)
-			return;
-
-		if (name.equals("")) {
-			System.out.println("Logging out");
-			setUserData("", "", "", "", StickersColor.WHITE);
-			lastRegVal = "";
-			detailsChanged = false;
-			return;
-		}
-
-		// LoginManager login = new LoginManager();
-		if (!login.userLogin(name, pass))
-			return;
-
-		setUserData(login.getUserName(), login.getCarNumber(), login.getEmail(), login.getPhoneNumber(),
-				login.getSticker());
+		if (name != null)
+			if (!"".equals(name)) {
+				if (login.userLogin(name, pass))
+					setUserData(login.getUserName(), login.getCarNumber(), login.getEmail(), login.getPhoneNumber(),
+							login.getSticker());
+			} else {
+				System.out.println("Logging out");
+				setUserData("", "", "", "", StickersColor.WHITE);
+				lastRegVal = "";
+				detailsChanged = false;
+			}
 
 	}
 
@@ -139,7 +179,7 @@ public class UserController {
 
 		// LoginManager login = new LoginManager();
 		try {
-			if (!(login.userSignUp(name, pass, phone, car, email, StickersColor.values()[type])).equals("SignUpError"))
+			if (!"SignUpError".equals(login.userSignUp(name, pass, phone, car, email, StickersColor.values()[type])))
 				status = UCStatus.SUCCESS;
 			setUserData(login.getUserName(), login.getCarNumber(), login.getEmail(), login.getPhoneNumber(),
 					login.getSticker());
@@ -148,8 +188,8 @@ public class UserController {
 
 		} catch (LoginException e) {
 			status = UCStatus.BAD_PARAMS;
-			System.out.println("status: " + status + "e.toString: " + e.toString());
-			return statusToString1(status, "" + e.toString());
+			System.out.println("status: " + status + "e.toString: " + e);
+			return statusToString1(status, e + "");
 		}
 
 	}
@@ -165,8 +205,7 @@ public class UserController {
 	@ResponseBody
 	public String changeDetails() {
 		System.out.println("in UC.changeDetails.GET");
-		String changed = detailsChanged ? "true" : "false";
-		return JSONize("changed", changed);
+		return JSONize("changed", (detailsChanged ? "true" : "false"));
 	}
 
 	/**
@@ -192,16 +231,15 @@ public class UserController {
 		try {
 			retVal = login.userUpdate(oldCar, name, phone, email, newCar, SCStringToSC(type));
 			System.out.println("in UC.changeDetails.POST retVal=" + retVal);
-			if (retVal) {
+			if (!retVal)
+				System.out.println("in UC.changeDetails.POST changeDetails failed!");
+			else {
 				setUserData(name, newCar, email, phone, SCStringToSC(type));
 				System.out.println("in UC.changeDetails.POST changeDetails success!");
-			} else {
-
-				System.out.println("in UC.changeDetails.POST changeDetails failed!");
 			}
 
 		} catch (LoginException e) {
-			System.out.println("in UC.changeDetails.POST Exception thrown: " + e.toString());
+			System.out.println("in UC.changeDetails.POST Exception thrown: " + e);
 			e.printStackTrace();
 		}
 		detailsChanged = true;
@@ -221,6 +259,7 @@ public class UserController {
 
 	/**
 	 * Creates a JSON string of the parameter and its value.
+	 * 
 	 * @param name
 	 * @param value
 	 * @return the JSON string.
@@ -231,12 +270,13 @@ public class UserController {
 
 	/**
 	 * Converts the UCStatus to a JSON string
-	 * @param ucStatus
+	 * 
+	 * @param s
 	 * @return the JSON String.
 	 */
-	public String statusToString(UCStatus ucStatus) {
+	public String statusToString(UCStatus s) {
 		String JsonStatus = "{" + '"' + "status" + '"' + ":" + '"';
-		switch (ucStatus) {
+		switch (s) {
 		case SUCCESS:
 			JsonStatus += "Success";
 			break;
@@ -250,25 +290,25 @@ public class UserController {
 			JsonStatus += "Bad Params";
 			break;
 		}
-		JsonStatus += '"' + "}";
-		return JsonStatus;
+		return JsonStatus += '"' + "}";
 	}
 
 	/**
 	 * Creates a JSON string of the status, or the message if there is any.
-	 * @param ucStatus
+	 * 
+	 * @param s
 	 * @param message
 	 * @return The JSON string.
 	 */
-	public String statusToString1(UCStatus ucStatus, String message) {
-		System.out.println("in statusToString. status: " + ucStatus + "message: " + message);
+	public String statusToString1(UCStatus s, String message) {
+		System.out.println("in statusToString. status: " + s + "message: " + message);
 		String JsonStatus = "{" + '"' + "status" + '"' + ":" + '"';
 		if (message != "") {
 			JsonStatus += message;
 			lastRegVal = message;
 		} else {
 			lastRegVal = "";
-			switch (ucStatus) {
+			switch (s) {
 			case SUCCESS:
 				JsonStatus += "Success";
 				break;
@@ -283,13 +323,12 @@ public class UserController {
 				break;
 			}
 		}
-		JsonStatus += '"' + "}";
-		// System.out.println("JsonStatus: " + JsonStatus);
-		return JsonStatus;
+		return JsonStatus += '"' + "}";
 	}
 
 	/**
 	 * Convert String to StickersColor
+	 * 
 	 * @param type
 	 * @return The string of the color.
 	 */
