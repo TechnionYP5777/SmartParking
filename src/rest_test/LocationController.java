@@ -94,7 +94,7 @@ public class LocationController {
 	 * @return a string of JSONObject for all of the Locations names and
 	 *         coordinates
 	 */
-	@CrossOrigin(origins = "http://localhost:8100")
+	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/Locations", produces = "application/json")
 	@ResponseBody
 	public String getLocations() {
@@ -106,7 +106,7 @@ public class LocationController {
 	/**
 	 * @return for each destination its floors with the navigation description
 	 */
-	@CrossOrigin(origins = "http://localhost:8100")
+	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/Floors", produces = "application/json")
 	@ResponseBody
 	public String getFloors() {
@@ -173,7 +173,7 @@ public class LocationController {
 	/**
 	 * @return all of the parking areas
 	 */
-	@CrossOrigin(origins = "http://localhost:8100")
+	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/ParkingAreas", produces = "application/json")
 	@ResponseBody
 	public Set<ServerParkingArea> getParkingAreas() {
@@ -215,7 +215,7 @@ public class LocationController {
 	 * @return the coordinates of the closest parking slot that been saved for
 	 *         the user
 	 */
-	@CrossOrigin(origins = "http://localhost:8100")
+	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/FindPark", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public MapLocation findBestPark(@RequestParam("car") String carNumber, @RequestParam("src") String src,
@@ -248,7 +248,7 @@ public class LocationController {
 	/**
 	 * @return null if there isn't slot saved, and the slot info if we've found
 	 */
-	@CrossOrigin(origins = "http://localhost:8100")
+	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/FindPark", produces = "application/json")
 	@ResponseBody
 	public ServerParkingSlot getBestPark() {
@@ -261,7 +261,7 @@ public class LocationController {
 	 * @param carNumber finding a user according to it and empty his parking slot
 	 * @return
 	 */
-	@CrossOrigin(origins = "http://localhost:8100")
+	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/LeavePark", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public String leavePark(@RequestParam("car") String carNumber) {

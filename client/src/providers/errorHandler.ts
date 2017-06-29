@@ -7,13 +7,22 @@ export class MyExceptionHandler implements ErrorHandler {
     //let time = new Date();
     if(MyExceptionHandler.isCordova){
         MyExceptionHandler.file.writeFile(MyExceptionHandler.file.externalApplicationStorageDirectory, 
-           "log", error.toString(),
+           "log",(new Date()).getTime() +"/n"+ error.stack.toString(),
            {replace: true});
         console.log(MyExceptionHandler.file.externalApplicationStorageDirectory);
-        console.log("gt log");
     }else{
-        console.log(error)
+        console.log(error.stack)
     }
-    window.alert("there's some kind of error:\n"+error+"\n probably need to restart\n");
+    if(String(error).indexOf("google")!=-1){
+        window.alert("The app don't recognize google.\nyou probably not connected to the internet.\nplease connect and restart the app.");
+    }if(String(error).indexOf("PositionError")!=-1){
+        window.alert("The app can't find your location.\nplease enable GPS or internet ");
+    }
+    else if(String(error).indexOf("URL")!=-1){
+        window.alert("problem with Server,\nplease check that you are connected to the internet.\nif you are connected please try to restart");
+    }  
+    else{  
+        window.alert("there's some kind of error:\n"+error+"\n probably need to restart\n");
+    }
   }
 }

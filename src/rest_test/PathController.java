@@ -35,7 +35,7 @@ public class PathController {
 	 *            walking route
 	 * @return Json serialization of the PathRoot or an error Json
 	 */
-	@CrossOrigin(origins = "http://localhost:8100")
+	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/GetPath", produces = "application/json")
 	@ResponseBody
 	public String getPath(@RequestParam("area") String area, @RequestParam("dest") String dest) {
@@ -75,7 +75,7 @@ public class PathController {
 	 *            walking route
 	 * @return Json serialization of the PathRoot coordinates or an error Json
 	 */
-	@CrossOrigin(origins = "http://localhost:8100")
+	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/GetRoute", produces = "application/json")
 	@ResponseBody
 	public String GetRoute(@RequestParam("area") String area, @RequestParam("dest") String dest) {

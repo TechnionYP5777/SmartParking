@@ -66,7 +66,7 @@ public class UserController {
 		System.out.println("setUserData: " + userName);
 	}
 
-	@CrossOrigin(origins = "http://localhost:8100")
+	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/User/LoginDemo/{key}", produces = "application/json")
 	@ResponseBody
 	public ServerUser loginDemo(@PathVariable String key) {
@@ -82,7 +82,7 @@ public class UserController {
 		return new ServerUser();
 	}
 
-	@CrossOrigin(origins = "http://localhost:8100")
+	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/User/LoginDemo/{key}", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public void loginDemo(@PathVariable("key") String key, @RequestParam("name") String name,
@@ -106,7 +106,7 @@ public class UserController {
 	 * 
 	 * @return the user object
 	 */
-	@CrossOrigin(origins = "http://localhost:8100")
+	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/User/Login", produces = "application/json")
 	@ResponseBody
 	public ServerUser login() {
@@ -121,7 +121,7 @@ public class UserController {
 	 * @param pass
 	 *            : the user password.
 	 */
-	@CrossOrigin(origins = "http://localhost:8100")
+	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/User/Login", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public void login(@RequestParam("name") String name, @RequestParam("pass") String pass) {
@@ -146,7 +146,7 @@ public class UserController {
 	 * 
 	 * @return the register status.
 	 */
-	@CrossOrigin(origins = "http://localhost:8100")
+	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/User/Register", produces = "application/json")
 	@ResponseBody
 	public String register() {
@@ -164,7 +164,7 @@ public class UserController {
 	 * @param type
 	 * @return a JSONized string of the login status.
 	 */
-	@CrossOrigin(origins = "http://localhost:8100")
+	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/User/Register", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public String register(@RequestParam("name") String name, @RequestParam("pass") String pass,
@@ -200,7 +200,7 @@ public class UserController {
 	 * 
 	 * @return a JSONized string of the change status.
 	 */
-	@CrossOrigin(origins = "http://localhost:8100")
+	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/User/ChangeDetails", produces = "application/json")
 	@ResponseBody
 	public String changeDetails() {
@@ -220,7 +220,7 @@ public class UserController {
 	 * @param oldCar
 	 * @return A JSONized string of the success/error value.
 	 */
-	@CrossOrigin(origins = "http://localhost:8100")
+	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/User/ChangeDetails", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public String changeDetails(@RequestParam("name") String name, @RequestParam("phone") String phone,
