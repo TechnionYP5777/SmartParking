@@ -26,6 +26,7 @@ export class MyApp {
   rootPage = MapPage;
   pages: Array<{title: string, component: any}>;
   isLoggedIn: any; 
+  static id:string;
   constructor(
     public platform: Platform,
     public menu: MenuController,
@@ -51,7 +52,7 @@ export class MyApp {
             ];
   }
   initializeApp() {
-    //let id = this.getUniqueID(this.file,this.plt.is('cordova'));
+    this.getUniqueID(this.file,this.plt.is('cordova'));
     window.onerror = function myErrorHandler(errorMsg, url, lineNumber) {
         window.alert("Hey.. it's seems like you have and error...\nThe error message is: " + errorMsg+"\n\n\nWe hope it help you!");//or any message
         return false;
@@ -74,17 +75,21 @@ export class MyApp {
   getUniqueID(file:File,isCordova:boolean){
       if(!isCordova){
         let id = require("../identity");
-        return id;
-      }
-      if(file.checkFile(file.externalApplicationStorageDirectory,"identity")){
-            let id = file.readAsText(file.externalApplicationStorageDirectory,"identity");
-            return id;
+        MyApp.id=id;
       }else{
-          let c=require('crypto');
-          let id=c.randomBytes(Math.ceil(48)).toString('base64').slice(0,64).replace(/\+/g,'0').replace(/\//g,'0');
-          file.writeFile(file.externalApplicationStorageDirectory, "identity", id,{replace: true});
-          return id;
-      }
+      file.checkFile(file.externalApplicationStorageDirectory,"identity").then((res)=>{
+          if(res){
+                file.readAsText(file.externalApplicationStorageDirectory,"identity").then((res)=>{
+                    MyApp.id=res;
+                });
+          }else{
+              let c=require('crypto');
+              let id=c.randomBytes(Math.ceil(48)).toString('base64').slice(0,64).replace(/\+/g,'0').replace(/\//g,'0');
+              file.writeFile(file.externalApplicationStorageDirectory, "identity", id,{replace: true});
+              MyApp.id=id;
+          }
+      });
+    }
   }
       
 }
