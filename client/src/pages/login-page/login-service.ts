@@ -35,8 +35,26 @@ export class LoginService {
         var headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
 
+
         return this.http.post('https://spring-boot-nav.herokuapp.com/User/Login', value, { headers: headers })
             .map(res => res.json());
     }
+
+    setUserDetails(userName, password, phoneNum, carNum, eMail, stickerColor, oldCarNum) {
+        
+        var headers = new Headers();
+        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        var value2 : string;
+        value2 = "name=" + userName + "&phone=" + phoneNum + "&newCar=" +
+            carNum + "&email=" + eMail + "&type=" + stickerColor + "&oldCar=" + oldCarNum;
+
+        console.log("in Login setUserDetails, value = " + value2);
+
+        return this.http.post('https://spring-boot-nav.herokuapp.com/User/ChangeDetails', value2, { headers: headers })
+            .map(res => res.json());
+    }
+
+
+
 
 }

@@ -51,7 +51,7 @@ export class MyApp {
             ];
   }
   initializeApp() {
-    let id = this.getUniqueID(this.file,this.plt.is('cordova'));
+    //let id = this.getUniqueID(this.file,this.plt.is('cordova'));
     window.onerror = function myErrorHandler(errorMsg, url, lineNumber) {
         window.alert("Hey.. it's seems like you have and error...\nThe error message is: " + errorMsg+"\n\n\nWe hope it help you!");//or any message
         return false;

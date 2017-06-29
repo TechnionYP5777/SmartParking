@@ -429,7 +429,7 @@ export class MapPage {
 
     }
     freeSlot() {
-        let page = this;
+        //let page = this;
         var carNumber = this.loginPage.getCarNumber();
         this.leavePark(carNumber).then((result) => {
             console.log("left park")
@@ -481,14 +481,13 @@ export class MapPage {
         this.mapView = map;
         let mapObj=this;
         var geolocation = new Geolocation();
-        console.log("shay is wrong");
         setInterval(function(){
             if(mapObj.inNav){
                 return;    
             }
             geolocation.getCurrentPosition().then((position) => {
-                console.log("got position!!!!!")
-                console.log(position);
+                //console.log("got position!!!!!")
+                //console.log(position);
                 let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
                 map.setCenter(latLng);
                 mapObj.currentLocationMarker = new google.maps.Marker({

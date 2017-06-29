@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
-import 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/Rx';
+
 
 
 /**
@@ -25,17 +26,6 @@ export class MyDetailsService {
 
     }
 
-    setUserDetails(userName, password, phoneNum, carNum, eMail, stickerColor, oldCarNum) {
-        var value = "name=" + userName + "&phone=" + phoneNum + "&newCar=" +
-            carNum + "&email=" + eMail + "&type=" + stickerColor + "&oldCar=" + oldCarNum;
-        console.log("in setUserDetails, value = " + value);
-        var headers = new Headers();
-        headers.append('Content-Type', 'application/x-www-form-urlencoded');
-
-        return this.http.post('https://spring-boot-nav.herokuapp.com/User/ChangeDetails', value, { headers: headers })
-            .map(res => res.json()).catch(this.handleError);
-
-    }
 
     handleError(error) {
         console.error(error);

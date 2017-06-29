@@ -11,7 +11,7 @@ import main.java.Exceptions.LoginException;
 import main.java.data.members.StickersColor;
 import main.java.logic.LoginManager;
 
-import javax.servlet.http.HttpServletResponse;
+//import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author DavidCohen55
@@ -158,14 +158,14 @@ public class UserController {
 		return JSONize("val", "true");
 	}
 
-	@RequestMapping(value= "/User/ChangeDetails", method=RequestMethod.OPTIONS)
+	/*@RequestMapping(value= "/User/ChangeDetails", method=RequestMethod.OPTIONS)
 	public void corsHeaders(HttpServletResponse response) {
 	    response.addHeader("Access-Control-Allow-Origin", "*");
 	    response.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
 	    response.addHeader("Access-Control-Allow-Headers", "origin, content-type, accept, x-requested-with");
 	    response.addHeader("Access-Control-Max-Age", "3600");
 	}
-	
+	*/
 	
 
 	public String JSONize(String name, String value) {

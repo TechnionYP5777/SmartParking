@@ -4,7 +4,7 @@ export class MyExceptionHandler implements ErrorHandler {
   static file:any;
   static isCordova:boolean
   handleError(error) {
-    let time = new Date();
+    //let time = new Date();
     if(MyExceptionHandler.isCordova){
         MyExceptionHandler.file.writeFile(MyExceptionHandler.file.externalApplicationStorageDirectory, 
            "log", error.toString(),

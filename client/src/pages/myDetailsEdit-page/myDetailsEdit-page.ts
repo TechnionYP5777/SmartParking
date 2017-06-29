@@ -3,6 +3,8 @@ import { NavController, NavParams } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
 import { MyDetailsService } from '../../providers/myDetails-service';
 import { LoginPage } from '../login-page/login-page';
+import { LoginService } from '../login-page/login-service';
+
 
 
 
@@ -19,13 +21,15 @@ import { LoginPage } from '../login-page/login-page';
 })
 export class MyDetailsEditPage {
     MDServe: any;
+    LoginServe: LoginService;
     public storeArray: Array<any> = [];
     public cdr: any;
 
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, MDServe: MyDetailsService,
+    constructor(public navCtrl: NavController, public navParams: NavParams, MDServe: MyDetailsService, LoginServe: LoginService,
         public alertCtrl: AlertController, private CDR: ChangeDetectorRef) {
         this.MDServe = MDServe;
+        this.LoginServe = LoginServe;
         this.cdr = CDR;
         this.updateFields();
 
@@ -44,8 +48,15 @@ export class MyDetailsEditPage {
     }
 
     ChangeDetails(name, phoneNum, carNum, eMail, sticker) {
-        this.MDServe.setUserDetails(name, 123456, phoneNum, carNum, eMail, sticker, this.storeArray[2]);
-        this.navCtrl.push(LoginPage);
+
+        this.LoginServe.setUserDetails(name, "123456", phoneNum, carNum, eMail, sticker, this.storeArray[2]).subscribe(() => {
+            console.log("ChangeDetails: " + name);
+        }, err => {
+            console.log(err);
+        });
+
+        
+        //this.navCtrl.push(LoginPage);
     }
 
     presentAlert(str, myTitle) {

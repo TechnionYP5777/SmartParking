@@ -97,6 +97,7 @@ export class LoginPage {
     getCarNumber() {
       return this.carNumber;
     }
+    
     Login(carNumber, password) {
         let ref = this;
         ref.carNumber = carNumber;
