@@ -130,11 +130,11 @@ public class PathController {
 	 */
 	@RequestMapping(value = "/GetLastPaths/{key}", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
-	public String getLastPaths(@PathVariable String key, @RequestParam("userName") String user) {
+	public String getLastPaths(@PathVariable String key) {
 		JSONObject obj = new JSONObject();
 		if(UserController.users.get(key)==null){
 			obj.put("error"," Not connected from device");
-			return "" + obj;
+			return obj + "";
 		}
 		ArrayList<String> lastRoutes = UserController.users.get(key).getUser().getLastPaths();
 		if (lastRoutes == null || lastRoutes.isEmpty())
