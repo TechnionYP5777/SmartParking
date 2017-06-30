@@ -30,7 +30,7 @@ import { RegisterService } from '../providers/register-service';
 import { LogoutService } from '../providers/logout-service';
 import { MyDetailsService } from '../providers/myDetails-service';
 import { MyExceptionHandler }from '../providers/errorHandler';
-
+import { PathService } from '../providers/path-service'; 
 
 import { TextToSpeech } from '@ionic-native/text-to-speech';
 import { HttpModule } from '@angular/http';
@@ -71,6 +71,7 @@ import {File} from '@ionic-native/file';
     MyDetailsService,
     LoginService,
     RegisterService,
+    PathService, 
     LogoutService,
     SplashScreen,
     {provide: ErrorHandler, useClass: MyExceptionHandler},

@@ -4,7 +4,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
 import { AlertController } from 'ionic-angular';
-import { MyApp } from '../../app/app.component';
+import { MyApp } from '../app/app.component';
 
 /**
  * @author Shahar-Y

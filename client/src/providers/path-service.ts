@@ -8,7 +8,7 @@
 
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
-import {MyApp} from '../app/app.component.ts';
+import {MyApp} from '../app/app.component';
 import 'rxjs/add/operator/map';
 import 'rxjs/Rx';
 
@@ -36,7 +36,7 @@ export class PathService {
     }
     
         getLastPaths(retData: any) {
-        return this.http.get('https://spring-boot-nav.herokuapp.com/GetLastPath/'+MyApp.id).map(res => res.json()).subscribe(data => {
+        return this.http.get('https://spring-boot-nav.herokuapp.com/GetLastPaths/'+MyApp.id).map(res => res.json()).subscribe(data => {
             if (data.status) {
                return ; 
             } else {

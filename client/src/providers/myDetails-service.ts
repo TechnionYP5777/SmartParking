@@ -3,7 +3,7 @@ import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';
-import { MyApp } from '../../app/app.component';
+import { MyApp } from '../app/app.component';
 
 
 
