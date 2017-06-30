@@ -3,7 +3,9 @@ package test.java.logic;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.parse4j.ParseException;
 
@@ -30,73 +32,21 @@ public class NavigationTest {
 				new MapLocation(32.778761, 35.016469), true));
 	}
 
-	@Test
-	public void parkingSlotAtParkingAreaTest() {
-		try {
-			MapLocation location = new MapLocation(32.777408, 35.020332); // farest
-			final ParkingSlot taubSlot1 = new ParkingSlot("upperTaub-slot1", ParkingSlotStatus.FREE, StickersColor.RED,
-					location);
-			location = new MapLocation(32.777223, 35.020890); // middle
-			final ParkingSlot taubSlot2 = new ParkingSlot("upperTaub-slot2", ParkingSlotStatus.FREE, StickersColor.RED,
-					location);
-			location = new MapLocation(32.777195, 35.021281); // closest
-			final ParkingSlot taubSlot3 = new ParkingSlot("upperTaub-slot3", ParkingSlotStatus.FREE, StickersColor.RED,
-					location);
-
-			final Set<ParkingSlot> taubSlots = new HashSet<ParkingSlot>();
-			taubSlots.add(taubSlot1);
-			taubSlots.add(taubSlot2);
-			taubSlots.add(taubSlot3);
-
-			location = new MapLocation(32.777466, 35.021094);
-			Destination destination = null;
-			try {
-				destination = new Destination("Taub-NavigationTest", location);
-			} catch (final AlreadyExists ¢) {
-				LogPrinter.createLogFile(¢);
-				Assert.fail();
-			}
-
-			final ParkingArea upperTaubArea = new ParkingArea("t1", new MapLocation(0, 0), taubSlots,
-					StickersColor.RED);
-			try {
-
-				final User user = new User("Navigation Tester", "1234", "0547456382", "1188999", " tester@gmail.com",
-						StickersColor.RED, null);
-				ParkingSlot result = Navigation.parkingSlotAtParkingArea(user, upperTaubArea, destination);
-				Assert.assertEquals(taubSlot3.getName(), result.getName());
-
-				taubSlot3.changeStatus(ParkingSlotStatus.TAKEN);
-
-				// now result 2 is the closest
-
-				result = Navigation.parkingSlotAtParkingArea(user, upperTaubArea, destination);
-				Assert.assertEquals(taubSlot2.getName(), result.getName());
-
-				upperTaubArea.deleteParseObject();
-				taubSlot1.deleteParseObject();
-				taubSlot2.deleteParseObject();
-				taubSlot3.deleteParseObject();
-				destination.deleteParseObject();
-				user.deleteParseObject();
-
-			} catch (final ParseException ¢) {
-				LogPrinter.createLogFile(¢);
-				Assert.fail();
-			}
-
-		} catch (final ParseException ¢) {
-			LogPrinter.createLogFile(¢);
-			Assert.fail();
-		}
+	
+	@Before
+	public void beforeTest(){
+		
+	}
+	
+	@After
+	public void afterTest(){
+		
 	}
 
+	
 	@Test
 	public void closestParkingSlotTest() {
-
 		try {
-
-			// upper taub area + slots
 
 			MapLocation location = new MapLocation(32.777408, 35.020332); // farest
 			final ParkingSlot taubSlot1 = new ParkingSlot("upperTaub-slot1", ParkingSlotStatus.FREE, StickersColor.RED,
@@ -160,7 +110,6 @@ public class NavigationTest {
 			}
 
 			try {
-
 				final User user = new User("Navigation Tester", "1234", "0547456382", "1188999", " tester@gmail.com",
 						StickersColor.BLUE, null);
 
@@ -188,61 +137,6 @@ public class NavigationTest {
 			} catch (final ParseException ¢) {
 				LogPrinter.createLogFile(¢);
 				Assert.fail();
-			}
-
-		} catch (final ParseException ¢) {
-			LogPrinter.createLogFile(¢);
-			Assert.fail();
-		}
-	}
-
-	@Test
-	public void parkAtAreaTest() {
-		try {
-			MapLocation location = new MapLocation(32.777408, 35.020332);
-			final ParkingSlot taubSlot1 = new ParkingSlot("upperTaub-slot1", ParkingSlotStatus.FREE, StickersColor.RED,
-					location);
-
-			final Set<ParkingSlot> slots = new HashSet<ParkingSlot>();
-			slots.add(taubSlot1);
-
-			final ParkingArea upperTaubArea = new ParkingArea("t1", new MapLocation(0, 0), slots, StickersColor.RED);
-
-			location = new MapLocation(32.777466, 35.021094);
-			Destination destination = null;
-			try {
-				destination = new Destination("Taub-NavigationTest", location);
-			} catch (final AlreadyExists ¢) {
-				LogPrinter.createLogFile(¢);
-				Assert.fail();
-			}
-			User user = null;
-			try {
-				user = new User("Navigation Tester", "1234", "0547456382", "1188999", " tester@gmail.com",
-						StickersColor.RED, null);
-				Navigation.parkAtArea(user, upperTaubArea, destination);
-				Assert.assertEquals(user.getCurrentParking().getLocation().getLat(), taubSlot1.getLocation().getLat(),
-						0);
-				Assert.assertEquals(user.getCurrentParking().getLocation().getLon(), taubSlot1.getLocation().getLon(),
-						0);
-				Assert.assertTrue(user.getCurrentParking().getStatus().ordinal() >= taubSlot1.getStatus().ordinal());
-				Assert.assertEquals(user.getCurrentParking().getStatus(), ParkingSlotStatus.TAKEN);
-			} catch (final Exception ¢) {
-				LogPrinter.createLogFile(¢);
-				Assert.fail();
-			}
-
-			try {
-				// the NoSlotAvailable exception should be thrown
-				Navigation.parkAtArea(user, upperTaubArea, destination);
-				Assert.fail();
-			} catch (final Exception ¢) {
-				Assert.assertEquals(¢.getClass().getSimpleName(), "NoSlotAvailable");
-				user.setCurrentParking(null);
-				destination.deleteParseObject();
-				upperTaubArea.deleteParseObject();
-				taubSlot1.deleteParseObject();
-				user.deleteParseObject();
 			}
 
 		} catch (final ParseException ¢) {
