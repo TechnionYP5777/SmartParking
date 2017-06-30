@@ -34,7 +34,7 @@ public class Navigation {
 	private static String createURL(final MapLocation source, final MapLocation target, final boolean walkingMode) {
 		String $ = "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=" + source.getLat()
 				+ "," + source.getLon() + "&destinations=" + target.getLat() + "," + target.getLon()
-				+ "&key=AIzaSyDw25loi0t1ms-bCuLPHS2Bm9aEIvyu9Wo";
+				+ "&key=AIzaSyC_zyT9qStf8gR6Jw44kKgaDw2dAuHF6bk";//AIzaSyDw25loi0t1ms-bCuLPHS2Bm9aEIvyu9Wo";
 		if (walkingMode)
 			$ += "&mode=walking";
 
