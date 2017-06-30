@@ -1,3 +1,17 @@
+/**
+ * Generated class for the location service. 
+ *
+ * See http://ionicframework.com/docs/components/#navigation for more info
+ * on Ionic pages and navigation.
+ */
+/**
+ * @author shaysegal 
+ * @author DavidCohen55
+ * Created: May 2017
+ * 
+ * This file contains the methods for the location functionality
+ */
+
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Geolocation } from '@ionic-native/geolocation';

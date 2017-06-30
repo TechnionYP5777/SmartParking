@@ -1,3 +1,13 @@
+/**
+
+app.module.ts - module of the main app 
+@author zahimizrahi
+@author Shahar-Y
+@author shaysegal s
+@since 2017-03-27
+
+**/
+
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule } from 'ionic-angular';

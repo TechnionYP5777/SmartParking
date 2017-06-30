@@ -1,3 +1,11 @@
+
+/**
+ * @author sefialbo 
+ * Created: 18.6.17
+ * 
+ * This file contains the services for the path navigation of the user
+ */
+
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';

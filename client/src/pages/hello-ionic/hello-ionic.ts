@@ -1,3 +1,11 @@
+/**
+
+hello-ionic - about page of the application
+@author zahimizrahi
+@since 2017-03-27
+
+**/
+
 import { Component } from '@angular/core';
 
 /**
