@@ -225,7 +225,7 @@ public class NavigationTest {
 						0);
 				Assert.assertEquals(user.getCurrentParking().getLocation().getLon(), taubSlot1.getLocation().getLon(),
 						0);
-				Assert.assertEquals(user.getCurrentParking().getStatus().ordinal(), taubSlot1.getStatus().ordinal());
+				Assert.assertTrue(user.getCurrentParking().getStatus().ordinal() >= taubSlot1.getStatus().ordinal());
 				Assert.assertEquals(user.getCurrentParking().getStatus(), ParkingSlotStatus.TAKEN);
 			} catch (final Exception ¢) {
 				LogPrinter.createLogFile(¢);
