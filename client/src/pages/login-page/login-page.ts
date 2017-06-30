@@ -17,7 +17,7 @@ import { AlertController } from 'ionic-angular';
 import { HelloIonicPage } from '../hello-ionic/hello-ionic'
 import { RegisterPage } from '../register-page/register-page';
 import { LogoutService } from '../../providers/logout-service';
-
+import { MyApp } from '../../app/app.component';
 
 /**
  * @author DavidCohen55
@@ -39,13 +39,13 @@ export class LoginPage {
     logoutService: any;
     carNumber: any;
     page: any;
-
+    idfy :string;
     constructor(public navCtrl: NavController, public navParams: NavParams,
         serve: LoginService, public alertCtrl: AlertController, logoutService: LogoutService) {
         this.serve = serve;
         this.logoutService = logoutService;
         this.page = this.navParams.get("mapPage");
-        
+        this.idfy=MyApp.id;
     }
 
     ionViewDidLoad() {

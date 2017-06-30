@@ -16,6 +16,7 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Headers } from '@angular/http';
+import { MyApp } from '../app/app.component'; 
 import 'rxjs/add/operator/map';
 import 'rxjs/Rx';
 
@@ -82,10 +83,10 @@ export class LocationService {
         });
     }
     getBestParkingArea(carNumber, src, dst, mapPage, resolve, googleObj) {
-        var value = "car=" + carNumber + "&src=" + src + "&dest=" + dst;
+        var value = "src=" + src + "&dest=" + dst;
         var headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        return this.http.post('https://spring-boot-nav.herokuapp.com/FindPark', value, { headers: headers })
+        return this.http.post('https://spring-boot-nav.herokuapp.com/FindPark/'+MyApp.id, value, { headers: headers })
         .map(res => res.json()).subscribe(data => {
               console.log("done");
               mapPage.chosenParkingArea = {title:"slot", position: new googleObj.maps.LatLng(data.lat, data.lon)}
@@ -94,10 +95,9 @@ export class LocationService {
         });
     }
     leavePark(carNumber, resolve) {
-          var value = "car=" + carNumber;
           var headers = new Headers();
           headers.append('Content-Type', 'application/x-www-form-urlencoded');
-          return this.http.post('https://spring-boot-nav.herokuapp.com/LeavePark', value, { headers: headers })
+          return this.http.post('https://spring-boot-nav.herokuapp.com/LeavePark'+MyApp.id, { headers: headers })
           .map(res => res.json()).subscribe(data => {
                 console.log("lost parking");
                 resolve(true);
