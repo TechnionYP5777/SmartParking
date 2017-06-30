@@ -79,7 +79,7 @@ export class MapPage {
         private locService: LocationService, private pathService: PathService,
         public login: LoginPage, private logout: LogoutPage, private tts: TextToSpeech, loginService: LoginService,
         public plt: Platform) {
-        
+
         this.simulationMode = false;
         this.wantRecordRoute = false;
         this.recordedRoute = [];
@@ -152,14 +152,14 @@ export class MapPage {
             alert.addButton({
                 text: 'OK',
                 handler: data => {
-                    mapObj.srcName=data.src.name;
-                    mapObj.dstName=data.dst.name;
-                    mapObj.dstPosition=new google.maps.LatLng(data.dst.lat, data.dst.lon);
-                    if(data.src.name=="Current Location"){
+                    mapObj.srcName = data.src.name;
+                    mapObj.dstName = data.dst.name;
+                    mapObj.dstPosition = new google.maps.LatLng(data.dst.lat, data.dst.lon);
+                    if (data.src.name == "Current Location") {
                         console.log(mapObj.currentLocationMarker.postion);
-                        mapObj.srcPosition=mapObj.currentLocationMarker.position;
-                    }else{
-                        mapObj.srcPosition=new google.maps.LatLng(data.src.lat, data.src.lon);
+                        mapObj.srcPosition = mapObj.currentLocationMarker.position;
+                    } else {
+                        mapObj.srcPosition = new google.maps.LatLng(data.src.lat, data.src.lon);
                     }
                     mapObj.go()
                 }
@@ -327,9 +327,9 @@ export class MapPage {
         clearInterval(this.intervalid);
         this.directionsDisplay.setMap(null);
         this.directionsDisplay.setPanel(null);
-		this.directionsDisplayWalk.setPanel(null);
+        this.directionsDisplayWalk.setPanel(null);
         document.getElementsByName("panelLabel")[0].innerHTML = "No Directions To Show";
-		document.getElementsByName("panelLabel2")[0].innerHTML = "No Directions To Show";
+        document.getElementsByName("panelLabel2")[0].innerHTML = "No Directions To Show";
         this.startRecording();
     }
     goAux() {
@@ -337,7 +337,7 @@ export class MapPage {
             // send to server Src and Destination
             // Server look for a path and return a result
             document.getElementById("DirectionPanelLabel").style.display = "none";
-			document.getElementById("DirectionPanelLabel2").style.display = "none";
+            document.getElementById("DirectionPanelLabel2").style.display = "none";
             let mapObj = this;
             this.calculateAndDisplayRoute(this.directionsService, this.directionsDisplay, this.chosenParkingArea, function() {
                 let geolocation = new Geolocation();
@@ -471,14 +471,14 @@ export class MapPage {
             // send to server Src and Destination
             // Server look for a path and return a result
             document.getElementById("DirectionPanelLabel").style.display = "none";
-			document.getElementById("DirectionPanelLabel2").style.display = "none";
+            document.getElementById("DirectionPanelLabel2").style.display = "none";
             let page = this;
             var carNumber = this.loginPage.getCarNumber();
             // what about srcName == currentLocation ? 
             this.leavePark(carNumber).then((result) => {
                 var src = page.srcName;
                 if (src == "Current Location") {
-                    src = src+"$"+page.srcPosition.toString();
+                    src = src + "$" + page.srcPosition.toString();
                 }
                 page.getBestParking(src, page.dstName, google).then((result) => {
                     page.goAux();
@@ -492,10 +492,22 @@ export class MapPage {
     freeSlot() {
         //let page = this;
         var carNumber = this.loginPage.getCarNumber();
+        let mapObj = this;
         this.leavePark(carNumber).then((result) => {
             console.log("left park")
+            let alert = mapObj.alertCtrl.create({
+                title: 'Free Parking Slot',
+                message: 'You are free to go',
+                buttons: [
+                    {
+                        text: 'OK',
+                    }
+                ]
+            });
+            alert.present();
         });
     }
+    
     getBestParking(srcPosition, dstPosition, googleObj): Promise<boolean> {
         var devMode = true;
         var carNumber = this.loginPage.getCarNumber()
@@ -549,7 +561,7 @@ export class MapPage {
             geolocation.getCurrentPosition().then((position) => {
                 let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
                 map.setCenter(latLng);
-                if(mapObj.currentLocationMarker){
+                if (mapObj.currentLocationMarker) {
                     mapObj.currentLocationMarker.setMap(null);
                 }
                 mapObj.currentLocationMarker = new google.maps.Marker({
@@ -573,9 +585,9 @@ export class MapPage {
         });
         this.directionsDisplayWalk.setMap(map);
         this.directionsDisplayWalk.setOptions({ suppressMarkers: true });
-		let panel2 = document.getElementsByName("test_over_map2")[0];
+        let panel2 = document.getElementsByName("test_over_map2")[0];
         panel2.style.backgroundColor = "white";
-		this.directionsDisplayWalk.setPanel(panel2);
+        this.directionsDisplayWalk.setPanel(panel2);
         this.locService.getParkingAreas(google, this);
     }
     showReachedDestination(message) {
@@ -659,7 +671,7 @@ export class MapPage {
                     } else {
                         mapObj.drawPath(data.path);
                         document.getElementsByName("panelLabel")[0].innerHTML = data.description;
-						document.getElementsByName("panelLabel2")[0].innerHTML = data.description;
+                        document.getElementsByName("panelLabel2")[0].innerHTML = data.description;
                     }
                 });
             } else {

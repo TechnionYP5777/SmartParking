@@ -40,6 +40,8 @@ public class LocationController {
 	// An object the include all of the areas at the database
 	JSONArray listArea;
 
+	HashMap<String, String> slotToArea;
+
 	public JSONObject ParkingSlotSerialze(ParkingSlot s) {
 		JSONObject o = new JSONObject();
 		o.put("name", s.getName());
@@ -75,6 +77,7 @@ public class LocationController {
 		DBManager.initialize();
 		areas = new ParkingAreas();
 		setUpLocations();
+		slotToArea = new HashMap<String, String>();
 		listSlot = new JSONArray();
 		listArea = new JSONArray();
 		setUpParkingSpots();
@@ -120,11 +123,23 @@ public class LocationController {
 	 * Initialize the parkingList to have all of the parking slots
 	 */
 	void setUpParkingAreas() {
-		for (ParkingArea a : areas.getParkingAreas())
+		for (ParkingArea a : areas.getParkingAreas()) {
 			listArea.put(ParkingAreaSerialze(a));
+			for (ParkingSlot parkSlot : a.getParkingSlots())
+				slotToArea.put(parkSlot.getName(), a.getName());
+		}
 	}
 
 	/**************************************************************************/
+
+	@CrossOrigin(origins = "*")
+	@RequestMapping(value = "/AreaFromSlot/{name}", produces = "application/json")
+	@ResponseBody
+	public String getAreaFromSlot(@PathVariable String name) {
+		JSONObject o = new JSONObject();
+		o.put("areaName", slotToArea.get(name));
+		return o + "";
+	}
 
 	/**
 	 * @return a string of JSONObject for all of the Locations names and
@@ -256,13 +271,16 @@ public class LocationController {
 	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/FindPark/{key}", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
-	public MapLocation findBestPark(@PathVariable String key, @RequestParam("src") String src,
+	public String findBestPark(@PathVariable String key, @RequestParam("src") String src,
 			@RequestParam("dest") String dest) {
+		JSONObject o = new JSONObject();
 		try {
 			UserState state = UserController.users.get(key);
 			User u = new User(state.getUser().getCarNumber());
-			if (u.getCurrentParking() != null)
-				throw new AlreadyExists("You have a parking slot");
+			if (u.getCurrentParking() != null) {
+				o.put("error", "You have a parking slot");
+				return o + "";
+			}
 
 			MapLocation srcLocation = null;
 			if (!src.contains("Current Location")) {
@@ -274,13 +292,16 @@ public class LocationController {
 				String[] point = srcArr[1].substring(1, srcArr[1].length() - 2).split(",");
 				srcLocation = new MapLocation(Double.parseDouble(point[0].trim()), Double.parseDouble(point[1].trim()));
 			}
-			return Navigation.closestParkingSlot(u, srcLocation, areas, new Destination(dest)).getLocation();
+			ParkingSlot slot = Navigation.closestParkingSlot(u, srcLocation, areas, new Destination(dest));
+			o.put("areaName", slotToArea.get(slot.getName()));
+			o.put("lat", slot.getLocation().getLat());
+			o.put("lon", slot.getLocation().getLon());
+			return o + "";
 		} catch (ParseException | LoginException | NotExists e) {
 			System.out.println("exception... " + e);
-		} catch (AlreadyExists e) {
-			System.out.println((e + ""));
+			o.put("error", o.toString());
+			return o + "";
 		}
-		return null;
 	}
 
 	/**
@@ -310,11 +331,17 @@ public class LocationController {
 		try {
 			UserState state = UserController.users.get(key);
 			User u = new User(state.getUser().getCarNumber());
+			if (u.getCurrentParking() == null) {
+				obj.put("Status", "You are free to go");
+				return obj + "";
+			}
 			u.getCurrentParking().changeStatus(ParkingSlotStatus.FREE);
 			u.setCurrentParking(null);
 		} catch (Exception e) {
-			return obj.put("Error", e.getMessage()) + "";
+			obj.put("Error", e + "");
+			return obj + "";
 		}
-		return "{}";
+		obj.put("Status", "You are free to go");
+		return obj + "";
 	}
 }

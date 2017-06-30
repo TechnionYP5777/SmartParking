@@ -4,7 +4,7 @@
 	<ion-icon name="menu"></ion-icon>
 </button>
 <ion-title>Map</ion-title> </ion-navbar> <ion-navbar> <ion-item>
-<ion-label>Voice</ion-label> <ion-checkbox color="dark" checked="true" disabled="!voiceEnabled"
+<ion-label>Voice</ion-label> <ion-checkbox color="dark" checked="true" [disabled]="!voiceEnabled"
 	(ionChange)="voicechanged($event)"></ion-checkbox> </ion-item>
 <ion-grid>
 
