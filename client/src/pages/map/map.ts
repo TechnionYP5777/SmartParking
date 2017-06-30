@@ -9,6 +9,7 @@ import { LoginPage } from '../login-page/login-page';
 import { LoginService } from '../login-page/login-service';
 import { LogoutPage } from '../logout-page/logout-page';
 import {TextToSpeech} from '@ionic-native/text-to-speech';
+import { Platform } from 'ionic-angular';
 declare var google;
 
 @Component({
@@ -61,15 +62,23 @@ export class MapPage {
     isLogin: any;
     inNav:boolean;
     currentLocationMarker: any;
+    voiceEnabled: any;
+    
     constructor(public navCtrl: NavController, public alertCtrl: AlertController,
         private locService: LocationService, private pathService: PathService,
-        public login: LoginPage, private logout: LogoutPage, private tts: TextToSpeech, loginService: LoginService) {
+        public login: LoginPage, private logout: LogoutPage, private tts: TextToSpeech, loginService: LoginService,
+        public plt: Platform) {
+        
         this.simulationMode = false;
         this.wantRecordRoute = false;
         this.recordedRoute = [];
         this.parkingAreas = [];
         this.loginPage = login;
-        this.tts.speak("Welcome to Smart Parking");
+        this.voiceEnabled = !this.plt.is('core') && !this.plt.is('mobileweb');
+        console.log("use voice :" + this.voiceEnabled);
+        if (this.voiceEnabled == true) {
+        	this.tts.speak("Welcome to Smart Parking");
+        }
         this.didNavigate = false;
         this.isLogin = false;
         this.loginService = loginService;
@@ -80,10 +89,10 @@ export class MapPage {
         this.polylineArray = [];
         this.bestParking = null;
         this.inNav=false;
+        
     }
 
     ionViewDidLoad() {
-
         this.loadMap();
         this.loginService.getDetails().subscribe(data => {
             //console.log("getUserData() Data : " + JSON.stringify(data));
@@ -518,7 +527,7 @@ export class MapPage {
         setTimeout(() => alert.dismiss(), 2000);
     }
     readDirections(position) {
-        if (this.useVoice == false) {
+        if (this.voiceEnabled == false || this.useVoice == false) {
             console.log("no voice");
             return;
         }
