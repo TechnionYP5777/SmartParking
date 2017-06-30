@@ -113,8 +113,7 @@ public class User extends dbMember {
 		phoneNumber = parseObject.getString("phoneNumber");
 		sticker = StickersColor.values()[parseObject.getInt("sticker")];
 		currentParking = parseObject.getParseObject("currentParking") == null ? null
-				: new ParkingSlot(
-						ParseQuery.getQuery("ParkingSlot").get(parseObject.getParseObject("currentParking").getObjectId()));
+				: new ParkingSlot(parseObject.getParseObject("currentParking"));
 		lastLoginTime = parseObject.getDate(LAST_LOGIN_TIME);
 
 		// TODO - edit here

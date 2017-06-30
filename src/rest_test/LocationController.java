@@ -16,10 +16,11 @@ import main.java.data.members.User;
 import main.java.logic.Navigation;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.parse4j.ParseException;
 import org.parse4j.ParseObject;
@@ -31,42 +32,17 @@ public class LocationController {
 	// A map from the destination name to its coordinates
 	Map<String, MapLocation> hmap;
 
+	// An arrayList of all of the Parking slots in the program
+	ArrayList<ServerParkingSlot> parkingList;
+
+	// TODO - change to map of Identifier,ServerParkingSlot
+	ServerParkingSlot sps;
+
 	// A ParkingAreas object
 	ParkingAreas areas;
 
-	// An arrayList of all of the Parking slots in the program
-	JSONArray listSlot;
-
 	// An object the include all of the areas at the database
-	JSONArray listArea;
-
-	public JSONObject ParkingSlotSerialze(ParkingSlot s) {
-		JSONObject o = new JSONObject();
-		o.put("name", s.getName());
-		o.put("status", s.getStatus());
-		o.put("color", s.getColor());
-		JSONObject l = new JSONObject();
-		l.put("lat", s.getLocation().getLat());
-		l.put("lon", s.getLocation().getLon());
-		o.put("location", l);
-		return o;
-	}
-
-	public JSONObject ParkingAreaSerialze(ParkingArea a) {
-		JSONObject o = new JSONObject();
-		JSONArray list = new JSONArray();
-		for (ParkingSlot parkSlot : a.getParkingSlots())
-			list.put(ParkingSlotSerialze(parkSlot));
-
-		o.put("parkingSlots", list);
-		JSONObject l = new JSONObject();
-		l.put("lat", a.getLocation().getLat());
-		l.put("lon", a.getLocation().getLon());
-		o.put("location", l);
-		o.put("color", a.getColor());
-		o.put("name", a.getName());
-		return o;
-	}
+	Set<ServerParkingArea> parkingAreas;
 
 	/**
 	 * Initialize the fields above
@@ -75,10 +51,7 @@ public class LocationController {
 		DBManager.initialize();
 		areas = new ParkingAreas();
 		setUpLocations();
-		listSlot = new JSONArray();
-		listArea = new JSONArray();
 		setUpParkingSpots();
-		setUpParkingAreas();
 	}
 
 	/**
@@ -105,26 +78,17 @@ public class LocationController {
 	 */
 	void setUpParkingSpots() {
 		final ParseQuery<ParseObject> query = ParseQuery.getQuery("ParkingSlot");
+		parkingList = new ArrayList<ServerParkingSlot>();
 		try {
 			final List<ParseObject> result = query.find();
 			if (result == null)
 				System.out.println("empty");
 			for (final ParseObject park : result)
-				listSlot.put(ParkingSlotSerialze(new ParkingSlot(park)));
+				parkingList.add(new ServerParkingSlot(new ParkingSlot(park)));
 		} catch (final Exception e) {
 			System.out.println("exception...");
 		}
 	}
-
-	/**
-	 * Initialize the parkingList to have all of the parking slots
-	 */
-	void setUpParkingAreas() {
-		for (ParkingArea a : areas.getParkingAreas())
-			listArea.put(ParkingAreaSerialze(a));
-	}
-
-	/**************************************************************************/
 
 	/**
 	 * @return a string of JSONObject for all of the Locations names and
@@ -185,9 +149,9 @@ public class LocationController {
 	 */
 	@RequestMapping(value = "/ParkingSlots", produces = "application/json")
 	@ResponseBody
-	public String getParkingSlots() {
+	public ArrayList<ServerParkingSlot> getParkingSlots() {
 		setUpParkingSpots();
-		return listSlot + "";
+		return parkingList;
 	}
 
 	/**
@@ -195,16 +159,15 @@ public class LocationController {
 	 * 
 	 * @param name
 	 *            the parking slot name
-	 * 
 	 * @return the slots details
 	 */
 	@RequestMapping(value = "/ParkingSlots/{name}", produces = "application/json")
 	@ResponseBody
-	public String getPark(@PathVariable String name) {
-		for (int i = 0; i < listSlot.length(); ++i)
-			if (((JSONObject) listSlot.get(i)).getString("name").equals(name))
-				return (JSONObject) listSlot.get(i) + "";
-		return "";
+	public ServerParkingSlot getPark(@PathVariable String name) {
+		for (ServerParkingSlot ps : parkingList)
+			if (ps.getName().equals(name))
+				return ps;
+		return null;
 	}
 
 	/**
@@ -213,9 +176,11 @@ public class LocationController {
 	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/ParkingAreas", produces = "application/json")
 	@ResponseBody
-	public String getParkingAreas() {
-		setUpParkingAreas();
-		return listArea + "";
+	public Set<ServerParkingArea> getParkingAreas() {
+		parkingAreas = new HashSet<ServerParkingArea>();
+		for (ParkingArea a : areas.getParkingAreas())
+			parkingAreas.add(new ServerParkingArea(a));
+		return parkingAreas;
 	}
 
 	/**
@@ -227,13 +192,14 @@ public class LocationController {
 	 */
 	@RequestMapping(value = "/ParkingAreas/{name}", produces = "application/json")
 	@ResponseBody
-	public String getArea(@PathVariable String name) {
-		for (int i = 0; i < listArea.length(); ++i)
-			if (((JSONObject) listArea.get(i)).getString("name").equals(name))
-				return (JSONObject) listArea.get(i) + "";
-		return "";
+	public ServerParkingArea getArea(@PathVariable String name) {
+		for (ServerParkingArea pa : parkingAreas)
+			if (pa.getName().equals(name))
+				return pa;
+		return null;
 	}
 
+	// TODO - change carNumber to identifier
 	/**
 	 * Finding the optimal parking slot for a user and save it for him according
 	 * to the followings
@@ -250,13 +216,14 @@ public class LocationController {
 	 *         the user
 	 */
 	@CrossOrigin(origins = "*")
-	@RequestMapping(value = "/FindPark/{key}", method = RequestMethod.POST, produces = "application/json")
+	@RequestMapping(value = "/FindPark", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
-	public MapLocation findBestPark(@PathVariable String key, @RequestParam("src") String src,
+	public MapLocation findBestPark(@RequestParam("car") String carNumber, @RequestParam("src") String src,
 			@RequestParam("dest") String dest) {
 		try {
-			UserState state = UserController.users.get(key);
-			User u = new User(state.getUser().getCarNumber());
+			User u = new User(carNumber);
+			sps = null;
+
 			if (u.getCurrentParking() != null)
 				throw new AlreadyExists("You have a parking slot");
 
@@ -268,7 +235,8 @@ public class LocationController {
 				String[] point = src.replace("$", "").substring(1, src.length() - 2).split(",");
 				srcLocation = new MapLocation(Double.parseDouble(point[0].trim()), Double.parseDouble(point[1].trim()));
 			}
-			return Navigation.closestParkingSlot(u, srcLocation, areas, new Destination(dest)).getLocation();
+			sps = new ServerParkingSlot(Navigation.closestParkingSlot(u, srcLocation, areas, new Destination(dest)));
+			return sps.getLocation();
 		} catch (ParseException | LoginException | NotExists e) {
 			System.out.println("exception...");
 		} catch (AlreadyExists e) {
@@ -281,31 +249,28 @@ public class LocationController {
 	 * @return null if there isn't slot saved, and the slot info if we've found
 	 */
 	@CrossOrigin(origins = "*")
-	@RequestMapping(value = "/FindPark/{key}", produces = "application/json")
+	@RequestMapping(value = "/FindPark", produces = "application/json")
 	@ResponseBody
-	public String getBestPark(@PathVariable String key) {
-		ParkingSlot s = UserController.users.get(key).getUser().getCurrentParking();
-		return s == null ? "" : ParkingSlotSerialze(s) + "";
+	public ServerParkingSlot getBestPark() {
+		return sps != null ? sps : null;
 	}
 
+	// TODO - change to Identifier
 	/**
-	 * A user need to leave his old parking slot for getting another and
-	 * navigating
-	 * 
-	 * @param carNumber
-	 *            finding a user according to it and empty his parking slot
+	 * A user need to leave his old parking slot for getting another and navigating
+	 * @param carNumber finding a user according to it and empty his parking slot
 	 * @return
 	 */
 	@CrossOrigin(origins = "*")
-	@RequestMapping(value = "/LeavePark/{key}", method = RequestMethod.POST, produces = "application/json")
+	@RequestMapping(value = "/LeavePark", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
-	public String leavePark(@PathVariable String key) {
+	public String leavePark(@RequestParam("car") String carNumber) {
 		JSONObject obj = new JSONObject();
 		try {
-			UserState state = UserController.users.get(key);
-			User u = new User(state.getUser().getCarNumber());
+			User u = new User(carNumber);
 			u.getCurrentParking().changeStatus(ParkingSlotStatus.FREE);
 			u.setCurrentParking(null);
+			sps = null;
 		} catch (Exception e) {
 			return obj.put("Error", e.getMessage()) + "";
 		}
