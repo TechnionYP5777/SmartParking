@@ -33,14 +33,30 @@
 
 <ion-content>
 <style>
+#panels {
+    width: 100px;
+    border: 1px solid black;
+    overflow: hidden;
+}
 #over_map {
 	position: absolute;
 	top: 0px;
 	left: 0px;
 	z-index: 0;
-	height: 100%;
+	height: 50%;
 	width: 25%;
 	margin-left: 5px;
+    border: 1px solid blue;
+}
+#over_map2 {
+	position: absolute;
+	top: 50%;
+	left: 0px;
+	z-index: 0;
+	height: 50%;
+	width: 25%;
+	margin-left: 5px;
+	border: 1px solid blue;
 }
 
 #DirectionPanelLabel {
@@ -55,11 +71,30 @@
 	=
 	30px;
 }
+#DirectionPanelLabel2 {
+	margin: auto;
+	position: absolute;
+	top: 50%;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	text-align: center;
+	font-size
+	=
+	30px;
+}
 </style>
 <div #map id="map"></div>
-<div id="over_map" name="test_over_map"  background-color="white">
+<div id="panels">
+	<div id="over_map" name="test_over_map"  background-color="white">
 	<label id="DirectionPanelLabel" name="panelLabel"
 		class="DirectionPanelLabel"><font size="5">No Direction
 			To Show</font></label>
+	</div>
+	<div id="over_map2" name="test_over_map2"  background-color="white">
+	<label id="DirectionPanelLabel2" name="panelLabel2"
+		class="DirectionPanelLabel"><font size="5">No Direction
+			To Show</font></label>
+	</div>
 </div>
 </ion-content>
