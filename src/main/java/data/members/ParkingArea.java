@@ -134,9 +134,45 @@ public class ParkingArea extends dbMember {
 	}
 
 	public Set<ParkingSlot> getSlotsByStatus(final ParkingSlotStatus s) {
-		this.updateSlotsStatus();
-		return parkingSlots.stream().filter(λ -> λ.getStatus().equals(s)).collect(Collectors.toSet());
+		// this.updateSlotsStatus();
+		Set<ParkingSlot> h = new HashSet<ParkingSlot>();
+		final ParseQuery<ParseObject> query = ParseQuery.getQuery("ParkingSlot");
+		try {
+			query.whereEqualTo("status", s.ordinal());
+			final List<ParseObject> slotsList = query.find();
+			if (slotsList == null || slotsList.isEmpty())
+				throw new RuntimeException("There was a problem - ParkingSlot table doesnt found");
+			for (final ParseObject o : slotsList)
+				h.add(new ParkingSlot(o));
+		} catch (final ParseException e) {
+			LogPrinter.createLogFile(e);
+		}
+		return h;
+		// return parkingSlots.stream().filter(λ ->
+		// λ.getStatus().equals(s)).collect(Collectors.toSet());
 	}
+	
+	
+	public Set<ParkingSlot> getSlotsByStatusAndSticker(final ParkingSlotStatus s, StickersColor c) {
+		// this.updateSlotsStatus();
+		Set<ParkingSlot> h = new HashSet<ParkingSlot>();
+		final ParseQuery<ParseObject> query = ParseQuery.getQuery("ParkingSlot");
+		try {
+			query.whereEqualTo("status", s.ordinal());
+			query.whereLessThanOrEqualTo("color", c.ordinal());
+			final List<ParseObject> slotsList = query.find();
+			if (slotsList == null || slotsList.isEmpty())
+				throw new RuntimeException("There was a problem - ParkingSlot table doesnt found");
+			for (final ParseObject o : slotsList)
+				h.add(new ParkingSlot(o));
+		} catch (final ParseException e) {
+			LogPrinter.createLogFile(e);
+		}
+		return h;
+		// return parkingSlots.stream().filter(λ ->
+		// λ.getStatus().equals(s)).collect(Collectors.toSet());
+	}
+
 
 	public int getNumOfFreeSlots() {
 		final Set<ParkingSlot> $ = getSlotsByStatus(ParkingSlotStatus.FREE);
@@ -148,6 +184,14 @@ public class ParkingArea extends dbMember {
 		return $ == null ? 0 : $.size();
 	}
 
+	public Set<ParkingSlot> getFreeSlotsByColor(StickersColor c) throws ParseException {
+		return getSlotsByStatusAndSticker(ParkingSlotStatus.FREE, c);
+	}
+
+	public Set<ParkingSlot> getTakenSlotsByColor(StickersColor c) throws ParseException {
+		return getSlotsByStatusAndSticker(ParkingSlotStatus.TAKEN,c);
+	}
+	
 	public Set<ParkingSlot> getFreeSlots() throws ParseException {
 		return getSlotsByStatus(ParkingSlotStatus.FREE);
 	}
@@ -184,7 +228,7 @@ public class ParkingArea extends dbMember {
 
 	/* Methods */
 	public void removeParkingAreaFromDB() throws ParseException {
-		for(ParkingSlot s :parkingSlots)
+		for (ParkingSlot s : parkingSlots)
 			s.deleteParseObject();
 		this.deleteParseObject();
 	}
