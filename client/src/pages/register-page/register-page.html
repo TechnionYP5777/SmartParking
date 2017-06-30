@@ -13,15 +13,15 @@
 <ion-content padding class="page-register-page"> <ion-list>
 <p>. </p>
 <p>. </p>
-<ion-item> <ion-label floating>Username</ion-label> <ion-input
+<ion-item> <ion-label floating>Username <i>(only characters)</i></ion-label> <ion-input
 	[(ngModel)]="username" type="text" value=""></ion-input> </ion-item> <ion-item>
 <ion-label floating>Password</ion-label> <ion-input
 	[(ngModel)]="password" type="password" value=""></ion-input> </ion-item> <ion-item>
-<ion-label floating>Phone Number</ion-label> <ion-input
+<ion-label floating>Phone Number <i>(only numbers, starts with 05)</i></ion-label> <ion-input
 	[(ngModel)]="phoneNumber" type="phoneNumber" value=""> </ion-input> </ion-item> <ion-item>
-<ion-label floating>Car Number</ion-label> <ion-input
+<ion-label floating>Car Number <i>(only numbers, 7 digits)</i></ion-label> <ion-input
 	[(ngModel)]="carNumber" type="text" value=""> </ion-input> </ion-item> <ion-item>
-<ion-label floating>E-Mail</ion-label> <ion-input [(ngModel)]="email"
+<ion-label floating>E-Mail <i>(ends with @gmail.com/@campus.technion.ac.il)</i></ion-label> <ion-input [(ngModel)]="email"
 	type="email" value=""> </ion-input> </ion-item> <ion-item> <ion-label>Sticker
 Color</ion-label> <ion-select [(ngModel)]="stickerColor"> <ion-option
 	value="2" type="text">Blue</ion-option> <ion-option value="3" type="text">White</ion-option>

@@ -44,7 +44,6 @@ export class MyApp {
         this.pages = [
             { title: 'Map', component: MapPage },
             { title: 'About', component: HelloIonicPage },
-            { title: 'Login', component: LoginPage },
             { title: 'Register', component: RegisterPage },
             { title: 'My Details', component: MyDetailsPage },
             { title: 'Login', component: LoginPage },
