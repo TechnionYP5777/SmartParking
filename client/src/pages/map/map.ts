@@ -55,7 +55,8 @@ export class MapPage {
     chosenParkingArea: any;
     loginPage: any;
     loginService: any;
-
+    lastSearches: any;
+     
     useVoice: any;
     curr_step_index: any;
     directionsResponse: any;
@@ -70,24 +71,25 @@ export class MapPage {
     srcName: any;
     didNavigate: any;
     isLogin: any;
-    inNav:boolean;
+    inNav: boolean;
     currentLocationMarker: any;
     voiceEnabled: any;
-    
+
     constructor(public navCtrl: NavController, public alertCtrl: AlertController,
         private locService: LocationService, private pathService: PathService,
         public login: LoginPage, private logout: LogoutPage, private tts: TextToSpeech, loginService: LoginService,
         public plt: Platform) {
-        
+
         this.simulationMode = false;
         this.wantRecordRoute = false;
         this.recordedRoute = [];
         this.parkingAreas = [];
+        this.lastSearches = [];
         this.loginPage = login;
         this.voiceEnabled = !this.plt.is('core') && !this.plt.is('mobileweb');
         console.log("use voice :" + this.voiceEnabled);
         if (this.voiceEnabled == true) {
-        	this.tts.speak("Welcome to Smart Parking");
+            this.tts.speak("Welcome to Smart Parking");
         }
         this.didNavigate = false;
         this.isLogin = false;
@@ -98,8 +100,8 @@ export class MapPage {
 
         this.polylineArray = [];
         this.bestParking = null;
-        this.inNav=false;
-        
+        this.inNav = false;
+
     }
 
     ionViewDidLoad() {
@@ -128,7 +130,28 @@ export class MapPage {
         }, 8000);
     });*/
 
-
+    searchLastSearches () {
+      this.pathService.getLastPaths(this.lastSearches); 
+      let alert = this.alertCtrl.create();
+      alert.setTitle('Choose Path');
+      for (var i = 0; i < this.lastSearches.length; i += 1) {
+        alert.addInput({
+          type: 'radio',
+          label: this.lastSearches[i].source ,
+          value: this.lastSearches[i].destination,
+          checked: false
+        });
+      }
+      alert.addButton('Cancel');
+      alert.addButton({
+        text: 'OK',
+        handler: data => {
+          console.log(data);
+          
+        }
+      });
+      alert.present();
+    }     
     showParkingAreas(parkingAreasPositions) {
         let map = this.mapView;
         let array = this.parkingAreas;
@@ -176,12 +199,12 @@ export class MapPage {
         if (!this.isLogin) {
             this.presentLoginAlert();
         }
-        else { 
-        this.navCtrl.push(ChoosingPage,
-            {
-                googleObj: google,
-                mapPage: this
-            });
+        else {
+            this.navCtrl.push(ChoosingPage,
+                {
+                    googleObj: google,
+                    mapPage: this
+                });
         }
     }
     setSrcPosition(position, name) {
@@ -200,7 +223,7 @@ export class MapPage {
         var message = "";
         let mapObj = this;
         mapObj.dstMarker.setMap(null);
-        this.inNav=false;
+        this.inNav = false;
         this.presentPrompt(message, function() {
             let toServer = { duration: recordTimeInterval, points: mapObj.recordedRoute, dst: mapObj.dstName, parkingArea: mapObj.chosenParkingArea.name, description: message };
             mapObj.removeWalkingPath();
@@ -267,7 +290,7 @@ export class MapPage {
         }
         this.intervalid = setInterval(function() {
             geolocation.getCurrentPosition().then((position) => {
-                
+
                 let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
                 mapObj.currentLocationMarker.setPosition(latLng);
                 console.log(recordedRoute);
@@ -366,7 +389,7 @@ export class MapPage {
                                         {
                                             text: 'OK',
                                             handler: () => {
-                                                mapObj.inNav=false;
+                                                mapObj.inNav = false;
                                                 google.maps.event.clearListeners(mapObj.mapView, 'mousemove');
                                                 mapObj.directionsDisplay.setMap(null);
                                                 mapObj.directionsDisplay.setPanel(null);
@@ -396,7 +419,7 @@ export class MapPage {
                                             {
                                                 text: 'OK',
                                                 handler: () => {
-                                                    mapObj.inNav=false;
+                                                    mapObj.inNav = false;
                                                     clearInterval(mapObj.intervalid);
                                                     clearInterval(mapObj.voiceIntervalId);
                                                     mapObj.directionsDisplay.setMap(null);
@@ -423,7 +446,7 @@ export class MapPage {
     }
     go() {
         if (this.srcPosition && this.dstPosition) {
-            this.inNav=true;
+            this.inNav = true;
             // send to server Src and Destination
             // Server look for a path and return a result
             document.getElementById("DirectionPanelLabel").style.display = "none";
@@ -433,7 +456,7 @@ export class MapPage {
             this.leavePark(carNumber).then((result) => {
                 var src = page.srcName;
                 if (src == "Current Location") {
-                   src = "$" + page.srcPosition.toString();
+                    src = "$" + page.srcPosition.toString();
                 }
                 page.getBestParking(src, page.dstName, google).then((result) => {
                     page.goAux();
@@ -477,7 +500,7 @@ export class MapPage {
                     text: 'Go to Login',
                     role: 'goToLogin',
                     handler: () => {
-                        this.navCtrl.push(LoginPage, {mapPage: this});
+                        this.navCtrl.push(LoginPage, { mapPage: this });
                     }
                 }
             ],
@@ -489,17 +512,17 @@ export class MapPage {
 
         this.directionsService = new google.maps.DirectionsService;
         this.directionsDisplay = new google.maps.DirectionsRenderer;
-        
+
         var map = new google.maps.Map(this.mapElement.nativeElement, {
             zoom: 15,
             center: { lat: 32.776878, lng: 35.023106 }
         });
         this.mapView = map;
-        let mapObj=this;
+        let mapObj = this;
         var geolocation = new Geolocation();
-        setInterval(function(){
-            if(mapObj.inNav){
-                return;    
+        setInterval(function() {
+            if (mapObj.inNav) {
+                return;
             }
             geolocation.getCurrentPosition().then((position) => {
                 //console.log("got position!!!!!")
@@ -512,7 +535,7 @@ export class MapPage {
                     map: map
                 });
             });
-        },30000);
+        }, 30000);
         this.i = 0;
         this.directionsDisplay.setMap(map);
         this.directionsDisplay.setOptions({ suppressMarkers: true });

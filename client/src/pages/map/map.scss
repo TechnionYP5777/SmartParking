@@ -31,6 +31,10 @@
           float: none;
           width: auto;
       }
+      #over_map {
+        background-color: white; 
+
+      }
       background: url("../assets/img/background.jpg") no-repeat fixed center;
       -webkit-animation: animateInSecondary ease-in 1;
     animation: animateInSecondary ease-in 1;

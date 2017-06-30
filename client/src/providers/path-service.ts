@@ -8,6 +8,7 @@
 
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
+import {MyApp} from '../app/app.component.ts';
 import 'rxjs/add/operator/map';
 import 'rxjs/Rx';
 
@@ -32,6 +33,19 @@ export class PathService {
             callback();
         });
        
+    }
+    
+        getLastPaths(retData: any) {
+        return this.http.get('https://spring-boot-nav.herokuapp.com/GetLastPath/'+MyApp.id).map(res => res.json()).subscribe(data => {
+            if (data.status) {
+               return ; 
+            } else {
+                data.SavedPaths.forEach(function(element) { 
+                    retData.push({ "source": element.src, "destination": element.dest });
+                });
+               }
+     
+            }); 
     }
     sendRecordedPath(toSend){
         var headers = new Headers();

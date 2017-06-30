@@ -10,13 +10,18 @@
 
    <ion-row class="ionrow">
         <ion-col width-33><button ion-button style="background-color: #488AFF;"
+			(click)="freeSlot()">
+			&nbsp; Free Parking Slot
+		</button></ion-col>
+		    <ion-col width-33><button ion-button style="background-color: #488AFF;"
 			(click)="changeLocation()">
 			<ion-icon name="car"></ion-icon>
 			&nbsp; Navigate
 		</button></ion-col>
-        <ion-col width-67><button ion-button style="background-color: #488AFF;"
-			(click)="freeSlot()">
-			&nbsp; Free Parking Slot
+		    <ion-col width-33><button ion-button style="background-color: #488AFF;"
+		    (click)="searchLastSearches()">
+			<ion-icon name="search"></ion-icon>
+			&nbsp; Last Searches 
 		</button></ion-col>
   </ion-row>
 
@@ -52,7 +57,7 @@
 }
 </style>
 <div #map id="map"></div>
-<div id="over_map" name="test_over_map">
+<div id="over_map" name="test_over_map"  background-color="white">
 	<label id="DirectionPanelLabel" name="panelLabel"
 		class="DirectionPanelLabel"><font size="5">No Direction
 			To Show</font></label>
