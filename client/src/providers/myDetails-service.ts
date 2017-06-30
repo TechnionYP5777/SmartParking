@@ -3,6 +3,7 @@ import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';
+import { MyApp } from '../../app/app.component';
 
 
 
@@ -21,7 +22,7 @@ export class MyDetailsService {
 
 
     getUserDetails() {
-        return this.http.get('https://spring-boot-nav.herokuapp.com/User/Login').map(res => res.json())
+        return this.http.get('https://spring-boot-nav.herokuapp.com/User/Login/' + MyApp.id).map(res => res.json())
             .catch(this.handleError);
 
     }

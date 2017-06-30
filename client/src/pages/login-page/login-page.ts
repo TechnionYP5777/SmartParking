@@ -10,10 +10,6 @@ login-page - logins to the application
 
 **/
 
-
-
-
-
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { LoginService } from './login-service';
