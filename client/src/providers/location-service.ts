@@ -89,7 +89,7 @@ export class LocationService {
         return this.http.post('https://spring-boot-nav.herokuapp.com/FindPark/'+MyApp.id, value, { headers: headers })
         .map(res => res.json()).subscribe(data => {
               console.log("done");
-              mapPage.chosenParkingArea = {title:"slot", position: new googleObj.maps.LatLng(data.lat, data.lon)}
+              mapPage.chosenParkingArea = {title:data.areaName, position: new googleObj.maps.LatLng(data.lat, data.lon)}
               resolve(true);
               mapPage.didNavigate = true;
         });

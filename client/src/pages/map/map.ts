@@ -239,17 +239,16 @@ export class MapPage {
     }
     stopRecording(recordTimeInterval: number) {
         clearInterval(this.intervalid);
-        var message = "";
         let mapObj = this;
         mapObj.dstMarker.setMap(null);
         this.inNav = false;
-        this.presentPrompt(message, function() {
-            let toServer = { duration: recordTimeInterval, points: mapObj.recordedRoute, dst: mapObj.dstName, parkingArea: mapObj.chosenParkingArea.name, description: message };
+        this.presentPrompt(function(message) {
+            let toServer = { duration: recordTimeInterval, path: mapObj.recordedRoute, destination: mapObj.dstName, parkingArea: mapObj.chosenParkingArea.title, description: message };
             mapObj.removeWalkingPath();
             mapObj.pathService.sendRecordedPath(toServer);
         });
     }
-    presentPrompt(message, callback) {
+    presentPrompt(callback) {
         let mapObj = this;
 
         let alert = this.alertCtrl.create({
@@ -271,9 +270,9 @@ export class MapPage {
                 {
                     text: 'Submit',
                     handler: data => {
-                        message = data;
+                        //message = data;
                         console.log(data);
-                        callback();
+                        callback(data.direction);
                     }
                 }
             ]
@@ -296,13 +295,13 @@ export class MapPage {
                     return;
                 }
                 validTime = newTime;
-                recordedRoute.push({ lat: event.latLng.lat(), lng: event.latLng.lng() });
+                recordedRoute.push({ lat: event.latLng.lat(), lon: event.latLng.lng() });
                 let distance = google.maps.geometry.spherical.computeDistanceBetween(event.latLng, mapObj.dstPosition);
                 console.log(distance);
                 mapObj.drawPath(recordedRoute.slice(-2));
                 if (distance < 5) {
                     google.maps.event.clearListeners(mapObj.mapView, 'mousemove');
-                    mapObj.stopRecording((startTime - (new Date()).getTime()) / 1000);
+                    mapObj.stopRecording(((new Date()).getTime()-startTime) / 1000);
                 }
             });
             return;
@@ -313,11 +312,11 @@ export class MapPage {
                 let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
                 mapObj.currentLocationMarker.setPosition(latLng);
                 console.log(recordedRoute);
-                recordedRoute.push({ lat: latLng.lat(), lng: latLng.lng() });
+                recordedRoute.push({ lat: latLng.lat(), lon: latLng.lng() });
                 var distance = google.maps.geometry.spherical.computeDistanceBetween(latLng, dstPosition);
                 mapObj.drawPath(recordedRoute.slice(-2));
                 if (distance < 5) {
-                    mapObj.stopRecording((startTime - (new Date()).getTime()) / 1000);//get the time that the record took in seconds(may be minutes are better)
+                    mapObj.stopRecording(((new Date()).getTime()-startTime)  / 1000);//get the time that the record took in seconds(may be minutes are better)
                 }
                 console.log(distance);
             });
@@ -507,7 +506,7 @@ export class MapPage {
             alert.present();
         });
     }
-    
+
     getBestParking(srcPosition, dstPosition, googleObj): Promise<boolean> {
         var devMode = true;
         var carNumber = this.loginPage.getCarNumber()
@@ -554,6 +553,18 @@ export class MapPage {
         this.mapView = map;
         let mapObj = this;
         var geolocation = new Geolocation();
+        geolocation.getCurrentPosition().then((position) => {
+            let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+            map.setCenter(latLng);
+            if (mapObj.currentLocationMarker) {
+                mapObj.currentLocationMarker.setMap(null);
+            }
+            mapObj.currentLocationMarker = new google.maps.Marker({
+                position: latLng,
+                draggable: false,
+                map: map
+            });
+        });
         setInterval(function() {
             if (mapObj.inNav) {
                 return;
@@ -665,7 +676,7 @@ export class MapPage {
         }, function(response, status) {
             if (status === 'OK') {
                 var data = { error: null, duration: -1, path: [], description: null };
-                mapObj.pathService.getRecordedPath(parkingArea.name, mapObj.dstName, data, google, function() {
+                mapObj.pathService.getRecordedPath(parkingArea.title, mapObj.dstName, data, google, function() {
                     if (data.error || data.duration >= response.routes[0].legs[0].duration) {
                         directionsDisplay.setDirections(response);
                     } else {
