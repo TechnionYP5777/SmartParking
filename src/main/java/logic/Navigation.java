@@ -4,12 +4,15 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 import org.apache.commons.io.IOUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.parse4j.ParseObject;
+import org.parse4j.ParseQuery;
 
 import main.java.Exceptions.NoSlotAvailable;
 import main.java.data.members.*;
@@ -34,8 +37,8 @@ public class Navigation {
 	}
 
 	private static String createURL(final MapLocation source, final MapLocation target, final boolean walkingMode) {
-		String $ = "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins="
-				+ source.getLat() + "," + source.getLon() + "&destinations=" + target.getLat() + "," + target.getLon()
+		String $ = "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=" + source.getLat()
+				+ "," + source.getLon() + "&destinations=" + target.getLat() + "," + target.getLon()
 				+ "&key=AIzaSyDw25loi0t1ms-bCuLPHS2Bm9aEIvyu9Wo";
 		if (walkingMode)
 			$ += "&mode=walking";
@@ -79,26 +82,37 @@ public class Navigation {
 		return -1;
 	}
 
-	public static ParkingSlot closestParkingSlot(final User u, final MapLocation currentLocation, final ParkingAreas a, final Destination d)
-			throws org.parse4j.ParseException {
-
+	public static ParkingSlot closestParkingSlot(final User u, final MapLocation currentLocation, final ParkingAreas a,
+			final Destination d) throws org.parse4j.ParseException {
 		ParkingSlot park = null;
+
+		final ParseQuery<ParseObject> query = ParseQuery.getQuery("ParkingSlot");
+		query.whereEqualTo("status", ParkingSlotStatus.FREE.ordinal());
+		query.whereGreaterThanOrEqualTo("color", u.getSticker().ordinal());
+		List<ParseObject> slotsList = query.find();
+
 		long minDuration = Integer.MAX_VALUE;
-		for (final ParkingArea parkingArea : a.getParkingAreas())
-			if (parkingArea.getNumOfFreeSlots() > 0)
-				for (final ParkingSlot parkingSlot : parkingArea.getFreeSlots()) {
-					if (!canPark(u, parkingSlot))
-						continue;
-					final long duration = getDuration(parkingSlot.getLocation(), d.getEntrance(), true);
-					if (duration < minDuration) {
-						park = parkingSlot;
-						minDuration = duration;
-					}
-				}
-		
+		for (final ParseObject parkingSlot : slotsList) {
+			ParkingSlot slot = new ParkingSlot(parkingSlot);
+			final long duration = getDuration(slot.getLocation(), d.getEntrance(), true);
+			if (duration < minDuration) {
+				park = slot;
+				minDuration = duration;
+			}
+		}
+
+		/*
+		 * for (final ParkingArea parkingArea : a.getParkingAreas()) if
+		 * (parkingArea.getNumOfFreeSlots() > 0) for (final ParkingSlot
+		 * parkingSlot : parkingArea.getFreeSlots()) { if (!canPark(u,
+		 * parkingSlot)) continue; final long duration =
+		 * getDuration(parkingSlot.getLocation(), d.getEntrance(), true); if
+		 * (duration < minDuration) { park = parkingSlot; minDuration =
+		 * duration; } }
+		 */
 		u.setCurrentParking(park);
 		park.changeStatus(ParkingSlotStatus.TAKEN);
-		
+
 		return park;
 	}
 
@@ -127,15 +141,16 @@ public class Navigation {
 		return $;
 	}
 
-	public static void parkAtSlot(final User u, final ParkingSlot s) throws NoSlotAvailable, org.parse4j.ParseException {
+	public static void parkAtSlot(final User u, final ParkingSlot s)
+			throws NoSlotAvailable, org.parse4j.ParseException {
 		if (s == null)
 			throw new NoSlotAvailable("No Slot Available");
 		s.changeStatus(ParkingSlotStatus.TAKEN);
 		u.setCurrentParking(s);
 	}
 
-	public static ParkingSlot parkAtClosestSlot(final User u, final MapLocation currentLocation, final ParkingAreas a, final Destination d)
-			throws NoSlotAvailable, org.parse4j.ParseException {
+	public static ParkingSlot parkAtClosestSlot(final User u, final MapLocation currentLocation, final ParkingAreas a,
+			final Destination d) throws NoSlotAvailable, org.parse4j.ParseException {
 		final ParkingSlot $ = closestParkingSlot(u, currentLocation, a, d);
 		parkAtSlot(u, $);
 		return $;

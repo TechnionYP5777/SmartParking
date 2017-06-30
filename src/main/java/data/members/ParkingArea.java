@@ -121,21 +121,22 @@ public class ParkingArea extends dbMember {
 		}
 	}
 
-	private void updateSlotsStatus() {
+	private HashSet<ParkingSlot> updateSlotsStatus(ParkingSlotStatus status) {
 		try {
 			List<ParkingSlot> ps = new ArrayList<ParkingSlot>();
 			for (ParkingSlot s : parkingSlots)
-				ps.add(new ParkingSlot(s.getName()));
-			parkingSlots = new HashSet<ParkingSlot>(ps);
+				if (s.getStatus() == status)
+					ps.add(new ParkingSlot(s.getName()));
+			return new HashSet<ParkingSlot>(ps);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return new HashSet<ParkingSlot>();
 	}
 
 	public Set<ParkingSlot> getSlotsByStatus(final ParkingSlotStatus s) {
-		this.updateSlotsStatus();
-		return parkingSlots.stream().filter(λ -> λ.getStatus().equals(s)).collect(Collectors.toSet());
+		return this.updateSlotsStatus(s);
 	}
 
 	public int getNumOfFreeSlots() {
@@ -184,7 +185,7 @@ public class ParkingArea extends dbMember {
 
 	/* Methods */
 	public void removeParkingAreaFromDB() throws ParseException {
-		for(ParkingSlot s :parkingSlots)
+		for (ParkingSlot s : parkingSlots)
 			s.deleteParseObject();
 		this.deleteParseObject();
 	}
