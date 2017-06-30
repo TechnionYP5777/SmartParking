@@ -1,8 +1,8 @@
-<ion-menu [content]="content">
+<ion-menu [content]="content" id="menuLogged">
 
   <ion-header>
     <ion-toolbar>
-      <ion-title>Menu</ion-title>
+      <ion-title>MenuLoggedIn</ion-title>
     </ion-toolbar>
   </ion-header>
 
@@ -10,6 +10,23 @@
     <ion-list>
 <button ion-item *ngFor="let p of pages" (click)="openPage(p)">
 	{{p.title}}</button>
+</ion-list>
+  </ion-content>
+
+</ion-menu>
+
+<ion-menu [content]="content" id="menuNotLogged">
+
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>MenuNotLoggedIn</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <ion-list>
+<button ion-item *ngFor="let p of pages" (click)="openPage(p)">
+	{{pages[0].title}}</button>
 </ion-list>
   </ion-content>
 

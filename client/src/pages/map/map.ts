@@ -117,6 +117,10 @@ export class MapPage {
         }, err => {
             console.log("getUserData error: " + err);
         });
+        if (!MyApp.isLoggedIn) {
+            //document.getElementsByClassName("item item-block item-md")[0].disabled = true;
+
+        }
     }
 
     /*
