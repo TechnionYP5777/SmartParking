@@ -89,7 +89,7 @@ export class LoginPage {
             else {
                 console.log(data.name + " is logged in.");
                 MyApp.isLoggedIn = true;
-                this.navCtrl.push(HelloIonicPage);
+                this.navCtrl.setRoot(HelloIonicPage);
             }
         }, err => {
             console.log(err);
@@ -123,7 +123,7 @@ export class LoginPage {
 
 
     navigateRegister() {
-        this.navCtrl.push(RegisterPage);
+        this.navCtrl.setRoot(RegisterPage);
     }
 
     presentAlert(str, myTitle) {
