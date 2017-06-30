@@ -20,6 +20,8 @@ import { RegisterService } from '../providers/register-service';
 import { LogoutService } from '../providers/logout-service';
 import { MyDetailsService } from '../providers/myDetails-service';
 import { MyExceptionHandler }from '../providers/errorHandler';
+import { IdentifierService } from '../providers/identifier-service';
+
 
 import { TextToSpeech } from '@ionic-native/text-to-speech';
 import { HttpModule } from '@angular/http';
@@ -58,6 +60,7 @@ import {File} from '@ionic-native/file';
     StatusBar,
     LocationService,
     MyDetailsService,
+    IdentifierService,
     LoginService,
     RegisterService,
     LogoutService,

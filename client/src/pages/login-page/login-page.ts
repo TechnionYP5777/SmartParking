@@ -5,6 +5,7 @@ import { AlertController } from 'ionic-angular';
 import { HelloIonicPage } from '../hello-ionic/hello-ionic'
 import { RegisterPage } from '../register-page/register-page';
 import { LogoutService } from '../../providers/logout-service';
+import { IdentifierService } from '../../providers/identifier-service';
 
 /**
  * @author DavidCohen55
@@ -28,10 +29,13 @@ export class LoginPage {
     page: any;
 
     constructor(public navCtrl: NavController, public navParams: NavParams,
-        serve: LoginService, public alertCtrl: AlertController, logoutService: LogoutService) {
+        serve: LoginService, public alertCtrl: AlertController, logoutService: LogoutService, idfy : IdentifierService) {
         this.serve = serve;
         this.logoutService = logoutService;
+        idfy.getID();
+        console.log("Login id : " + idfy.id);
         this.page = this.navParams.get("mapPage");
+        
         //this.num = serve.http.get('https://www.reddit.com/r/gifs/new/.json?limit=10').map(res=>res.json());
     }
 
@@ -67,7 +71,6 @@ export class LoginPage {
     }
 
 
-    //TODO: better testing if the user is not logged in.
     getInfo() {
         this.serve.getDetails().subscribe(data => {
             if (data.name == "") {
@@ -77,21 +80,12 @@ export class LoginPage {
             else {
                 console.log(data.name + " is logged in.");
                 this.page.isLogin = true;
-                //this.presentAlert("You have sucsessfully logged in.\nWelcome, " + data.name, "Connected");
                 this.navCtrl.push(HelloIonicPage);
             }
         }, err => {
             console.log(err);
         });
 
-        /*if (!this.isLogin) {
-            console.log("line 60 in");
-            this.logoutService.userLogout().subscribe(() => {
-                console.log("un-log in");
-            }, err => {
-            console.log(err);
-        });
-        }*/
 
     }
     getCarNumber() {
@@ -104,7 +98,7 @@ export class LoginPage {
         this.serve.userLogin(carNumber, password).subscribe(() => {
             console.log("use data here");
         }, err => {
-            //console.log(err);
+            console.log(err);
         });
 
         setTimeout(function() { ref.getInfo(); }, 6000);
