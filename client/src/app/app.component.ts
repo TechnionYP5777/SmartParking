@@ -75,6 +75,8 @@ export class MyApp {
             this.statusBar.styleDefault();
             this.splashScreen.hide();
         });
+        this.menu.enable(false, 'menuLoggeds');
+        this.menu.enable(true, 'menuNotLogged');
     }
 
     openPage(page) {
