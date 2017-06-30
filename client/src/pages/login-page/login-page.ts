@@ -39,13 +39,13 @@ export class LoginPage {
     logoutService: any;
     carNumber: any;
     page: any;
-    idfy :string;
-    constructor(public navCtrl: NavController, public navParams: NavParams,
+    idfy: string;
+    constructor(public navCtrl: NavController,
         serve: LoginService, public alertCtrl: AlertController, logoutService: LogoutService) {
         this.serve = serve;
         this.logoutService = logoutService;
-        this.page = this.navParams.get("mapPage");
-        this.idfy=MyApp.id;
+        this.idfy = MyApp.id;
+
     }
 
     ionViewDidLoad() {
@@ -62,18 +62,18 @@ export class LoginPage {
         console.log("getUserData() myData before: " + JSON.stringify(myData));
         return new Promise((resolve, reject) => {
             this.serve.getDetails().subscribe(data => {
-                    console.log("getUserData() data: " + JSON.stringify(data));
-                    this.page.isLogin = true;
-                    myData.name=data.name;
-                    myData.phoneNumber=data.phoneNumber;
-                    myData.carNumber=data.carNumber;
-                    myData.email=data.email;
-                    myData.sticker=data.sticker;
-                    resolve(true);      
-                    console.log("getUserData() myData after: " + JSON.stringify(myData));     
+                console.log("getUserData() data: " + JSON.stringify(data));
+                MyApp.isLoggedIn = true;
+                myData.name = data.name;
+                myData.phoneNumber = data.phoneNumber;
+                myData.carNumber = data.carNumber;
+                myData.email = data.email;
+                myData.sticker = data.sticker;
+                resolve(true);
+                console.log("getUserData() myData after: " + JSON.stringify(myData));
             }, err => {
                 console.log("getUserData error: " + err);
-                this.page.isLogin = false;
+                MyApp.isLoggedIn = false;
                 reject(true);
             });
         });
@@ -88,7 +88,7 @@ export class LoginPage {
             }
             else {
                 console.log(data.name + " is logged in.");
-                this.page.isLogin = true;
+                MyApp.isLoggedIn = true;
                 this.navCtrl.push(HelloIonicPage);
             }
         }, err => {
@@ -98,10 +98,17 @@ export class LoginPage {
 
     }
     getCarNumber() {
-      return this.carNumber;
+        return this.carNumber;
     }
-    
+
     Login(carNumber, password) {
+
+        /*console.log("BEFORE this.navParams.get(mapPage) : " + this.navParams.get("mapPage").isLogin + ",this.page.isLogin: " + this.page.isLogin);
+        this.page.isLogin = true;
+        console.log("AFTER this.navParams.get(mapPage) : " + this.navParams.get("mapPage").isLogin + ",this.page.isLogin: " + this.page.isLogin);
+*/
+
+
         let ref = this;
         ref.carNumber = carNumber;
         this.serve.userLogin(carNumber, password).subscribe(() => {

@@ -3,6 +3,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
 import { LogoutService } from '../../providers/logout-service';
 import { LoginPage } from '../login-page/login-page';
+import { MyApp } from '../../app/app.component';
 
 
 /**
@@ -19,10 +20,12 @@ import { LoginPage } from '../login-page/login-page';
 export class LogoutPage {
 
     serve: any;
-
+    page: any;
     constructor(public navCtrl: NavController, public navParams: NavParams,
         serve: LogoutService, public alertCtrl: AlertController) {
         this.serve = serve;
+        this.page = this.navParams.get("mapPage");
+        console.log("BEFORE this.navParams.get(mapPage): " + this.navParams.get("mapPage"));
     }
 
     Logout() {
@@ -32,8 +35,9 @@ export class LogoutPage {
             //console.log(err);
         });
         console.log("Logging out");
+        console.log("AFTER this.navParams.get(mapPage): " + this.navParams.get("mapPage"));
+        MyApp.isLoggedIn = false;
         this.navCtrl.push(LoginPage);
-
     }
 
 }

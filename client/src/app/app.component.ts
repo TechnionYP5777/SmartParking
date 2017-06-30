@@ -38,7 +38,7 @@ export class MyApp {
     // make HelloIonicPage the root (or first) page
     rootPage = MapPage;
     pages: Array<{ title: string, component: any }>;
-    isLoggedIn: any;
+    static isLoggedIn: any;
     static id: string;
     constructor(
         public platform: Platform,

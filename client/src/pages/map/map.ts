@@ -20,6 +20,7 @@ import { LoginService } from '../login-page/login-service';
 import { LogoutPage } from '../logout-page/logout-page';
 import {TextToSpeech} from '@ionic-native/text-to-speech';
 import { Platform } from 'ionic-angular';
+import { MyApp } from '../../app/app.component';
 declare var google;
 
 @Component({
@@ -56,7 +57,7 @@ export class MapPage {
     loginPage: any;
     loginService: any;
     lastSearches: any;
-     
+
     useVoice: any;
     curr_step_index: any;
     directionsResponse: any;
@@ -70,7 +71,6 @@ export class MapPage {
     bestParking: any;
     srcName: any;
     didNavigate: any;
-    isLogin: any;
     inNav: boolean;
     currentLocationMarker: any;
     voiceEnabled: any;
@@ -92,7 +92,7 @@ export class MapPage {
             this.tts.speak("Welcome to Smart Parking");
         }
         this.didNavigate = false;
-        this.isLogin = false;
+        MyApp.isLoggedIn = false;
         this.loginService = loginService;
 
         this.useVoice = true;
@@ -107,12 +107,14 @@ export class MapPage {
     ionViewDidLoad() {
         this.loadMap();
         this.loginService.getDetails().subscribe(data => {
-            //console.log("getUserData() Data : " + JSON.stringify(data));
-            console.log("getUserData() myData: " + JSON.stringify(data));
-            this.loginPage.carNumber = data.carNumber;
             if (data == undefined) {
                 console.log("mydata undefined");
+            } else {
+                console.log("getUserData() myData: " + JSON.stringify(data));
+                this.loginPage.carNumber = data.carNumber;
+                MyApp.isLoggedIn = (data.name != "");
             }
+
         }, err => {
             console.log("getUserData error: " + err);
         });
@@ -130,28 +132,28 @@ export class MapPage {
         }, 8000);
     });*/
 
-    searchLastSearches () {
-      this.pathService.getLastPaths(this.lastSearches); 
-      let alert = this.alertCtrl.create();
-      alert.setTitle('Choose Path');
-      for (var i = 0; i < this.lastSearches.length; i += 1) {
-        alert.addInput({
-          type: 'radio',
-          label: this.lastSearches[i].source ,
-          value: this.lastSearches[i].destination,
-          checked: false
-        });
-      }
-      alert.addButton('Cancel');
-      alert.addButton({
-        text: 'OK',
-        handler: data => {
-          console.log(data);
-          
+    searchLastSearches() {
+        this.pathService.getLastPaths(this.lastSearches);
+        let alert = this.alertCtrl.create();
+        alert.setTitle('Choose Path');
+        for (var i = 0; i < this.lastSearches.length; i += 1) {
+            alert.addInput({
+                type: 'radio',
+                label: this.lastSearches[i].source,
+                value: this.lastSearches[i].destination,
+                checked: false
+            });
         }
-      });
-      alert.present();
-    }     
+        alert.addButton('Cancel');
+        alert.addButton({
+            text: 'OK',
+            handler: data => {
+                console.log(data);
+
+            }
+        });
+        alert.present();
+    }
     showParkingAreas(parkingAreasPositions) {
         let map = this.mapView;
         let array = this.parkingAreas;
@@ -168,7 +170,7 @@ export class MapPage {
         });
     }
     showAlertLogin(loginPage) {
-        if (!this.isLogin) {
+        if (!MyApp.isLoggedIn) {
             this.presentLoginAlert();
         }
     }
@@ -196,7 +198,11 @@ export class MapPage {
     }
 
     changeLocation() {
-        if (!this.isLogin) {
+
+
+
+
+        if (!MyApp.isLoggedIn) {
             this.presentLoginAlert();
         }
         else {
