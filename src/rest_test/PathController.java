@@ -128,6 +128,7 @@ public class PathController {
 	 * @return String of JSONObject which include the sources & destinations
 	 *         that the user searched last
 	 */
+	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/GetLastPaths/{key}", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
 	public String getLastPaths(@PathVariable String key) {
