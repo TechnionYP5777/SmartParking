@@ -35,14 +35,12 @@ export class PathService {
        
     }
     
-        getLastPaths(retData: any) {
+        getLastPaths(callback:any) {
         return this.http.get('https://spring-boot-nav.herokuapp.com/GetLastPaths/'+MyApp.id).map(res => res.json()).subscribe(data => {
             if (data.status) {
                return ; 
             } else {
-                data.SavedPaths.forEach(function(element) { 
-                    retData.push({ "source": element.src, "destination": element.dest });
-                });
+                callback(data.SavedPaths)
                }
      
             }); 

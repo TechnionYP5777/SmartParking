@@ -133,6 +133,7 @@ export class MapPage {
     });*/
 
     searchLastSearches() {
+<<<<<<< Updated upstream
         this.pathService.getLastPaths(this.lastSearches);
         let alert = this.alertCtrl.create();
         alert.setTitle('Choose Path');
@@ -153,6 +154,38 @@ export class MapPage {
             }
         });
         alert.present();
+=======
+        let mapObj = this;
+        this.pathService.getLastPaths(function(lastSearch) {
+            let alert = mapObj.alertCtrl.create();
+            alert.setTitle('Choose Path');
+            for (var i = 0; i < lastSearch.length; i += 1) {
+                alert.addInput({
+                    type: 'radio',
+                    label: lastSearch[i].src.name + " , " + lastSearch[i].dst.name,
+                    value: lastSearch[i],
+                    checked: false
+                });
+            }
+            alert.addButton('Cancel');
+            alert.addButton({
+                text: 'OK',
+                handler: data => {
+                    mapObj.srcName=data.src.name;
+                    mapObj.dstName=data.dst.name;
+                    mapObj.dstPosition=new google.maps.LatLng(data.dst.lat, data.dst.lon);
+                    if(data.src.name=="Current Location"){
+                        console.log(mapObj.currentLocationMarker.postion);
+                        mapObj.srcPosition=mapObj.currentLocationMarker.position;
+                    }else{
+                        mapObj.srcPosition=new google.maps.LatLng(data.src.lat, data.src.lon);
+                    }
+                    mapObj.go()
+                }
+            });
+            alert.present();
+        });
+>>>>>>> Stashed changes
     }
     showParkingAreas(parkingAreasPositions) {
         let map = this.mapView;
@@ -462,7 +495,7 @@ export class MapPage {
             this.leavePark(carNumber).then((result) => {
                 var src = page.srcName;
                 if (src == "Current Location") {
-                    src = "$" + page.srcPosition.toString();
+                    src = src+"$"+page.srcPosition.toString();
                 }
                 page.getBestParking(src, page.dstName, google).then((result) => {
                     page.goAux();
@@ -531,10 +564,11 @@ export class MapPage {
                 return;
             }
             geolocation.getCurrentPosition().then((position) => {
-                //console.log("got position!!!!!")
-                //console.log(position);
                 let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
                 map.setCenter(latLng);
+                if(mapObj.currentLocationMarker){
+                    mapObj.currentLocationMarker.setMap(null);
+                }
                 mapObj.currentLocationMarker = new google.maps.Marker({
                     position: latLng,
                     draggable: false,
