@@ -97,7 +97,7 @@ export class LocationService {
     leavePark(carNumber, resolve) {
           var headers = new Headers();
           headers.append('Content-Type', 'application/x-www-form-urlencoded');
-          return this.http.post('https://spring-boot-nav.herokuapp.com/LeavePark'+MyApp.id, { headers: headers })
+          return this.http.post('https://spring-boot-nav.herokuapp.com/LeavePark/'+MyApp.id, { headers: headers })
           .map(res => res.json()).subscribe(data => {
                 console.log("lost parking");
                 resolve(true);
