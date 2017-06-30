@@ -195,7 +195,7 @@ public class UserController {
 	 * @return a JSONized string of the change status.
 	 */
 	@CrossOrigin(origins = "*")
-	@RequestMapping(value = "/User/ChangeDetails/{key}", produces = "application/json")
+	@RequestMapping(value = "/User/ChangeDetailsDemo/{key}", produces = "application/json")
 	@ResponseBody
 	public String changeDetailsDemo(@PathVariable("key") String key) {
 		System.out.println("in UC.changeDetails.GET");
@@ -220,7 +220,7 @@ public class UserController {
 	 * @return A JSONized string of the success/error value.
 	 */
 	@CrossOrigin(origins = "*")
-	@RequestMapping(value = "/User/ChangeDetails/{key}", method = RequestMethod.POST, produces = "application/json")
+	@RequestMapping(value = "/User/ChangeDetailsDemo/{key}", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public String changeDetailsDemo(@PathVariable("key") String key, @RequestParam("name") String name,
 			@RequestParam("phone") String phone, @RequestParam("newCar") String newCar,

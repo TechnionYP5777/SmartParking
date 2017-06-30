@@ -173,6 +173,7 @@ public class LocationController {
 	 *            the location name
 	 * @return the coordinates of a destination
 	 */
+	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/Locations/{name}", produces = "application/json")
 	@ResponseBody
 	public MapLocation getLocation(@PathVariable String name) {
@@ -183,6 +184,7 @@ public class LocationController {
 	/**
 	 * @return all of the parking slots
 	 */
+	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/ParkingSlots", produces = "application/json")
 	@ResponseBody
 	public String getParkingSlots() {
@@ -198,6 +200,7 @@ public class LocationController {
 	 * 
 	 * @return the slots details
 	 */
+	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/ParkingSlots/{name}", produces = "application/json")
 	@ResponseBody
 	public String getPark(@PathVariable String name) {
@@ -225,6 +228,7 @@ public class LocationController {
 	 *            the parking area name
 	 * @return the area details
 	 */
+	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/ParkingAreas/{name}", produces = "application/json")
 	@ResponseBody
 	public String getArea(@PathVariable String name) {

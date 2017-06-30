@@ -22,7 +22,7 @@ export class MyDetailsService {
 
 
     getUserDetails() {
-        return this.http.get('https://spring-boot-nav.herokuapp.com/User/Login/' + MyApp.id).map(res => res.json())
+        return this.http.get('https://spring-boot-nav.herokuapp.com/User/LoginDemo/' + MyApp.id).map(res => res.json())
             .catch(this.handleError);
 
     }

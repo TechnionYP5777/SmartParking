@@ -107,6 +107,7 @@ public class PathController {
 	 *            the routePath as WrapObj will be changed to RoutePath
 	 * @return true if added correctly else false
 	 */
+	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/SendPath", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public boolean sendPath(@RequestBody WrapObj o) {

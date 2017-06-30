@@ -22,10 +22,10 @@ export class LogoutService {
     
     //In this case, logout means that the "eampty user" is logged in.
     userLogout() {
-        var value = "key=" + MyApp.id + "&name=" + "" + "&pass=" + "";
+        var value = "name=" + "" + "&pass=" + "";
         var headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        return this.http.post('https://spring-boot-nav.herokuapp.com/User/Login/' + MyApp.id, value, { headers: headers })
+        return this.http.post('https://spring-boot-nav.herokuapp.com/User/LoginDemo/' + MyApp.id, value, { headers: headers })
             .map(res => res.json());
 
     }
