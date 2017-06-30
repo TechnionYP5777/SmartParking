@@ -323,7 +323,9 @@ export class MapPage {
         clearInterval(this.intervalid);
         this.directionsDisplay.setMap(null);
         this.directionsDisplay.setPanel(null);
+		this.directionsDisplayWalk.setPanel(null);
         document.getElementsByName("panelLabel")[0].innerHTML = "No Directions To Show";
+		document.getElementsByName("panelLabel2")[0].innerHTML = "No Directions To Show";
         this.startRecording();
     }
     goAux() {
@@ -331,7 +333,7 @@ export class MapPage {
             // send to server Src and Destination
             // Server look for a path and return a result
             document.getElementById("DirectionPanelLabel").style.display = "none";
-
+			document.getElementById("DirectionPanelLabel2").style.display = "none";
             let mapObj = this;
             this.calculateAndDisplayRoute(this.directionsService, this.directionsDisplay, this.chosenParkingArea, function() {
                 let geolocation = new Geolocation();
@@ -465,6 +467,7 @@ export class MapPage {
             // send to server Src and Destination
             // Server look for a path and return a result
             document.getElementById("DirectionPanelLabel").style.display = "none";
+			document.getElementById("DirectionPanelLabel2").style.display = "none";
             let page = this;
             var carNumber = this.loginPage.getCarNumber();
             // what about srcName == currentLocation ? 
@@ -566,6 +569,9 @@ export class MapPage {
         });
         this.directionsDisplayWalk.setMap(map);
         this.directionsDisplayWalk.setOptions({ suppressMarkers: true });
+		let panel2 = document.getElementsByName("test_over_map2")[0];
+        panel2.style.backgroundColor = "white";
+		this.directionsDisplayWalk.setPanel(panel2);
         this.locService.getParkingAreas(google, this);
     }
     showReachedDestination(message) {
@@ -649,6 +655,7 @@ export class MapPage {
                     } else {
                         mapObj.drawPath(data.path);
                         document.getElementsByName("panelLabel")[0].innerHTML = data.description;
+						document.getElementsByName("panelLabel2")[0].innerHTML = data.description;
                     }
                 });
             } else {
