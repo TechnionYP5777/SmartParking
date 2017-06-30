@@ -1,3 +1,13 @@
+/**
+
+chossing-page - navigation 
+@author zahimizrahi
+@author shaysegal
+@author sefialbo 
+@since 2017-03-27
+
+**/
+
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { LocationService } from '../../providers/location-service';

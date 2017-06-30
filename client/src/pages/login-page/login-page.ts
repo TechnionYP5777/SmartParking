@@ -1,3 +1,19 @@
+/**
+
+login-page - logins to the application 
+@author zahimizrahi
+@author davidcohen55
+@author Shahar-Y
+@author sefialbo
+@author shaysegal 
+@since 2017-03-27
+
+**/
+
+
+
+
+
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { LoginService } from './login-service';

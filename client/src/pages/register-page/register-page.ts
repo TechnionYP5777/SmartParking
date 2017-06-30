@@ -12,6 +12,7 @@ import { HelloIonicPage } from '../hello-ionic/hello-ionic';
  * on Ionic pages and navigation.
  */
 /**
+ * @author zahimizrahi 
  * @author DavidCohen55
  * @author Shahar-Y
  * Created: May 2017
@@ -20,51 +21,51 @@ import { HelloIonicPage } from '../hello-ionic/hello-ionic';
  */
 @IonicPage()
 @Component({
-  selector: 'page-register-page',
-  templateUrl: 'register-page.html',
+    selector: 'page-register-page',
+    templateUrl: 'register-page.html',
 })
 export class RegisterPage {
-  serve: any;
-  constructor(public navCtrl: NavController, public navParams: NavParams, serve: RegisterService, public alertCtrl: AlertController) {
-    this.serve = serve;
-  }
+    serve: any;
+    constructor(public navCtrl: NavController, public navParams: NavParams, serve: RegisterService, public alertCtrl: AlertController) {
+        this.serve = serve;
+    }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad RegisterPage');
-  }
-    
-  getRegisterInfo() {
-      this.serve.getRegisterData().subscribe(data => {
-          if(data.status == "Success"){
-           this.presentAlert("Register is successful!","Register");
-           this.navCtrl.push(HelloIonicPage);
-          }else{
-              this.presentAlert(data.status + ". Please try again.","Register");
+    ionViewDidLoad() {
+        console.log('ionViewDidLoad RegisterPage');
+    }
+
+    getRegisterInfo() {
+        this.serve.getRegisterData().subscribe(data => {
+            if (data.status == "Success") {
+                this.presentAlert("Register is successful!", "Register");
+                this.navCtrl.push(HelloIonicPage);
+            } else {
+                this.presentAlert(data.status + ". Please try again.", "Register");
             }
-    });
-  }
+        });
+    }
 
-  Register(userName, password, phoneNum, carNum, eMail, stickerColor) {
-     let ref = this;
-    this.serve.userRegister(userName, password, phoneNum, carNum, eMail, stickerColor).subscribe(data => {
+    Register(userName, password, phoneNum, carNum, eMail, stickerColor) {
+        let ref = this;
+        this.serve.userRegister(userName, password, phoneNum, carNum, eMail, stickerColor).subscribe(data => {
 
-    }, err => {
-      console.log(err);
-    });
-      
-    setTimeout(function() { ref.getRegisterInfo(); }, 5000);
+        }, err => {
+            console.log(err);
+        });
 
-  }
+        setTimeout(function() { ref.getRegisterInfo(); }, 5000);
+
+    }
 
 
 
-  presentAlert(str, myTitle) {
-    let alert = this.alertCtrl.create({
-      title: myTitle,
-      subTitle: str,
-      buttons: ['OK']
-    });
-    alert.present();
-  }
+    presentAlert(str, myTitle) {
+        let alert = this.alertCtrl.create({
+            title: myTitle,
+            subTitle: str,
+            buttons: ['OK']
+        });
+        alert.present();
+    }
 
 }

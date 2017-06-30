@@ -1,3 +1,16 @@
+/**
+
+app.component.ts - check the entries of the menu 
+@author zahimizrahi
+@author Shahar-Y
+@author shaysegal 
+@author DavidCohen55
+@author sefialbo 
+@since 2017-03-27
+
+**/
+
+
 import { Component, ViewChild } from '@angular/core';
 
 import { Platform, MenuController, Nav } from 'ionic-angular';

@@ -1,3 +1,13 @@
+/**
+
+map - the map view of the navigation, main page of application
+@author zahimizrahi
+@author shaysegal
+@author sefialbo
+@since 2017-03-27
+
+**/
+
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import {NavController } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
