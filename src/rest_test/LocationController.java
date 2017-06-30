@@ -264,17 +264,19 @@ public class LocationController {
 			if (u.getCurrentParking() != null)
 				throw new AlreadyExists("You have a parking slot");
 
-			u.addToLastPaths(src, dest);
 			MapLocation srcLocation = null;
-			if (!src.startsWith("$"))
+			if (!src.contains("Current Location")) {
 				srcLocation = new Destination(src).getEntrance();
-			else {
-				String[] point = src.replace("$", "").substring(1, src.length() - 2).split(",");
+				u.addToLastPaths(src, dest);
+			} else {
+				String[] srcArr = src.split("\\$");
+				u.addToLastPaths(srcArr[0], dest);
+				String[] point = srcArr[1].substring(1, srcArr[1].length() - 2).split(",");
 				srcLocation = new MapLocation(Double.parseDouble(point[0].trim()), Double.parseDouble(point[1].trim()));
 			}
 			return Navigation.closestParkingSlot(u, srcLocation, areas, new Destination(dest)).getLocation();
 		} catch (ParseException | LoginException | NotExists e) {
-			System.out.println("exception...");
+			System.out.println("exception... " + e);
 		} catch (AlreadyExists e) {
 			System.out.println((e + ""));
 		}

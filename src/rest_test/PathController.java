@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.*;
 
 import main.java.Exceptions.AlreadyExists;
 import main.java.Exceptions.NotExists;
+import main.java.data.members.Destination;
 import main.java.data.members.MapLocation;
 import main.java.data.management.DBManager;
 import main.java.data.members.RoutePath;
@@ -134,8 +135,8 @@ public class PathController {
 	@ResponseBody
 	public String getLastPaths(@PathVariable String key) {
 		JSONObject obj = new JSONObject();
-		if(UserController.users.get(key)==null){
-			obj.put("error"," Not connected from device");
+		if (UserController.users.get(key) == null) {
+			obj.put("error", " Not connected from device");
 			return obj + "";
 		}
 		ArrayList<String> lastRoutes = UserController.users.get(key).getUser().getLastPaths();
@@ -143,13 +144,36 @@ public class PathController {
 			obj.put("Status", "There isn't any saved paths");
 		else {
 			JSONArray list = new JSONArray();
-			for (String route : lastRoutes) {
-				JSONObject r = new JSONObject();
-				r.put("src", route.split("\\$")[0]);
-				r.put("dst", route.split("\\$")[1]);
-				list.put(r);
+			try {
+				for (String route : lastRoutes) {
+					JSONObject src = new JSONObject();
+					JSONObject dst = new JSONObject();
+					JSONObject r = new JSONObject();
+					String[] names = route.split("\\$");
+					src.put("name", names[0]);
+					Destination d;
+					if (names[0].contains("Current Location")) {
+						src.put("lat", 0);
+						src.put("lon", 0);
+					} else {
+						d = new Destination(names[0]);
+						src.put("lat", d.getEntrance().getLat());
+						src.put("lon", d.getEntrance().getLon());
+					}
+
+					d = new Destination(names[1]);
+					dst.put("name", route.split("\\$")[1]);
+					dst.put("lat", d.getEntrance().getLat());
+					dst.put("lon", d.getEntrance().getLon());
+
+					r.put("src", src);
+					r.put("dst", dst);
+					list.put(r);
+				}
+				obj.put("SavedPaths", list);
+			} catch (ParseException | NotExists e) {
+				obj.put("Status", e + "");
 			}
-			obj.put("SavedPaths", list);
 		}
 		return obj + "";
 	}
