@@ -79,7 +79,7 @@ export class MapPage {
         private locService: LocationService, private pathService: PathService,
         public login: LoginPage, private logout: LogoutPage, private tts: TextToSpeech, loginService: LoginService,
         public plt: Platform) {
-
+        
         this.simulationMode = false;
         this.wantRecordRoute = false;
         this.recordedRoute = [];
@@ -103,7 +103,6 @@ export class MapPage {
         this.inNav = false;
 
     }
-
     ionViewDidLoad() {
         this.loadMap();
         this.loginService.getDetails().subscribe(data => {
@@ -133,28 +132,6 @@ export class MapPage {
     });*/
 
     searchLastSearches() {
-<<<<<<< Updated upstream
-        this.pathService.getLastPaths(this.lastSearches);
-        let alert = this.alertCtrl.create();
-        alert.setTitle('Choose Path');
-        for (var i = 0; i < this.lastSearches.length; i += 1) {
-            alert.addInput({
-                type: 'radio',
-                label: this.lastSearches[i].source,
-                value: this.lastSearches[i].destination,
-                checked: false
-            });
-        }
-        alert.addButton('Cancel');
-        alert.addButton({
-            text: 'OK',
-            handler: data => {
-                console.log(data);
-
-            }
-        });
-        alert.present();
-=======
         let mapObj = this;
         this.pathService.getLastPaths(function(lastSearch) {
             let alert = mapObj.alertCtrl.create();
@@ -185,7 +162,6 @@ export class MapPage {
             });
             alert.present();
         });
->>>>>>> Stashed changes
     }
     showParkingAreas(parkingAreasPositions) {
         let map = this.mapView;
