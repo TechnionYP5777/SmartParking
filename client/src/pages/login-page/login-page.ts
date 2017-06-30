@@ -11,7 +11,7 @@ login-page - logins to the application
 **/
 
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController } from 'ionic-angular';
 import { LoginService } from './login-service';
 import { AlertController } from 'ionic-angular';
 import { HelloIonicPage } from '../hello-ionic/hello-ionic'
@@ -64,6 +64,7 @@ export class LoginPage {
             this.serve.getDetails().subscribe(data => {
                 console.log("getUserData() data: " + JSON.stringify(data));
                 MyApp.isLoggedIn = true;
+                MyApp.updateMenu();
                 myData.name = data.name;
                 myData.phoneNumber = data.phoneNumber;
                 myData.carNumber = data.carNumber;
@@ -74,6 +75,7 @@ export class LoginPage {
             }, err => {
                 console.log("getUserData error: " + err);
                 MyApp.isLoggedIn = false;
+                MyApp.updateMenu();
                 reject(true);
             });
         });
@@ -89,6 +91,7 @@ export class LoginPage {
             else {
                 console.log(data.name + " is logged in.");
                 MyApp.isLoggedIn = true;
+                MyApp.updateMenu();
                 this.navCtrl.setRoot(HelloIonicPage);
             }
         }, err => {

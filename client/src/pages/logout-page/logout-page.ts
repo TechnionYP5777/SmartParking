@@ -37,6 +37,7 @@ export class LogoutPage {
         console.log("Logging out");
         console.log("AFTER this.navParams.get(mapPage): " + this.navParams.get("mapPage"));
         MyApp.isLoggedIn = false;
+        MyApp.updateMenu();
         this.navCtrl.setRoot(LoginPage);
     }
 

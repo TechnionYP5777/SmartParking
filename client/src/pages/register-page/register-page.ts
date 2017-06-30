@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
 import { HelloIonicPage } from '../hello-ionic/hello-ionic';
+import { MyApp } from '../../app/app.component';
 
 
 /**
@@ -39,6 +40,8 @@ export class RegisterPage {
             if (data.status == "Success") {
                 this.presentAlert("Register is successful!", "Register");
                 this.navCtrl.push(HelloIonicPage);
+                MyApp.isLoggedIn = true;
+                MyApp.updateMenu();
             } else {
                 this.presentAlert(data.status + ". Please try again.", "Register");
             }

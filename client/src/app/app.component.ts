@@ -38,15 +38,20 @@ export class MyApp {
     // make HelloIonicPage the root (or first) page
     rootPage = MapPage;
     pages: Array<{ title: string, component: any }>;
+    NotLoggedPages: Array<{ title: string, component: any }>;
     static isLoggedIn: any;
     static id: string;
+    static menuCtrl: MenuController;
+    
+    content:any;
     constructor(
         public platform: Platform,
         public menu: MenuController,
         public statusBar: StatusBar,
         public splashScreen: SplashScreen,
         public file: File,
-        public plt: Platform
+        public plt: Platform,
+        menuCtrl: MenuController
     ) {
 
         this.initializeApp();
@@ -56,12 +61,31 @@ export class MyApp {
         this.pages = [
             { title: 'Map', component: MapPage },
             { title: 'About', component: HelloIonicPage },
-            { title: 'Register', component: RegisterPage },
             { title: 'My Details', component: MyDetailsPage },
-            { title: 'Login', component: LoginPage },
             { title: 'Logout', component: LogoutPage },
         ];
+        this.NotLoggedPages = [
+            { title: 'Map', component: MapPage },
+            { title: 'About', component: HelloIonicPage },
+            { title: 'Register', component: RegisterPage },
+            { title: 'Login', component: LoginPage },
+        ];
+        
+        MyApp.menuCtrl = menuCtrl;
+        setTimeout(function(){
+            MyApp.updateMenu();
+        },1000);
+
     }
+
+
+    static updateMenu() {
+        MyApp.menuCtrl.enable(!MyApp.isLoggedIn, 'NotLogged');
+        MyApp.menuCtrl.enable(MyApp.isLoggedIn, 'Menu');
+    }
+
+
+
     initializeApp() {
         this.getUniqueID(this.file, this.plt.is('cordova'));
         window.onerror = function myErrorHandler(errorMsg, url, lineNumber) {
@@ -75,8 +99,6 @@ export class MyApp {
             this.statusBar.styleDefault();
             this.splashScreen.hide();
         });
-        this.menu.enable(false, 'menuLoggeds');
-        this.menu.enable(true, 'menuNotLogged');
     }
 
     openPage(page) {
