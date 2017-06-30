@@ -69,7 +69,7 @@ export class MapPage {
         this.recordedRoute = [];
         this.parkingAreas = [];
         this.loginPage = login;
-        this.tts.speak("hello world");
+        this.tts.speak("Welcome to Smart Parking");
         this.didNavigate = false;
         this.isLogin = false;
         this.loginService = loginService;
@@ -85,9 +85,6 @@ export class MapPage {
     ionViewDidLoad() {
 
         this.loadMap();
-        this.tts.speak("hello world");
-        console.log("in map page");
-
         this.loginService.getDetails().subscribe(data => {
             //console.log("getUserData() Data : " + JSON.stringify(data));
             console.log("getUserData() myData: " + JSON.stringify(data));
