@@ -3,6 +3,7 @@ import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';
+import { MyApp } from '../../app/app.component';
 
 
 /**
@@ -17,6 +18,7 @@ import 'rxjs/Rx';
 export class LoginService {
     constructor(public http: Http) {
         console.log('Hello LoginService Provider');
+        console.log("MyApp.id: " + MyApp.id);
     }
 
     handleError(error) {
@@ -25,6 +27,7 @@ export class LoginService {
     }
 
     getDetails() {
+        console.log("Address: " + 'https://spring-boot-nav.herokuapp.com/User/Login/' + MyApp.id);
         return this.http.get('https://spring-boot-nav.herokuapp.com/User/Login').map(res => res.json())
             .catch(this.handleError);
     }
