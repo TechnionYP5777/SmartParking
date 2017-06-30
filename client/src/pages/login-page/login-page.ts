@@ -40,12 +40,13 @@ export class LoginPage {
     carNumber: any;
     page: any;
     idfy: string;
+    response: any;
     constructor(public navCtrl: NavController,
         serve: LoginService, public alertCtrl: AlertController, logoutService: LogoutService) {
         this.serve = serve;
         this.logoutService = logoutService;
         this.idfy = MyApp.id;
-
+        this.response = false;
     }
 
     ionViewDidLoad() {
@@ -84,6 +85,7 @@ export class LoginPage {
 
     getInfo() {
         this.serve.getDetails().subscribe(data => {
+            this.response = true;
             if (data.name == "") {
                 console.log("NOT logged in.");
                 this.presentAlert("Wrong car number or password. please try again.", "Error Connecting");
@@ -96,6 +98,11 @@ export class LoginPage {
             }
         }, err => {
             console.log(err);
+            //this means the error is not because of bad connection
+            if (err != "Server error") {
+                this.response = true;
+            }
+
         });
 
 
@@ -105,22 +112,26 @@ export class LoginPage {
     }
 
     Login(carNumber, password) {
-
-        /*console.log("BEFORE this.navParams.get(mapPage) : " + this.navParams.get("mapPage").isLogin + ",this.page.isLogin: " + this.page.isLogin);
-        this.page.isLogin = true;
-        console.log("AFTER this.navParams.get(mapPage) : " + this.navParams.get("mapPage").isLogin + ",this.page.isLogin: " + this.page.isLogin);
-*/
-
-
+        this.response = false;
         let ref = this;
         ref.carNumber = carNumber;
+        setTimeout(function() {
+            if (!ref.response)
+                ref.presentAlert("It seems like you are not connected to the internet!", "Connection Error");
+        }, 15000);
+
         this.serve.userLogin(carNumber, password).subscribe(() => {
-            console.log("use data here");
+            ref.response = true;
         }, err => {
             console.log(err);
+            //this means the error is not because of bad connection
+            if (err != "Server error") {
+                ref.response = true;
+            }
         });
 
         setTimeout(function() { ref.getInfo(); }, 6000);
+
 
     }
 

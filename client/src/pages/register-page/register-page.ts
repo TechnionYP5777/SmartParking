@@ -27,6 +27,7 @@ import { MyApp } from '../../app/app.component';
 })
 export class RegisterPage {
     serve: any;
+    response: any;
     constructor(public navCtrl: NavController, public navParams: NavParams, serve: RegisterService, public alertCtrl: AlertController) {
         this.serve = serve;
     }
@@ -50,10 +51,19 @@ export class RegisterPage {
 
     Register(userName, password, phoneNum, carNum, eMail, stickerColor) {
         let ref = this;
+        this.response = false;
+        setTimeout(function() {
+            if (!ref.response)
+                ref.presentAlert("It seems like you are not connected to the internet!", "Connection Error");
+        }, 15000);
         this.serve.userRegister(userName, password, phoneNum, carNum, eMail, stickerColor).subscribe(data => {
-
+            ref.response = true;
         }, err => {
             console.log(err);
+            //this means the error is not because of bad connection
+            if (err != "Server error") {
+                ref.response = true;
+            }
         });
 
         setTimeout(function() { ref.getRegisterInfo(); }, 5000);
