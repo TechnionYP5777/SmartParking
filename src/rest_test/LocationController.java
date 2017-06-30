@@ -310,11 +310,17 @@ public class LocationController {
 		try {
 			UserState state = UserController.users.get(key);
 			User u = new User(state.getUser().getCarNumber());
+			if(u.getCurrentParking()==null){
+				obj.put("Status", "You are free to go");
+				return obj + "";
+			}
 			u.getCurrentParking().changeStatus(ParkingSlotStatus.FREE);
 			u.setCurrentParking(null);
 		} catch (Exception e) {
-			return obj.put("Error", e.getMessage()) + "";
+			obj.put("Error", e + "");
+			return obj + "";
 		}
-		return "{}";
+		obj.put("Status", "You are free to go");
+		return obj + "";
 	}
 }
