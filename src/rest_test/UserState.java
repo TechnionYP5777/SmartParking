@@ -1,5 +1,9 @@
 package rest_test;
 
+import org.parse4j.ParseObject;
+import org.parse4j.ParseQuery;
+
+import main.java.data.members.User;
 import main.java.logic.LoginManager;
 
 public class UserState {
@@ -21,6 +25,16 @@ public class UserState {
 		boolean res = this.login.userLogin(name, pass);
 		this.userId = this.login.getUser().getObjectId();
 		return res;
+	}
+
+	public User getUser() {
+		final ParseQuery<ParseObject> query = ParseQuery.getQuery("PMUser");
+		try {
+			ParseObject o = query.get(this.userId);
+			return o == null ? null : new User(o);
+		} catch (final Exception e) {
+			return null;
+		}
 	}
 
 	public String getUserId() {

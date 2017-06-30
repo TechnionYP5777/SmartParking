@@ -31,7 +31,7 @@ import main.java.logic.LoginManager;
 
 @Controller
 public class UserController {
-	Map<String, UserState> users;
+	static Map<String, UserState> users;
 
 	ServerUser user;
 	UCStatus status;
