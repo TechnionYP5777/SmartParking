@@ -52,7 +52,6 @@ export class MyApp {
         this.initializeApp();
         MyExceptionHandler.isCordova = this.plt.is('cordova');
         MyExceptionHandler.file = file;
-        console.log("isCordova: " + MyExceptionHandler.isCordova + "MyApp id = " + MyApp.id);
         // set our app's pages
         this.pages = [
             { title: 'Map', component: MapPage },

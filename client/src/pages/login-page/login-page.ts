@@ -10,10 +10,6 @@ login-page - logins to the application
 
 **/
 
-
-
-
-
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { LoginService } from './login-service';
@@ -21,7 +17,7 @@ import { AlertController } from 'ionic-angular';
 import { HelloIonicPage } from '../hello-ionic/hello-ionic'
 import { RegisterPage } from '../register-page/register-page';
 import { LogoutService } from '../../providers/logout-service';
-import { IdentifierService } from '../../providers/identifier-service';
+import { MyApp } from '../../app/app.component';
 
 /**
  * @author DavidCohen55
@@ -43,16 +39,13 @@ export class LoginPage {
     logoutService: any;
     carNumber: any;
     page: any;
-
+    idfy :string;
     constructor(public navCtrl: NavController, public navParams: NavParams,
-        serve: LoginService, public alertCtrl: AlertController, logoutService: LogoutService, idfy : IdentifierService) {
+        serve: LoginService, public alertCtrl: AlertController, logoutService: LogoutService) {
         this.serve = serve;
         this.logoutService = logoutService;
-        idfy.getID();
-        console.log("Login id : " + idfy.id);
         this.page = this.navParams.get("mapPage");
-        
-        //this.num = serve.http.get('https://www.reddit.com/r/gifs/new/.json?limit=10').map(res=>res.json());
+        this.idfy=MyApp.id;
     }
 
     ionViewDidLoad() {
