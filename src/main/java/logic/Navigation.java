@@ -86,7 +86,7 @@ public class Navigation {
 		long minDuration = Integer.MAX_VALUE;
 		for (final ParkingArea parkingArea : a.getParkingAreas())
 			if (parkingArea.getNumOfFreeSlots() > 0)
-				for (final ParkingSlot parkingSlot : parkingArea.getFreeSlotsByColor(u.getSticker())) {
+				for (final ParkingSlot parkingSlot : parkingArea.getFreeSlots()) {
 					if (!canPark(u, parkingSlot))
 						continue;
 					final long duration = getDuration(parkingSlot.getLocation(), d.getEntrance(), true);
