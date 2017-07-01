@@ -393,10 +393,6 @@ export class MapPage {
                         map: mapObj.mapView
                     });
                     if (mapObj.simulationMode) {
-                        mapObj.mapView.setOptions({
-                            liteMode: mapObj.voiceEnabled,
-                            draggable: !mapObj.voiceEnabled
-                        });
                         google.maps.event.addListener(mapObj.mapView, 'mousemove', function(event) {
                             mapObj.currentLocationMarker.setPosition(event.latLng);
                             let distance = google.maps.geometry.spherical.computeDistanceBetween(event.latLng, mapObj.chosenParkingArea.position);
@@ -447,14 +443,10 @@ export class MapPage {
                 } else {
                     mapObj.calculateAndDisplayRouteWalking(mapObj.directionsService, mapObj.directionsDisplayWalk, mapObj.chosenParkingArea);
                     if (mapObj.simulationMode) {
-                        mapObj.mapView.setOptions({
-                            liteMode: mapObj.voiceEnabled,
-                            draggable: !mapObj.voiceEnabled
-                        });
                         google.maps.event.addListener(mapObj.mapView, 'mousemove', function(event) {
                             mapObj.currentLocationMarker.setPosition(event.latLng);
                             let distance = google.maps.geometry.spherical.computeDistanceBetween(event.latLng, mapObj.dstPosition);
-                            console.log(distance);
+                            //console.log(distance);
                             mapObj.readDirections(event.latLng);
                             if (distance < 5) {
                                 var title = 'You Have Reached Your Destination!';
@@ -679,6 +671,20 @@ export class MapPage {
             console.log("no voice");
             return;
         }
+        let response = this.directionsResponse;
+        let steps = response.routes[0].legs[0].steps;
+        if (this.curr_step_index < steps.length - 1) {
+            let latLng = new google.maps.LatLng(position.lat(), position.lng());
+            let latLng2 = new google.maps.LatLng(steps[this.curr_step_index + 1].start_location.lat(),
+                steps[this.curr_step_index + 1].start_location.lng());
+            //console.log(latLng2);
+            let distance = google.maps.geometry.spherical.computeDistanceBetween(latLng,
+                latLng2);
+            //console.log(distance);
+            if (distance < 100) {
+                this.curr_step_index++;
+            }
+        }
         let currentTime = (new Date()).getTime();
         if (this.lastTimeVoice == 'undefined' || this.lastTimeVoice == null) {
             this.lastTimeVoice = currentTime;
@@ -688,26 +694,12 @@ export class MapPage {
                 return;
             }
         }
-        this.lastTimeVoice = currentTime;
-        let response = this.directionsResponse;
-        let steps = response.routes[0].legs[0].steps;
-        if (this.curr_step_index < steps.length - 1) {
-            let latLng = new google.maps.LatLng(position.lat(), position.lng());
-            let latLng2 = new google.maps.LatLng(steps[this.curr_step_index + 1].start_location.lat(),
-                steps[this.curr_step_index + 1].start_location.lng());
-            console.log(latLng2);
-            let distance = google.maps.geometry.spherical.computeDistanceBetween(latLng,
-                latLng2);
-            console.log(distance);
-            if (distance < 100) {
-                this.curr_step_index++;
-            }
-        }
         let step = steps[this.curr_step_index]
         var text = step.instructions.replace(/<b>/g, "");
         text = text.replace(/<\/b>/g, "");
+        text = text.replace(/<div.*/, '');
         if (this.curr_step_index >= steps.length - 1 && this.indoorDescription != null) {
-            text = ". After that, " + this.indoorDescription;
+            text += ". After that, " + this.indoorDescription;
         }
         this.tts.speak(text);
         console.log(text);
