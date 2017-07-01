@@ -14,3 +14,5 @@ Given the location and the customer details, the system will provide location of
 For installation guide: https://github.com/TechnionYP5777/SmartParking/wiki/How-to-install-the-app
 
 For user manual: https://github.com/TechnionYP5777/SmartParking/wiki/User-Manual
+
+"Testing Reality" tester? go to here please: https://github.com/TechnionYP5777/SmartParking/issues/114
