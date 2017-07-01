@@ -84,6 +84,7 @@ export class LoginPage {
                 console.log(data.name + " is logged in.");
                 MyApp.isLoggedIn = true;
                 MyApp.updateMenu();
+                MyApp.currPage='About';
                 this.navCtrl.setRoot(HelloIonicPage);
             }
         }, err => {
