@@ -16,6 +16,14 @@ import org.parse4j.ParseQuery;
 import main.java.data.members.*;
 import main.java.util.LogPrinter;
 
+/*Navigation  class - this class represents object that navigates 
+@author DavidCohen55
+@author dshames 
+@since 2017-03-27
+*/
+
+
+
 public class Navigation {
 
 	private static JSONObject getInnerJSON(final String url) {

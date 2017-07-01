@@ -1,8 +1,9 @@
 package main.java.Exceptions;
 
-/**
- * @Author DavidCohen55
- */
+/* LoginException class - class representing exception of error in login
+@author DavidCohen55
+@since 2017-03-27
+*/
 public class LoginException extends Exception {
 	private static final long serialVersionUID = 1L;
 	public String exception;

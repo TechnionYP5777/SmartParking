@@ -7,6 +7,12 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/* LogPrinter class - class representing logging. 
+@author DavidCohen55
+@since 2017-03-27
+*/
+
+
 public class LogPrinter {
 
 	public static void createLogFile(Exception e) {
