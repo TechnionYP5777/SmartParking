@@ -45,8 +45,8 @@ export class MyApp {
     static id: string;
     static menuCtrl: MenuController;
     static currPage: any;
+    
     content:any;
-    static idLoaded;
     constructor(
         public platform: Platform,
         public menu: MenuController,
@@ -57,17 +57,21 @@ export class MyApp {
         menuCtrl: MenuController,
         private tts: TextToSpeech
     ) {
-        MyApp.idLoaded = false;
+        
         this.initializeApp();
         MyExceptionHandler.isCordova = this.plt.is('cordova');
         MyExceptionHandler.file = file;
+<<<<<<< HEAD
+        MyApp.currPage = 'Map';
+        this.AllPages =  [
+=======
         // set our app's pages
-        let condition = !this.plt.is('core') && !this.plt.is('mobileweb')
+        let condition =!this.plt.is('core') && !this.plt.is('mobileweb')
         if (condition == true) {
             this.tts.speak("Welcome to Smart Parking");
         }
-        MyApp.currPage = 'Map';
-        this.AllPages =  [
+        this.pages = [
+>>>>>>> f5a91978916d2ead3174a0025802a93dc7671c7c
             { title: 'Map', component: MapPage },
             { title: 'About', component: HelloIonicPage },
             { title: 'My Details', component: MyDetailsPage },
@@ -88,9 +92,9 @@ export class MyApp {
             this.AllPages[this.pageToIdx('Login')],
             this.AllPages[this.pageToIdx('Register')],
         ];
-
+        
         MyApp.menuCtrl = menuCtrl;
-        setTimeout(function() {
+        setTimeout(function(){
             MyApp.updateMenu();
         },1000);
     }
@@ -149,13 +153,6 @@ export class MyApp {
     }
 
     static updateMenu() {
-        var i = 0
-        while (!MyApp.idLoaded) {
-            if (i % 1000 == 0) {
-                i+=1;
-                console.log("here1")
-            }
-        }
         MyApp.menuCtrl.enable(!MyApp.isLoggedIn, 'NotLogged');
         MyApp.menuCtrl.enable(MyApp.isLoggedIn, 'Menu');
     }
@@ -190,14 +187,11 @@ export class MyApp {
         if (!isCordova) {
             let id = require("../identity");
             MyApp.id = id;
-            MyApp.idLoaded=true;
         } else {
             file.checkFile(file.externalApplicationStorageDirectory, "identity").then((res) => {
                 if (res) {
                     file.readAsText(file.externalApplicationStorageDirectory, "identity").then((res) => {
                         MyApp.id = res;
-                        MyApp.idLoaded=true;
-                        console.log("here2")
                     });
                 }
             }).catch((err) => {
@@ -205,8 +199,6 @@ export class MyApp {
                 let id = c.randomBytes(Math.ceil(48)).toString('base64').slice(0, 64).replace(/\+/g, '0').replace(/\//g, '0');
                 file.writeFile(file.externalApplicationStorageDirectory, "identity", id, { replace: true });
                 MyApp.id = id;
-                MyApp.idLoaded=true;
-                console.log("here3")
             });
         }
     }

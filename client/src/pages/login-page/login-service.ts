@@ -27,15 +27,6 @@ export class LoginService {
     }
 
     getDetails() {
-        var i=0
-        while(!MyApp.idLoaded){
-            if(i%1000==0){
-                console.log('here4');
-            }
-            i+=1;
-        }
-        
-        console.log('here5');
         return this.http.get('https://spring-boot-nav.herokuapp.com/User/LoginDemo/' + MyApp.id).map(res => res.json())
             .catch(this.handleError);
     }
