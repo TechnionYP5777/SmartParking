@@ -418,7 +418,7 @@ export class MapPage {
                         });
                     } else {
 
-                        this.intervalid = setInterval(function() {
+                        mapObj.intervalid = setInterval(function() {
                             geolocation.getCurrentPosition().then((position) => {
                                 let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
                                 let distance = google.maps.geometry.spherical.computeDistanceBetween(latLng, mapObj.chosenParkingArea.position);
