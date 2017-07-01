@@ -413,9 +413,16 @@ export class MapPage {
                             console.log(distance);
                             mapObj.readDirections(event.latLng);
                             if (distance < 5) {
+							    var title = 'You Have Reached Your Destination!';
+                                var message = 'You Have Reached Your Destination!';
+								if (mapObj.indoorDescription !=  null) {
+									title = 'You Have Reached The Building';
+									message = 'Now Follow the following instructions: '
+									  + mapObj.indoorDescription;
+								}
                                 let alert = mapObj.alertCtrl.create({
-                                    title: 'You Have Reached Your Destination!',
-                                    message: 'You Have Reached Your Destination!',
+                                    title: title,
+                                    message: message,
                                     buttons: [
                                         {
                                             text: 'OK',
@@ -443,9 +450,16 @@ export class MapPage {
                                 mapObj.readDirections(position);
                                 console.log(distance);
                                 if (distance < 5) {
+									var title = 'You Have Reached Your Destination!';
+									var message = 'You Have Reached Your Destination!';
+									if (mapObj.indoorDescription !=  null) {
+										title = 'You Have Reached The Building';
+										message = 'Now Follow the following instructions:\n'
+										  + this.indoorDescription;
+									}
                                     let alert = mapObj.alertCtrl.create({
-                                        title: 'You Have Reached Your Destination!',
-                                        message: 'You Have Reached Your Destination!',
+                                        title: title,
+                                        message: message,
                                         buttons: [
                                             {
                                                 text: 'OK',
