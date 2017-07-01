@@ -104,9 +104,9 @@ export class MapPage {
     }
     ionViewDidLoad() {
         let mapObj = this;
-        var num=0;
-        if(this.voiceEnabled){
-            num=1
+        var num = 0;
+        if (this.voiceEnabled) {
+            num = 1
         }
         setTimeout(function() {
             mapObj.loginService.getDetails().subscribe(data => {
@@ -125,7 +125,7 @@ export class MapPage {
                 //document.getElementsByClassName("item item-block item-md")[0].disabled = true;
 
             }
-        }, 3000*num);
+        }, 3000 * num);
         this.loadMap();
     }
     searchLastSearches() {
@@ -363,6 +363,10 @@ export class MapPage {
         this.removeWalkingPath();
         this.simulationMode = false;
         this.wantRecordRoute = false;
+        this.mapView.setOptions({
+            liteMode: this.voiceEnabled,
+            draggable: true
+        });
         document.getElementById("DirectionPanelLabel").style.display = "block";
         document.getElementById("DirectionPanelLabel2").style.display = "block";
         document.getElementsByName("panelLabel")[0].innerHTML = "No Directions To Show";
