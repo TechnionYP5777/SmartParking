@@ -87,10 +87,9 @@ export class MapPage {
         this.lastSearches = [];
         this.loginPage = login;
         this.voiceEnabled = !this.plt.is('core') && !this.plt.is('mobileweb');
-        console.log("use voice :" + this.voiceEnabled);
-        if (this.voiceEnabled == true) {
-            this.tts.speak("Welcome to Smart Parking");
-        }
+//        if (this.voiceEnabled == true) {
+//            this.tts.speak("Welcome to Smart Parking");
+//        }
         this.didNavigate = false;
         MyApp.isLoggedIn = false;
         this.loginService = loginService;
@@ -131,7 +130,7 @@ export class MapPage {
                 alert.setMessage(lastSearch.Status)
                 alert.addButton({
                     text: 'OK',
-                    handler: data => {}
+                    handler: data => { }
                 });
                 alert.present();
                 return;
@@ -329,6 +328,26 @@ export class MapPage {
         document.getElementsByName("panelLabel2")[0].innerHTML = "No Directions To Show";
         this.startRecording();
     }
+    doneNavigate() {
+        this.inNav = false;
+        google.maps.event.clearListeners(this.mapView, 'mousemove');
+        if (this.voiceIntervalId) {
+            clearInterval(this.voiceIntervalId);
+        }
+        if (this.voiceIntervalId) {
+            clearInterval(this.intervalid);
+        }
+        this.directionsDisplay.setMap(null);
+        this.directionsDisplay.setPanel(null);
+        this.directionsDisplayWalk.setMap(null);
+        this.directionsDisplayWalk.setPanel(null);
+        this.removeWalkingPath();
+        this.simulationMode = false;
+        document.getElementById("DirectionPanelLabel").style.display = "block";
+        document.getElementById("DirectionPanelLabel2").style.display = "block";
+        document.getElementsByName("panelLabel")[0].innerHTML = "No Directions To Show";
+        document.getElementsByName("panelLabel2")[0].innerHTML = "No Directions To Show";
+    }
     goAux() {
         if (this.srcPosition && this.dstPosition) {
             // send to server Src and Destination
@@ -400,13 +419,13 @@ export class MapPage {
                             console.log(distance);
                             mapObj.readDirections(event.latLng);
                             if (distance < 5) {
-							    var title = 'You Have Reached Your Destination!';
+                                var title = 'You Have Reached Your Destination!';
                                 var message = 'You Have Reached Your Destination!';
-								if (mapObj.indoorDescription !=  null) {
-									title = 'You Have Reached The Building';
-									message = 'Now Follow the following instructions: '
-									  + mapObj.indoorDescription;
-								}
+                                if (mapObj.indoorDescription != null) {
+                                    title = 'You Have Reached The Building';
+                                    message = 'Now Follow the following instructions: '
+                                        + mapObj.indoorDescription;
+                                }
                                 let alert = mapObj.alertCtrl.create({
                                     title: title,
                                     message: message,
@@ -414,13 +433,7 @@ export class MapPage {
                                         {
                                             text: 'OK',
                                             handler: () => {
-                                                mapObj.inNav = false;
-                                                google.maps.event.clearListeners(mapObj.mapView, 'mousemove');
-                                                mapObj.directionsDisplay.setMap(null);
-                                                mapObj.directionsDisplay.setPanel(null);
-                                                mapObj.directionsDisplayWalk.setMap(null);
-                                                mapObj.directionsDisplayWalk.setPanel(null);
-                                                mapObj.removeWalkingPath();
+                                                mapObj.doneNavigate();
                                             }
                                         }
                                     ]
@@ -437,13 +450,13 @@ export class MapPage {
                                 mapObj.readDirections(position);
                                 console.log(distance);
                                 if (distance < 5) {
-									var title = 'You Have Reached Your Destination!';
-									var message = 'You Have Reached Your Destination!';
-									if (mapObj.indoorDescription !=  null) {
-										title = 'You Have Reached The Building';
-										message = 'Now Follow the following instructions:\n'
-										  + this.indoorDescription;
-									}
+                                    var title = 'You Have Reached Your Destination!';
+                                    var message = 'You Have Reached Your Destination!';
+                                    if (mapObj.indoorDescription != null) {
+                                        title = 'You Have Reached The Building';
+                                        message = 'Now Follow the following instructions:\n'
+                                            + this.indoorDescription;
+                                    }
                                     let alert = mapObj.alertCtrl.create({
                                         title: title,
                                         message: message,
@@ -451,14 +464,7 @@ export class MapPage {
                                             {
                                                 text: 'OK',
                                                 handler: () => {
-                                                    mapObj.inNav = false;
-                                                    clearInterval(mapObj.intervalid);
-                                                    clearInterval(mapObj.voiceIntervalId);
-                                                    mapObj.directionsDisplay.setMap(null);
-                                                    mapObj.directionsDisplay.setPanel(null);
-                                                    mapObj.directionsDisplayWalk.setMap(null);
-                                                    mapObj.directionsDisplayWalk.setPanel(null);
-                                                    mapObj.removeWalkingPath();
+                                                    mapObj.doneNavigate()
                                                 }
                                             }
                                         ]
@@ -493,11 +499,11 @@ export class MapPage {
                     src = src + "$" + page.srcPosition.toString();
                 }
                 page.getBestParking(src, page.dstName, google).then((result) => {
-                    if(result){
-                        google.maps.event.trigger(page.mapView,'resize');
+                    if (result) {
+                        google.maps.event.trigger(page.mapView, 'resize');
                         page.goAux();
                     }
-                    else{//couldn't find error
+                    else {//couldn't find error
                         this.inNav = false;
                         return;
                     }
@@ -510,6 +516,7 @@ export class MapPage {
     }
     freeSlot() {
         //let page = this;
+        this.doneNavigate();
         var carNumber = this.loginPage.getCarNumber();
         let mapObj = this;
         this.leavePark(carNumber).then((result) => {
@@ -661,7 +668,7 @@ export class MapPage {
         let step = steps[this.curr_step_index]
         var text = step.instructions.replace(/<b>/g, "");
         text = text.replace(/<\/b>/g, "");
-		if (this.curr_step_index >= steps.length - 1 && this.indoorDescription != null) {
+        if (this.curr_step_index >= steps.length - 1 && this.indoorDescription != null) {
             text = ". After that, " + this.indoorDescription;
         }
         this.tts.speak(text);
