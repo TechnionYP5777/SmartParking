@@ -39,9 +39,11 @@ export class MyApp {
     rootPage = MapPage;
     pages: Array<{ title: string, component: any }>;
     NotLoggedPages: Array<{ title: string, component: any }>;
+    AllPages :any;
     static isLoggedIn: any;
     static id: string;
     static menuCtrl: MenuController;
+    static currPage: any;
     
     content:any;
     constructor(
@@ -57,27 +59,87 @@ export class MyApp {
         this.initializeApp();
         MyExceptionHandler.isCordova = this.plt.is('cordova');
         MyExceptionHandler.file = file;
-        // set our app's pages
-        this.pages = [
+        MyApp.currPage = 'Map';
+        this.AllPages =  [
             { title: 'Map', component: MapPage },
             { title: 'About', component: HelloIonicPage },
             { title: 'My Details', component: MyDetailsPage },
             { title: 'Logout', component: LogoutPage },
+            { title: 'Login', component: LoginPage },
+            { title: 'Register', component: RegisterPage },
+        ];
+        // set our app's pages
+        this.pages = [
+            this.AllPages[this.pageToIdx('Map')],
+            this.AllPages[this.pageToIdx('About')],
+            this.AllPages[this.pageToIdx('My Details')],
+            this.AllPages[this.pageToIdx('Logout')],
         ];
         this.NotLoggedPages = [
-            { title: 'Map', component: MapPage },
-            { title: 'About', component: HelloIonicPage },
-            { title: 'Register', component: RegisterPage },
-            { title: 'Login', component: LoginPage },
+            this.AllPages[this.pageToIdx('Map')],
+            this.AllPages[this.pageToIdx('About')],
+            this.AllPages[this.pageToIdx('Login')],
+            this.AllPages[this.pageToIdx('Register')],
         ];
         
         MyApp.menuCtrl = menuCtrl;
         setTimeout(function(){
             MyApp.updateMenu();
         },1000);
-
     }
 
+    
+    pageToIdx(page){
+         switch(page){
+             case 'Map':
+                return 0;
+             case 'About':
+                return 1;
+             case 'My Details':
+                return 2;   
+             case 'Logout':
+                return 3;
+             case 'Login':
+                return 4;  
+             case 'Register':
+                return 5;   
+        }
+        return 6;
+    }
+        
+    idxToPage(idx:string){
+         switch(idx){
+             case '0':
+                return 'Map';
+             case '1':
+                return 'About';
+             case '2':
+                return 'My Details';   
+             case '3':
+                return 'Logout';
+             case '4':
+                return 'Login';  
+             case '5':
+                return 'Register';   
+        }
+        return 'NonePage';
+    } 
+
+    getCorrectMenuPages(logged){
+        let pagesArray :Array<{ title: string, component: any }> ;
+        pagesArray=[];
+        if(logged){
+            for(let i in [0,1,2,3]){
+                if(MyApp.currPage!=this.idxToPage(i)){
+                    console.log(MyApp.currPage + " != " + this.idxToPage(i) + " i = " + i);
+                    pagesArray.push(this.AllPages[i]);
+                }
+            }
+            return pagesArray;
+        }    
+        else
+            return this.NotLoggedPages;
+    }
 
     static updateMenu() {
         MyApp.menuCtrl.enable(!MyApp.isLoggedIn, 'NotLogged');
@@ -102,11 +164,14 @@ export class MyApp {
     }
 
     openPage(page) {
+        MyApp.currPage = page.title;    
+    
         // close the menu when clicking a link from the menu
         this.menu.close();
         // navigate to the new page if it is not the current page
         this.nav.setRoot(page.component);
     }
+    
     getUniqueID(file: File, isCordova: boolean) {
         if (!isCordova) {
             let id = require("../identity");
