@@ -553,7 +553,7 @@ export class MapPage {
             console.log("left park")
             let alert = mapObj.alertCtrl.create({
                 title: 'Free Parking Slot',
-                message: 'You are free to go',
+                message: 'Parking slot was released. You are free to go!',
                 buttons: [
                     {
                         text: 'OK',
