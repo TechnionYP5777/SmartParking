@@ -391,10 +391,6 @@ export class MapPage {
                         map: mapObj.mapView
                     });
                     if (mapObj.simulationMode) {
-                        mapObj.mapView.setOptions({
-                            liteMode: mapObj.voiceEnabled,
-                            draggable: !mapObj.voiceEnabled
-                        });
                         google.maps.event.addListener(mapObj.mapView, 'mousemove', function(event) {
                             mapObj.currentLocationMarker.setPosition(event.latLng);
                             let distance = google.maps.geometry.spherical.computeDistanceBetween(event.latLng, mapObj.chosenParkingArea.position);
@@ -445,10 +441,6 @@ export class MapPage {
                 } else {
                     mapObj.calculateAndDisplayRouteWalking(mapObj.directionsService, mapObj.directionsDisplayWalk, mapObj.chosenParkingArea);
                     if (mapObj.simulationMode) {
-                        mapObj.mapView.setOptions({
-                            liteMode: mapObj.voiceEnabled,
-                            draggable: !mapObj.voiceEnabled
-                        });
                         google.maps.event.addListener(mapObj.mapView, 'mousemove', function(event) {
                             mapObj.currentLocationMarker.setPosition(event.latLng);
                             let distance = google.maps.geometry.spherical.computeDistanceBetween(event.latLng, mapObj.dstPosition);
