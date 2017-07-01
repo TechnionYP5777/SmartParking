@@ -1,14 +1,13 @@
 /**
-
-login-page - logins to the application 
-@author zahimizrahi
-@author davidcohen55
-@author Shahar-Y
-@author sefialbo
-@author shaysegal 
-@since 2017-03-27
-
-**/
+ * @author DavidCohen55
+ * @author Shahar-Y
+ * @author zahimizrahi
+ * @author sefialbo
+ * @author shaysegal 
+ * Created: 2017-03-27
+ * 
+ * This file contains the methods for the login functionality
+ */
 
 import { Component } from '@angular/core';
 import { IonicPage, NavController } from 'ionic-angular';
@@ -19,13 +18,7 @@ import { RegisterPage } from '../register-page/register-page';
 import { LogoutService } from '../../providers/logout-service';
 import { MyApp } from '../../app/app.component';
 
-/**
- * @author DavidCohen55
- * @author Shahar-Y
- * Created: May 2017
- * 
- * This file contains the methods for the login functionality
- */
+
 
 @IonicPage()
 @Component({
@@ -57,15 +50,13 @@ export class LoginPage {
     }
 
 
-
+    //pronotes a GET method to get the user data from the heroku, and update it.
     getUserData(myData: {
         name: string, phoneNumber: string, carNumber: string,
         email: string, sticker: string
     }): Promise<boolean> {
-        console.log("getUserData() myData before: " + JSON.stringify(myData));
         return new Promise((resolve, reject) => {
             this.serve.getDetails().subscribe(data => {
-                console.log("getUserData() data: " + JSON.stringify(data));
                 MyApp.isLoggedIn = true;
                 MyApp.updateMenu();
                 myData.name = data.name;
@@ -74,7 +65,6 @@ export class LoginPage {
                 myData.email = data.email;
                 myData.sticker = data.sticker;
                 resolve(true);
-                console.log("getUserData() myData after: " + JSON.stringify(myData));
             }, err => {
                 console.log("getUserData error: " + err);
                 MyApp.isLoggedIn = false;
@@ -84,7 +74,8 @@ export class LoginPage {
         });
     }
 
-
+    //Checks if the user entered valid details and presents an alert accordingly.
+    //If the details are correct, it logs in.
     getInfo() {
         this.serve.getDetails().subscribe(data => {
             this.response = true;
@@ -96,6 +87,7 @@ export class LoginPage {
                 console.log(data.name + " is logged in.");
                 MyApp.isLoggedIn = true;
                 MyApp.updateMenu();
+                MyApp.currPage='About';
                 this.navCtrl.setRoot(HelloIonicPage);
             }
         }, err => {
@@ -111,7 +103,9 @@ export class LoginPage {
     getCarNumber() {
         return this.carNumber;
     }
-
+    
+    //The main login method, called after the user enters the details, 
+    // and presses "SIGN IN" button.
     Login(carNumber, password) {
         this.loginStarted = true;
         this.response = false;

@@ -131,22 +131,26 @@ export class MyApp {
                 return 'Register';
         }
         return 'NonePage';
-    }
+    } 
 
-    getCorrectMenuPages(logged) {
-        let pagesArray: Array<{ title: string, component: any }>;
-        pagesArray = [];
-        if (logged) {
-            for (let i in [0, 1, 2, 3]) {
-                if (MyApp.currPage != this.idxToPage(i)) {
-                    console.log(MyApp.currPage + " != " + this.idxToPage(i) + " i = " + i);
+    getCorrectMenuPages(logged){
+        let pagesArray :Array<{ title: string, component: any }> ;
+        pagesArray=[];
+        if(logged){
+            for(let i in [0,1,2,3]){
+                if(MyApp.currPage!=this.idxToPage(i)){
                     pagesArray.push(this.AllPages[i]);
                 }
             }
-            return pagesArray;
+        }    
+        else{
+            for(let i in [0,1,4,5]){
+                if(MyApp.currPage!=this.idxToPage(i)){
+                    pagesArray.push(this.AllPages[i]);
+                }
+            }
         }
-        else
-            return this.NotLoggedPages;
+        return pagesArray;
     }
 
     static updateMenu() {

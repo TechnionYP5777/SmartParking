@@ -23,7 +23,8 @@ import main.java.logic.LoginManager;
 
 /**
  * @author DavidCohen55
- * @author Shahar-Y Created: May 2017
+ * @author Shahar-Y 
+ * Created: May 2017
  * 
  *         This file contains the java methods for the user services in the
  *         local host
@@ -69,7 +70,6 @@ public class UserController {
 
 	/**
 	 * New Login get method
-	 * 
 	 * @return the user object
 	 */
 	@CrossOrigin(origins = "*")
