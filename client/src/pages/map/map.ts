@@ -259,7 +259,11 @@ export class MapPage {
         mapObj.dstMarker.setMap(null);
         this.inNav = false;
         this.presentPrompt(function(message) {
-            let toServer = { duration: recordTimeInterval, path: mapObj.recordedRoute, destination: mapObj.dstName, parkingArea: mapObj.chosenParkingArea.title, description: message };
+            var newPath = []
+            mapObj.recordedRoute.forEach(function(element) {
+                newPath.push({ lat: element.lat, lon: element.lng })
+            });
+            let toServer = { duration: recordTimeInterval, path: newPath, destination: mapObj.dstName, parkingArea: mapObj.chosenParkingArea.title, description: message };
             mapObj.removeWalkingPath();
             mapObj.pathService.sendRecordedPath(toServer);
         });
@@ -311,7 +315,7 @@ export class MapPage {
                     return;
                 }
                 validTime = newTime;
-                recordedRoute.push({ lat: event.latLng.lat(), lon: event.latLng.lng() });
+                recordedRoute.push({ lat: event.latLng.lat(), lng: event.latLng.lng() });
                 let distance = google.maps.geometry.spherical.computeDistanceBetween(event.latLng, mapObj.dstPosition);
                 console.log(distance);
                 mapObj.drawPath(recordedRoute.slice(-2));
