@@ -685,7 +685,7 @@ export class MapPage {
                         directionsDisplay.setDirections(response);
                     } else {
                         mapObj.drawPath(data.path);
-                        document.getElementsByName("panelLabel")[0].innerHTML = data.description;
+                        document.getElementsByName("panelLabel2")[0].style.display="block";
                         document.getElementsByName("panelLabel2")[0].innerHTML = data.description;
                     }
                 });
