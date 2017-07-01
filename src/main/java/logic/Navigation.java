@@ -18,7 +18,6 @@ import main.java.util.LogPrinter;
 
 public class Navigation {
 
-
 	private static JSONObject getInnerJSON(final String url) {
 		final JSONParser $ = new JSONParser();
 		try {
@@ -34,7 +33,7 @@ public class Navigation {
 	private static String createURL(final MapLocation source, final MapLocation target, final boolean walkingMode) {
 		String $ = "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=" + source.getLat()
 				+ "," + source.getLon() + "&destinations=" + target.getLat() + "," + target.getLon()
-				+ "&key=AIzaSyC_zyT9qStf8gR6Jw44kKgaDw2dAuHF6bk";//AIzaSyDw25loi0t1ms-bCuLPHS2Bm9aEIvyu9Wo";
+				+ "&key=AIzaSyC_zyT9qStf8gR6Jw44kKgaDw2dAuHF6bk";// AIzaSyDw25loi0t1ms-bCuLPHS2Bm9aEIvyu9Wo";
 		if (walkingMode)
 			$ += "&mode=walking";
 
@@ -52,16 +51,16 @@ public class Navigation {
 				: $ != null ? (long) ((JSONObject) $.get("duration")).get("value") : 0;
 	}
 
-	
 	public static ParkingSlot closestParkingSlot(final User u, final MapLocation currentLocation, final ParkingAreas a,
 			final Destination d) throws org.parse4j.ParseException {
-		
+
 		ParkingSlot park = null;
 		final ParseQuery<ParseObject> query = ParseQuery.getQuery("ParkingSlot");
 		query.whereEqualTo("status", ParkingSlotStatus.FREE.ordinal());
 		query.whereGreaterThanOrEqualTo("color", u.getSticker().ordinal());
 		List<ParseObject> slotsList = query.find();
-
+		if (slotsList == null)
+			return null;
 		long minDuration = Integer.MAX_VALUE;
 		for (final ParseObject parkingSlot : slotsList) {
 			ParkingSlot slot = new ParkingSlot(parkingSlot);
@@ -71,9 +70,10 @@ public class Navigation {
 				minDuration = duration;
 			}
 		}
-		u.setCurrentParking(park);
-		park.changeStatus(ParkingSlotStatus.TAKEN);
-
+		if (park != null) {
+			u.setCurrentParking(park);
+			park.changeStatus(ParkingSlotStatus.TAKEN);
+		}
 		return park;
 	}
 }
