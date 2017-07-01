@@ -2,7 +2,6 @@ package rest_test;
 
 import org.springframework.web.bind.annotation.*;
 
-import main.java.Exceptions.AlreadyExists;
 import main.java.Exceptions.LoginException;
 import main.java.Exceptions.NotExists;
 import main.java.data.management.DBManager;
