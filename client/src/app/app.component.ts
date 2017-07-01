@@ -61,17 +61,14 @@ export class MyApp {
         this.initializeApp();
         MyExceptionHandler.isCordova = this.plt.is('cordova');
         MyExceptionHandler.file = file;
-<<<<<<< HEAD
-        MyApp.currPage = 'Map';
-        this.AllPages =  [
-=======
+
         // set our app's pages
         let condition =!this.plt.is('core') && !this.plt.is('mobileweb')
         if (condition == true) {
             this.tts.speak("Welcome to Smart Parking");
         }
-        this.pages = [
->>>>>>> f5a91978916d2ead3174a0025802a93dc7671c7c
+        MyApp.currPage = 'Map';
+        this.AllPages =  [
             { title: 'Map', component: MapPage },
             { title: 'About', component: HelloIonicPage },
             { title: 'My Details', component: MyDetailsPage },
