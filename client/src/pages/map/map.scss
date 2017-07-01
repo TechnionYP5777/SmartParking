@@ -33,7 +33,11 @@
       }
       #over_map {
         background-color: white; 
-
+		overflow: auto;
+      }
+	  #over_map2 {
+        background-color: white; 
+		overflow: auto;
       }
       background: url("../assets/img/background.jpg") no-repeat fixed center;
       -webkit-animation: animateInSecondary ease-in 1;
@@ -41,9 +45,11 @@
     -webkit-animation-duration: 750ms;
     animation-duraton: 750ms;
 
-
    }
+   
+::-webkit-scrollbar {display:none;}
 
+	
 .alertLogin{
     background-color: white;
     color: dark;
@@ -52,9 +58,9 @@
     }
 
     .button {
-  font-weight: bold;
-  font-size: 20px;
-  background-color: color($colors, dark);
-  width: 100%;
+	  font-weight: bold;
+	  font-size: 20px;
+	  background-color: color($colors, dark);
+	  width: 100%;
+	}
 }
-    }
