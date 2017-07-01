@@ -125,6 +125,8 @@ export class MapPage {
     }
     searchLastSearches() {
         let mapObj = this;
+        this.simulationMode = false;
+        this.wantRecordRoute = false;
         this.pathService.getLastPaths(function(lastSearch) {
             if (lastSearch.Status) {
                 let alert = mapObj.alertCtrl.create();
@@ -355,6 +357,7 @@ export class MapPage {
         this.directionsDisplayWalk.setPanel(null);
         this.removeWalkingPath();
         this.simulationMode = false;
+        this.wantRecordRoute = false;
         document.getElementById("DirectionPanelLabel").style.display = "block";
         document.getElementById("DirectionPanelLabel2").style.display = "block";
         document.getElementsByName("panelLabel")[0].innerHTML = "No Directions To Show";
