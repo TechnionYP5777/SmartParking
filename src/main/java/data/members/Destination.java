@@ -12,9 +12,10 @@ import org.parse4j.ParseQuery;
 import main.java.Exceptions.*;
 import main.java.data.management.DBManager;
 
-/**
+/** Destination - class representing object of Destination 
  * @author dshames
  * @Author DavidCohen55
+ * @since 2017-03-27
  */
 public class Destination extends dbMember {
 
