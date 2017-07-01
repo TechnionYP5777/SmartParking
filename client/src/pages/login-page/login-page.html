@@ -7,15 +7,18 @@
 
 <style>
 ion-spinner {
- name: bubbles;
-  margin: auto;
-  position: absolute;
-  top: 0; left: 0; bottom: 0; right: 0;
-  text-align: center;
-  z-index:10;
-  width:70%;
-  height:70%; 
-	color:blue;
+	name: bubbles;
+	margin: auto;
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	text-align: center;
+	z-index: 10;
+	width: 70%;
+	height: 70%;
+	color: blue;
 }
 </style>
 
@@ -26,15 +29,14 @@ ion-spinner {
 <ion-title>Login Page</ion-title> </ion-navbar> </ion-header>
 
 
-<ion-content padding class="page-login-page">
-<ion-spinner name="bubbles" clolor="blue" class="spinner-calm" *ngIf="loginStarted"></ion-spinner>
+<ion-content padding class="page-login-page"> <ion-spinner
+	name="dots" clolor="blue" class="spinner-calm" *ngIf="loginStarted"></ion-spinner>
 
- <ion-list>
-<ion-item> <ion-label style="color: black" floating>Car
-Number</ion-label> <ion-input [(ngModel)]="carNumber" type="text" value=""></ion-input>
-</ion-item> <ion-item> <ion-label style="color: black" floating>Password</ion-label>
-<ion-input [(ngModel)]="password" type="password" value=""></ion-input>
-</ion-item> </ion-list>
+<ion-list> <ion-item> <ion-label
+	style="color: black" floating>Car Number</ion-label> <ion-input
+	[(ngModel)]="carNumber" type="text" value=""></ion-input> </ion-item> <ion-item>
+<ion-label style="color: black" floating>Password</ion-label> <ion-input
+	[(ngModel)]="password" type="password" value=""></ion-input> </ion-item> </ion-list>
 
 <div padding>
 	<button ion-button (click)="Login(carNumber,password)" color="dark"
