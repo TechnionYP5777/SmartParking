@@ -256,7 +256,6 @@ export class MapPage {
     stopRecording(recordTimeInterval: number) {
         clearInterval(this.intervalid);
         let mapObj = this;
-        mapObj.dstMarker.setMap(null);
         this.inNav = false;
         this.presentPrompt(function(message) {
             var newPath = []
@@ -371,6 +370,9 @@ export class MapPage {
             liteMode: this.voiceEnabled,
             draggable: true
         });
+        if(this.dstMarker){
+            this.dstMarker.setMap(null);    
+        }
         document.getElementById("DirectionPanelLabel").style.display = "block";
         document.getElementById("DirectionPanelLabel2").style.display = "block";
         document.getElementsByName("panelLabel")[0].innerHTML = "No Directions To Show";
@@ -551,7 +553,7 @@ export class MapPage {
             console.log("left park")
             let alert = mapObj.alertCtrl.create({
                 title: 'Free Parking Slot',
-                message: 'You are free to go',
+                message: 'Parking slot was released. You are free to go!',
                 buttons: [
                     {
                         text: 'OK',

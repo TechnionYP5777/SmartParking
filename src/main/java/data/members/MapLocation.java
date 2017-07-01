@@ -1,5 +1,11 @@
 package main.java.data.members;
 
+/** MapLocation - class representing a location (lat,lng) of the map. 
+ * @author dshames
+ * @Author DavidCohen55
+ * @since 2017-03-27
+ */
+
 public class MapLocation {
 
 	private double lat;

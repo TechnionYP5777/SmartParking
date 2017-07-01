@@ -334,7 +334,7 @@ public class LocationController {
 			UserState state = UserController.users.get(key);
 			User u = new User(state.getUser().getCarNumber());
 			if (u.getCurrentParking() == null) {
-				obj.put("Status", "You are free to go");
+				obj.put("Status", "You are Free To go");
 				return obj + "";
 			}
 			u.getCurrentParking().changeStatus(ParkingSlotStatus.FREE);
