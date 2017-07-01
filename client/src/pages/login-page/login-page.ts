@@ -1,15 +1,3 @@
-/**
-
-login-page - logins to the application 
-@author zahimizrahi
-@author davidcohen55
-@author Shahar-Y
-@author sefialbo
-@author shaysegal 
-@since 2017-03-27
-
-**/
-
 import { Component } from '@angular/core';
 import { IonicPage, NavController } from 'ionic-angular';
 import { LoginService } from './login-service';
@@ -22,7 +10,7 @@ import { MyApp } from '../../app/app.component';
 /**
  * @author DavidCohen55
  * @author Shahar-Y
- * Created: May 2017
+ * Created: 2017-03-27
  * 
  * This file contains the methods for the login functionality
  */
@@ -96,6 +84,7 @@ export class LoginPage {
                 console.log(data.name + " is logged in.");
                 MyApp.isLoggedIn = true;
                 MyApp.updateMenu();
+                MyApp.currPage='About';
                 this.navCtrl.setRoot(HelloIonicPage);
             }
         }, err => {

@@ -42,6 +42,7 @@ export class RegisterPage {
         this.serve.getRegisterData().subscribe(data => {
             if (data.status == "Success") {
                 this.presentAlert("Register is successful!", "Register");
+                MyApp.currPage='About';
                 this.navCtrl.push(HelloIonicPage);
                 MyApp.isLoggedIn = true;
                 MyApp.updateMenu();

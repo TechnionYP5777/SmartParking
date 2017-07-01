@@ -139,14 +139,18 @@ export class MyApp {
         if(logged){
             for(let i in [0,1,2,3]){
                 if(MyApp.currPage!=this.idxToPage(i)){
-                    console.log(MyApp.currPage + " != " + this.idxToPage(i) + " i = " + i);
                     pagesArray.push(this.AllPages[i]);
                 }
             }
-            return pagesArray;
         }    
-        else
-            return this.NotLoggedPages;
+        else{
+            for(let i in [0,1,4,5]){
+                if(MyApp.currPage!=this.idxToPage(i)){
+                    pagesArray.push(this.AllPages[i]);
+                }
+            }
+        }
+        return pagesArray;
     }
 
     static updateMenu() {
