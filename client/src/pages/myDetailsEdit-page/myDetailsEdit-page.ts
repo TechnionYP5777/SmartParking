@@ -4,7 +4,7 @@ import { AlertController } from 'ionic-angular';
 import { MyDetailsService } from '../../providers/myDetails-service';
 import { LoginService } from '../login-page/login-service';
 import { HelloIonicPage } from '../hello-ionic/hello-ionic';
-
+import { MyApp } from '../../app/app.component';
 
 
 /**
@@ -58,7 +58,7 @@ export class MyDetailsEditPage {
             this.presentAlert("There was an error with the request. Please try again.", "Error");
             console.log(err);
         });
-
+        MyApp.currPage='About';
         this.navCtrl.push(HelloIonicPage);
 
     }
