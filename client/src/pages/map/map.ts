@@ -122,19 +122,6 @@ export class MapPage {
 
         }
     }
-
-    /*
-    this.loginPage.getUserData(myData).then((result) => {
-        setTimeout(function() {
-            console.log("in map page, myData = " + JSON.stringify(myData));
-            if (myData == undefined) {
-                console.log("in map page, myData is undefined");
-                ref.showAlertLogin(ref.loginPage);
-                return;
-            }
-        }, 8000);
-    });*/
-
     searchLastSearches() {
         let mapObj = this;
         this.pathService.getLastPaths(function(lastSearch) {
@@ -490,6 +477,7 @@ export class MapPage {
 
     }
     go() {
+        this.removeWalkingPath()
         if (this.srcPosition && this.dstPosition) {
             this.inNav = true;
             // send to server Src and Destination
