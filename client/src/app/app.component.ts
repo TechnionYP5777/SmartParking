@@ -25,6 +25,7 @@ import { LogoutPage } from '../pages/logout-page/logout-page';
 import { MyDetailsPage } from '../pages/myDetails-page/myDetails-page';
 import { File } from '@ionic-native/file';
 import { MyExceptionHandler } from '../providers/errorHandler';
+import {TextToSpeech} from '@ionic-native/text-to-speech';
 declare function require(name: string);
 
 @Component({
@@ -53,14 +54,24 @@ export class MyApp {
         public splashScreen: SplashScreen,
         public file: File,
         public plt: Platform,
-        menuCtrl: MenuController
+        menuCtrl: MenuController,
+        private tts: TextToSpeech
     ) {
-
+        
         this.initializeApp();
         MyExceptionHandler.isCordova = this.plt.is('cordova');
         MyExceptionHandler.file = file;
+<<<<<<< HEAD
         MyApp.currPage = 'Map';
         this.AllPages =  [
+=======
+        // set our app's pages
+        let condition =!this.plt.is('core') && !this.plt.is('mobileweb')
+        if (condition == true) {
+            this.tts.speak("Welcome to Smart Parking");
+        }
+        this.pages = [
+>>>>>>> f5a91978916d2ead3174a0025802a93dc7671c7c
             { title: 'Map', component: MapPage },
             { title: 'About', component: HelloIonicPage },
             { title: 'My Details', component: MyDetailsPage },
