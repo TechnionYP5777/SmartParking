@@ -43,12 +43,12 @@ public class LocationController {
 
 	public JSONObject ParkingSlotSerialze(ParkingSlot s) {
 		JSONObject o = new JSONObject();
-		o.put("name", s.getName());
-		o.put("status", s.getStatus());
-		o.put("color", s.getColor());
+		o.put("name", s == null ? "" : s.getName());
+		o.put("status", s == null ? "" : s.getStatus());
+		o.put("color", s == null ? "" : s.getColor());
 		JSONObject l = new JSONObject();
-		l.put("lat", s.getLocation().getLat());
-		l.put("lon", s.getLocation().getLon());
+		l.put("lat", s == null ? "" : s.getLocation().getLat());
+		l.put("lon", s == null ? "" : s.getLocation().getLon());
 		o.put("location", l);
 		return o;
 	}
@@ -292,7 +292,7 @@ public class LocationController {
 				srcLocation = new MapLocation(Double.parseDouble(point[0].trim()), Double.parseDouble(point[1].trim()));
 			}
 			ParkingSlot slot = Navigation.closestParkingSlot(u, srcLocation, areas, new Destination(dest));
-			if(slot == null){
+			if (slot == null) {
 				o.put("error", "Didn't found a slot");
 				return o + "";
 			}
@@ -314,8 +314,7 @@ public class LocationController {
 	@RequestMapping(value = "/FindPark/{key}", produces = "application/json")
 	@ResponseBody
 	public String getBestPark(@PathVariable String key) {
-		ParkingSlot s = UserController.users.get(key).getUser().getCurrentParking();
-		return s == null ? "" : ParkingSlotSerialze(s) + "";
+		return ParkingSlotSerialze(UserController.users.get(key).getUser().getCurrentParking()) + "";
 	}
 
 	/**
