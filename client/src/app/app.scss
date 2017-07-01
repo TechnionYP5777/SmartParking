@@ -67,7 +67,9 @@ ion-content {
   color: color($colors, secondary) !important;
 }
 
-
+.alert-md .alert-wrapper{
+  max-width: inherit
+}
 ion-buttons {
   text-align: center;
 }

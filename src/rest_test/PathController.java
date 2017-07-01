@@ -136,7 +136,7 @@ public class PathController {
 	public String getLastPaths(@PathVariable String key) {
 		JSONObject obj = new JSONObject();
 		if (UserController.users.get(key) == null) {
-			obj.put("error", " Not connected from device");
+			obj.put("Status", "Not connected from device");
 			return obj + "";
 		}
 		ArrayList<String> lastRoutes = UserController.users.get(key).getUser().getLastPaths();
