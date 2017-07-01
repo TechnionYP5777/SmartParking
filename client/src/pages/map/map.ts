@@ -506,6 +506,7 @@ export class MapPage {
                 }
                 page.getBestParking(src, page.dstName, google).then((result) => {
                     if(result){
+                        google.maps.event.trigger(page.mapView,'resize');
                         page.goAux();
                     }
                     else{//couldn't find error
@@ -579,7 +580,8 @@ export class MapPage {
 
         var map = new google.maps.Map(this.mapElement.nativeElement, {
             zoom: 15,
-            center: { lat: 32.776878, lng: 35.023106 }
+            center: { lat: 32.776878, lng: 35.023106 },
+            liteMode: this.voiceEnabled
         });
         this.mapView = map;
         let mapObj = this;
