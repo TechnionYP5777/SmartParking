@@ -292,13 +292,17 @@ public class LocationController {
 				srcLocation = new MapLocation(Double.parseDouble(point[0].trim()), Double.parseDouble(point[1].trim()));
 			}
 			ParkingSlot slot = Navigation.closestParkingSlot(u, srcLocation, areas, new Destination(dest));
+			if(slot == null){
+				o.put("error", "Didn't found a slot");
+				return o + "";
+			}
 			o.put("areaName", slotToArea.get(slot.getName()));
 			o.put("lat", slot.getLocation().getLat());
 			o.put("lon", slot.getLocation().getLon());
 			return o + "";
 		} catch (ParseException | LoginException | NotExists e) {
 			System.out.println("exception... " + e);
-			o.put("error", o.toString());
+			o.put("error", e + "");
 			return o + "";
 		}
 	}
