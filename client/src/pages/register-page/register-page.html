@@ -7,12 +7,28 @@
 <button ion-button menuToggle *ngIf="!selectedItem">
 	<ion-icon name="menu"></ion-icon>
 </button>
+
+<style>
+ion-spinner {
+ name: bubbles;
+  margin: auto;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+  text-align: center;
+  z-index:10;
+  width:70%;
+  height:70%; 
+	color:blue;
+}
+</style>
+
 <ion-title>Register Page</ion-title> </ion-navbar> </ion-header> </ion-header>
 
 
 <ion-content padding class="page-register-page"> <ion-list>
 <p>. </p>
 <p>. </p>
+<ion-spinner name="bubbles" clolor="blue" class="spinner-calm" *ngIf="regiStarted"></ion-spinner>
 <ion-item> <ion-label floating>Username <i>(only characters)</i></ion-label> <ion-input
 	[(ngModel)]="username" type="text" value=""></ion-input> </ion-item> <ion-item>
 <ion-label floating>Password</ion-label> <ion-input

@@ -28,8 +28,10 @@ import { MyApp } from '../../app/app.component';
 export class RegisterPage {
     serve: any;
     response: any;
+    regiStarted: any;
     constructor(public navCtrl: NavController, public navParams: NavParams, serve: RegisterService, public alertCtrl: AlertController) {
         this.serve = serve;
+        this.regiStarted=false;
     }
 
     ionViewDidLoad() {
@@ -47,9 +49,12 @@ export class RegisterPage {
                 this.presentAlert(data.status + ". Please try again.", "Register");
             }
         });
+        this.regiStarted=false;
+        
     }
 
     Register(userName, password, phoneNum, carNum, eMail, stickerColor) {
+        this.regiStarted=true;
         let ref = this;
         this.response = false;
         setTimeout(function() {

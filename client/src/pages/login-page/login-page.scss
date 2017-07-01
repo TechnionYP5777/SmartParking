@@ -10,6 +10,19 @@
   }
 }
  
+  ion-spinner {
+    * {
+      stroke: blue;
+    }
+
+    &.spinner-circles circle,
+    &.spinner-bubbles circle,
+    &.spinner-dots circle {
+      fill: #13719f;
+      stroke: #2c6ba1;
+    }
+  }
+  
 @-webkit-keyframes animateInSecondary{
  
   0% {

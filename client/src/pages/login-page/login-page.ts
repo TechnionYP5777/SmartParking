@@ -41,12 +41,14 @@ export class LoginPage {
     page: any;
     idfy: string;
     response: any;
+    loginStarted :any;
     constructor(public navCtrl: NavController,
         serve: LoginService, public alertCtrl: AlertController, logoutService: LogoutService) {
         this.serve = serve;
         this.logoutService = logoutService;
         this.idfy = MyApp.id;
         this.response = false;
+        this.loginStarted = false;
     }
 
     ionViewDidLoad() {
@@ -104,14 +106,14 @@ export class LoginPage {
             }
 
         });
-
-
+        this.loginStarted = false;
     }
     getCarNumber() {
         return this.carNumber;
     }
 
     Login(carNumber, password) {
+        this.loginStarted = true;
         this.response = false;
         let ref = this;
         ref.carNumber = carNumber;
