@@ -491,7 +491,13 @@ export class MapPage {
                     src = src + "$" + page.srcPosition.toString();
                 }
                 page.getBestParking(src, page.dstName, google).then((result) => {
-                    page.goAux();
+                    if(result){
+                        page.goAux();
+                    }
+                    else{//couldn't find error
+                        this.inNav = false;
+                        return;
+                    }
                 });
             });
         } else {
