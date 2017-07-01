@@ -104,12 +104,14 @@ export class MapPage {
     }
     ionViewDidLoad() {
         this.loadMap();
-        this.loginService.getDetails().subscribe(data => {
+        let mapObj=this;
+        setTimeout(function(){
+        mapObj.loginService.getDetails().subscribe(data => {
             if (data == undefined) {
                 console.log("mydata undefined");
             } else {
                 console.log("getUserData() myData: " + JSON.stringify(data));
-                this.loginPage.carNumber = data.carNumber;
+                mapObj.loginPage.carNumber = data.carNumber;
                 MyApp.isLoggedIn = (data.name != "");
             }
 
@@ -119,7 +121,7 @@ export class MapPage {
         if (!MyApp.isLoggedIn) {
             //document.getElementsByClassName("item item-block item-md")[0].disabled = true;
 
-        }
+        }},3000);
     }
     searchLastSearches() {
         let mapObj = this;

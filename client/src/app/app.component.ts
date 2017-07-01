@@ -40,13 +40,13 @@ export class MyApp {
     rootPage = MapPage;
     pages: Array<{ title: string, component: any }>;
     NotLoggedPages: Array<{ title: string, component: any }>;
-    AllPages :any;
+    AllPages: any;
     static isLoggedIn: any;
     static id: string;
     static menuCtrl: MenuController;
     static currPage: any;
-    
-    content:any;
+
+    content: any;
     constructor(
         public platform: Platform,
         public menu: MenuController,
@@ -57,18 +57,18 @@ export class MyApp {
         menuCtrl: MenuController,
         private tts: TextToSpeech
     ) {
-        
+        this.getUniqueID(this.file, this.plt.is('cordova'));
         this.initializeApp();
         MyExceptionHandler.isCordova = this.plt.is('cordova');
         MyExceptionHandler.file = file;
 
         // set our app's pages
-        let condition =!this.plt.is('core') && !this.plt.is('mobileweb')
+        let condition = !this.plt.is('core') && !this.plt.is('mobileweb')
         if (condition == true) {
             this.tts.speak("Welcome to Smart Parking");
         }
         MyApp.currPage = 'Map';
-        this.AllPages =  [
+        this.AllPages = [
             { title: 'Map', component: MapPage },
             { title: 'About', component: HelloIonicPage },
             { title: 'My Details', component: MyDetailsPage },
@@ -89,62 +89,62 @@ export class MyApp {
             this.AllPages[this.pageToIdx('Login')],
             this.AllPages[this.pageToIdx('Register')],
         ];
-        
+
         MyApp.menuCtrl = menuCtrl;
-        setTimeout(function(){
+        setTimeout(function() {
             MyApp.updateMenu();
-        },1000);
+        }, 5000);
     }
 
-    
-    pageToIdx(page){
-         switch(page){
-             case 'Map':
+
+    pageToIdx(page) {
+        switch (page) {
+            case 'Map':
                 return 0;
-             case 'About':
+            case 'About':
                 return 1;
-             case 'My Details':
-                return 2;   
-             case 'Logout':
+            case 'My Details':
+                return 2;
+            case 'Logout':
                 return 3;
-             case 'Login':
-                return 4;  
-             case 'Register':
-                return 5;   
+            case 'Login':
+                return 4;
+            case 'Register':
+                return 5;
         }
         return 6;
     }
-        
-    idxToPage(idx:string){
-         switch(idx){
-             case '0':
+
+    idxToPage(idx: string) {
+        switch (idx) {
+            case '0':
                 return 'Map';
-             case '1':
+            case '1':
                 return 'About';
-             case '2':
-                return 'My Details';   
-             case '3':
+            case '2':
+                return 'My Details';
+            case '3':
                 return 'Logout';
-             case '4':
-                return 'Login';  
-             case '5':
-                return 'Register';   
+            case '4':
+                return 'Login';
+            case '5':
+                return 'Register';
         }
         return 'NonePage';
-    } 
+    }
 
-    getCorrectMenuPages(logged){
-        let pagesArray :Array<{ title: string, component: any }> ;
-        pagesArray=[];
-        if(logged){
-            for(let i in [0,1,2,3]){
-                if(MyApp.currPage!=this.idxToPage(i)){
+    getCorrectMenuPages(logged) {
+        let pagesArray: Array<{ title: string, component: any }>;
+        pagesArray = [];
+        if (logged) {
+            for (let i in [0, 1, 2, 3]) {
+                if (MyApp.currPage != this.idxToPage(i)) {
                     console.log(MyApp.currPage + " != " + this.idxToPage(i) + " i = " + i);
                     pagesArray.push(this.AllPages[i]);
                 }
             }
             return pagesArray;
-        }    
+        }
         else
             return this.NotLoggedPages;
     }
@@ -157,40 +157,37 @@ export class MyApp {
 
 
     initializeApp() {
-        this.getUniqueID(this.file, this.plt.is('cordova'));
+        
         window.onerror = function myErrorHandler(errorMsg, url, lineNumber) {
             window.alert("Hey.. it's seems like you have and error...\nThe error message is: " + errorMsg + "\n\n\nWe hope it help you!");//or any message
             return false;
         }
+        
         this.platform.ready().then(() => {
             // Okay, so the platform is ready and our plugins are available.
             // Here you can do any higher level native things you might need.
-
+            
             this.statusBar.styleDefault();
             this.splashScreen.hide();
         });
     }
 
     openPage(page) {
-        MyApp.currPage = page.title;    
-    
+        MyApp.currPage = page.title;
+
         // close the menu when clicking a link from the menu
         this.menu.close();
         // navigate to the new page if it is not the current page
         this.nav.setRoot(page.component);
     }
-    
-    getUniqueID(file: File, isCordova: boolean) {
+
+    getUniqueID(file: File, isCordova: boolean) { 
         if (!isCordova) {
             let id = require("../identity");
             MyApp.id = id;
         } else {
-            file.checkFile(file.externalApplicationStorageDirectory, "identity").then((res) => {
-                if (res) {
-                    file.readAsText(file.externalApplicationStorageDirectory, "identity").then((res) => {
-                        MyApp.id = res;
-                    });
-                }
+            file.readAsText(file.externalApplicationStorageDirectory, "identity").then((res) => {
+                MyApp.id = res;
             }).catch((err) => {
                 let c = require('crypto');
                 let id = c.randomBytes(Math.ceil(48)).toString('base64').slice(0, 64).replace(/\+/g, '0').replace(/\//g, '0');
