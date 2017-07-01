@@ -181,7 +181,7 @@ public class UserController {
 			System.out.println("status: " + status + "e.toString: " + e);
 			JSONObject o = new JSONObject();
 			o.put("status", users.get(key).getStatus());
-			o.put("message", (e + ""));
+			o.put("error", (e + ""));
 			us.setError(e + "");
 			users.put(key, us);
 			return o + "";

@@ -46,7 +46,7 @@ export class RegisterPage {
                 MyApp.isLoggedIn = true;
                 MyApp.updateMenu();
             } else {
-                this.presentAlert(data.status + ". Please try again.", "Register");
+                this.presentAlert(data.error + ". Please try again.", "Register");
             }
         });
         this.regiStarted=false;
