@@ -671,12 +671,11 @@ export class MapPage {
         let step = steps[this.curr_step_index]
         var text = step.instructions.replace(/<b>/g, "");
         text = text.replace(/<\/b>/g, "");
+		if (this.curr_step_index >= steps.length - 1 && this.indoorDescription != null) {
+            text = ". After that, " + this.indoorDescription;
+        }
         this.tts.speak(text);
         console.log(text);
-        if (this.curr_step_index >= steps.length - 1 && this.indoorDescription != null) {
-            this.tts.speak(this.indoorDescription);
-            console.log(this.indoorDescription);
-        }
     }
     voicechanged(e: any) {
         this.useVoice = e.checked;
