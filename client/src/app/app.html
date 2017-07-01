@@ -1,18 +1,10 @@
 
-<ion-menu [content]="content" side="left" id="NotLogged">
-<ion-header> <ion-toolbar> <ion-title>Menu</ion-title>
-</ion-toolbar> </ion-header> <ion-content> <ion-list>
-<button ion-item *ngFor="let p of getCorrectMenuPages(false)" (click)="openPage(p)">{{p.title}}</button>
-</ion-list> </ion-content> </ion-menu>
-
 <ion-menu [content]="content" side="left" id="Menu" class="menu-enabled"> <ion-header>
 <ion-toolbar> <ion-title>Menu</ion-title> </ion-toolbar> </ion-header> <ion-content>
 <ion-list>
 <button ion-item *ngFor="let p of getCorrectMenuPages(true)" (click)="openPage(p)">
 	{{p.title}}</button>
 </ion-list> </ion-content> </ion-menu>
-
-
 
 
 
