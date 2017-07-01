@@ -15,4 +15,4 @@ For installation guide: https://github.com/TechnionYP5777/SmartParking/wiki/How-
 
 For user manual: https://github.com/TechnionYP5777/SmartParking/wiki/User-Manual
 
-"Testing Reality" tester? go to here please: https://github.com/TechnionYP5777/SmartParking/issues/114
+"Testing Reality" (Final) tester? 2/7-3/7? go to here please: https://github.com/TechnionYP5777/SmartParking/issues/114
