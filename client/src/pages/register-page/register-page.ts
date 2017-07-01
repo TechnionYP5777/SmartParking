@@ -45,7 +45,7 @@ export class RegisterPage {
                 MyApp.currPage='About';
                 this.navCtrl.push(HelloIonicPage);
                 MyApp.isLoggedIn = true;
-                MyApp.updateMenu();
+                //MyApp.updateMenu();
             } else {
                 this.presentAlert(data.error + ". Please try again.", "Register");
             }

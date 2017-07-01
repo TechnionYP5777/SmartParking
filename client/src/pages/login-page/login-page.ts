@@ -58,7 +58,7 @@ export class LoginPage {
         return new Promise((resolve, reject) => {
             this.serve.getDetails().subscribe(data => {
                 MyApp.isLoggedIn = true;
-                MyApp.updateMenu();
+                //MyApp.updateMenu();
                 myData.name = data.name;
                 myData.phoneNumber = data.phoneNumber;
                 myData.carNumber = data.carNumber;
@@ -68,7 +68,7 @@ export class LoginPage {
             }, err => {
                 console.log("getUserData error: " + err);
                 MyApp.isLoggedIn = false;
-                MyApp.updateMenu();
+                //MyApp.updateMenu();
                 reject(true);
             });
         });
@@ -86,7 +86,7 @@ export class LoginPage {
             else {
                 console.log(data.name + " is logged in.");
                 MyApp.isLoggedIn = true;
-                MyApp.updateMenu();
+                //MyApp.updateMenu();
                 MyApp.currPage='About';
                 this.navCtrl.setRoot(HelloIonicPage);
             }

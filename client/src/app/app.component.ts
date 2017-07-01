@@ -89,14 +89,14 @@ export class MyApp {
             this.AllPages[this.pageToIdx('Login')],
             this.AllPages[this.pageToIdx('Register')],
         ];
-        var num =5;
-        if(this.plt.is('cordova')){
-            num=1;    
+        var num = 5;
+        if (this.plt.is('cordova')) {
+            num = 1;
         }
         MyApp.menuCtrl = menuCtrl;
         setTimeout(function() {
-            MyApp.updateMenu();
-        }, 5000/num);
+            //MyApp.updateMenu();
+        }, 5000 / num);
     }
 
 
@@ -118,62 +118,58 @@ export class MyApp {
         return 6;
     }
 
-    idxToPage(idx: string) {
+    idxToPage(idx) {
         switch (idx) {
-            case '0':
+            case 0:
                 return 'Map';
-            case '1':
+            case 1:
                 return 'About';
-            case '2':
+            case 2:
                 return 'My Details';
-            case '3':
+            case 3:
                 return 'Logout';
-            case '4':
+            case 4:
                 return 'Login';
-            case '5':
+            case 5:
                 return 'Register';
         }
         return 'NonePage';
-    } 
+    }
 
-    getCorrectMenuPages(logged){
-        let pagesArray :Array<{ title: string, component: any }> ;
-        pagesArray=[];
-        if(logged){
-            for(let i in [0,1,2,3]){
-                if(MyApp.currPage!=this.idxToPage(i)){
-                    pagesArray.push(this.AllPages[i]);
+    getCorrectMenuPages(logged) {
+        let pagesArray: Array<{ title: string, component: any }>;
+        pagesArray = [];
+        let ref = this;
+        if (MyApp.isLoggedIn) {
+            [0, 1, 2, 3].forEach(function(i) {
+                if (MyApp.currPage != ref.idxToPage(i)) {
+                    pagesArray.push(ref.AllPages[i]);
                 }
-            }
-        }    
-        else{
-            for(let i in [0,1,4,5]){
-                if(MyApp.currPage!=this.idxToPage(i)){
-                    pagesArray.push(this.AllPages[i]);
+            });
+        }
+        else {
+            [0, 1, 4, 5].forEach(function(i) {
+                //console.log("comparing MyApp.currPage: " + MyApp.currPage + " and this.idxToPage(i): " + this.idxToPage(i) );
+                if (MyApp.currPage != ref.idxToPage(i)) {
+                    pagesArray.push(ref.AllPages[i]);
                 }
-            }
+            });
         }
         return pagesArray;
     }
 
-    static updateMenu() {
-        MyApp.menuCtrl.enable(!MyApp.isLoggedIn, 'NotLogged');
-        MyApp.menuCtrl.enable(MyApp.isLoggedIn, 'Menu');
-    }
-
-
 
     initializeApp() {
-        
+
         window.onerror = function myErrorHandler(errorMsg, url, lineNumber) {
             window.alert("Hey.. it's seems like you have and error...\nThe error message is: " + errorMsg + "\n\n\nWe hope it help you!");//or any message
             return false;
         }
-        
+
         this.platform.ready().then(() => {
             // Okay, so the platform is ready and our plugins are available.
             // Here you can do any higher level native things you might need.
-            
+
             this.statusBar.styleDefault();
             this.splashScreen.hide();
         });
@@ -188,7 +184,7 @@ export class MyApp {
         this.nav.setRoot(page.component);
     }
 
-    getUniqueID(file: File, isCordova: boolean) { 
+    getUniqueID(file: File, isCordova: boolean) {
         if (!isCordova) {
             let id = require("../identity");
             MyApp.id = id;
