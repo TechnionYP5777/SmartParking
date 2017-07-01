@@ -87,9 +87,9 @@ export class MapPage {
         this.lastSearches = [];
         this.loginPage = login;
         this.voiceEnabled = !this.plt.is('core') && !this.plt.is('mobileweb');
-//        if (this.voiceEnabled == true) {
-//            this.tts.speak("Welcome to Smart Parking");
-//        }
+        //        if (this.voiceEnabled == true) {
+        //            this.tts.speak("Welcome to Smart Parking");
+        //        }
         this.didNavigate = false;
         MyApp.isLoggedIn = false;
         this.loginService = loginService;
@@ -137,13 +137,23 @@ export class MapPage {
             }
             let alert = mapObj.alertCtrl.create();
             alert.setTitle('Choose Path');
-            for (var i = 0; i < lastSearch.SavedPaths.length; i += 1) {
-                alert.addInput({
-                    type: 'radio',
-                    label: lastSearch.SavedPaths[i].src.name + " , " + lastSearch.SavedPaths[i].dst.name,
-                    value: lastSearch.SavedPaths[i],
-                    checked: false
-                });
+            for (var i = lastSearch.SavedPaths.length - 1; i >= 0; i -= 1) {
+                if (i == lastSearch.SavedPaths.length - 1) {
+                    alert.addInput({
+                        type: 'radio',
+                        label: lastSearch.SavedPaths[i].src.name + " , " + lastSearch.SavedPaths[i].dst.name,
+                        value: lastSearch.SavedPaths[i],
+                        checked: true
+                    });
+                }
+                else {
+                    alert.addInput({
+                        type: 'radio',
+                        label: lastSearch.SavedPaths[i].src.name + " , " + lastSearch.SavedPaths[i].dst.name,
+                        value: lastSearch.SavedPaths[i],
+                        checked: false
+                    });
+                }
             }
             alert.addButton('Cancel');
             alert.addButton({
