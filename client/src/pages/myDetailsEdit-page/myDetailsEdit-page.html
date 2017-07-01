@@ -17,7 +17,7 @@
 <ion-content padding class="page-myDetailsEdit-page">
   <h3 style="text-color: white, font-size: 32px;">These are your details:</h3>
   
-  
+  <ion-list>
   <ion-item> 
 	<ion-label style="color: black" floating>User Name:</ion-label> 
 	<ion-input [(ngModel)]="name" type="name" value={{this.storeArray[0]}}></ion-input>
@@ -34,10 +34,20 @@
 	<ion-label style="color: black" floating>Email:</ion-label> 
 	<ion-input [(ngModel)]="eMail" type="eMail" value={{this.storeArray[3]}}></ion-input>
   </ion-item>
-  <ion-item> 
-	<ion-label style="color: black" floating>Sticker Color:</ion-label> 
-	<ion-input [(ngModel)]="sticker" type="sticker" value={{this.storeArray[4]}}></ion-input>
+
+   
+  <ion-item> <ion-label>Sticker Color:</ion-label>
+  
+   <ion-select [(ngModel)]="sticker" placeholder={{this.storeArray[4]}}>
+   <ion-option
+	value="Blue" type="text">BLUE</ion-option> <ion-option value="White" type="text">WHITE</ion-option>
+<ion-option value="Red" type="text">RED</ion-option> <ion-option value="Yellow" type="text">YELLOW</ion-option>
+<ion-option value="Green" type="text">GREEN</ion-option> </ion-select>
   </ion-item>
+  
+  </ion-list>
+  
+  
 
   
     <div padding>
