@@ -301,7 +301,7 @@ export class MapPage {
                 mapObj.drawPath(recordedRoute.slice(-2));
                 if (distance < 5) {
                     google.maps.event.clearListeners(mapObj.mapView, 'mousemove');
-                    mapObj.stopRecording(((new Date()).getTime()-startTime) / 1000);
+                    mapObj.stopRecording(((new Date()).getTime() - startTime) / 1000);
                 }
             });
             return;
@@ -316,7 +316,7 @@ export class MapPage {
                 var distance = google.maps.geometry.spherical.computeDistanceBetween(latLng, dstPosition);
                 mapObj.drawPath(recordedRoute.slice(-2));
                 if (distance < 5) {
-                    mapObj.stopRecording(((new Date()).getTime()-startTime)  / 1000);//get the time that the record took in seconds(may be minutes are better)
+                    mapObj.stopRecording(((new Date()).getTime() - startTime) / 1000);//get the time that the record took in seconds(may be minutes are better)
                 }
                 console.log(distance);
             });
@@ -652,6 +652,8 @@ export class MapPage {
     }
     calculateAndDisplayRoute(directionsService, directionsDisplay, parkingArea, callback) {
         let mapObj = this;
+        mapObj.directionsDisplay.setMap(mapObj.mapView);
+        mapObj.directionsDisplay.setPanel(document.getElementsByName("test_over_map")[0]);
         directionsService.route({
             origin: this.srcPosition,
             destination: parkingArea.position,
@@ -669,6 +671,8 @@ export class MapPage {
     }
     calculateAndDisplayRouteWalking(directionsService, directionsDisplay, parkingArea) {
         let mapObj = this;
+        mapObj.directionsDisplayWalk.setMap(mapObj.mapView);
+        mapObj.directionsDisplayWalk.setPanel(document.getElementsByName("test_over_map2")[0]);
         directionsService.route({
             origin: parkingArea.position,
             destination: this.dstPosition,
