@@ -89,11 +89,14 @@ export class MyApp {
             this.AllPages[this.pageToIdx('Login')],
             this.AllPages[this.pageToIdx('Register')],
         ];
-
+        var num =5;
+        if(this.plt.is('cordova')){
+            num=1;    
+        }
         MyApp.menuCtrl = menuCtrl;
         setTimeout(function() {
             MyApp.updateMenu();
-        }, 5000);
+        }, 5000/num);
     }
 
 

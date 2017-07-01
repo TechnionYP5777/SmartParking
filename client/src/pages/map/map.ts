@@ -103,25 +103,30 @@ export class MapPage {
 
     }
     ionViewDidLoad() {
-        this.loadMap();
-        let mapObj=this;
-        setTimeout(function(){
-        mapObj.loginService.getDetails().subscribe(data => {
-            if (data == undefined) {
-                console.log("mydata undefined");
-            } else {
-                console.log("getUserData() myData: " + JSON.stringify(data));
-                mapObj.loginPage.carNumber = data.carNumber;
-                MyApp.isLoggedIn = (data.name != "");
+        let mapObj = this;
+        var num = 0;
+        if (this.voiceEnabled) {
+            num = 1
+        }
+        setTimeout(function() {
+            mapObj.loginService.getDetails().subscribe(data => {
+                if (data == undefined) {
+                    console.log("mydata undefined");
+                } else {
+                    console.log("getUserData() myData: " + JSON.stringify(data));
+                    mapObj.loginPage.carNumber = data.carNumber;
+                    MyApp.isLoggedIn = (data.name != "");
+                }
+
+            }, err => {
+                console.log("getUserData error: " + err);
+            });
+            if (!MyApp.isLoggedIn) {
+                //document.getElementsByClassName("item item-block item-md")[0].disabled = true;
+
             }
-
-        }, err => {
-            console.log("getUserData error: " + err);
-        });
-        if (!MyApp.isLoggedIn) {
-            //document.getElementsByClassName("item item-block item-md")[0].disabled = true;
-
-        }},3000);
+        }, 3000 * num);
+        this.loadMap();
     }
     searchLastSearches() {
         let mapObj = this;
@@ -358,6 +363,10 @@ export class MapPage {
         this.removeWalkingPath();
         this.simulationMode = false;
         this.wantRecordRoute = false;
+        this.mapView.setOptions({
+            liteMode: this.voiceEnabled,
+            draggable: true
+        });
         document.getElementById("DirectionPanelLabel").style.display = "block";
         document.getElementById("DirectionPanelLabel2").style.display = "block";
         document.getElementsByName("panelLabel")[0].innerHTML = "No Directions To Show";
@@ -378,6 +387,10 @@ export class MapPage {
                         map: mapObj.mapView
                     });
                     if (mapObj.simulationMode) {
+                        mapObj.mapView.setOptions({
+                            liteMode: mapObj.voiceEnabled,
+                            draggable: !mapObj.voiceEnabled
+                        });
                         google.maps.event.addListener(mapObj.mapView, 'mousemove', function(event) {
                             mapObj.currentLocationMarker.setPosition(event.latLng);
                             let distance = google.maps.geometry.spherical.computeDistanceBetween(event.latLng, mapObj.chosenParkingArea.position);
@@ -428,6 +441,10 @@ export class MapPage {
                 } else {
                     mapObj.calculateAndDisplayRouteWalking(mapObj.directionsService, mapObj.directionsDisplayWalk, mapObj.chosenParkingArea);
                     if (mapObj.simulationMode) {
+                        mapObj.mapView.setOptions({
+                            liteMode: mapObj.voiceEnabled,
+                            draggable: !mapObj.voiceEnabled
+                        });
                         google.maps.event.addListener(mapObj.mapView, 'mousemove', function(event) {
                             mapObj.currentLocationMarker.setPosition(event.latLng);
                             let distance = google.maps.geometry.spherical.computeDistanceBetween(event.latLng, mapObj.dstPosition);
