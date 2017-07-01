@@ -26,6 +26,11 @@ export class MyDetailsService {
             .catch(this.handleError);
 
     }
+    
+    getParkingArea(){
+        return this.http.get('https://spring-boot-nav.herokuapp.com/FindPark/' + MyApp.id).map(res => res.json())
+            .catch(this.handleError);
+        }
 
 
     handleError(error) {

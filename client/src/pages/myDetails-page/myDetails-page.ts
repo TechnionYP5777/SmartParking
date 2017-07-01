@@ -27,14 +27,19 @@ export class MyDetailsPage {
         this.serve.getUserDetails().subscribe(data => {
             //this.presentAlert("Your Data: " + JSON.stringify(data), "MyData");
             this.storeArray = [data.name, data.phoneNumber, data.carNumber, data.email, data.sticker];
-
         });
+
+        this.serve.getParkingArea().subscribe(data => {
+            //this.presentAlert("Your Data: " + JSON.stringify(data), "MyData");
+            this.storeArray[5] = [data.name];
+        });
+
     }
 
     EditDetails() {
         this.navCtrl.push(MyDetailsEditPage);
     }
-    
+
     presentAlert(str, myTitle) {
         let alert = this.alertCtrl.create({
             title: myTitle,
