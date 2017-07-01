@@ -138,13 +138,24 @@ export class MapPage {
     searchLastSearches() {
         let mapObj = this;
         this.pathService.getLastPaths(function(lastSearch) {
+            if (lastSearch.Status) {
+                let alert = mapObj.alertCtrl.create();
+                alert.setTitle('Choose Path');
+                alert.setMessage(lastSearch.Status)
+                alert.addButton({
+                    text: 'OK',
+                    handler: data => {}
+                });
+                alert.present();
+                return;
+            }
             let alert = mapObj.alertCtrl.create();
             alert.setTitle('Choose Path');
-            for (var i = 0; i < lastSearch.length; i += 1) {
+            for (var i = 0; i < lastSearch.SavedPaths.length; i += 1) {
                 alert.addInput({
                     type: 'radio',
-                    label: lastSearch[i].src.name + " , " + lastSearch[i].dst.name,
-                    value: lastSearch[i],
+                    label: lastSearch.SavedPaths[i].src.name + " , " + lastSearch.SavedPaths[i].dst.name,
+                    value: lastSearch.SavedPaths[i],
                     checked: false
                 });
             }
@@ -685,7 +696,7 @@ export class MapPage {
                         directionsDisplay.setDirections(response);
                     } else {
                         mapObj.drawPath(data.path);
-                        document.getElementsByName("panelLabel2")[0].style.display="block";
+                        document.getElementsByName("panelLabel2")[0].style.display = "block";
                         document.getElementsByName("panelLabel2")[0].innerHTML = data.description;
                     }
                 });
