@@ -40,8 +40,7 @@ ion-spinner {
 
 <div padding>
 	<button ion-button (click)="Login(carNumber,password)" color="dark"
-		style="margin-right: 16px" *ngIf="!isLoggedin" [navPush]="signin">Sign
-		In</button>
+		style="margin-right: 16px" *ngIf="!isLoggedin" [navPush]="signin">Login</button>
 	<button ion-button color="dark" style="margin-right: 16px"
 		*ngIf="isLoggedin" [navPush]="logout">Logout</button>
 </div>
