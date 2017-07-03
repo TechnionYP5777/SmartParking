@@ -44,10 +44,12 @@ export class RegisterPage {
                 this.presentAlert("Register is successful!", "Register");
                 MyApp.currPage='About';
                 this.navCtrl.push(HelloIonicPage);
+                this.response = true;
                 MyApp.isLoggedIn = true;
                 //MyApp.updateMenu();
             } else {
                 this.presentAlert(data.error + ". Please try again.", "Register");
+                this.response = true;
             }
         });
         this.regiStarted=false;

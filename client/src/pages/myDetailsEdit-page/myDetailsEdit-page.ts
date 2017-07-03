@@ -49,17 +49,23 @@ export class MyDetailsEditPage {
 
     //This method is called when the user presses the 'Change Details' button. 
     ChangeDetails(name, phoneNum, carNum, eMail, sticker) {
-        this.LoginServe.setUserDetails(name, phoneNum, carNum, eMail, sticker, this.storeArray[2]).subscribe(() => {
-            var newDetails = '<br\><br\>' + "User Name: " + name + '<br\><br\>' + "Phone: " + phoneNum + '<br\><br\>' + "Car: " + carNum + '<br\><br\>' +
-                "Mail: " + eMail + '<br\><br\>' + "Sticker: " + sticker;
-            this.presentAlert("Your Details were changed." + '\n' + newDetails, "Change Details Success!");
-            this.updateFields();
+        this.LoginServe.setUserDetails(name, phoneNum, carNum, eMail, sticker, this.storeArray[2]).subscribe(data => {
+            if (data.status != "Success") {
+                this.presentAlert("There was an error with the request. Please try again: " + data.error, "Error");
+            } else {
+                var newDetails = '<br\><br\>' + "User Name: " + name + '<br\><br\>' + "Phone: " + phoneNum + '<br\><br\>' + "Car: " + carNum + '<br\><br\>' +
+                    "Mail: " + eMail + '<br\><br\>' + "Sticker: " + sticker;
+                this.presentAlert("Your Details were changed." + '\n' + newDetails, "Change Details Success!");
+                this.updateFields();
+                MyApp.currPage = 'About';
+                this.navCtrl.push(HelloIonicPage);
+            }
+
         }, err => {
             this.presentAlert("There was an error with the request. Please try again.", "Error");
             console.log(err);
         });
-        MyApp.currPage='About';
-        this.navCtrl.push(HelloIonicPage);
+
 
     }
 

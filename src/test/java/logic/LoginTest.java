@@ -90,7 +90,7 @@ public class LoginTest {
 	@Test
 	public void test06() {
 		final LoginManager lg = new LoginManager();
-		Assert.assertEquals("User already exist",
+		Assert.assertEquals("User already exists with this car number",
 				lg.userValueCheck("David", "0534567890", "david@gmail.com", "0000000"));
 
 		// name contains integer
@@ -105,20 +105,20 @@ public class LoginTest {
 		try {
 			lg.userSignUp("Zahi Mizrahi", "Zahi123", "0507777", "3276549", "zahi@gmail.com", StickersColor.GREEN);
 		} catch (final LoginException ¢) {
-			Assert.assertEquals("Phone need to be in size 10", ¢ + "");
+			Assert.assertEquals("Phone needs to be in size 10", ¢ + "");
 		}
 		// short car number
 		try {
 			lg.userSignUp("Zahi Mizrahi", "Zahi123", "0534567890", "321549", "zahi@gmail.com", StickersColor.GREEN);
 		} catch (final LoginException ¢) {
-			Assert.assertEquals("Car need to be in size 7", ¢ + "");
+			Assert.assertEquals("Car needs to be in size 7", ¢ + "");
 		}
 
 		// car number exist
 		try {
 			lg.userSignUp("Zahi Mizrahi", "Zahi123", "0534567900", "3209654", "zahi@gmail.com", StickersColor.GREEN);
 		} catch (final LoginException ¢) {
-			Assert.assertEquals("User already exist", ¢ + "");
+			Assert.assertEquals("User already exists with this car number", ¢ + "");
 		}
 	}
 

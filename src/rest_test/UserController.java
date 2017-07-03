@@ -232,6 +232,7 @@ public class UserController {
 		if (users.get(key) == null) {
 			System.out.println("Error: in UC.changeDetails.POST users.get(key)=null!");
 			o.put("status", "Not Connected");
+			o.put("error", "Not Connected");
 			return o + "";
 		}
 		try {
@@ -243,8 +244,8 @@ public class UserController {
 			users.get(key).setError("" + e1);
 			users.get(key).setStatus(UCStatus.BAD_PARAMS);
 		}
-		o.put("error", users.get(key).getError());
 		o.put("status", users.get(key).getStatusString());
+		o.put("error", users.get(key).getError());
 		return o + "";
 	}
 

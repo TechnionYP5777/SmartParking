@@ -49,18 +49,18 @@ public class LoginManager {
 		try {
 			if (car != null) {
 				new User(car);
-				return "User already exist";
+				return "User already exists with this car number";
 			}
 		} catch (final Exception e) {
 		}
 		return $ != null && $.matches(".*\\d.*") ? "User has integer"
-				: phone != null && phone.length() != 10 ? "Phone need to be in size 10"
+				: phone != null && phone.length() != 10 ? "Phone needs to be in size 10"
 						: phone != null && !phone.startsWith("05") ? "Phone should start with 05"
 								: phone != null && phone.matches(".*[a-zA-z].*") ? "Phone contains only integers"
 										: email != null && !email.matches("[\\d\\w\\.]+@(campus.technion.ac.il|gmail.com|walla.com|hotmail.com|t2.technion.ac.il)")
 														? "Invalid email address"
 														: car == null || car.length() == 7 ? "Good Params"
-																: "Car need to be in size 7";
+																: "Car needs to be in size 7";
 	}
 
 	/***
